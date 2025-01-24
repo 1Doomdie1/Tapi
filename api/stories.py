@@ -15,7 +15,7 @@ class StoriesAPI(Client):
             self,
             team_id:         int,
             name:            str           | None = None,
-            description:     str           | None = "Created With Tines CLI",
+            description:     str           | None = None,
             keep_events_for: KeepEventsFor | None = KeepEventsFor.ONE_DAY,
             folder_id:       int           | None = None,
             tags:            List[str]     | None = None,
@@ -25,7 +25,7 @@ class StoriesAPI(Client):
         return self._http_request(
             "POST",
             self.base_endpoint,
-            json = {key: value for key, value in locals().items() if value != None and key not in ("self")}
+            json = {key: value for key, value in locals().items() if value is not None and key is not"self"}
         )
 
     def get(
