@@ -221,7 +221,7 @@ class Versions(Client):
     def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
         self.base_endpoint = "/stories"
-    
+
     def create(
             self,
             story_id: int,
@@ -276,5 +276,3 @@ class Versions(Client):
             "DELETE",
             f"{self.base_endpoint}/{story_id}/versions/{version_id}"
         )
-    
-    
