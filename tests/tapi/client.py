@@ -1,13 +1,13 @@
 import unittest
 from os         import getenv
 from dotenv     import load_dotenv
-from api.client import Client
+from tapi.client import Client
 
 class test_Client(unittest.TestCase):
     def setUp(self):
         load_dotenv()
+        self.DOMAIN  = getenv("DOMAIN")
         self.API_KEY = getenv("API_KEY")
-        self.DOMAIN = getenv("DOMAIN")
 
     def test_credentials_set_to_env(self):
         assert self.API_KEY is not None and self.API_KEY != ""

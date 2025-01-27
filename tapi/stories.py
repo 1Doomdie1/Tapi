@@ -4,11 +4,16 @@ from .client     import Client
 
 
 class StoriesAPI(Client):
-    def __init__(self, domain, apiKey):
+
+    def __init__(
+            self,
+            domain: str,
+            apiKey: str
+    ):
         super().__init__(domain, apiKey)
         self.base_endpoint = "/stories"
         self.runs = RunsAPI(domain, apiKey)
-        self.versions = Versions(domain, apiKey)
+        self.versions = VersionsAPI(domain, apiKey)
         self.change_request = ChangeRequestAPI(domain, apiKey)
 
     def create(
@@ -25,7 +30,7 @@ class StoriesAPI(Client):
         return self._http_request(
             "POST",
             self.base_endpoint,
-            json = {key: value for key, value in locals().items() if value is not None and key is not"self"}
+            json = {key: value for key, value in locals().items() if value is not None and key != "self"}
         )
 
     def get(
@@ -126,7 +131,11 @@ class StoriesAPI(Client):
         )
 
 class ChangeRequestAPI(Client):
-    def __init__(self, domain, apiKey):
+    def __init__(
+            self,
+            domain: str,
+            apiKey: str
+    ):
         super().__init__(domain, apiKey)
         self.base_endpoint = "/stories"
 
@@ -139,7 +148,7 @@ class ChangeRequestAPI(Client):
         return self._http_request(
             "POST",
             f"{self.base_endpoint}/{story_id}/change_request",
-            json = {key: value for key, value in locals().items() if value != None and key not in ("self", "story_id")}
+            json = {key: value for key, value in locals().items() if value is not None and key not in ("self", "story_id")}
         )
 
     def approve(
@@ -183,10 +192,13 @@ class ChangeRequestAPI(Client):
             "GET",
             f"{self.base_endpoint}/{story_id}/change_request/view"
         )
-    
 
 class RunsAPI(Client):
-    def __init__(self, domain, apiKey):
+    def __init__(
+            self,
+            domain: str,
+            apiKey: str
+    ):
         super().__init__(domain, apiKey)
         self.base_endpoint = "/stories"
     
@@ -201,7 +213,7 @@ class RunsAPI(Client):
         return self._http_request(
             "GET",
             f"{self.base_endpoint}/{story_id}/runs/{story_run_guid}",
-            json = {key: value for key, value in locals().items() if value != None and key not in  ("self", "story_id", "story_run_guid")}
+            json = {key: value for key, value in locals().items() if value is not None and key not in ("self", "story_id", "story_run_guid")}
         )
     
     def list(
@@ -214,23 +226,27 @@ class RunsAPI(Client):
         return self._http_request(
             "GET",
             f"{self.base_endpoint}/{story_id}/runs",
-            json = {key: value for key, value in locals().items() if value != None and key not in  ("self", "story_id")}
+            json = {key: value for key, value in locals().items() if value is not None and key not in  ("self", "story_id")}
         )
 
-class Versions(Client):
-    def __init__(self, domain, apiKey):
+class VersionsAPI(Client):
+    def __init__(
+            self,
+            domain: str,
+            apiKey: str
+    ):
         super().__init__(domain, apiKey)
         self.base_endpoint = "/stories"
 
     def create(
             self,
             story_id: int,
-            name:     str | None = None,
+            name:     str | None = None
         ):
         return self._http_request(
             "POST",
             f"{self.base_endpoint}/{story_id}/versions",
-            json = {key: value for key, value in locals().items() if value != None and key not in ("self", "story_id")}
+            json = {key: value for key, value in locals().items() if value is not None and key not in ("self", "story_id")}
         )
     
     def get(
@@ -264,7 +280,7 @@ class Versions(Client):
         return self._http_request(
             "GET",
             f"{self.base_endpoint}/{story_id}/versions",
-            json = {key: value for key, value in locals().items() if value != None and key not in ("self", "story_id")}
+            json = {key: value for key, value in locals().items() if value is not None and key not in ("self", "story_id")}
         )
     
     def delete(
