@@ -1,6 +1,7 @@
 from utils.types import *
 from .client     import Client
 
+
 class TeamsAPI(Client):
     def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
@@ -9,24 +10,23 @@ class TeamsAPI(Client):
 
     def create(
             self,
-            name: str    
+            name: str
         ):
         return self._http_request(
             "POST",
             self.base_endpoint,
             json = {"name": name}
         )
-    
+
     def get(
             self,
             team_id: int
         ):
         return self._http_request(
             "GET",
-            self.base_endpoint,
-            json = {"team_id": team_id}
+            f"{self.base_endpoint}/{team_id}"
         )
-    
+
     def update(
             self,
             team_id: int,
@@ -37,7 +37,7 @@ class TeamsAPI(Client):
             f"{self.base_endpoint}/{team_id}",
             json = {"name": name}
         )
-    
+
     def list(
             self,
             include_personal_teams: bool = False,
@@ -47,9 +47,9 @@ class TeamsAPI(Client):
         return self._http_request(
             "GET",
             self.base_endpoint,
-            json = {key: value for key, value in locals().items() if value != None and key != "self"}
+            json = {key: value for key, value in locals().items() if value is not None and key != "self"}
         )
-    
+
     def delete(
             self,
             team_id
@@ -58,7 +58,6 @@ class TeamsAPI(Client):
             "DELETE",
             f"{self.base_endpoint}/{team_id}",
         )
-
 
 class MembersAPI(Client):
     def __init__(self, domain, apiKey):
@@ -74,7 +73,7 @@ class MembersAPI(Client):
         return self._http_request(
             "GET",
             f"{self.base_endpoint}/{team_id}/members",
-            json = {key: value for key, value in locals().items() if value != None and key not in ("self", "team_id")}
+            json = {key: value for key, value in locals().items() if value is not None and key not in ("self", "team_id")}
         )
     
     def remove(
@@ -87,20 +86,26 @@ class MembersAPI(Client):
             f"{self.base_endpoint}/{team_id}/remove_member",
             json = {"user_id": user_id}
         )
-    
+
     def invite(
             self,
             team_id: int,
-            email:   str,
+            email:   str | None = None,
             user_id: int | None = None,
             role:    Role       = Role.VIEWER
-        ):
+    ):
+        if email and user_id:
+            raise ValueError("Invalid input: Provide either 'email' or 'user_id', not both.")
+
+        if not email and not user_id:
+            raise ValueError("Invalid input: You must provide at least one of 'email' or 'user_id'.")
+
         return self._http_request(
             "POST",
             f"{self.base_endpoint}/{team_id}/invite_member",
-            json = {key: value for key, value in locals().items() if value != None and key not in ("self", "team_id")}
+            json={key: value for key, value in locals().items() if value is not None and key not in ("self", "team_id")}
         )
-    
+
     def resend_invite(
             self,
             team_id: int,
