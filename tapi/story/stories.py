@@ -1,7 +1,9 @@
-from utils.types import *
-from typing      import List
-from .client     import Client
-
+from utils.types      import *
+from typing           import List
+from tapi.http.client import Client
+from .runs            import RunsAPI
+from .versions        import VersionsAPI
+from .change_requests import ChangeRequestAPI
 
 class StoriesAPI(Client):
 
@@ -67,7 +69,7 @@ class StoriesAPI(Client):
         return self._http_request(
             "PUT",
             f"{self.base_endpoint}/{story_id}",
-            json = {key: value for key, value in locals().items() if value != None and key not in ("self", "story_id")}
+            json = {key: value for key, value in locals().items() if value is not None and key not in ("self", "story_id")}
         )
 
     def list(
@@ -83,7 +85,7 @@ class StoriesAPI(Client):
         return self._http_request(
             "GET",
             self.base_endpoint,
-            json = {key: value for key, value in locals().items() if value != None and key != "self"}
+            json = {key: value for key, value in locals().items() if value is not None and key != "self"}
         )
 
     def delete(
@@ -121,174 +123,11 @@ class StoriesAPI(Client):
             new_name:  str,
             data:      dict,
             team_id:   int,
-            fodler_id: str | None = None,
+            folder_id: str | None = None,
             mode:      Mode       = Mode.NEW
         ):
         return self._http_request(
             "POST",
             f"{self.base_endpoint}/import",
-            json = {key: value for key, value in locals().items() if value != None and key != "self"}
-        )
-
-class ChangeRequestAPI(Client):
-    def __init__(
-            self,
-            domain: str,
-            apiKey: str
-    ):
-        super().__init__(domain, apiKey)
-        self.base_endpoint = "/stories"
-
-    def create(
-            self,
-            story_id:    int,
-            title:       str | None = None,
-            description: str | None = None
-        ):
-        return self._http_request(
-            "POST",
-            f"{self.base_endpoint}/{story_id}/change_request",
-            json = {key: value for key, value in locals().items() if value is not None and key not in ("self", "story_id")}
-        )
-
-    def approve(
-            self,
-            story_id:          int,
-            change_request_id: int
-        ):
-        return self._http_request(
-            "POST",
-            f"{self.base_endpoint}/{story_id}/change_request/approve",
-            json = {"change_request_id": change_request_id}
-        )
-    
-    def cancel(
-            self,
-            story_id:          int,
-            change_request_id: int
-        ):
-        return self._http_request(
-            "POST",
-            f"{self.base_endpoint}/{story_id}/change_request/cancel",
-            json = {"change_request_id": change_request_id}
-        )
-    
-    def promote(
-            self,
-            story_id:          int,
-            change_request_id: int
-        ):
-        return self._http_request(
-            "POST",
-            f"{self.base_endpoint}/{story_id}/change_request/promote",
-            json = {"change_request_id": change_request_id}
-        )
-    
-    def view(
-            self,
-            story_id: int
-        ):
-        return self._http_request(
-            "GET",
-            f"{self.base_endpoint}/{story_id}/change_request/view"
-        )
-
-class RunsAPI(Client):
-    def __init__(
-            self,
-            domain: str,
-            apiKey: str
-    ):
-        super().__init__(domain, apiKey)
-        self.base_endpoint = "/stories"
-    
-    def events(
-            self,
-            story_id:       int,
-            story_run_guid: str,
-            story_mode:     StoryMode | None = None,
-            per_page:       int              = 10,
-            page:           int              = 1,
-        ):
-        return self._http_request(
-            "GET",
-            f"{self.base_endpoint}/{story_id}/runs/{story_run_guid}",
-            json = {key: value for key, value in locals().items() if value is not None and key not in ("self", "story_id", "story_run_guid")}
-        )
-    
-    def list(
-            self,
-            story_id:       int,
-            story_mode:     StoryMode | None = None,
-            per_page:       int              = 10,
-            page:           int              = 1,
-        ):
-        return self._http_request(
-            "GET",
-            f"{self.base_endpoint}/{story_id}/runs",
-            json = {key: value for key, value in locals().items() if value is not None and key not in  ("self", "story_id")}
-        )
-
-class VersionsAPI(Client):
-    def __init__(
-            self,
-            domain: str,
-            apiKey: str
-    ):
-        super().__init__(domain, apiKey)
-        self.base_endpoint = "/stories"
-
-    def create(
-            self,
-            story_id: int,
-            name:     str | None = None
-        ):
-        return self._http_request(
-            "POST",
-            f"{self.base_endpoint}/{story_id}/versions",
-            json = {key: value for key, value in locals().items() if value is not None and key not in ("self", "story_id")}
-        )
-    
-    def get(
-            self,
-            story_id:   int,
-            version_id: int
-        ):
-        return self._http_request(
-            "GET",
-            f"{self.base_endpoint}/{story_id}/versions/{version_id}"
-        )
-    
-    def update(
-            self,
-            name:       str,
-            story_id:   int,
-            version_id: int
-        ):
-        return self._http_request(
-            "POST",
-            f"{self.base_endpoint}/{story_id}/versions/{version_id}",
-            json = {"name": name}
-        )
-    
-    def list(
-            self,
-            story_id: int,
-            per_page: int = 10,
-            page:     int = 1,
-        ):
-        return self._http_request(
-            "GET",
-            f"{self.base_endpoint}/{story_id}/versions",
-            json = {key: value for key, value in locals().items() if value is not None and key not in ("self", "story_id")}
-        )
-    
-    def delete(
-            self,
-            story_id:   int,
-            version_id: int
-        ):
-        return self._http_request(
-            "DELETE",
-            f"{self.base_endpoint}/{story_id}/versions/{version_id}"
+            json = {key: value for key, value in locals().items() if value is not None and key != "self"}
         )

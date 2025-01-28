@@ -1,6 +1,11 @@
-from utils.types import *
-from .client     import Client
-from typing      import List, Any
+from utils.types      import *
+from tapi.http.client import Client
+from typing           import List, Any
+from .inputs          import CaseInputsAPI
+from .actions         import CaseActionsAPI
+from .assignees       import CaseAssigneesAPI
+from .activities      import CaseActivitiesAPI
+
 
 class CasesAPI(Client):
     def __init__(self, domain, apiKey):
@@ -89,148 +94,5 @@ class CasesAPI(Client):
         return self._http_request(
             "DELETE",
             f"{self.base_endpoint}/{case_id}",
-            json = {key: value for key, value in locals().items() if value != None and key not in ("self", "case_id")}
-        )
-
-
-class CaseActionsAPI(Client):
-    def __init__(self, domain, apiKey):
-        super().__init__(domain, apiKey)
-        self.base_endpoint = "/cases"
-
-    def create(
-            self,
-            case_id:     int,
-            url:         str,
-            label:       str,
-            action_type: CaseActionType,
-            action_text: str | None = None
-        ):
-        return self._http_request(
-            "POST",
-            f"{self.base_endpoint}/{case_id}/actions",
-            json = {key: value for key, value in locals().items() if value != None and key not in ("self", "case_id")}
-        )
-    
-    def get(
-            self,
-            case_id: int,
-            id:      int
-        ):
-        return self._http_request(
-            "GET",
-            f"{self.base_endpoint}/{case_id}/actions/{id}"
-        )
-    
-    def update(
-            self,
-            case_id:     int,
-            id:          int,
-            url:         str            | None = None,
-            label:       str            | None = None,
-            action_type: CaseActionType | None = None,
-            action_text: str            | None = None
-        ):
-        return self._http_request(
-            "PUT",
-            f"{self.base_endpoint}/{case_id}/actions/{id}",
-            json = {key: value for key, value in locals().items() if value != None and key not in ("self", "case_id", "id")}
-        )
-    
-    def list(
-            self,
-            case_id:  int,
-            per_page: int = 10,
-            page:     int = 1,
-        ):
-        return self._http_request(
-            "GET",
-            f"{self.base_endpoint}/{case_id}/actions",
-            json = {key: value for key, value in locals().items() if value != None and key not in ("self", "case_id")}
-        )
-    
-    def delete(
-            self,
-            case_id:  int,
-            id:       int = 10
-        ):
-        return self._http_request(
-            "DELETE",
-            f"{self.base_endpoint}/{case_id}/actions/{id}"
-        )
-    
-    def batch_delete(
-            self,
-            case_id: int,
-            actions: List[dict[str, str]]
-        ):
-        return self._http_request(
-            "POST",
-            f"{self.base_endpoint}/{case_id}/actions/batch",
-            json = {"actions": actions}
-        )
-
-class CaseActivitiesAPI(Client):
-    def __init__(self, domain, apiKey):
-        super().__init__(domain, apiKey)
-        self.base_endpoint = "/cases"
-    
-    def get(
-            self,
-            case_id:     int,
-            activity_id: int    
-        ):
-        return self._http_request(
-            "GET",
-            f"{self.base_endpoint}/{case_id}/activities/{activity_id}"
-        )
-    
-    def list(
-            self,
-            case_id:        int,
-            activity_type:  CaseActivityType | None = None,
-            per_page:       int                     = 10,
-            page:           int                     = 1
-        ):
-        return self._http_request(
-            "GET",
-            f"{self.base_endpoint}/{case_id}/activities",
-            json = {key: value for key, value in locals().items() if value != None and key not in ("self", "case_id")}
-        )
-
-class CaseAssigneesAPI(Client):
-    def __init__(self, domain, apiKey):
-        super().__init__(domain, apiKey)
-        self.base_endpoint = "/cases"
-    
-    def list(
-            self,
-            case_id: int,
-            per_page: int = 10,
-            page: int = 1,
-        ):
-        return self._http_request(
-            "GET",
-            f"{self.base_endpoint}/{case_id}/assignees",
-            json = {key: value for key, value in locals().items() if value != None and key not in ("self", "case_id")}
-        )
-
-class CaseInputsAPI(Client):
-    def __init__(self, domain, apiKey):
-        super().__init__(domain, apiKey)
-        self.base_endpoint = "/cases_inputs"
-    
-    def create(
-            self,
-            name:               str,
-            input_type:         CaseInputType,
-            team_id:            int,
-            validation_type:    CaseValidationType   | None                  = None,
-            validation_options: dict[str, List[str]] | dict[str, str] | None = None
-        ):
-        # I have to actually build the data object here I can't just parse it by using the same trick.
-        return self._http_request(
-            "POST",
-            self.base_endpoint,
             json = {key: value for key, value in locals().items() if value != None and key not in ("self", "case_id")}
         )

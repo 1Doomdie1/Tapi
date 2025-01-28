@@ -1,7 +1,7 @@
-from .client  import Client
-from .teams   import TeamsAPI
-from .cases   import CasesAPI
-from .stories import StoriesAPI
+from tapi.http.client import Client
+from .team            import TeamsAPI
+from .case            import CasesAPI
+from .story           import StoriesAPI
 
 
 class TenantAPI(Client):

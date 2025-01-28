@@ -1,7 +1,9 @@
-from .tenant  import *
-from .cases   import *
-from .stories import *
-from .teams   import *
+from .case   import *
+from .story  import *
+from .team   import *
+from .tenant import TenantAPI
+
+
 
 __all__ = [
     "TenantAPI",
