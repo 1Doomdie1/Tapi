@@ -4,6 +4,7 @@ from os          import getenv
 from dotenv      import load_dotenv
 from tapi        import TeamsAPI, MembersAPI
 
+
 class test_TeamsAPI(unittest.TestCase):
     def setUp(self):
         load_dotenv()
@@ -140,4 +141,3 @@ class test_MembersAPI(unittest.TestCase):
 
         self.assertEqual(resp.get("status_code"), 200)
         self.assertEqual(resp.get("body").get("email"), getenv("MEMBER_TO_INVITE_EMAIL"))
-
