@@ -1,3 +1,4 @@
+from utils.types import HTTPResponse
 from requests    import request, RequestException
 
 class Client:
@@ -10,7 +11,7 @@ class Client:
             method:   str, 
             endpoint: str, 
             **kwargs
-        ) -> dict:
+        ) -> HTTPResponse:
         url = f"{self.base_url}/{endpoint}"
         headers = kwargs.pop("headers", {})
         headers["Authorization"] = f"Bearer {self.apiKey}"
@@ -20,12 +21,13 @@ class Client:
 
             return {
                 "body": response.json() if "application/json" in response.headers.get("Content-Type", "") else response.text,
-                "headers": response.headers,
+                "headers": dict(response.headers),
                 "status_code": response.status_code
             }
 
         except RequestException as e:
             return {
                 "body": str(e),
+                "headers": {},
                 "status_code": 500
             }
