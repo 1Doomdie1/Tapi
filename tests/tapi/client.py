@@ -1,6 +1,6 @@
 import unittest
-from os         import getenv
-from dotenv     import load_dotenv
+from os          import getenv
+from dotenv      import load_dotenv
 from tapi.client import Client
 
 class test_Client(unittest.TestCase):

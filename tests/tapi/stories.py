@@ -1,8 +1,8 @@
 import unittest
 
-from os           import getenv
-from dotenv       import load_dotenv
-from tapi.stories import RunsAPI, StoriesAPI, VersionsAPI, ChangeRequestAPI
+from os     import getenv
+from dotenv import load_dotenv
+from tapi   import RunsAPI, StoriesAPI, VersionsAPI, ChangeRequestAPI
 
 
 class test_StoriesAPI(unittest.TestCase):

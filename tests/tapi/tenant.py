@@ -1,8 +1,8 @@
 import unittest
 
-from os           import getenv
-from dotenv       import load_dotenv
-from tapi.tenant  import TenantAPI
+from os     import getenv
+from dotenv import load_dotenv
+from tapi   import TenantAPI
 
 
 class test_TenantAPI(unittest.TestCase):
