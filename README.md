@@ -14,15 +14,13 @@ git clone https://github.com/1Doomdie1/Tapi.git
 This class provides access to all endpoints offered by the Tines API.
 
 ```python
-from tapi.tenant import TenantAPI
-
+from tapi import TenantAPI
 
 def main():
     tenant = TenantAPI(<DOMAIN>, <API_KEY>)
     teams = tenant.teams.list()
     cases = tenant.cases.list()
     stories = tenant.stories.list()
-
 
 if __name__ == "__main__":
     main()
@@ -32,10 +30,7 @@ if __name__ == "__main__":
 While the main `TenantAPI` class is convenient, using specific endpoint classes may be preferable in certain scenarios. Each class requires `DOMAIN` and `API_KEY` to be passed explicitly.
 
 ```python
-from tapi.cases import CasesAPI
-from tapi.teams import TeamsAPI
-from tapi.stories import StoriesAPI
-
+from tapi import CasesAPI, TeamsAPI, StoriesAPI
 
 def main():
     DOMAIN = "MY_COOL_DOMAIN"
@@ -44,7 +39,6 @@ def main():
     cases_api = CasesAPI(DOMAIN, API_KEY)
     teams_api = TeamsAPI(DOMAIN, API_KEY)
     stories_api = StoriesAPI(DOMAIN, API_KEY)
-
 
 if __name__ == "__name__":
     main()
