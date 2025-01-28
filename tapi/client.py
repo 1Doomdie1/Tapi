@@ -3,7 +3,7 @@ from requests    import request, RequestException
 class Client:
     def __init__(self, domain: str, apiKey) -> None:
         self.base_url = f"https://{domain}.tines.com/api/v1" 
-        self.apiKey = apiKey
+        self.apiKey   = apiKey
 
     def _http_request(
             self, 

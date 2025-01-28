@@ -6,10 +6,10 @@ class CasesAPI(Client):
     def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
         self.base_endpoint = "/cases"
-        self.actions = CaseActionsAPI(domain, apiKey)
-        self.activities = CaseActivitiesAPI(domain, apiKey)
-        self.assignees = CaseAssigneesAPI(domain, apiKey)
-        self.imputs = CaseInputsAPI(domain, apiKey)
+        self.inputs        = CaseInputsAPI(domain, apiKey)
+        self.actions       = CaseActionsAPI(domain, apiKey)
+        self.assignees     = CaseAssigneesAPI(domain, apiKey)
+        self.activities    = CaseActivitiesAPI(domain, apiKey)
 
     def create(
             self,

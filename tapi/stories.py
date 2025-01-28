@@ -11,9 +11,9 @@ class StoriesAPI(Client):
             apiKey: str
     ):
         super().__init__(domain, apiKey)
-        self.base_endpoint = "/stories"
-        self.runs = RunsAPI(domain, apiKey)
-        self.versions = VersionsAPI(domain, apiKey)
+        self.base_endpoint  = "/stories"
+        self.runs           = RunsAPI(domain, apiKey)
+        self.versions       = VersionsAPI(domain, apiKey)
         self.change_request = ChangeRequestAPI(domain, apiKey)
 
     def create(
