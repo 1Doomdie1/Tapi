@@ -3,16 +3,17 @@ from requests    import request, RequestException
 
 class Client:
     def __init__(self, domain: str, apiKey) -> None:
-        self.base_url = f"https://{domain}.tines.com/api/v1" 
-        self.apiKey   = apiKey
+        self.domain = domain
+        self.apiKey = apiKey
 
     def _http_request(
             self, 
-            method:   str, 
-            endpoint: str, 
+            method:      str,
+            endpoint:    str,
+            api_version: str = "v1",
             **kwargs
         ) -> HTTPResponse:
-        url = f"{self.base_url}/{endpoint}"
+        url = f"https://{self.domain}.tines.com/api/{api_version}/{endpoint}"
         headers = kwargs.pop("headers", {})
         headers["Authorization"] = f"Bearer {self.apiKey}"
 
