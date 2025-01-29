@@ -7,7 +7,7 @@ from .assignees       import CaseAssigneesAPI
 from .activities      import CaseActivitiesAPI
 
 
-class CasesAPI(Client):
+class CaseAPI(Client):
     def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
         self.base_endpoint = "/cases"
