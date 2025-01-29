@@ -132,3 +132,10 @@ class ActionType(StrEnum):
     HTTP_REQUEST_AGENT    = "Agents::HTTPRequestAgent"
     SEND_T0_STORY_AGENT   = "Agents::SendToStoryAgent"
     EVENT_TRANSFORM_AGENT = "Agents::EventTransformationAgent"
+
+class ReactionType(StrEnum):
+    PLUS_ONE         = "+1"
+    MINUS_ONE        = "-1"
+    EYES             = "eyes"
+    HEART            = "heart"
+    WHITE_CHECK_MARK = "white_check_mark"
