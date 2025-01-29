@@ -10,16 +10,18 @@ class CaseActionsAPI(Client):
 
     def create(
             self,
-            case_id: int,
-            url: str,
-            label: str,
+            case_id:     int,
+            url:         str,
+            label:       str,
             action_type: CaseActionType,
-            action_text: str | None = None
+            action_text: str            | None = None
     ):
         return self._http_request(
             "POST",
             f"{self.base_endpoint}/{case_id}/actions",
-            json={key: value for key, value in locals().items() if value != None and key not in ("self", "case_id")}
+            "v2",
+            json={key: value for key, value in locals().items() if
+                  value is not None and key not in ("self", "case_id")}
         )
 
     def get(
@@ -29,7 +31,8 @@ class CaseActionsAPI(Client):
     ):
         return self._http_request(
             "GET",
-            f"{self.base_endpoint}/{case_id}/actions/{id}"
+            f"{self.base_endpoint}/{case_id}/actions/{id}",
+            "v2"
         )
 
     def update(
@@ -44,6 +47,7 @@ class CaseActionsAPI(Client):
         return self._http_request(
             "PUT",
             f"{self.base_endpoint}/{case_id}/actions/{id}",
+            "v2",
             json={key: value for key, value in locals().items() if
                   value is not None and key not in ("self", "case_id", "id")}
         )
@@ -57,7 +61,9 @@ class CaseActionsAPI(Client):
         return self._http_request(
             "GET",
             f"{self.base_endpoint}/{case_id}/actions",
-            json={key: value for key, value in locals().items() if value is not None and key not in ("self", "case_id")}
+            "v2",
+            json={key: value for key, value in locals().items() if
+                  value is not None and key not in ("self", "case_id")}
         )
 
     def delete(
@@ -67,16 +73,18 @@ class CaseActionsAPI(Client):
     ):
         return self._http_request(
             "DELETE",
-            f"{self.base_endpoint}/{case_id}/actions/{id}"
+            f"{self.base_endpoint}/{case_id}/actions/{id}",
+            "v2"
         )
 
-    def batch_delete(
+    def batch_update(
             self,
             case_id: int,
-            actions: List[dict[str, str]]
+            actions: List[dict]
     ):
         return self._http_request(
-            "POST",
+            "PUT",
             f"{self.base_endpoint}/{case_id}/actions/batch",
+            "v2",
             json={"actions": actions}
         )
