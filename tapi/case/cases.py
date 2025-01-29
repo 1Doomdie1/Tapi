@@ -36,7 +36,9 @@ class CasesAPI(Client):
         return self._http_request(
             "POST",
             self.base_endpoint,
-            json = {key: value for key, value in locals().items() if value != None and key != "self"}
+            "v2",
+            json = {key: value for key, value in locals().items() if
+                    value is not None and key != "self"}
         )
 
     def get(
@@ -45,7 +47,8 @@ class CasesAPI(Client):
         ):
         return self._http_request(
             "GET",
-            f"{self.base_endpoint}/{case_id}"
+            f"{self.base_endpoint}/{case_id}",
+            "v2"
         )
 
     def update(
@@ -70,7 +73,9 @@ class CasesAPI(Client):
         return self._http_request(
             "PUT",
             f"{self.base_endpoint}/{case_id}",
-            json = {key: value for key, value in locals().items() if value != None and key not in ("self", "case_id")}
+            "v2",
+            json = {key: value for key, value in locals().items() if
+                    value is not None and key not in ("self", "case_id")}
         )
 
     def list(
@@ -84,7 +89,9 @@ class CasesAPI(Client):
         return self._http_request(
             "GET",
             self.base_endpoint,
-            json = {key: value for key, value in locals().items() if value != None and key != "self"}
+            "v2",
+            json = {key: value for key, value in locals().items() if
+                    value is not None and key != "self"}
         )
 
     def delete(
@@ -94,5 +101,5 @@ class CasesAPI(Client):
         return self._http_request(
             "DELETE",
             f"{self.base_endpoint}/{case_id}",
-            json = {key: value for key, value in locals().items() if value != None and key not in ("self", "case_id")}
+            "v2"
         )
