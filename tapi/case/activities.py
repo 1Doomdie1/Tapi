@@ -29,6 +29,6 @@ class CaseActivitiesAPI(Client):
             "GET",
             f"{self.base_endpoint}/{case_id}/activities",
             "v2",
-            params = {key: value for key, value in locals().items() if
-                  value is not None and key not in ("self", "case_id")}
+            params = {"activity_type": activity_type},
+            json   = {"per_page": per_page, "page": page}
         )
