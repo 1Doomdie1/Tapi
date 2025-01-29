@@ -1,6 +1,6 @@
 import unittest
 from os          import getenv
-from tapi        import CasesAPI
+from tapi        import CaseAPI
 from dotenv      import load_dotenv
 from utils.types import CasePriority, CaseStatus
 
@@ -10,7 +10,7 @@ class test_CasesAPI(unittest.TestCase):
         load_dotenv()
         self.team_id   = int(getenv("TEAM_ID"))
         self.case_id   = None
-        self.cases_api = CasesAPI(getenv("DOMAIN"), getenv("API_KEY"))
+        self.cases_api = CaseAPI(getenv("DOMAIN"), getenv("API_KEY"))
 
     def tearDown(self):
         if self.case_id:
