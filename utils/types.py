@@ -58,15 +58,15 @@ class Role(StrEnum):
     TEAM_ADMIN = "TEAM_ADMIN"
 
 class CasePriority(StrEnum):
-    LOW      = "low"
-    HIGH     = "high"
-    INFO     = "info"
-    MEDIUM   = "medium"
-    CRITICAL = "critical"
+    LOW      = "LOW"
+    HIGH     = "HIGH"
+    INFO     = "INFO"
+    MEDIUM   = "MEDIUM"
+    CRITICAL = "CRITICAL"
 
 class CaseStatus(StrEnum):
-    OPEN  = "open"
-    CLOSE = "close"
+    OPEN  = "OPEN"
+    CLOSE = "CLOSE"
 
 class CaseReturnOrder(StrEnum):
     OPENED_ASC            = "OPENED_ASC"
@@ -122,3 +122,13 @@ class HTTPResponse(TypedDict):
     body:        Union[dict, str]
     headers:     dict
     status_code: int
+
+class ActionType(StrEnum):
+    IMAP_AGENT            = "Agents::IMAPAgent"
+    EMAIL_AGENT           = "Agents::EmailAgent"
+    GROUP_AGENT           = "Agents::GroupAgent"
+    TRIGGER_AGENT         = "Agents::TriggerAgent"
+    WEB_HOOK_AGENT        = "Agents::WebhookAgent"
+    HTTP_REQUEST_AGENT    = "Agents::HTTPRequestAgent"
+    SEND_T0_STORY_AGENT   = "Agents::SendToStoryAgent"
+    EVENT_TRANSFORM_AGENT = "Agents::EventTransformationAgent"
