@@ -1,9 +1,9 @@
-from .cases      import CasesAPI
-from .inputs     import CaseInputsAPI
-from .actions    import CaseActionsAPI
-from .assignees  import CaseAssigneesAPI
-from .activities import CaseActivitiesAPI
+from .cases        import CaseAPI
+from .actions      import CaseActionsAPI
+from .assignees    import CaseAssigneesAPI
+from .activities   import CaseActivitiesAPI
+from .inputs       import CaseInputsAPI, CaseInputsFieldsAPI
 
 __all__ = [
-    "CasesAPI", "CaseActionsAPI", "CaseAssigneesAPI", "CaseActivitiesAPI", "CaseInputsAPI"
+    "CaseAPI", "CaseActionsAPI", "CaseAssigneesAPI", "CaseActivitiesAPI", "CaseInputsAPI", "CaseInputsFieldsAPI"
 ]

@@ -3,11 +3,9 @@ from .story  import *
 from .team   import *
 from .tenant import TenantAPI
 
-
-
 __all__ = [
     "TenantAPI",
-    "CasesAPI", "CaseActionsAPI", "CaseActivitiesAPI", "CaseAssigneesAPI", "CaseInputsAPI",
+    "CaseAPI", "CaseActionsAPI", "CaseActivitiesAPI", "CaseAssigneesAPI", "CaseInputsAPI", "CaseInputsFieldsAPI",
     "StoriesAPI", "ChangeRequestAPI", "RunsAPI", "VersionsAPI",
     "TeamsAPI", "MembersAPI"
 ]
