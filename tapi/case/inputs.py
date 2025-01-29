@@ -7,7 +7,7 @@ class CaseInputsAPI(Client):
     def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
         self.base_endpoint = "/case_inputs"
-        self.inputs        = CaseInputsFieldsAPI(domain, apiKey)
+        self.fields        = CaseInputsFieldsAPI(domain, apiKey)
 
     def create(
             self,
