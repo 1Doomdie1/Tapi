@@ -3,6 +3,7 @@ from tapi.http.client import Client
 from typing           import List, Any
 from .inputs          import CaseInputsAPI
 from .actions         import CaseActionsAPI
+from .comments        import CaseCommentsAPI
 from .assignees       import CaseAssigneesAPI
 from .activities      import CaseActivitiesAPI
 
@@ -13,6 +14,7 @@ class CaseAPI(Client):
         self.base_endpoint = "/cases"
         self.inputs        = CaseInputsAPI(domain, apiKey)
         self.actions       = CaseActionsAPI(domain, apiKey)
+        self.comments      = CaseCommentsAPI(domain, apiKey)
         self.assignees     = CaseAssigneesAPI(domain, apiKey)
         self.activities    = CaseActivitiesAPI(domain, apiKey)
 
