@@ -9,23 +9,26 @@ class CaseActivitiesAPI(Client):
 
     def get(
             self,
-            case_id: int,
+            case_id:     int,
             activity_id: int
     ):
         return self._http_request(
             "GET",
-            f"{self.base_endpoint}/{case_id}/activities/{activity_id}"
+            f"{self.base_endpoint}/{case_id}/activities/{activity_id}",
+            "v2"
         )
 
     def list(
             self,
-            case_id: int,
+            case_id:       int,
             activity_type: CaseActivityType | None = None,
-            per_page: int = 10,
-            page: int = 1
+            per_page:      int                     = 10,
+            page:          int                     = 1
     ):
         return self._http_request(
             "GET",
             f"{self.base_endpoint}/{case_id}/activities",
-            json={key: value for key, value in locals().items() if value != None and key not in ("self", "case_id")}
+            "v2",
+            params = {key: value for key, value in locals().items() if
+                  value is not None and key not in ("self", "case_id")}
         )
