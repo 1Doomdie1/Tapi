@@ -30,13 +30,13 @@ if __name__ == "__main__":
 While the main `TenantAPI` class is convenient, using specific endpoint classes may be preferable in certain scenarios. Each class requires `DOMAIN` and `API_KEY` to be passed explicitly.
 
 ```python
-from tapi import CasesAPI, TeamsAPI, StoriesAPI
+from tapi import CaseAPI, TeamsAPI, StoriesAPI
 
 def main():
     DOMAIN = "MY_COOL_DOMAIN"
     API_KEY = "DO_NOT_PUT_THIS_ON_GITHUB"
 
-    cases_api = CasesAPI(DOMAIN, API_KEY)
+    cases_api = CaseAPI(DOMAIN, API_KEY)
     teams_api = TeamsAPI(DOMAIN, API_KEY)
     stories_api = StoriesAPI(DOMAIN, API_KEY)
 
