@@ -1,6 +1,6 @@
 from typing           import List
 from tapi.http.client import Client
-from utils.types      import CaseActionType
+from tapi.utils.types import CaseActionType
 
 
 class CaseActionsAPI(Client):

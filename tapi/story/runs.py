@@ -1,5 +1,5 @@
 from tapi.http.client import Client
-from utils.types      import StoryMode
+from tapi.utils.types import StoryMode
 
 
 class RunsAPI(Client):

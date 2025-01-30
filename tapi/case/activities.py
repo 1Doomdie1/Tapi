@@ -1,5 +1,5 @@
 from tapi.http.client import Client
-from utils.types      import CaseActivityType
+from tapi.utils.types import CaseActivityType
 
 
 class CaseActivitiesAPI(Client):

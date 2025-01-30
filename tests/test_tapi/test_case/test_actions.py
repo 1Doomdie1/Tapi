@@ -2,7 +2,7 @@ import unittest
 from os          import getenv
 from dotenv      import load_dotenv
 from tapi        import CaseActionsAPI
-from utils.types import CaseActionType
+from tapi.utils.types import CaseActionType
 
 
 class test_CaseActionsAPI(unittest.TestCase):

@@ -1,5 +1,5 @@
 import unittest
-from utils.types import Role
+from tapi.utils.types import Role
 from os          import getenv
 from tapi        import MembersAPI
 from dotenv      import load_dotenv

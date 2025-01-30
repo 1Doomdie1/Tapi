@@ -1,6 +1,6 @@
 from typing           import List
 from tapi.http.client import Client
-from utils.types      import CaseInputType, CaseValidationType
+from tapi.utils.types import CaseInputType, CaseValidationType
 
 
 class CaseInputsAPI(Client):

@@ -1,4 +1,4 @@
-from utils.types      import *
+from tapi.utils.types import *
 from tapi.http.client import Client
 from typing           import List, Any
 from .inputs          import CaseInputsAPI

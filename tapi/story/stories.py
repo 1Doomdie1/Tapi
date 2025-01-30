@@ -1,4 +1,4 @@
-from utils.types      import *
+from tapi.utils.types import *
 from typing           import List
 from tapi.http.client import Client
 from .runs            import RunsAPI

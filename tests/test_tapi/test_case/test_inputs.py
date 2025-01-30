@@ -3,7 +3,7 @@ from os          import getenv
 from time        import time_ns
 from dotenv      import load_dotenv
 from tapi        import CaseInputsAPI, CaseInputsFieldsAPI
-from utils.types import CaseInputType
+from tapi.utils.types import CaseInputType
 
 
 class test_CaseInputsAPI(unittest.TestCase):

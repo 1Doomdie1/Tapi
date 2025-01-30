@@ -1,5 +1,5 @@
-from utils.types import HTTPResponse
-from requests    import request, RequestException
+from tapi.utils.types import HTTPResponse
+from requests         import request, RequestException
 
 class Client:
     verify_ssl: bool = True

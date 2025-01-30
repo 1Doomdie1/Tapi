@@ -1,4 +1,4 @@
-from utils.types      import Role
+from tapi.utils.types import Role
 from tapi.http.client import Client
 
 

@@ -1,5 +1,5 @@
 from tapi.http.client import Client
-from utils.types      import ReactionType
+from tapi.utils.types import ReactionType
 
 
 class CaseCommentsAPI(Client):

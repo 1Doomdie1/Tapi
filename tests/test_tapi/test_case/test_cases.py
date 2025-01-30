@@ -2,7 +2,7 @@ import unittest
 from os          import getenv
 from tapi        import CaseAPI
 from dotenv      import load_dotenv
-from utils.types import CasePriority, CaseStatus
+from tapi.utils.types import CasePriority, CaseStatus
 
 
 class test_CasesAPI(unittest.TestCase):
