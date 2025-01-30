@@ -2,6 +2,8 @@ from utils.types import HTTPResponse
 from requests    import request, RequestException
 
 class Client:
+    verify_ssl: bool = True
+
     def __init__(self, domain: str, apiKey) -> None:
         self.domain = domain
         self.apiKey = apiKey
@@ -18,7 +20,7 @@ class Client:
         headers["Authorization"] = f"Bearer {self.apiKey}"
 
         try:
-            response = request(method, url, headers=headers, **kwargs)
+            response = request(method, url, headers=headers, verify=Client.verify_ssl, **kwargs)
 
             return {
                 "body": response.json() if "application/json" in response.headers.get("Content-Type", "") else response.text,
