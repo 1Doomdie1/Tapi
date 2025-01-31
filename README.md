@@ -40,6 +40,6 @@ def main():
     teams_api = TeamsAPI(DOMAIN, API_KEY)
     stories_api = StoriesAPI(DOMAIN, API_KEY)
 
-if __name__ == "__name__":
+if __name__ == "__main__":
     main()
 ```
