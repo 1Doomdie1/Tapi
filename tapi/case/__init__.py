@@ -1,4 +1,5 @@
 from .cases        import CaseAPI
+from .fields       import CaseFieldsAPI
 from .actions      import CaseActionsAPI
 from .assignees    import CaseAssigneesAPI
 from .activities   import CaseActivitiesAPI
@@ -7,5 +8,5 @@ from .comments     import CaseCommentsAPI, CaseCommentsReactionsAPI
 
 __all__ = [
     "CaseAPI", "CaseActionsAPI", "CaseAssigneesAPI", "CaseActivitiesAPI", "CaseInputsAPI", "CaseInputsFieldsAPI",
-    "CaseCommentsAPI", "CaseCommentsReactionsAPI"
+    "CaseCommentsAPI", "CaseCommentsReactionsAPI", "CaseFieldsAPI"
 ]
