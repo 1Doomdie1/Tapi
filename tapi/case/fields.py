@@ -17,7 +17,7 @@ class CaseFieldsAPI(Client):
             "POST",
             f"{self.base_endpoint}/{case_id}/fields",
             "v2",
-            json = {"input_id": input_id, "value": value}
+            params = {"input_id": input_id, "value": value}
         )
 
     def get(
@@ -25,9 +25,9 @@ class CaseFieldsAPI(Client):
             case_id:  int,
             field_id: int
     ):
-        self._http_request(
+        return self._http_request(
             "GET",
-            f"{self.base_endpoint}/{case_id}/fields{field_id}",
+            f"{self.base_endpoint}/{case_id}/fields/{field_id}",
             "v2"
         )
 
@@ -39,7 +39,7 @@ class CaseFieldsAPI(Client):
     ):
         return self._http_request(
             "PUT",
-            f"{self.base_endpoint}/{case_id}/fields{field_id}",
+            f"{self.base_endpoint}/{case_id}/fields/{field_id}",
             "v2",
             json={"value": value}
         )
@@ -62,8 +62,8 @@ class CaseFieldsAPI(Client):
             case_id: int,
             field_id: int
     ):
-        self._http_request(
+        return self._http_request(
             "DELETE",
-            f"{self.base_endpoint}/{case_id}/fields{field_id}",
+            f"{self.base_endpoint}/{case_id}/fields/{field_id}",
             "v2"
         )
