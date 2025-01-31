@@ -1,8 +1,7 @@
 from tapi.utils.types import *
 from tapi.http.client import Client
 from typing           import List, Any
-
-from .fields import CaseFieldsAPI
+from .fields          import CaseFieldsAPI
 from .inputs          import CaseInputsAPI
 from .actions         import CaseActionsAPI
 from .comments        import CaseCommentsAPI
