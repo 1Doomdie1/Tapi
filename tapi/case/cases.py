@@ -1,6 +1,8 @@
 from tapi.utils.types import *
 from tapi.http.client import Client
 from typing           import List, Any
+
+from .fields import CaseFieldsAPI
 from .inputs          import CaseInputsAPI
 from .actions         import CaseActionsAPI
 from .comments        import CaseCommentsAPI
@@ -13,6 +15,7 @@ class CaseAPI(Client):
         super().__init__(domain, apiKey)
         self.base_endpoint = "/cases"
         self.inputs        = CaseInputsAPI(domain, apiKey)
+        self.fields        = CaseFieldsAPI(domain, apiKey)
         self.actions       = CaseActionsAPI(domain, apiKey)
         self.comments      = CaseCommentsAPI(domain, apiKey)
         self.assignees     = CaseAssigneesAPI(domain, apiKey)
