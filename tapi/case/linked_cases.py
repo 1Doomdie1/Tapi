@@ -48,7 +48,7 @@ class LinkedCasesAPI(Client):
             ids:     List[int]
     ):
         return self._http_request(
-            "DELETE",
+            "POST",
             f"{self.base_endpoint}/{case_id}/linked_cases/batch",
             "v2",
             json = {"ids": ids}
