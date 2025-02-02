@@ -53,5 +53,3 @@ class test_LinkedCasesAPI(unittest.TestCase):
         )
 
         self.assertEqual(resp.get("status_code"), 201)
-
-
