@@ -5,6 +5,7 @@ from .files           import CaseFilesAPI
 from .fields          import CaseFieldsAPI
 from .inputs          import CaseInputsAPI
 from .actions         import CaseActionsAPI
+from .linked_cases    import LinkedCasesAPI
 from .comments        import CaseCommentsAPI
 from .assignees       import CaseAssigneesAPI
 from .activities      import CaseActivitiesAPI
@@ -17,6 +18,7 @@ class CaseAPI(Client):
         self.files         = CaseFilesAPI(domain, apiKey)
         self.inputs        = CaseInputsAPI(domain, apiKey)
         self.fields        = CaseFieldsAPI(domain, apiKey)
+        self.linked_cases  = LinkedCasesAPI(domain, apiKey)
         self.actions       = CaseActionsAPI(domain, apiKey)
         self.comments      = CaseCommentsAPI(domain, apiKey)
         self.assignees     = CaseAssigneesAPI(domain, apiKey)
