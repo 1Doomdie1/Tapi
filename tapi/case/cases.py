@@ -1,6 +1,7 @@
 from tapi.utils.types import *
 from tapi.http.client import Client
 from typing           import List, Any
+from .files           import CaseFilesAPI
 from .fields          import CaseFieldsAPI
 from .inputs          import CaseInputsAPI
 from .actions         import CaseActionsAPI
@@ -13,6 +14,7 @@ class CaseAPI(Client):
     def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
         self.base_endpoint = "/cases"
+        self.files         = CaseFilesAPI(domain, apiKey)
         self.inputs        = CaseInputsAPI(domain, apiKey)
         self.fields        = CaseFieldsAPI(domain, apiKey)
         self.actions       = CaseActionsAPI(domain, apiKey)
