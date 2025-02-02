@@ -1,5 +1,4 @@
 from tapi.http.client import Client
-from tapi.utils.types import Base64Str
 
 
 class CaseFilesAPI(Client):
