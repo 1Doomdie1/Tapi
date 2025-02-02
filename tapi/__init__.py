@@ -7,7 +7,7 @@ __all__ = [
     "TenantAPI",
 
     "CaseAPI", "CaseActionsAPI", "CaseActivitiesAPI", "CaseAssigneesAPI", "CaseInputsAPI", "CaseInputsFieldsAPI",
-    "CaseCommentsAPI", "CaseCommentsReactionsAPI", "CaseFieldsAPI", "CaseFilesAPI",
+    "CaseCommentsAPI", "CaseCommentsReactionsAPI", "CaseFieldsAPI", "CaseFilesAPI", "LinkedCasesAPI",
 
     "StoriesAPI", "ChangeRequestAPI", "RunsAPI", "VersionsAPI",
     "TeamsAPI", "MembersAPI"
