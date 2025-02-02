@@ -4,7 +4,7 @@ from requests         import request, RequestException
 class Client:
     verify_ssl: bool = True
 
-    def __init__(self, domain: str, apiKey) -> None:
+    def __init__(self, domain: str, apiKey: str) -> None:
         self.domain = domain
         self.apiKey = apiKey
 
