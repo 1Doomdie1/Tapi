@@ -139,3 +139,10 @@ class ReactionType(StrEnum):
     EYES             = "eyes"
     HEART            = "heart"
     WHITE_CHECK_MARK = "white_check_mark"
+
+class CaseNoteColor(StrEnum):
+    GOLD    = "gold"
+    BLUE    = "blue"
+    GREEN   = "green"
+    WHITE   = "white"
+    MAGENTA = "magenta"
