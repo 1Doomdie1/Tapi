@@ -24,7 +24,7 @@ class CaseMetadataAPI(Client):
             case_id: int,
             key:     str
     ):
-        self._http_request(
+        return self._http_request(
             "GET",
             f"{self.base_endpoint}/{case_id}/metadata/{key}",
             "v2"
