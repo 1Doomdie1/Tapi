@@ -12,6 +12,7 @@ from .metadata        import CaseMetadataAPI
 from .comments        import CaseCommentsAPI
 from .assignees       import CaseAssigneesAPI
 from .activities      import CaseActivitiesAPI
+from .subscribers     import CaseSubscribersAPI
 
 
 class CaseAPI(Client):
@@ -29,6 +30,7 @@ class CaseAPI(Client):
         self.metadata      = CaseMetadataAPI(domain, apiKey)
         self.assignees     = CaseAssigneesAPI(domain, apiKey)
         self.activities    = CaseActivitiesAPI(domain, apiKey)
+        self.subscribers   = CaseSubscribersAPI(domain, apiKey)
 
     def create(
             self,
