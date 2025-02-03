@@ -7,6 +7,7 @@ from .fields          import CaseFieldsAPI
 from .inputs          import CaseInputsAPI
 from .actions         import CaseActionsAPI
 from .linked_cases    import LinkedCasesAPI
+from .records         import CaseRecordsAPI
 from .metadata        import CaseMetadataAPI
 from .comments        import CaseCommentsAPI
 from .assignees       import CaseAssigneesAPI
@@ -23,6 +24,7 @@ class CaseAPI(Client):
         self.fields        = CaseFieldsAPI(domain, apiKey)
         self.linked_cases  = LinkedCasesAPI(domain, apiKey)
         self.actions       = CaseActionsAPI(domain, apiKey)
+        self.records       = CaseRecordsAPI(domain, apiKey)
         self.comments      = CaseCommentsAPI(domain, apiKey)
         self.metadata      = CaseMetadataAPI(domain, apiKey)
         self.assignees     = CaseAssigneesAPI(domain, apiKey)
