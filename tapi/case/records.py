@@ -12,7 +12,7 @@ class CaseRecordsAPI(Client):
             record_id: int
     ):
         return self._http_request(
-            "GET",
+            "POST",
             f"{self.base_endpoint}/{case_id}/records",
             "v2",
             json = {"record_id": record_id}
@@ -48,7 +48,7 @@ class CaseRecordsAPI(Client):
             record_id: int
     ):
         return self._http_request(
-            "GET",
+            "DELETE",
             f"{self.base_endpoint}/{case_id}/records/{record_id}",
             "v2"
         )
