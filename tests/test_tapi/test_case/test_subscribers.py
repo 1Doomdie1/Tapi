@@ -1,5 +1,4 @@
 import unittest
-from http.client import responses
 from os     import getenv
 from dotenv import load_dotenv
 from tapi   import CaseSubscribersAPI
