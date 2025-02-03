@@ -62,14 +62,13 @@ class CaseFilesAPI(Client):
             "v2"
         )
 
-    # Endpoint needs to be fixed by Tines
-    # def download(
-    #         self,
-    #         case_id: int,
-    #         file_id: int
-    # ):
-    #     return self._http_request(
-    #         "GET",
-    #         f"{self.base_endpoint}/{case_id}/files/{file_id}/download",
-    #         "v2"
-    #     )
+    def download(
+            self,
+            case_id: int,
+            file_id: int
+    ):
+        return self._http_request(
+            "GET",
+            f"{self.base_endpoint}/{case_id}/files/{file_id}/download",
+            "v2"
+        )
