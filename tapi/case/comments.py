@@ -82,7 +82,7 @@ class CaseCommentsReactionsAPI(Client):
     ):
         return self._http_request(
             "POST",
-            f"{self.base_endpoint}/{case_id}/comments/{comment_id}/add_reaction",
+            f"{self.base_endpoint}/{case_id}/comments/{comment_id}/reactions",
             "v2",
             json = {"value": value}
         )
@@ -94,8 +94,8 @@ class CaseCommentsReactionsAPI(Client):
             value:      ReactionType
     ):
         return self._http_request(
-            "POST",
-            f"{self.base_endpoint}/{case_id}/comments/{comment_id}/remove_reaction",
+            "DELETE",
+            f"{self.base_endpoint}/{case_id}/comments/{comment_id}/reactions",
             "v2",
             json={"value": value}
         )

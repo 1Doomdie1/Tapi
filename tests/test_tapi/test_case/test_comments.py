@@ -1,7 +1,8 @@
 import unittest
-from os          import getenv
-from dotenv      import load_dotenv
-from tapi        import CaseCommentsAPI
+from os     import getenv
+from dotenv import load_dotenv
+from tapi   import CaseCommentsAPI, CaseCommentsReactionsAPI
+from tapi.utils.types import ReactionType
 
 
 class test_CaseCommentsAPI(unittest.TestCase):
@@ -82,22 +83,35 @@ class test_CaseCommentsAPI(unittest.TestCase):
 
         self.assertEqual(resp.get("status_code"), 204)
 
+class test_CaseCommentsReactionsAPI(unittest.TestCase):
+    def setUp(self):
+        load_dotenv()
+        self.case_id                     = int(getenv("CASE_ID"))
+        self.case_comments_reactions_api = CaseCommentsReactionsAPI(getenv("DOMAIN"), getenv("API_KEY_2"))
 
-# These endpoints are broken atm.
-# class test_CaseCommentsReactionsAPI(unittest.TestCase):
-#     def setUp(self):
-#         load_dotenv()
-#         self.case_id                     = int(getenv("CASE_ID"))
-#         self.case_comments_reactions_api = CaseCommentsReactionsAPI(getenv("DOMAIN"), getenv("API_KEY"))
-#
-#     def test_add(self):
-#         resp = self.case_comments_reactions_api.add(
-#             case_id    = self.case_id,
-#             comment_id = int(getenv("CASE_COMMENT_ID")),
-#             value      = ReactionType.PLUS_ONE
-#         )
-#
-#         body = resp.get("body")
-#
-#         self.assertEqual(resp.get("status_code"), 201)
-#         self.assertEqual(type(body.get("reactions")), list)
+    def test_add(self):
+        resp = self.case_comments_reactions_api.add(
+            case_id    = self.case_id,
+            comment_id = int(getenv("CASE_COMMENT_ID")),
+            value      = ReactionType.PLUS_ONE
+        )
+
+        body = resp.get("body")
+
+        self.assertEqual(resp.get("status_code"), 201)
+        self.assertEqual(type(body.get("reactions")), list)
+
+    def test_remove(self):
+        reaction = self.case_comments_reactions_api.add(
+            case_id=self.case_id,
+            comment_id=int(getenv("CASE_COMMENT_ID")),
+            value=ReactionType.PLUS_ONE
+        )
+
+        resp = self.case_comments_reactions_api.remove(
+            case_id = self.case_id,
+            comment_id=int(getenv("CASE_COMMENT_ID")),
+            value=ReactionType.PLUS_ONE
+        )
+
+        self.assertEqual(resp.get("status_code"), 204)
