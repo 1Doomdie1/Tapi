@@ -1,6 +1,11 @@
+build==1.2.2.post1
 certifi==2024.12.14
 charset-normalizer==3.4.1
+colorama==0.4.6
 idna==3.10
+packaging==24.2
+pyproject_hooks==1.2.0
 python-dotenv==1.0.1
 requests==2.32.3
+setuptools==75.8.0
 urllib3==2.3.0
