@@ -807,9 +807,62 @@ def main():
 
 <details>
 <summary>CaseCommentsReactionsAPI</summary>
-Manage case actions.
+Manage comments reactions.
 
-### Not working atm
+### Methods
+
+| **Method** | **Description**                   |
+|------------|-----------------------------------|
+| `add`      | Add a reaction to a comment.      |
+| `remove`   | Remove a reaction from a comment. |
+
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json             import dumps
+from tapi.utils.types import ReactionType
+from tapi             import CaseCommentsReactionsAPI
+
+def main():
+    DOMAIN  = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+    
+    comments_reactions_api = CaseCommentsReactionsAPI(DOMAIN, API_KEY)
+    
+    reaction = comments_reactions_api.add(
+        case_id    = 1234,
+        comment_id = 5678,
+        value      = ReactionType.PLUS_ONE
+    )
+    
+    print(dumps(comments, indent = 4))
+```
+```commandline
+{
+    "body": {
+    ...[snip]...
+        "reactions": [
+            {
+                "emoji": ":+1:",
+                "reactants": [
+                    {
+                        "user_id": 6866,
+                        "user_name": "John Doe",
+                        "reacted_at": "2025-02-04T03:40:14+00:00"
+                    }
+                ]
+            }
+        ],
+    ...[snip]...
+    },
+    "headers": {...},
+    "status_code": ...,
+}
+```
 
 </details>
 
