@@ -47,6 +47,16 @@ if __name__ == "__main__":
     main()
 ```
 
+### Disabling SSL verification
+There are cases when SSL verification can pose a problem in making a request to Tines REST API, fortunately
+there is an easy way of disabling SSL verification in Tapi. Here is how:
+
+```python
+import tapi.utils.http
+
+tapi.utils.http.disable_ssl_verification()
+```
+
 ### Classes
 
 <details>
