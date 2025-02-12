@@ -146,3 +146,8 @@ class CaseNoteColor(StrEnum):
     GREEN   = "green"
     WHITE   = "white"
     MAGENTA = "magenta"
+
+class LogSeverityLevel(IntEnum):
+    INFO    = 3
+    ERROR   = 4
+    WARNING = 2

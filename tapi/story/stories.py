@@ -2,8 +2,10 @@ from tapi.utils.types import *
 from typing           import List
 from tapi.http.client import Client
 from .runs            import RunsAPI
+from ..action.actions import ActionsAPI
 from .versions        import VersionsAPI
 from .change_requests import ChangeRequestAPI
+
 
 class StoriesAPI(Client):
 
@@ -15,6 +17,7 @@ class StoriesAPI(Client):
         super().__init__(domain, apiKey)
         self.base_endpoint  = "/stories"
         self.runs           = RunsAPI(domain, apiKey)
+        self.actions        = ActionsAPI(domain, apiKey)
         self.versions       = VersionsAPI(domain, apiKey)
         self.change_request = ChangeRequestAPI(domain, apiKey)
 

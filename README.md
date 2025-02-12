@@ -1273,9 +1273,158 @@ def main():
 
 </details>
 
+<details>
+<summary>ActionsAPI</summary>
+Manage actions.
+
+### Methods
+
+| **Method**     | **Description**                        |
+|----------------|----------------------------------------|
+| `create`       | Create action.                         |
+| `get`          | Retrieve details of a specific action. |
+| `update`       | Update an action.                      |
+| `list`         | Retrieve a list of actions.            |
+| `delete`       | Delete a specific action.              |
+| `clear_memory` | Clears action memory.                  |
+
+### Subclasses
+
+| **Path**                           | **Class**         | **Description**       |
+|------------------------------------|-------------------|-----------------------|
+| `TenantAPI.stories.actions.logs`   | `ActionLogsAPI`   | Manage action logs.   |
+| `TenantAPI.stories.actions.events` | `ActionEventsAPI` | Manage action events. |
 
 
+### Usage:
 
+```python
+from json import dumps
+from tapi import ActionsAPI
+
+def main():
+    DOMAIN  = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+    
+    actions_api = ActionsAPI(DOMAIN, API_KEY)
+    
+    actions = actions_api.list(story_id=1234)
+    
+    print(dumps(actions, indent = 4))
+```
+```commandline
+{
+    "body": {
+        "agents": [
+            {
+                "id": 111111,
+                "type": "Agents::EventTransformationAgent",
+                "user_id": 6866,
+                "options": {
+                    "mode": "message_only",
+                    "loop": false,
+                    "payload": {
+                        "message": "This is an automatically generated message from Tines"
+                    }
+                },
+                "name": "My Action"
+                ...[snip]...
+            }
+        ],
+        ...[snip]...
+    },
+    "headers": {...},
+    "status_code": ...,
+}
+```
+
+</details>
+
+<details>
+<summary>ActionEventsAPI</summary>
+Manage action events.
+
+### Methods
+
+| **Method**     | **Description**                                          |
+|----------------|----------------------------------------------------------|
+| `list`         | Retrieve a list of events emitted by a specified action. |
+| `delete`       | Delete all events emitted by a specific action.          |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import ActionEventsAPI
+
+def main():
+    DOMAIN  = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+    
+    action_events_api = ActionEventsAPI(DOMAIN, API_KEY)
+    
+    events = action_events_api.list(action_id=1234)
+    
+    print(dumps(events, indent = 4))
+```
+```commandline
+{
+    "body": {
+        "agents":[...],
+        ...[snip]...
+    },
+    "headers": {...},
+    "status_code": ...,
+}
+```
+
+</details>
+
+<details>
+<summary>ActionLogsAPI</summary>
+Manage action logs.
+
+### Methods
+
+| **Method**     | **Description**                               |
+|----------------|-----------------------------------------------|
+| `list`         | List all logs emitted by a specific action.   |
+| `delete`       | Delete all logs emitted by a specific action. |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import ActionLogsAPI
+
+def main():
+    DOMAIN  = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+    
+    action_logs_api = ActionLogsAPI(DOMAIN, API_KEY)
+    
+    logs = action_logs_api.list(action_id=1234)
+    
+    print(dumps(logs, indent = 4))
+```
+```commandline
+{
+    "body": {
+        "action_logs":[...],
+        ...[snip]...
+    },
+    "headers": {...},
+    "status_code": ...,
+}
+```
+
+</details>
 
 
 
