@@ -5,7 +5,6 @@ from typing           import List, Dict, Any
 from tapi.utils.types import ActionType, StoryMode
 
 
-
 class ActionsAPI(Client):
 
     def __init__(self, domain: str,apiKey: str):
@@ -16,22 +15,22 @@ class ActionsAPI(Client):
 
     def create(
             self,
-            type:                      ActionType,
+            type:                      ActionType                 | str,
             name:                      str,
-            options:                   dict,
-            position:                  dict[str, int],
-            story_id:                  int       | None = None,
-            group_id:                  int       | None = None,
-            description:               str       | None = None,
-            disabled:                  bool             = False,
-            source_ids:                List[int] | None = None,
-            links_to_sources:          dict      | None = None,
-            receiver_ids:              List[int] | None = None,
-            links_to_receivers:        dict      | None = None,
-            schedule:                  dict      | None = None,
-            monitor_failures:          bool             = True,
-            monitor_all_events:        bool             = False,
-            monitor_no_events_emitted: int       | None = None
+            options:                   Dict[str, Any],
+            position:                  Dict[str, int],
+            story_id:                  int                        | None = None,
+            group_id:                  int                        | None = None,
+            description:               str                        | None = None,
+            disabled:                  bool                              = False,
+            source_ids:                List[int]                  | None = None,
+            links_to_sources:          List[Dict[str, str | int]] | None = None,
+            receiver_ids:              List[int]                  | None = None,
+            links_to_receivers:        List[Dict[str, str | int]] | None = None,
+            schedule:                  List[Dict[str, str]]       | None = None,
+            monitor_failures:          bool                              = True,
+            monitor_all_events:        bool                              = False,
+            monitor_no_events_emitted: int                        | None = None
     ):
         return self._http_request(
             "POST",
@@ -104,35 +103,3 @@ class ActionsAPI(Client):
             "DELETE",
             f"{self.base_endpoint}/{action_id}/clear_memory"
         )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
