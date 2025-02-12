@@ -16,9 +16,9 @@ class ActionLogsAPI(Client):
     ):
         return self._http_request(
             "GET",
-            f"{self.base_endpoint}/{action_id}",
+            f"{self.base_endpoint}/{action_id}/logs",
             params = {key: value for key, value in locals().items()
-                      if value is not None and key not in ("self", action_id)}
+                      if value is not None and key not in ("self", "action_id")}
         )
 
     def delete(
