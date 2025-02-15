@@ -1,3 +1,5 @@
+from tapi.utils.types import AuditLogType
+
 # Tapi (Tines API)
 A simple Python wrapper for the Tines API.
 
@@ -1465,6 +1467,53 @@ def main():
 {
     "body": {
         "annotations":[...],
+        ...[snip]...
+    },
+    "headers": {...},
+    "status_code": ...,
+}
+```
+
+</details>
+
+<details>
+<summary>AuditLogsAPI</summary>
+Pull tenant audit logs.
+
+### Methods
+
+| **Method** | **Description**                                              |
+|------------|--------------------------------------------------------------|
+| `list`     | Returns a list of audit logs gathered from the Tines tenant. |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import AuditLogsAPI
+from tapi.utils.types import AuditLogType
+
+def main():
+    DOMAIN  = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+    
+    audit_logs_api = AuditLogsAPI(DOMAIN, API_KEY)
+    
+    logs = audit_logs_api.list(
+        operation_name = [
+            AuditLogType.STORY_CREATION
+        ]
+    )
+    
+    print(dumps(logs, indent = 4))
+```
+```commandline
+{
+    "body": {
+        "audit_logs":[...],
         ...[snip]...
     },
     "headers": {...},
