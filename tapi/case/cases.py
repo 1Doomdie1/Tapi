@@ -18,7 +18,7 @@ from .subscribers     import CaseSubscribersAPI
 class CaseAPI(Client):
     def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
-        self.base_endpoint = "/cases"
+        self.base_endpoint = "cases"
         self.files         = CaseFilesAPI(domain, apiKey)
         self.notes         = CaseNotesAPI(domain, apiKey)
         self.inputs        = CaseInputsAPI(domain, apiKey)

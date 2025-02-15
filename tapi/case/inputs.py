@@ -6,7 +6,7 @@ from tapi.utils.types import CaseInputType, CaseValidationType
 class CaseInputsAPI(Client):
     def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
-        self.base_endpoint = "/case_inputs"
+        self.base_endpoint = "case_inputs"
         self.fields        = CaseInputsFieldsAPI(domain, apiKey)
 
     def create(
@@ -49,7 +49,7 @@ class CaseInputsAPI(Client):
 class CaseInputsFieldsAPI(Client):
     def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
-        self.base_endpoint = "/case_inputs"
+        self.base_endpoint = "case_inputs"
 
     def list(
             self,

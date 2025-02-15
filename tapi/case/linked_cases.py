@@ -4,7 +4,7 @@ from typing import List
 class LinkedCasesAPI(Client):
     def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
-        self.base_endpoint = "/cases"
+        self.base_endpoint = "cases"
 
     def create(
             self,

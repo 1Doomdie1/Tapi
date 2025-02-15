@@ -16,7 +16,7 @@ class StoriesAPI(Client):
             apiKey: str
     ):
         super().__init__(domain, apiKey)
-        self.base_endpoint  = "/stories"
+        self.base_endpoint  = "stories"
         self.runs           = RunsAPI(domain, apiKey)
         self.notes          = NotesAPI(domain, apiKey)
         self.actions        = ActionsAPI(domain, apiKey)

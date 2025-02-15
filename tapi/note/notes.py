@@ -8,7 +8,7 @@ class NotesAPI(Client):
 
     def __init__(self, domain: str,apiKey: str):
         super().__init__(domain, apiKey)
-        self.base_endpoint = "/notes"
+        self.base_endpoint = "notes"
 
     def create(
             self,
