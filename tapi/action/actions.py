@@ -9,7 +9,7 @@ class ActionsAPI(Client):
 
     def __init__(self, domain: str,apiKey: str):
         super().__init__(domain, apiKey)
-        self.base_endpoint = "/actions"
+        self.base_endpoint = "actions"
         self.logs   = ActionLogsAPI(domain, apiKey)
         self.events = ActionEventsAPI(domain, apiKey)
 

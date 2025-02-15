@@ -9,7 +9,7 @@ class RunsAPI(Client):
             apiKey: str
     ):
         super().__init__(domain, apiKey)
-        self.base_endpoint = "/stories"
+        self.base_endpoint = "stories"
 
     def events(
             self,

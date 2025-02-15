@@ -1,9 +1,10 @@
-from .case   import *
-from .team   import *
-from .note   import *
-from .story  import *
-from .action import *
-from .tenant import TenantAPI
+from .case      import *
+from .team      import *
+from .note      import *
+from .story     import *
+from .action    import *
+from .audit_log import *
+from .tenant    import TenantAPI
 
 __all__ = [
     "TenantAPI",
@@ -15,6 +16,8 @@ __all__ = [
     "ActionsAPI", "ActionLogsAPI", "ActionEventsAPI",
 
     "NotesAPI",
+
+    "AuditLogsAPI",
 
     "StoriesAPI", "ChangeRequestAPI", "RunsAPI", "VersionsAPI",
     "TeamsAPI", "MembersAPI"

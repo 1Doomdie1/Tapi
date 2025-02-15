@@ -4,7 +4,7 @@ from tapi.http.client import Client
 class ActionEventsAPI(Client):
     def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
-        self.base_endpoint = "/actions"
+        self.base_endpoint = "actions"
 
     def list(
             self,

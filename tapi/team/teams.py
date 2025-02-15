@@ -5,7 +5,7 @@ from .members         import MembersAPI
 class TeamsAPI(Client):
     def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
-        self.base_endpoint = "/teams"
+        self.base_endpoint = "teams"
         self.members       = MembersAPI(domain, apiKey)
 
     def create(

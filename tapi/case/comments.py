@@ -5,7 +5,7 @@ from tapi.utils.types import ReactionType
 class CaseCommentsAPI(Client):
     def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
-        self.base_endpoint = "/cases"
+        self.base_endpoint = "cases"
         self.reactions     = CaseCommentsReactionsAPI(domain, apiKey)
 
     def create(
@@ -72,7 +72,7 @@ class CaseCommentsAPI(Client):
 class CaseCommentsReactionsAPI(Client):
     def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
-        self.base_endpoint = "/cases"
+        self.base_endpoint = "cases"
 
     def add(
             self,
