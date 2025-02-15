@@ -73,11 +73,12 @@ This class is designed to be used as a "parent" class from which all other endpo
 
 ### Subclasses
 
-| **Path**            | **Class**    | **Description**   |
-|---------------------|--------------|-------------------|
-| `TenantAPI.cases`   | `CaseAPI`    | Manage cases.     |
-| `TenantAPI.teams`   | `TeamsAPI`   | Manage teams.     |
-| `TenantAPI.stories` | `StoriesAPI` | Manage workflows. |
+| **Path**               | **Class**      | **Description**   |
+|------------------------|----------------|-------------------|
+| `TenantAPI.cases`      | `CaseAPI`      | Manage cases.     |
+| `TenantAPI.teams`      | `TeamsAPI`     | Manage teams.     |
+| `TenantAPI.stories`    | `StoriesAPI`   | Manage workflows. |
+| `TenantAPI.audit_logs` | `AuditLogsAPI` | Pull tenant logs. |
 
 
 ### Usage:
