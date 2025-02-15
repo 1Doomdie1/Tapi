@@ -136,6 +136,8 @@ Manage tines workflows.
 | **Path**                           | **Class**          | **Description**              |
 |------------------------------------|--------------------|------------------------------|
 | `TenantAPI.stories.runs`           | `RunsAPI`          | Manage case runs.            |
+| `TenantAPI.stories.notes`          | `NotesAPI`         | Manage case notes.           |
+| `TenantAPI.stories.actions`        | `ActionsAPI`       | Manage case actions.         |
 | `TenantAPI.stories.versions`       | `VersionsAPI`      | Manage case versions.        |
 | `TenantAPI.stories.change_request` | `ChangeRequestAPI` | Manage case change requests. |
 
@@ -1426,7 +1428,48 @@ def main():
 
 </details>
 
+<details>
+<summary>NotesAPI</summary>
+Manage story notes.
 
+### Methods
 
+| **Method** | **Description**                  |
+|------------|----------------------------------|
+| `create`   | Create a note on the storyboard. |
+| `get`      | Retrieve a note.                 |
+| `update`   | Update a note.                   |
+| `list`     | List notes.                      |
+| `delete`   | Delete a note.                   |
 
+### Subclasses
+- **None**
 
+### Usage:
+
+```python
+from json import dumps
+from tapi import NotesAPI
+
+def main():
+    DOMAIN  = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+    
+    notes_api = NotesAPI(DOMAIN, API_KEY)
+    
+    notes = notes_api.list()
+    
+    print(dumps(notes, indent = 4))
+```
+```commandline
+{
+    "body": {
+        "annotations":[...],
+        ...[snip]...
+    },
+    "headers": {...},
+    "status_code": ...,
+}
+```
+
+</details>
