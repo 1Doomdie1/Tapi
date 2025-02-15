@@ -1,6 +1,7 @@
 from .case   import *
-from .story  import *
 from .team   import *
+from .note   import *
+from .story  import *
 from .action import *
 from .tenant import TenantAPI
 
@@ -12,6 +13,8 @@ __all__ = [
     "CaseNotesAPI", "CaseRecordsAPI", "CaseSubscribersAPI",
 
     "ActionsAPI", "ActionLogsAPI", "ActionEventsAPI",
+
+    "NotesAPI",
 
     "StoriesAPI", "ChangeRequestAPI", "RunsAPI", "VersionsAPI",
     "TeamsAPI", "MembersAPI"
