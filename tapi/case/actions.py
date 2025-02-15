@@ -1,6 +1,6 @@
-from typing           import List
 from tapi.http.client import Client
 from tapi.utils.types import CaseActionType
+from typing           import List, Optional, Dict, Any
 
 
 class CaseActionsAPI(Client):
@@ -14,7 +14,7 @@ class CaseActionsAPI(Client):
             url:         str,
             label:       str,
             action_type: CaseActionType,
-            action_text: str            | None = None
+            action_text: Optional[str] = None
     ):
         return self._http_request(
             "POST",
@@ -27,7 +27,7 @@ class CaseActionsAPI(Client):
     def get(
             self,
             case_id: int,
-            id: int
+            id:      int
     ):
         return self._http_request(
             "GET",
@@ -37,12 +37,12 @@ class CaseActionsAPI(Client):
 
     def update(
             self,
-            case_id: int,
-            id: int,
-            url: str | None = None,
-            label: str | None = None,
-            action_type: CaseActionType | None = None,
-            action_text: str | None = None
+            case_id:     int,
+            id:          int,
+            url:         Optional[str]            = None,
+            label:       Optional[str]            = None,
+            action_type: Optional[CaseActionType] = None,
+            action_text: Optional[str]            = None
     ):
         return self._http_request(
             "PUT",
@@ -54,9 +54,9 @@ class CaseActionsAPI(Client):
 
     def list(
             self,
-            case_id: int,
-            per_page: int = 10,
-            page: int = 1,
+            case_id:  int,
+            per_page: Optional[ int] = 10,
+            page:     Optional[ int] = 1,
     ):
         return self._http_request(
             "GET",
@@ -69,7 +69,7 @@ class CaseActionsAPI(Client):
     def delete(
             self,
             case_id: int,
-            id: int = 10
+            id:      Optional[int] = 10
     ):
         return self._http_request(
             "DELETE",
@@ -80,7 +80,7 @@ class CaseActionsAPI(Client):
     def batch_update(
             self,
             case_id: int,
-            actions: List[dict]
+            actions: List[Dict[str, Any]]
     ):
         return self._http_request(
             "PUT",

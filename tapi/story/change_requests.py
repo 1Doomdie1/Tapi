@@ -1,4 +1,5 @@
 from tapi.http.client import Client
+from typing           import Optional
 
 
 class ChangeRequestAPI(Client):
@@ -12,9 +13,9 @@ class ChangeRequestAPI(Client):
 
     def create(
             self,
-            story_id: int,
-            title: str | None = None,
-            description: str | None = None
+            story_id:    int,
+            title:       Optional[str] = None,
+            description: Optional[str] = None
     ):
         return self._http_request(
             "POST",
@@ -25,7 +26,7 @@ class ChangeRequestAPI(Client):
 
     def approve(
             self,
-            story_id: int,
+            story_id:          int,
             change_request_id: int
     ):
         return self._http_request(
@@ -36,7 +37,7 @@ class ChangeRequestAPI(Client):
 
     def cancel(
             self,
-            story_id: int,
+            story_id:          int,
             change_request_id: int
     ):
         return self._http_request(
@@ -47,7 +48,7 @@ class ChangeRequestAPI(Client):
 
     def promote(
             self,
-            story_id: int,
+            story_id:          int,
             change_request_id: int
     ):
         return self._http_request(

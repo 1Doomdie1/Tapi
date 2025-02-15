@@ -1,4 +1,6 @@
 from tapi.http.client import Client
+from typing           import Optional, Union
+
 
 
 class CaseFieldsAPI(Client):
@@ -11,7 +13,7 @@ class CaseFieldsAPI(Client):
             self,
             case_id:  int,
             input_id: int,
-            value:    str | int
+            value:    Union[str, int]
     ):
         return self._http_request(
             "POST",
@@ -35,7 +37,7 @@ class CaseFieldsAPI(Client):
             self,
             case_id:  int,
             field_id: int,
-            value:    str | int
+            value:    Union[str, int]
     ):
         return self._http_request(
             "PUT",
@@ -47,8 +49,8 @@ class CaseFieldsAPI(Client):
     def list(
             self,
             case_id:  int,
-            per_page: int = 10,
-            page:     int = 1
+            per_page: Union[int] = 10,
+            page:     Union[int] = 1
     ):
         return self._http_request(
             "GET",
@@ -59,7 +61,7 @@ class CaseFieldsAPI(Client):
 
     def delete(
             self,
-            case_id: int,
+            case_id:  int,
             field_id: int
     ):
         return self._http_request(

@@ -1,5 +1,6 @@
 from typing           import List
 from tapi.http.client import Client
+from typing           import Optional
 
 
 class CaseSubscribersAPI(Client):
@@ -22,8 +23,8 @@ class CaseSubscribersAPI(Client):
     def list(
             self,
             case_id:  int,
-            per_page: int = 10,
-            page:     int = 1
+            per_page: Optional[int] = 10,
+            page:     Optional[int] = 1
     ):
         return self._http_request(
             "GET",
@@ -45,7 +46,7 @@ class CaseSubscribersAPI(Client):
 
     def batch_create(
             self,
-            case_id: int,
+            case_id:     int,
             user_emails: List[str]
     ):
         return self._http_request(

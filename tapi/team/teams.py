@@ -1,4 +1,5 @@
 from tapi.http.client import Client
+from typing           import Optional
 from .members         import MembersAPI
 
 
@@ -40,9 +41,9 @@ class TeamsAPI(Client):
 
     def list(
             self,
-            include_personal_teams: bool = False,
-            per_page:               int  = 10,
-            page:                   int  = 1,
+            include_personal_teams: Optional[bool] = False,
+            per_page:               Optional[int]  = 10,
+            page:                   Optional[int]  = 1,
         ):
         return self._http_request(
             "GET",

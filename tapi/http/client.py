@@ -1,3 +1,4 @@
+from typing           import Optional
 from tapi.utils.types import HTTPResponse
 from requests         import request, RequestException
 
@@ -12,7 +13,7 @@ class Client:
             self, 
             method:      str,
             endpoint:    str,
-            api_version: str = "v1",
+            api_version: Optional[str] = "v1",
             **kwargs
         ) -> HTTPResponse:
         url = f"https://{self.domain}.tines.com/api/{api_version}/{endpoint}"

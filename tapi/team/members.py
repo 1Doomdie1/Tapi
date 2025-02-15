@@ -1,6 +1,6 @@
 from tapi.utils.types import Role
 from tapi.http.client import Client
-
+from typing           import Optional
 
 class MembersAPI(Client):
     def __init__(self, domain, apiKey):
@@ -10,8 +10,8 @@ class MembersAPI(Client):
     def list(
             self,
             team_id:  int,
-            per_page: int  = 10,
-            page:     int  = 1,
+            per_page: Optional[int] = 10,
+            page:     Optional[int] = 1,
     ):
         return self._http_request(
             "GET",
@@ -33,9 +33,9 @@ class MembersAPI(Client):
     def invite(
             self,
             team_id: int,
-            email:   str | None = None,
-            user_id: int | None = None,
-            role:    Role       = Role.VIEWER
+            email:   Optional[str]  = None,
+            user_id: Optional[int]  = None,
+            role:    Optional[Role] = Role.VIEWER
     ):
         if email and user_id:
             raise ValueError("Invalid input: Provide either 'email' or 'user_id', not both.")
@@ -52,7 +52,7 @@ class MembersAPI(Client):
     def resend_invite(
             self,
             team_id: int,
-            user_id: int | None = None,
+            user_id: Optional[int] = None,
     ):
         return self._http_request(
             "POST",

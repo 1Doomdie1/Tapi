@@ -1,4 +1,6 @@
 from tapi.http.client import Client
+from typing           import Optional
+
 
 
 class CaseFilesAPI(Client):
@@ -11,8 +13,8 @@ class CaseFilesAPI(Client):
             case_id:       int,
             filename:      str,
             file_contents: str,
-            value:         str | None = None,
-            author_email:  str | None = None,
+            value:         Optional[str] = None,
+            author_email:  Optional[str] = None,
 
     ):
         return self._http_request(
@@ -41,8 +43,8 @@ class CaseFilesAPI(Client):
     def list(
             self,
             case_id:  int,
-            per_page: int = 10,
-            page:     int = 1
+            per_page: Optional[int] = 10,
+            page:     Optional[int] = 1
     ):
         return self._http_request(
             "GET",

@@ -1,5 +1,5 @@
 from tapi.http.client import Client
-from typing import List
+from typing           import List, Optional
 
 class LinkedCasesAPI(Client):
     def __init__(self, domain, apiKey):
@@ -21,8 +21,8 @@ class LinkedCasesAPI(Client):
     def list(
             self,
             case_id:  int,
-            per_page: int = 10,
-            page:     int = 1
+            per_page: Optional[int] = 10,
+            page:     Optional[int] = 1
     ):
         return self._http_request(
             "GET",
@@ -33,7 +33,7 @@ class LinkedCasesAPI(Client):
 
     def delete(
             self,
-            case_id: int,
+            case_id:        int,
             linked_case_id: int
     ):
         return self._http_request(

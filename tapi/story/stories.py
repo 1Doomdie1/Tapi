@@ -1,10 +1,10 @@
 from tapi.utils.types import *
-from typing           import List
 from tapi.http.client import Client
 from .runs            import RunsAPI
 from ..note           import NotesAPI
 from ..action.actions import ActionsAPI
 from .versions        import VersionsAPI
+from typing           import List, Optional
 from .change_requests import ChangeRequestAPI
 
 
@@ -26,13 +26,13 @@ class StoriesAPI(Client):
     def create(
             self,
             team_id:         int,
-            name:            str           | None = None,
-            description:     str           | None = None,
-            keep_events_for: KeepEventsFor | None = KeepEventsFor.ONE_DAY,
-            folder_id:       int           | None = None,
-            tags:            List[str]     | None = None,
-            disabled:        bool                 = False,
-            priority:        bool                 = False
+            name:            Optional[str]           = None,
+            description:     Optional[str]           = None,
+            keep_events_for: Optional[KeepEventsFor] = KeepEventsFor.ONE_DAY,
+            folder_id:       Optional[int]           = None,
+            tags:            Optional[List[str]]     = None,
+            disabled:        Optional[bool]          = False,
+            priority:        Optional[bool]          = False
         ):
         return self._http_request(
             "POST",
@@ -43,7 +43,7 @@ class StoriesAPI(Client):
     def get(
             self,
             story_id:   int,
-            story_mode: StoryMode = StoryMode.ALL
+            story_mode: Optional[StoryMode] = StoryMode.ALL
         ):
         return self._http_request(
             "GET",
@@ -54,22 +54,22 @@ class StoriesAPI(Client):
     def update(
             self,
             story_id:                                      int,
-            name:                                          str                     | None = None,
-            description:                                   str                     | None = None,
-            add_tag_names:                                 List[str]               | None = None,
-            remove_tag_names:                              List[str]               | None = None,
-            keep_events_for:                               KeepEventsFor           | None = None,
-            disabled:                                      bool                    | None = None,
-            locked:                                        bool                    | None = None,
-            priority:                                      bool                    | None = None,
-            send_to_story_access_source:                   SendToStoryAccessSource | None = None,
-            send_to_story_access:                          SendToStoryAccess       | None = None,
-            send_to_story_skill_use_requires_confirmation: bool                    | None = None,
-            entry_agent_id:                                int                     | None = None,
-            exit_agent_ids:                                int                     | None = None,
-            team_id:                                       int                     | None = None,
-            folder_id:                                     int                     | None = None,
-            change_control_enabled:                        bool                    | None = None,
+            name:                                          Optional[str]                     = None,
+            description:                                   Optional[str]                     = None,
+            add_tag_names:                                 Optional[List[str]]               = None,
+            remove_tag_names:                              Optional[List[str]]               = None,
+            keep_events_for:                               Optional[KeepEventsFor]           = None,
+            disabled:                                      Optional[bool]                    = None,
+            locked:                                        Optional[bool]                    = None,
+            priority:                                      Optional[bool]                    = None,
+            send_to_story_access_source:                   Optional[SendToStoryAccessSource] = None,
+            send_to_story_access:                          Optional[SendToStoryAccess]       = None,
+            send_to_story_skill_use_requires_confirmation: Optional[bool]                    = None,
+            entry_agent_id:                                Optional[int]                     = None,
+            exit_agent_ids:                                Optional[int]                     = None,
+            team_id:                                       Optional[int]                     = None,
+            folder_id:                                     Optional[int]                     = None,
+            change_control_enabled:                        Optional[bool]                    = None,
         ):
         return self._http_request(
             "PUT",
@@ -79,13 +79,13 @@ class StoriesAPI(Client):
 
     def list(
             self,
-            team_id:   int                | None = None,
-            folder_id: int                | None = None,
-            per_page:  int                       = 10,
-            page:      int                       = 1,
-            tags:      List[str]          | None = None,
-            filter:    Filter             | None = None,
-            order:     StoriesReturnOrder | None = None,
+            team_id:   Optional[int]                = None,
+            folder_id: Optional[int]                = None,
+            per_page:  Optional[int]                = 10,
+            page:      Optional[int]                = 1,
+            tags:      Optional[List[str]]          = None,
+            filter:    Optional[Filter]             = None,
+            order:     Optional[StoriesReturnOrder] = None,
         ):
         return self._http_request(
             "GET",
@@ -115,7 +115,7 @@ class StoriesAPI(Client):
     def export(
             self,
             story_id:       int,
-            randomize_urls: bool = True
+            randomize_urls: Optional[bool] = True
         ):
         return self._http_request(
             "GET",
@@ -128,8 +128,8 @@ class StoriesAPI(Client):
             new_name:  str,
             data:      dict,
             team_id:   int,
-            folder_id: str | None = None,
-            mode:      Mode       = Mode.NEW
+            folder_id: Optional[str]  = None,
+            mode:      Optional[Mode] = Mode.NEW
         ):
         return self._http_request(
             "POST",

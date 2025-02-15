@@ -1,5 +1,5 @@
-from typing           import List
 from tapi.http.client import Client
+from typing           import List, Dict, Optional, Union
 from tapi.utils.types import CaseInputType, CaseValidationType
 
 
@@ -14,8 +14,8 @@ class CaseInputsAPI(Client):
             name:               str,
             input_type:         CaseInputType,
             team_id:            int,
-            validation_type:    CaseValidationType   | None                  = None,
-            validation_options: dict[str, List[str]] | dict[str, str] | None = None
+            validation_type:    Optional[CaseValidationType]                          = None,
+            validation_options: Optional[Union[Dict[str, List[str]], Dict[str, str]]] = None
     ):
         return self._http_request(
             "POST",
@@ -35,9 +35,9 @@ class CaseInputsAPI(Client):
 
     def list(
             self,
-            team_id:  int | None = None,
-            per_page: int        = 10,
-            page:     int        = 1,
+            team_id:  Optional[int] = None,
+            per_page: Optional[int] = 10,
+            page:     Optional[int] = 1,
     ):
         return self._http_request(
             "GET",
@@ -54,8 +54,8 @@ class CaseInputsFieldsAPI(Client):
     def list(
             self,
             case_input_id: int,
-            per_page:      int | None = None,
-            page:          int | None = None
+            per_page:      Optional[int] = None,
+            page:          Optional[int] = None
     ):
         return self._http_request(
             "GET",

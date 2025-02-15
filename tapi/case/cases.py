@@ -1,6 +1,5 @@
 from tapi.utils.types import *
 from tapi.http.client import Client
-from typing           import List, Any
 from .notes           import CaseNotesAPI
 from .files           import CaseFilesAPI
 from .fields          import CaseFieldsAPI
@@ -13,6 +12,7 @@ from .comments        import CaseCommentsAPI
 from .assignees       import CaseAssigneesAPI
 from .activities      import CaseActivitiesAPI
 from .subscribers     import CaseSubscribersAPI
+from typing           import List, Any, Dict, Optional
 
 
 class CaseAPI(Client):
@@ -36,18 +36,18 @@ class CaseAPI(Client):
             self,
             team_id:            int,
             name:               str,
-            description:        str          | None = None,
-            priority:           CasePriority | None = CasePriority.LOW,
-            status:             CaseStatus   | None = CaseStatus.OPEN,
-            sub_status_id:      int          | None = None,
-            author_email:       str          | None = None,
-            assignee_emails:    List[str]    | None = None,
-            tag_names:          List[str]    | None = None,
-            opened_at:          str          | None = None,
-            resolved_at:        str          | None = None,
-            metadata:           dict         | None = None,
-            closure_conditions: List[dict]   | None = None,
-            field_values:       dict         | None = None
+            description:        Optional[str]                  = None,
+            priority:           Optional[CasePriority]         = CasePriority.LOW,
+            status:             Optional[CaseStatus]           = CaseStatus.OPEN,
+            sub_status_id:      Optional[int]                  = None,
+            author_email:       Optional[str]                  = None,
+            assignee_emails:    Optional[List[str]]            = None,
+            tag_names:          Optional[List[str]]            = None,
+            opened_at:          Optional[str]                  = None,
+            resolved_at:        Optional[str]                  = None,
+            metadata:           Optional[dict]                 = None,
+            closure_conditions: Optional[List[Dict[str, Any]]] = None,
+            field_values:       Optional[Dict[str, Any]]       = None
         ):
         return self._http_request(
             "POST",
@@ -70,21 +70,21 @@ class CaseAPI(Client):
     def update(
             self,
             case_id:                int,
-            name:                   str          | None = None,
-            team_id:                int          | None = None,
-            description:            str          | None = None,
-            priority:               CasePriority | None = None,
-            status:                 CaseStatus   | None = None,
-            sub_status_id:          int          | None = None,
-            author_email:           str          | None = None,
-            assignee_emails:        List[str]    | None = None,
-            add_assignee_emails:    List[str]    | None = None,
-            remove_assignee_emails: List[str]    | None = None,
-            add_tag_names:          List[str]    | None = None,
-            remove_tag_names:       List[str]    | None = None,
-            opened_at:              str          | None = None,
-            resolved_at:            str          | None = None,
-            closure_conditions:     List[dict]   | None = None
+            name:                   Optional[str]                  = None,
+            team_id:                Optional[int]                  = None,
+            description:            Optional[str]                  = None,
+            priority:               Optional[CasePriority]         = None,
+            status:                 Optional[CaseStatus]           = None,
+            sub_status_id:          Optional[int]                  = None,
+            author_email:           Optional[str]                  = None,
+            assignee_emails:        Optional[List[str]]            = None,
+            add_assignee_emails:    Optional[List[str]]            = None,
+            remove_assignee_emails: Optional[List[str]]            = None,
+            add_tag_names:          Optional[List[str]]            = None,
+            remove_tag_names:       Optional[List[str]]            = None,
+            opened_at:              Optional[str]                  = None,
+            resolved_at:            Optional[str]                  = None,
+            closure_conditions:     Optional[List[Dict[str, Any]]] = None
         ):
         return self._http_request(
             "PUT",
@@ -96,11 +96,11 @@ class CaseAPI(Client):
 
     def list(
             self,
-            team_id:  int             | None = None,
-            filters:  dict[str, Any]  | None = None,
-            order:    CaseReturnOrder | None = None,
-            per_page: int                    = 10,
-            page:     int                    = 1
+            team_id:  Optional[int]             = None,
+            filters:  Optional[Dict[str, Any]]  = None,
+            order:    Optional[CaseReturnOrder] = None,
+            per_page: Optional[int]             = 10,
+            page:     Optional[int]             = 1
         ):
         return self._http_request(
             "GET",

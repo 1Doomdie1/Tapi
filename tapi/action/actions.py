@@ -1,8 +1,8 @@
 from tapi.http.client import Client
 from .logs            import ActionLogsAPI
 from .events          import ActionEventsAPI
-from typing           import List, Dict, Any
 from tapi.utils.types import ActionType, StoryMode
+from typing           import List, Dict, Any, Optional, Union
 
 
 class ActionsAPI(Client):
@@ -15,22 +15,22 @@ class ActionsAPI(Client):
 
     def create(
             self,
-            type:                      ActionType                 | str,
+            type:                      Union[ActionType, str],
             name:                      str,
             options:                   Dict[str, Any],
             position:                  Dict[str, int],
-            story_id:                  int                        | None = None,
-            group_id:                  int                        | None = None,
-            description:               str                        | None = None,
-            disabled:                  bool                              = False,
-            source_ids:                List[int]                  | None = None,
-            links_to_sources:          List[Dict[str, str | int]] | None = None,
-            receiver_ids:              List[int]                  | None = None,
-            links_to_receivers:        List[Dict[str, str | int]] | None = None,
-            schedule:                  List[Dict[str, str]]       | None = None,
-            monitor_failures:          bool                              = True,
-            monitor_all_events:        bool                              = False,
-            monitor_no_events_emitted: int                        | None = None
+            story_id:                  Optional[int]                              = None,
+            group_id:                  Optional[int]                              = None,
+            description:               Optional[str]                              = None,
+            disabled:                  Optional[bool]                             = False,
+            source_ids:                Optional[List[int]]                        = None,
+            links_to_sources:          Optional[List[Dict[str, Union[str, int]]]] = None,
+            receiver_ids:              Optional[List[int]]                        = None,
+            links_to_receivers:        Optional[List[Dict[str, Union[str, int]]]] = None,
+            schedule:                  Optional[List[Dict[str, str]]]             = None,
+            monitor_failures:          Optional[bool]                             = True,
+            monitor_all_events:        Optional[bool]                             = False,
+            monitor_no_events_emitted: Optional[int]                              = None
     ):
         return self._http_request(
             "POST",
@@ -50,19 +50,19 @@ class ActionsAPI(Client):
     def update(
             self,
             action_id:                 int,
-            name:                      str                        | None = None,
-            description:               str                        | None = None,
-            options:                   Dict[str, Any]             | None = None,
-            position:                  Dict[str, int]             | None = None,
-            source_ids:                List[int]                  | None = None,
-            links_to_sources:          List[Dict[str, int | str]] | None = None,
-            receiver_ids:              List[str]                  | None = None,
-            links_to_receivers:        List[Dict[str, int | str]] | None = None,
-            schedule:                  Dict[str, Any]             | None = None,
-            disabled:                  bool                       | None = None,
-            monitor_failures:          bool                       | None = None,
-            monitor_all_events:        bool                       | None = None,
-            monitor_no_events_emitted: int                        | None = None
+            name:                      Optional[str]                              = None,
+            description:               Optional[str]                              = None,
+            options:                   Optional[Dict[str, Any]]                   = None,
+            position:                  Optional[Dict[str, int]]                   = None,
+            source_ids:                Optional[List[int]]                        = None,
+            links_to_sources:          Optional[List[Dict[str, Union[int, str]]]] = None,
+            receiver_ids:              Optional[List[str]]                        = None,
+            links_to_receivers:        Optional[List[Dict[str, Union[int, str]]]] = None,
+            schedule:                  Optional[Dict[str, Any]]                   = None,
+            disabled:                  Optional[bool]                             = None,
+            monitor_failures:          Optional[bool]                             = None,
+            monitor_all_events:        Optional[bool]                             = None,
+            monitor_no_events_emitted: Optional[int]                              = None
     ):
         return self._http_request(
             "PUT",
@@ -73,12 +73,12 @@ class ActionsAPI(Client):
 
     def list(
             self,
-            story_id:   int       | None = None,
-            story_mode: StoryMode | None = None,
-            team_id:    int       | None = None,
-            group_id:   int       | None = None,
-            per_page:   int              = 10,
-            page:       int              = 1
+            story_id:   Optional[int]       = None,
+            story_mode: Optional[StoryMode] = None,
+            team_id:    Optional[int]       = None,
+            group_id:   Optional[int]       = None,
+            per_page:   Optional[int]       = 10,
+            page:       Optional[int]       = 1
     ):
         return self._http_request(
             "GET",

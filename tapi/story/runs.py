@@ -1,4 +1,5 @@
 from tapi.http.client import Client
+from typing           import Optional
 from tapi.utils.types import StoryMode
 
 
@@ -13,11 +14,11 @@ class RunsAPI(Client):
 
     def events(
             self,
-            story_id: int,
+            story_id:       int,
             story_run_guid: str,
-            story_mode: StoryMode | None = None,
-            per_page: int = 10,
-            page: int = 1,
+            story_mode:     Optional[StoryMode] = None,
+            per_page:       Optional[int]       = 10,
+            page:           Optional[int]       = 1,
     ):
         return self._http_request(
             "GET",
@@ -28,10 +29,10 @@ class RunsAPI(Client):
 
     def list(
             self,
-            story_id: int,
-            story_mode: StoryMode | None = None,
-            per_page: int = 10,
-            page: int = 1,
+            story_id:   int,
+            story_mode: Optional[StoryMode] = None,
+            per_page:   Optional[int]       = 10,
+            page:       Optional[int]       = 1,
     ):
         return self._http_request(
             "GET",

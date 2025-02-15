@@ -1,4 +1,5 @@
 from tapi.http.client import Client
+from typing           import Optional
 
 
 class VersionsAPI(Client):
@@ -13,7 +14,7 @@ class VersionsAPI(Client):
     def create(
             self,
             story_id: int,
-            name: str | None = None
+            name:     Optional[str] = None
     ):
         return self._http_request(
             "POST",
@@ -24,7 +25,7 @@ class VersionsAPI(Client):
 
     def get(
             self,
-            story_id: int,
+            story_id:   int,
             version_id: int
     ):
         return self._http_request(
@@ -34,8 +35,8 @@ class VersionsAPI(Client):
 
     def update(
             self,
-            name: str,
-            story_id: int,
+            name:       str,
+            story_id:   int,
             version_id: int
     ):
         return self._http_request(
@@ -47,8 +48,8 @@ class VersionsAPI(Client):
     def list(
             self,
             story_id: int,
-            per_page: int = 10,
-            page: int = 1,
+            per_page: Optional[int] = 10,
+            page:     Optional[int] = 1,
     ):
         return self._http_request(
             "GET",
@@ -59,7 +60,7 @@ class VersionsAPI(Client):
 
     def delete(
             self,
-            story_id: int,
+            story_id:   int,
             version_id: int
     ):
         return self._http_request(

@@ -1,4 +1,5 @@
 from tapi.http.client import Client
+from typing           import Optional
 
 
 class ActionEventsAPI(Client):
@@ -8,11 +9,11 @@ class ActionEventsAPI(Client):
 
     def list(
             self,
-            action_id: int | None = None,
-            since_id:  int | None = None,
-            until_id:  int | None = None,
-            per_page:  int        = 10,
-            page:      int        = 11
+            action_id: Optional[int] = None,
+            since_id:  Optional[int] = None,
+            until_id:  Optional[int] = None,
+            per_page:  Optional[int] = 10,
+            page:      Optional[int] = 11
     ):
         return self._http_request(
             "GET",
@@ -23,7 +24,7 @@ class ActionEventsAPI(Client):
     def delete(
             self,
             action_id:      int,
-            async_deletion: bool = True
+            async_deletion: Optional[bool] = True
     ):
         return self._http_request(
             "DELETE",
