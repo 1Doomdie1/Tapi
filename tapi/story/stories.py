@@ -4,8 +4,8 @@ from .runs            import RunsAPI
 from ..note           import NotesAPI
 from ..action.actions import ActionsAPI
 from .versions        import VersionsAPI
-from typing           import List, Optional
 from .change_requests import ChangeRequestAPI
+from typing           import List, Optional, Dict, Any
 
 
 class StoriesAPI(Client):
@@ -126,7 +126,7 @@ class StoriesAPI(Client):
     def import_(
             self,
             new_name:  str,
-            data:      dict,
+            data:      Dict[str, Any],
             team_id:   int,
             folder_id: Optional[str]  = None,
             mode:      Optional[Mode] = Mode.NEW

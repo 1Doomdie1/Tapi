@@ -1,5 +1,5 @@
 from enum   import IntEnum, StrEnum
-from typing import TypedDict, Union
+from typing import TypedDict, Union, Dict, Any
 
 class KeepEventsFor(IntEnum):
     ONE_HOUR                      = 3600
@@ -119,8 +119,8 @@ class CaseValidationType(StrEnum):
     OPTIONS = "options"
 
 class HTTPResponse(TypedDict):
-    body:        Union[dict, str]
-    headers:     dict
+    body:        Union[Dict[str, Any], str]
+    headers:     Dict[str, Any]
     status_code: int
 
 class ActionType(StrEnum):

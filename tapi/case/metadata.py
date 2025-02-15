@@ -1,4 +1,5 @@
 from typing           import List
+from typing           import Dict
 from tapi.http.client import Client
 
 
@@ -10,7 +11,7 @@ class CaseMetadataAPI(Client):
     def create(
             self,
             case_id:  int,
-            metadata: dict
+            metadata: Dict[str, str]
     ):
         return self._http_request(
             "POST",
@@ -33,7 +34,7 @@ class CaseMetadataAPI(Client):
     def update(
             self,
             case_id:  int,
-            metadata: dict
+            metadata: Dict[str, str]
     ):
         return self._http_request(
             "PUT",

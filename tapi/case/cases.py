@@ -45,7 +45,7 @@ class CaseAPI(Client):
             tag_names:          Optional[List[str]]            = None,
             opened_at:          Optional[str]                  = None,
             resolved_at:        Optional[str]                  = None,
-            metadata:           Optional[dict]                 = None,
+            metadata:           Optional[Dict[str, str]]       = None,
             closure_conditions: Optional[List[Dict[str, Any]]] = None,
             field_values:       Optional[Dict[str, Any]]       = None
         ):
