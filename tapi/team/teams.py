@@ -53,7 +53,7 @@ class TeamsAPI(Client):
 
     def delete(
             self,
-            team_id
+            team_id: int
         ):
         return self._http_request(
             "DELETE",

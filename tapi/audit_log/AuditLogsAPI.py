@@ -13,7 +13,7 @@ class AuditLogsAPI(Client):
             self,
             before:         Optional[int]                = None,
             after:          Optional[int]                = None,
-            user_id:        Optional[int]                = None,
+            user_id:        Optional[List[int]]          = None,
             operation_name: Optional[List[AuditLogType]] = None,
             per_page:       Optional[int]                = 10,
             page:           Optional[int]                = 1

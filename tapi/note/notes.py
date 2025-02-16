@@ -13,10 +13,10 @@ class NotesAPI(Client):
     def create(
             self,
             content:  str,
-            story_id: Optional[int]  = None,
-            group_id: Optional[int]  = None,
-            position: Dict[str, int] = None,
-            draft_id: Optional[int]  = None
+            story_id: Optional[int]            = None,
+            group_id: Optional[int]            = None,
+            position: Optional[Dict[str, int]] = None,
+            draft_id: Optional[int]            = None
     ):
         if not (story_id or group_id):
             raise ValueError("Story ID or Group ID must be specified.")
