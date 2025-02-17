@@ -13,7 +13,7 @@ class ActionEventsAPI(Client):
             since_id:  Optional[int] = None,
             until_id:  Optional[int] = None,
             per_page:  Optional[int] = 10,
-            page:      Optional[int] = 11
+            page:      Optional[int] = 1
     ):
         return self._http_request(
             "GET",
