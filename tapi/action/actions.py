@@ -1,7 +1,7 @@
 from tapi.http.client import Client
 from .logs            import ActionLogsAPI
 from .events          import ActionEventsAPI
-from tapi.utils.types import ActionType, StoryMode
+from tapi.utils.types import AgentType, StoryMode
 from typing           import List, Dict, Any, Optional, Union
 
 
@@ -15,7 +15,7 @@ class ActionsAPI(Client):
 
     def create(
             self,
-            type:                      Union[ActionType, str],
+            type:                      Union[AgentType, str],
             name:                      str,
             options:                   Dict[str, Any],
             position:                  Dict[str, int],

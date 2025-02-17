@@ -123,15 +123,15 @@ class HTTPResponse(TypedDict):
     headers:     Dict[str, Any]
     status_code: int
 
-class ActionType(StrEnum):
-    IMAP_AGENT            = "Agents::IMAPAgent"
-    EMAIL_AGENT           = "Agents::EmailAgent"
-    GROUP_AGENT           = "Agents::GroupAgent"
-    TRIGGER_AGENT         = "Agents::TriggerAgent"
-    WEB_HOOK_AGENT        = "Agents::WebhookAgent"
-    HTTP_REQUEST_AGENT    = "Agents::HTTPRequestAgent"
-    SEND_T0_STORY_AGENT   = "Agents::SendToStoryAgent"
-    EVENT_TRANSFORM_AGENT = "Agents::EventTransformationAgent"
+class AgentType(StrEnum):
+    IMAP            = "Agents::IMAPAgent"
+    EMAIL           = "Agents::EmailAgent"
+    GROUP           = "Agents::GroupAgent"
+    TRIGGER         = "Agents::TriggerAgent"
+    WEBHOOK        = "Agents::WebhookAgent"
+    HTTP_REQUEST    = "Agents::HTTPRequestAgent"
+    SEND_T0_STORY   = "Agents::SendToStoryAgent"
+    EVENT_TRANSFORM = "Agents::EventTransformationAgent"
 
 class ReactionType(StrEnum):
     PLUS_ONE         = "+1"

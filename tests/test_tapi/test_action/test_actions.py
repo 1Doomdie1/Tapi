@@ -2,7 +2,7 @@ import unittest
 from os               import getenv
 from time             import time_ns
 from tapi             import ActionsAPI
-from tapi.utils.types import ActionType
+from tapi.utils.types import AgentType
 from dotenv           import load_dotenv
 
 class test_ActionsAPI(unittest.TestCase):
@@ -14,7 +14,7 @@ class test_ActionsAPI(unittest.TestCase):
 
     def test_create(self):
         resp = self.actions_api.create(
-            type     = ActionType.EVENT_TRANSFORM_AGENT,
+            type     = AgentType.EVENT_TRANSFORM,
             name     = "Event Transform Action Unit Test",
             options  = {
                 "mode": "message_only",
@@ -27,7 +27,7 @@ class test_ActionsAPI(unittest.TestCase):
         body = resp.get("body")
 
         self.assertEqual(resp.get("status_code"), 201)
-        self.assertEqual(body.get("type"), ActionType.EVENT_TRANSFORM_AGENT)
+        self.assertEqual(body.get("type"), AgentType.EVENT_TRANSFORM)
         self.assertEqual(type(body.get("options")), dict)
 
     def test_get(self):
@@ -38,7 +38,7 @@ class test_ActionsAPI(unittest.TestCase):
         body = resp.get("body")
 
         self.assertEqual(resp.get("status_code"), 200)
-        self.assertEqual(body.get("type"), ActionType.EVENT_TRANSFORM_AGENT)
+        self.assertEqual(body.get("type"), AgentType.EVENT_TRANSFORM)
         self.assertEqual(body.get("name"), "Action To Get")
 
     def test_update(self):
@@ -67,7 +67,7 @@ class test_ActionsAPI(unittest.TestCase):
 
     def test_delete(self):
         action = self.actions_api.create(
-            type     = ActionType.EVENT_TRANSFORM_AGENT,
+            type     = AgentType.EVENT_TRANSFORM,
             name     = "Event Transform Action To Delete",
             options  = {
                 "mode": "message_only"
