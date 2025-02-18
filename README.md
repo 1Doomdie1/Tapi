@@ -54,7 +54,8 @@ There are cases when SSL verification can pose a problem in making a request to 
 there is an easy way of disabling SSL verification in Tapi. Here is how:
 
 ```python
-import tapi.utils.http
+
+import tapi
 
 tapi.utils.http.disable_ssl_verification()
 ```
@@ -838,23 +839,24 @@ Manage comments reactions.
 ### Usage:
 
 ```python
-from json             import dumps
-from tapi.utils.types import ReactionType
-from tapi             import CaseCommentsReactionsAPI
+from json import dumps
+from tapi import ReactionType
+from tapi import CaseCommentsReactionsAPI
+
 
 def main():
-    DOMAIN  = "my-cool-domain-1234"
+    DOMAIN = "my-cool-domain-1234"
     API_KEY = "do_not_put_this_on_github_lol"
-    
+
     comments_reactions_api = CaseCommentsReactionsAPI(DOMAIN, API_KEY)
-    
+
     reaction = comments_reactions_api.add(
-        case_id    = 1234,
-        comment_id = 5678,
-        value      = ReactionType.PLUS_ONE
+        case_id=1234,
+        comment_id=5678,
+        value=ReactionType.PLUS_ONE
     )
-    
-    print(dumps(comments, indent = 4))
+
+    print(dumps(comments, indent=4))
 ```
 ```commandline
 {
@@ -1495,21 +1497,22 @@ Pull tenant audit logs.
 ```python
 from json import dumps
 from tapi import AuditLogsAPI
-from tapi.utils.types import AuditLogType
+from tapi import AuditLogType
+
 
 def main():
-    DOMAIN  = "my-cool-domain-1234"
+    DOMAIN = "my-cool-domain-1234"
     API_KEY = "do_not_put_this_on_github_lol"
-    
+
     audit_logs_api = AuditLogsAPI(DOMAIN, API_KEY)
-    
+
     logs = audit_logs_api.list(
-        operation_name = [
+        operation_name=[
             AuditLogType.STORY_CREATION
         ]
     )
-    
-    print(dumps(logs, indent = 4))
+
+    print(dumps(logs, indent=4))
 ```
 ```commandline
 {
