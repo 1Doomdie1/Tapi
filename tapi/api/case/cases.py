@@ -67,6 +67,16 @@ class CaseAPI(Client):
             "v2"
         )
 
+    def download(
+            self,
+            case_id: int
+    ):
+        return self._http_request(
+            "GET",
+            f"{self.base_endpoint}/{case_id}/pdf",
+            "v2"
+        )
+
     def update(
             self,
             case_id:                int,

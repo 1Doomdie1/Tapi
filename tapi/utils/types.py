@@ -119,7 +119,7 @@ class CaseValidationType(StrEnum):
     OPTIONS = "options"
 
 class HTTPResponse(TypedDict):
-    body:        Union[Dict[str, Any], str]
+    body:        Union[Dict[str, Any], str, bytes]
     headers:     Dict[str, Any]
     status_code: int
 

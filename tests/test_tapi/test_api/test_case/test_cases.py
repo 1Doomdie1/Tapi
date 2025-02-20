@@ -52,6 +52,16 @@ class test_CasesAPI(unittest.TestCase):
         self.assertEqual(body.get("name"), "Get Case Unit test")
         self.assertEqual(body.get("description"), "Created with Tapi :)")
 
+    def test_download(self):
+        resp = self.cases_api.download(
+            case_id = 26
+        )
+
+        body = resp.get("body")
+
+        self.assertEqual(resp.get("status_code"), 200)
+        self.assertEqual(type(body), bytes)
+
     def test_update(self):
         case = self.cases_api.create(
             team_id     = self.team_id,
