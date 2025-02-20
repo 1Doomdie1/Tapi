@@ -417,6 +417,7 @@ Manage tines cases.
 |------------|---------------------------|
 | `create`   | Create a case.            |
 | `get`      | Retrieve a single case.   |
+| `download` | Retrieve a PDF of a case. |
 | `update`   | Update a case.            |
 | `list`     | Retrieve a list of cases. |
 | `delete`   | Delete a case.            |
