@@ -54,7 +54,8 @@ There are cases when SSL verification can pose a problem in making a request to 
 there is an easy way of disabling SSL verification in Tapi. Here is how:
 
 ```python
-import tapi.utils.http
+
+import tapi
 
 tapi.utils.http.disable_ssl_verification()
 ```
@@ -73,12 +74,13 @@ This class is designed to be used as a "parent" class from which all other endpo
 
 ### Subclasses
 
-| **Path**               | **Class**      | **Description**   |
-|------------------------|----------------|-------------------|
-| `TenantAPI.cases`      | `CaseAPI`      | Manage cases.     |
-| `TenantAPI.teams`      | `TeamsAPI`     | Manage teams.     |
-| `TenantAPI.stories`    | `StoriesAPI`   | Manage workflows. |
-| `TenantAPI.audit_logs` | `AuditLogsAPI` | Pull tenant logs. |
+| **Path**                | **Class**        | **Description**            |
+|-------------------------|------------------|----------------------------|
+| `TenantAPI.cases`       | `CaseAPI`        | Manage cases.              |
+| `TenantAPI.teams`       | `TeamsAPI`       | Manage teams.              |
+| `TenantAPI.stories`     | `StoriesAPI`     | Manage workflows.          |
+| `TenantAPI.audit_logs`  | `AuditLogsAPI`   | Pull tenant logs.          |
+| `TenantAPI.credentials` | `CredentialsAPI` | Manage tenant credentials. |
 
 
 ### Usage:
@@ -96,7 +98,7 @@ def main():
     
     print(dumps(cases, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "cases": [
@@ -160,7 +162,7 @@ def main():
     
     print(dumps(stories, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "stories": [
@@ -215,7 +217,7 @@ def main():
     
     print(dumps(runs, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "story_runs": [
@@ -274,7 +276,7 @@ def main():
     
     print(dumps(versions, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "story_versions": [
@@ -330,7 +332,7 @@ def main():
     
     print(dumps(teams, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "teams": [
@@ -381,7 +383,7 @@ def main():
     
     print(dumps(members, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "members": [
@@ -416,6 +418,7 @@ Manage tines cases.
 |------------|---------------------------|
 | `create`   | Create a case.            |
 | `get`      | Retrieve a single case.   |
+| `download` | Retrieve a PDF of a case. |
 | `update`   | Update a case.            |
 | `list`     | Retrieve a list of cases. |
 | `delete`   | Delete a case.            |
@@ -453,7 +456,7 @@ def main():
     
     print(dumps(cases, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "cases": [
@@ -510,7 +513,7 @@ def main():
     
     print(dumps(actions, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "case_id": 1234,
@@ -567,7 +570,7 @@ def main():
     
     print(dumps(activities, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "case_id": 26,
@@ -626,7 +629,7 @@ def main():
     
     print(dumps(assignees, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "case_id": 1234,
@@ -674,7 +677,7 @@ def main():
     
     print(dumps(inputs, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "case_inputs": [
@@ -730,7 +733,7 @@ def main():
     
     print(dumps(input_fields, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "fields": [
@@ -790,7 +793,7 @@ def main():
     
     print(dumps(comments, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "case_id": 1234,
@@ -838,25 +841,26 @@ Manage comments reactions.
 ### Usage:
 
 ```python
-from json             import dumps
-from tapi.utils.types import ReactionType
-from tapi             import CaseCommentsReactionsAPI
+from json import dumps
+from tapi import ReactionType
+from tapi import CaseCommentsReactionsAPI
+
 
 def main():
-    DOMAIN  = "my-cool-domain-1234"
+    DOMAIN = "my-cool-domain-1234"
     API_KEY = "do_not_put_this_on_github_lol"
-    
+
     comments_reactions_api = CaseCommentsReactionsAPI(DOMAIN, API_KEY)
-    
+
     reaction = comments_reactions_api.add(
-        case_id    = 1234,
-        comment_id = 5678,
-        value      = ReactionType.PLUS_ONE
+        case_id=1234,
+        comment_id=5678,
+        value=ReactionType.PLUS_ONE
     )
-    
-    print(dumps(comments, indent = 4))
+
+    print(dumps(comments, indent=4))
 ```
-```commandline
+```json
 {
     "body": {
     ...[snip]...
@@ -914,7 +918,7 @@ def main():
     
     print(dumps(case_fields, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "case_id": 1234,
@@ -971,7 +975,7 @@ def main():
     
     print(dumps(files, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "files": [
@@ -1037,7 +1041,7 @@ def main():
     
     print(dumps(linked_cases, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "case_id": 1234,
@@ -1090,7 +1094,7 @@ def main():
     
     print(dumps(metadata, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "case_id": 1234,
@@ -1138,7 +1142,7 @@ def main():
     
     print(dumps(notes, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "case_id": 1234,
@@ -1202,7 +1206,7 @@ def main():
     
     print(dumps(records, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "case_id": 1234,
@@ -1255,7 +1259,7 @@ def main():
     
     print(dumps(subscribers, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "case_id": 1234,
@@ -1317,7 +1321,7 @@ def main():
     
     print(dumps(actions, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "agents": [
@@ -1375,7 +1379,7 @@ def main():
     
     print(dumps(events, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "agents":[...],
@@ -1418,7 +1422,7 @@ def main():
     
     print(dumps(logs, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "action_logs":[...],
@@ -1464,7 +1468,7 @@ def main():
     
     print(dumps(notes, indent = 4))
 ```
-```commandline
+```json
 {
     "body": {
         "annotations":[...],
@@ -1495,26 +1499,81 @@ Pull tenant audit logs.
 ```python
 from json import dumps
 from tapi import AuditLogsAPI
-from tapi.utils.types import AuditLogType
+from tapi import AuditLogType
+
 
 def main():
-    DOMAIN  = "my-cool-domain-1234"
+    DOMAIN = "my-cool-domain-1234"
     API_KEY = "do_not_put_this_on_github_lol"
-    
+
     audit_logs_api = AuditLogsAPI(DOMAIN, API_KEY)
-    
+
     logs = audit_logs_api.list(
-        operation_name = [
+        operation_name=[
             AuditLogType.STORY_CREATION
         ]
     )
-    
-    print(dumps(logs, indent = 4))
+
+    print(dumps(logs, indent=4))
 ```
-```commandline
+```json
 {
     "body": {
         "audit_logs":[...],
+        ...[snip]...
+    },
+    "headers": {...},
+    "status_code": ...,
+}
+```
+
+</details>
+
+
+<details>
+<summary>CredentialsAPI</summary>
+Manage tenant credentials
+
+### Methods
+
+| **Method**             | **Description**                    |
+|------------------------|------------------------------------|
+| `get`                  | Retrieve a credential.             |
+| `update`               | Update a credential.               |
+| `list`                 | Retrieve a list of credentials.    |
+| `delete`               | Delete a credential.               |
+| `create_aws`           | Create a AWS credential.           |
+| `create_http_request`  | Create a HTTP Request credential.  |
+| `create_jwt`           | Create a JWT credential.           |
+| `create_mtls`          | Create a MTLS credential.          |
+| `create_multi_request` | Create a Multi Request credential. |
+| `create_oauth`         | Create a OAUTH credential.         |
+| `create_text`          | Create a TEXT credential.          |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import CredentialsAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    credentials_api = CredentialsAPI(DOMAIN, API_KEY)
+
+    creds = credentials_api.list()
+
+    print(dumps(creds, indent=4))
+```
+```json
+{
+    "body": {
+        "user_credentials":[...],
         ...[snip]...
     },
     "headers": {...},
