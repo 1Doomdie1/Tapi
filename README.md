@@ -1,5 +1,3 @@
-from tapi.utils.types import AuditLogType
-
 # Tapi (Tines API)
 A simple Python wrapper for the Tines API.
 
@@ -55,9 +53,9 @@ there is an easy way of disabling SSL verification in Tapi. Here is how:
 
 ```python
 
-import tapi
+from tapi.utils.http import disable_ssl_verification
 
-tapi.utils.http.disable_ssl_verification()
+disable_ssl_verification()
 ```
 
 ### Classes
@@ -74,13 +72,14 @@ This class is designed to be used as a "parent" class from which all other endpo
 
 ### Subclasses
 
-| **Path**                | **Class**        | **Description**            |
-|-------------------------|------------------|----------------------------|
-| `TenantAPI.cases`       | `CaseAPI`        | Manage cases.              |
-| `TenantAPI.teams`       | `TeamsAPI`       | Manage teams.              |
-| `TenantAPI.stories`     | `StoriesAPI`     | Manage workflows.          |
-| `TenantAPI.audit_logs`  | `AuditLogsAPI`   | Pull tenant logs.          |
-| `TenantAPI.credentials` | `CredentialsAPI` | Manage tenant credentials. |
+| **Path**                | **Class**        | **Description**                   |
+|-------------------------|------------------|-----------------------------------|
+| `TenantAPI.cases`       | `CaseAPI`        | Manage cases.                     |
+| `TenantAPI.teams`       | `TeamsAPI`       | Manage teams.                     |
+| `TenantAPI.events`      | `EventsAPI`      | Manage tenant-wide action events. |
+| `TenantAPI.stories`     | `StoriesAPI`     | Manage workflows.                 |
+| `TenantAPI.audit_logs`  | `AuditLogsAPI`   | Pull tenant logs.                 |
+| `TenantAPI.credentials` | `CredentialsAPI` | Manage tenant credentials.        |
 
 
 ### Usage:
@@ -98,7 +97,7 @@ def main():
     
     print(dumps(cases, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "cases": [
@@ -107,9 +106,9 @@ def main():
                 "name": "My Case Name",
                 "description": "",
                 "status": "OPEN",
-                ...[snip]...
+                //...[snip]...//
             }
-        ...[snip]...
+        //...[snip]...//
         ]
     },
     "headers": {...},
@@ -162,7 +161,7 @@ def main():
     
     print(dumps(stories, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "stories": [
@@ -173,13 +172,13 @@ def main():
                 "keep_events_for": 604800,
                 "disabled": false,
                 "priority": false
-                ...[snip]...
+                //...[snip]...//
             }
-        ...[snip]...
+        //...[snip]...//
         ]
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -217,7 +216,7 @@ def main():
     
     print(dumps(runs, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "story_runs": [
@@ -231,11 +230,11 @@ def main():
                 "event_count": 1,
                 "story_mode": "LIVE"
             },
-            ...[snip]...
+            //...[snip]...//
         ]
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -276,7 +275,7 @@ def main():
     
     print(dumps(versions, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "story_versions": [
@@ -286,11 +285,11 @@ def main():
                 "description": "",
                 "timestamp": "2025-01-27T21:20:00Z"
             },
-            ...[snip]...
+            //...[snip]...//
         ],
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -332,7 +331,7 @@ def main():
     
     print(dumps(teams, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "teams": [
@@ -341,11 +340,11 @@ def main():
                 "name": "My Team",
                 "groups": []
             },
-            ...[snip]...
+            //...[snip]...//
         ],
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -383,7 +382,7 @@ def main():
     
     print(dumps(members, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "members": [
@@ -398,11 +397,11 @@ def main():
                 "invitation_accepted": true,
                 "role": "TEAM_ADMIN"
             },
-            ...[snip]...
+            //...[snip]...//
         ],
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -456,7 +455,7 @@ def main():
     
     print(dumps(cases, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "cases": [
@@ -466,14 +465,15 @@ def main():
                 "description": "",
                 "status": "OPEN",
                 "sub_status": {
-                    "id": 38482,
-                    "name": "To do"
+                  "id": 38482,
+                  "name": "To do"
                 },
-            ...[snip]...
+                //...[snip]...//
+            },
         ],
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -513,7 +513,7 @@ def main():
     
     print(dumps(actions, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "case_id": 1234,
@@ -530,11 +530,11 @@ def main():
                 "created_at": "2025-02-03T18:41:59Z",
                 "updated_at": "2025-02-03T18:41:59Z"
             },
-            ...[snip]...
+            //...[snip]...//
         ],
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -570,7 +570,7 @@ def main():
     
     print(dumps(activities, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "case_id": 26,
@@ -584,17 +584,17 @@ def main():
                     "user_id": "6868",
                     "first_name": "John",
                     "last_name": "Doe",
-                    "email": john@doe.io,
+                    "email": "john@doe.io",
                     "avatar_url": "",
                     "is_service_account": false
                 },
                 "reactions": []
             },
-            ...[snip]...
+            //...[snip]...//
         ],
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -629,15 +629,15 @@ def main():
     
     print(dumps(assignees, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "case_id": 1234,
         "assignees": [...],
-        ...[snip]...
+        //...[snip]...//
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -677,7 +677,7 @@ def main():
     
     print(dumps(inputs, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "case_inputs": [
@@ -698,7 +698,7 @@ def main():
         ],
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -733,7 +733,7 @@ def main():
     
     print(dumps(input_fields, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "fields": [
@@ -751,7 +751,7 @@ def main():
         ],
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -793,7 +793,7 @@ def main():
     
     print(dumps(comments, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "case_id": 1234,
@@ -813,11 +813,11 @@ def main():
                 },
                 "reactions": []
             }
-            ...[snip]...
+            //...[snip]...//
         ],
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -841,9 +841,9 @@ Manage comments reactions.
 ### Usage:
 
 ```python
-from json import dumps
-from tapi import ReactionType
-from tapi import CaseCommentsReactionsAPI
+from json             import dumps
+from tapi.utils.types import ReactionType
+from tapi             import CaseCommentsReactionsAPI
 
 
 def main():
@@ -858,12 +858,11 @@ def main():
         value=ReactionType.PLUS_ONE
     )
 
-    print(dumps(comments, indent=4))
+    print(dumps(reaction, indent=4))
 ```
-```json
+```json5
 {
     "body": {
-    ...[snip]...
         "reactions": [
             {
                 "emoji": ":+1:",
@@ -876,10 +875,10 @@ def main():
                 ]
             }
         ],
-    ...[snip]...
+    //...[snip]...//
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -918,7 +917,7 @@ def main():
     
     print(dumps(case_fields, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "case_id": 1234,
@@ -932,11 +931,11 @@ def main():
                     "name": "Input Name"
                 }
             },
-            ...[snip]...
+            //...[snip]...//
         ],
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -975,7 +974,7 @@ def main():
     
     print(dumps(files, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "files": [
@@ -998,12 +997,12 @@ def main():
                 },
                 "reactions": []
             },
-            ...[snip]...
+            //...[snip]...//
         ],
-        ...[snip]...
+        //...[snip]...//
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -1041,7 +1040,7 @@ def main():
     
     print(dumps(linked_cases, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "case_id": 1234,
@@ -1052,10 +1051,10 @@ def main():
                 "name": "Case 2 link"
             }
         ],
-        ...[snip]...
+        //...[snip]...//
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -1094,7 +1093,7 @@ def main():
     
     print(dumps(metadata, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "case_id": 1234,
@@ -1103,7 +1102,7 @@ def main():
         }
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -1142,7 +1141,7 @@ def main():
     
     print(dumps(notes, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "case_id": 1234,
@@ -1163,12 +1162,12 @@ def main():
                 "created_at": "2025-02-02T20:58:53Z",
                 "updated_at": "2025-02-02T20:58:53Z"
             },
-            ...[snip]...
+            //...[snip]...//
         ],
-        ...[snip]...
+        //...[snip]...//
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -1206,7 +1205,7 @@ def main():
     
     print(dumps(records, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "case_id": 1234,
@@ -1216,12 +1215,12 @@ def main():
                 "record_type_name": "My Record Type",
                 "record_type_record_results": [...]
             },
-            ...[snip]...
+            //...[snip]...//
         ],
-        ...[snip]...
+        //...[snip]...//
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -1259,7 +1258,7 @@ def main():
     
     print(dumps(subscribers, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "case_id": 1234,
@@ -1273,10 +1272,10 @@ def main():
                 "id": 2231
             }
         ],
-        ...[snip]...
+        //...[snip]...//
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -1321,7 +1320,7 @@ def main():
     
     print(dumps(actions, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "agents": [
@@ -1337,13 +1336,13 @@ def main():
                     }
                 },
                 "name": "My Action"
-                ...[snip]...
+                //...[snip]...//
             }
         ],
-        ...[snip]...
+        //...[snip]...//
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -1379,14 +1378,14 @@ def main():
     
     print(dumps(events, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "agents":[...],
-        ...[snip]...
+        //...[snip]...//
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -1422,14 +1421,14 @@ def main():
     
     print(dumps(logs, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "action_logs":[...],
-        ...[snip]...
+        //...[snip]...//
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -1468,14 +1467,14 @@ def main():
     
     print(dumps(notes, indent = 4))
 ```
-```json
+```json5
 {
     "body": {
         "annotations":[...],
-        ...[snip]...
+        //...[snip]...//
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -1497,9 +1496,9 @@ Pull tenant audit logs.
 ### Usage:
 
 ```python
-from json import dumps
-from tapi import AuditLogsAPI
-from tapi import AuditLogType
+from json             import dumps
+from tapi             import AuditLogsAPI
+from tapi.utils.types import AuditLogType
 
 
 def main():
@@ -1516,14 +1515,14 @@ def main():
 
     print(dumps(logs, indent=4))
 ```
-```json
+```json5
 {
     "body": {
         "audit_logs":[...],
-        ...[snip]...
+        //...[snip]...//
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
 }
 ```
 
@@ -1570,14 +1569,60 @@ def main():
 
     print(dumps(creds, indent=4))
 ```
-```json
+```json5
 {
     "body": {
         "user_credentials":[...],
-        ...[snip]...
+        //...[snip]...//
     },
     "headers": {...},
-    "status_code": ...,
+    "status_code": ...
+}
+```
+
+</details>
+
+
+<details>
+<summary>EventsAPI</summary>
+Manage tenant-wide action events
+
+### Methods
+
+| **Method** | **Description**            |
+|------------|----------------------------|
+| `get`      | Retrieve an event.         |
+| `list`     | Retrieve a list of events. |
+| `re_emit`  | Re‑emit an event.          |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import EventsAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    events_api = EventsAPI(DOMAIN, API_KEY)
+
+    events = events_api.list()
+
+    print(dumps(events, indent=4))
+```
+```json5
+{
+    "body": {
+        "events":[...],
+        //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
 }
 ```
 
