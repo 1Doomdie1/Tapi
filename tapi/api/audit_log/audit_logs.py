@@ -1,6 +1,6 @@
-from tapi.api.http.client import Client
-from tapi.utils.types     import AuditLogType
-from typing               import Optional, List
+from tapi.client      import Client
+from tapi.utils.types import AuditLogType
+from typing           import Optional, List
 
 
 class AuditLogsAPI(Client):

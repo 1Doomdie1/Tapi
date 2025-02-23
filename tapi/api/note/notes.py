@@ -1,7 +1,6 @@
-from tapi.api.http.client import Client
-from typing               import Optional, Dict
-
+from tapi.client      import Client
 from tapi.utils.types import StoryMode
+from typing           import Optional, Dict
 
 
 class NotesAPI(Client):

@@ -1,6 +1,5 @@
-from typing               import List
-from typing               import Dict
-from tapi.api.http.client import Client
+from tapi.client import Client
+from typing      import List, Dict
 
 
 class CaseMetadataAPI(Client):

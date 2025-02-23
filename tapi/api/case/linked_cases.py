@@ -1,5 +1,6 @@
-from tapi.api.http.client import Client
-from typing               import List, Optional
+from tapi.client import Client
+from typing      import List, Optional
+
 
 class LinkedCasesAPI(Client):
     def __init__(self, domain, apiKey):

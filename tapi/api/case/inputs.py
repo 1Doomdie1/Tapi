@@ -1,6 +1,6 @@
-from tapi.api.http.client import Client
-from typing               import List, Dict, Optional, Union
-from tapi.utils.types     import CaseInputType, CaseValidationType
+from tapi.client      import Client
+from typing           import List, Dict, Optional, Union
+from tapi.utils.types import CaseInputType, CaseValidationType
 
 
 class CaseInputsAPI(Client):

@@ -1,6 +1,6 @@
-from tapi.api.http.client import Client
-from typing               import Optional
-from tapi.utils.types     import LogSeverityLevel
+from tapi.client      import Client
+from typing           import Optional
+from tapi.utils.types import LogSeverityLevel
 
 
 class ActionLogsAPI(Client):

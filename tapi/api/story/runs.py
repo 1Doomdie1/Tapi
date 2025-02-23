@@ -1,6 +1,6 @@
-from tapi.api.http.client import Client
-from typing               import Optional
-from tapi.utils.types     import StoryMode
+from tapi.client      import Client
+from typing           import Optional
+from tapi.utils.types import StoryMode
 
 
 class RunsAPI(Client):

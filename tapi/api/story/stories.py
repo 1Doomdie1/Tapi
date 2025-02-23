@@ -1,11 +1,11 @@
-from tapi.utils.types     import *
-from tapi.api.http.client import Client
-from .runs                import RunsAPI
-from ..note               import NotesAPI
-from ..action.actions     import ActionsAPI
-from .versions            import VersionsAPI
-from .change_requests     import ChangeRequestAPI
-from typing               import List, Optional, Dict, Any
+from tapi.utils.types import *
+from tapi.client      import Client
+from .runs            import RunsAPI
+from ..note           import NotesAPI
+from ..action.actions import ActionsAPI
+from .versions        import VersionsAPI
+from .change_requests import ChangeRequestAPI
+from typing           import List, Optional, Dict, Any
 
 
 class StoriesAPI(Client):

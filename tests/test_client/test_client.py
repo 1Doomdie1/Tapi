@@ -1,7 +1,8 @@
 import unittest
-from os                   import getenv
-from tapi.api.http.client import Client
-from dotenv               import load_dotenv
+from os          import getenv
+from tapi.client import Client
+from dotenv      import load_dotenv
+
 
 class test_Client(unittest.TestCase):
     def setUp(self):

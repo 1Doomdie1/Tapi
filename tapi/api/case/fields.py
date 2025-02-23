@@ -1,6 +1,5 @@
-from tapi.api.http.client import Client
-from typing               import Union
-
+from tapi.client import Client
+from typing      import Union
 
 
 class CaseFieldsAPI(Client):

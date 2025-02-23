@@ -1,8 +1,8 @@
-from tapi.api.http.client import Client
-from .logs                import ActionLogsAPI
-from .events              import ActionEventsAPI
-from tapi.utils.types     import AgentType, StoryMode
-from typing               import List, Dict, Any, Optional, Union
+from tapi.client      import Client
+from .logs            import ActionLogsAPI
+from .events          import ActionEventsAPI
+from tapi.utils.types import AgentType, StoryMode
+from typing           import List, Dict, Any, Optional, Union
 
 
 class ActionsAPI(Client):
