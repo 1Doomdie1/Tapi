@@ -12,8 +12,8 @@ class TenantAPI(Client):
         super().__init__(domain, apiKey)
         self.cases       = CaseAPI(domain, apiKey)
         self.teams       = TeamsAPI(domain, apiKey)
-        self.stories     = StoriesAPI(domain, apiKey)
         self.events      = EventsAPI(domain, apiKey)
+        self.stories     = StoriesAPI(domain, apiKey)
         self.audit_logs  = AuditLogsAPI(domain, apiKey)
         self.credentials = CredentialsAPI(domain, apiKey)
 
