@@ -1,18 +1,18 @@
-from tapi.utils.types     import *
-from tapi.api.http.client import Client
-from .notes               import CaseNotesAPI
-from .files               import CaseFilesAPI
-from .fields              import CaseFieldsAPI
-from .inputs              import CaseInputsAPI
-from .actions             import CaseActionsAPI
-from .linked_cases        import LinkedCasesAPI
-from .records             import CaseRecordsAPI
-from .metadata            import CaseMetadataAPI
-from .comments            import CaseCommentsAPI
-from .assignees           import CaseAssigneesAPI
-from .activities          import CaseActivitiesAPI
-from .subscribers         import CaseSubscribersAPI
-from typing               import List, Any, Dict, Optional
+from tapi.utils.types import *
+from tapi.client      import Client
+from .notes           import CaseNotesAPI
+from .files           import CaseFilesAPI
+from .fields          import CaseFieldsAPI
+from .inputs          import CaseInputsAPI
+from .actions         import CaseActionsAPI
+from .linked_cases    import LinkedCasesAPI
+from .records         import CaseRecordsAPI
+from .metadata        import CaseMetadataAPI
+from .comments        import CaseCommentsAPI
+from .assignees       import CaseAssigneesAPI
+from .activities      import CaseActivitiesAPI
+from .subscribers     import CaseSubscribersAPI
+from typing           import List, Any, Dict, Optional
 
 
 class CaseAPI(Client):

@@ -1,6 +1,6 @@
-from tapi.utils.types     import Role
-from tapi.api.http.client import Client
-from typing               import Optional
+from tapi.utils.types import Role
+from tapi.client      import Client
+from typing           import Optional
 
 class MembersAPI(Client):
     def __init__(self, domain, apiKey):

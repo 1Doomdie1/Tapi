@@ -1,5 +1,5 @@
-from tapi.api.http.client import Client
-from typing               import Literal, Optional, List, Dict, Any
+from tapi.client import Client
+from typing      import Literal, Optional, List, Dict, Any
 
 
 class CredentialsAPI(Client):

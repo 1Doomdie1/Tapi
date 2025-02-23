@@ -1,6 +1,6 @@
-from tapi.api.http.client import Client
-from tapi.utils.types     import CaseActionType
-from typing               import List, Optional, Dict, Any
+from tapi.client      import Client
+from tapi.utils.types import CaseActionType
+from typing           import List, Optional, Dict, Any
 
 
 class CaseActionsAPI(Client):

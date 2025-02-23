@@ -1,10 +1,10 @@
-from tapi.api.http.client import Client
-from .case                import CaseAPI
-from .team                import TeamsAPI
-from .event               import EventsAPI
-from .story               import StoriesAPI
-from .audit_log           import AuditLogsAPI
-from .credential          import CredentialsAPI
+from tapi.client import Client
+from .case       import CaseAPI
+from .team       import TeamsAPI
+from .event      import EventsAPI
+from .story      import StoriesAPI
+from .audit_log  import AuditLogsAPI
+from .credential import CredentialsAPI
 
 
 class TenantAPI(Client):

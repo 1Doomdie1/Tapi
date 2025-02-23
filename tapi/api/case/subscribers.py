@@ -1,6 +1,5 @@
-from typing               import List
-from tapi.api.http.client import Client
-from typing               import Optional
+from tapi.client import Client
+from typing      import List, Optional
 
 
 class CaseSubscribersAPI(Client):
