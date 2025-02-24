@@ -68,7 +68,7 @@ class ActionsAPI(Client):
             "PUT",
             f"{self.base_endpoint}/{action_id}",
             json = {key: value for key, value in locals().items()
-                    if value is not None and key not in ("self", action_id)}
+                    if value is not None and key not in ("self", "action_id")}
         )
 
     def list(
