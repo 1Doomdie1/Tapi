@@ -1,4 +1,3 @@
-from tapi.utils.types import *
 from tapi.client      import Client
 from .notes           import CaseNotesAPI
 from .files           import CaseFilesAPI
@@ -13,6 +12,7 @@ from .assignees       import CaseAssigneesAPI
 from .activities      import CaseActivitiesAPI
 from .subscribers     import CaseSubscribersAPI
 from typing           import List, Any, Dict, Optional
+from tapi.utils.types import CasePriority, CaseStatus, CaseReturnOrder
 
 
 class CaseAPI(Client):
