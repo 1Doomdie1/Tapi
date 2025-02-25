@@ -1,8 +1,11 @@
 # Tapi (Tines API)
 A simple Python wrapper for the Tines API.
 
+---
 ## ⚠ Disclaimer 
 The library is still under development so major changes and bugs are to be expected. Please feel free to open issues if you encounter any!
+
+---
 ## ⚙️Installation 
 ```bash
 git clone https://github.com/1Doomdie1/Tapi.git
@@ -11,6 +14,7 @@ py -m build -s -w
 pip install .
 ```
 
+---
 ## 🔄 Usage
 
 ### ✨ Using the main `TenantAPI` class
@@ -29,6 +33,7 @@ if __name__ == "__main__":
     main()
 ```
 
+---
 ### 🔧 Using specific endpoint classes
 While the main `TenantAPI` class is convenient, using specific endpoint classes may be preferable in certain scenarios. Each class requires `DOMAIN` and `API_KEY` to be passed explicitly.
 
@@ -47,6 +52,7 @@ if __name__ == "__main__":
     main()
 ```
 
+---
 ### Disabling SSL verification
 There are cases when SSL verification can pose a problem in making a request to Tines REST API, fortunately
 there is an easy way of disabling SSL verification in Tapi. Here is how:
@@ -58,7 +64,8 @@ from tapi.utils.http import disable_ssl_verification
 disable_ssl_verification()
 ```
 
-### Classes
+---
+## Classes
 
 <details>
 <summary>TenantAPI</summary>
