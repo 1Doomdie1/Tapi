@@ -3,6 +3,7 @@ A simple Python wrapper for the Tines API.
 
 ## ⚠ Disclaimer 
 The library is still under development so major changes and bugs are to be expected. Please feel free to open issues if you encounter any!
+
 ## ⚙️Installation 
 ```bash
 git clone https://github.com/1Doomdie1/Tapi.git
@@ -58,7 +59,7 @@ from tapi.utils.http import disable_ssl_verification
 disable_ssl_verification()
 ```
 
-### Classes
+## Classes
 
 <details>
 <summary>TenantAPI</summary>
@@ -78,6 +79,7 @@ This class is designed to be used as a "parent" class from which all other endpo
 | `TenantAPI.teams`       | `TeamsAPI`       | Manage teams.                     |
 | `TenantAPI.events`      | `EventsAPI`      | Manage tenant-wide action events. |
 | `TenantAPI.stories`     | `StoriesAPI`     | Manage workflows.                 |
+| `TenantAPI.folders`     | `FoldersAPI`     | Manage folders.                   |
 | `TenantAPI.audit_logs`  | `AuditLogsAPI`   | Pull tenant logs.                 |
 | `TenantAPI.credentials` | `CredentialsAPI` | Manage tenant credentials.        |
 
@@ -1619,6 +1621,54 @@ def main():
 {
     "body": {
         "events":[...],
+        //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+
+<details>
+<summary>FoldersAPI</summary>
+Manage folders
+
+### Methods
+
+| **Method** | **Description**             |
+|------------|-----------------------------|
+| `create`   | Create a folder.            |
+| `get`      | Retrieve a single folder.   |
+| `udpate`   | Update a folder.            |
+| `list`     | Retrieve a list of folders. |
+| `delete`   | Delete a folder.            |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import FoldersAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    folders_api = FoldersAPI(DOMAIN, API_KEY)
+
+    folders = folders_api.list()
+
+    print(dumps(folders, indent=4))
+```
+```json5
+{
+    "body": {
+        "folders":[...],
         //...[snip]...//
     },
     "headers": {...},
