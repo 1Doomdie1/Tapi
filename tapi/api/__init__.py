@@ -3,6 +3,7 @@ from .team       import *
 from .note       import *
 from .story      import *
 from .event      import *
+from .folder     import *
 from .action     import *
 from .audit_log  import *
 from .credential import *
@@ -24,6 +25,8 @@ __all__ = [
     "CredentialsAPI",
 
     "EventsAPI",
+
+    "FoldersAPI",
 
     "StoriesAPI", "ChangeRequestAPI", "RunsAPI", "VersionsAPI",
     "TeamsAPI", "MembersAPI"
