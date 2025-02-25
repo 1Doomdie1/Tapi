@@ -1,5 +1,5 @@
 import urllib3
-from   tapi.api.http.client import Client
+from tapi.client import Client
 
 
 def disable_ssl_verification(supress_warnings: bool = True) -> None:
