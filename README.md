@@ -53,13 +53,12 @@ There are cases when SSL verification can pose a problem in making a request to 
 there is an easy way of disabling SSL verification in Tapi. Here is how:
 
 ```python
-
 from tapi.utils.http import disable_ssl_verification
 
 disable_ssl_verification()
 ```
 
-## Classes
+## Endpoint Classes
 
 <details>
 <summary>TenantAPI</summary>
@@ -80,6 +79,7 @@ This class is designed to be used as a "parent" class from which all other endpo
 | `TenantAPI.events`      | `EventsAPI`      | Manage tenant-wide action events. |
 | `TenantAPI.stories`     | `StoriesAPI`     | Manage workflows.                 |
 | `TenantAPI.folders`     | `FoldersAPI`     | Manage folders.                   |
+| `TenantAPI.resources`   | `ResourcesAPI`   | Manage resources.                 |
 | `TenantAPI.audit_logs`  | `AuditLogsAPI`   | Pull tenant logs.                 |
 | `TenantAPI.credentials` | `CredentialsAPI` | Manage tenant credentials.        |
 
@@ -1677,3 +1677,55 @@ def main():
 ```
 
 </details>
+
+
+<details>
+<summary>ResourcesAPI</summary>
+Manage resources
+
+### Methods
+
+| **Method**        | **Description**                                                                |
+|-------------------|--------------------------------------------------------------------------------|
+| `create`          | Create a resource (text or json).                                              |
+| `get`             | Retrieve a resource.                                                           |
+| `udpate`          | Update a resource.                                                             |
+| `list`            | Retrieve a list of resources.                                                  |
+| `delete`          | Delete a resource.                                                             |
+| `remove_element`  | Remove a top level element from an array or key from an object in a resource.  |
+| `append_element`  | Append a string or an array to a resource.                                     |
+| `replace_element` | Replace a top level element from an array or key from an object in a resource. |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import ResourcesAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    resources_api = ResourcesAPI(DOMAIN, API_KEY)
+
+    resources = resources_api.list()
+
+    print(dumps(resources, indent=4))
+```
+```json5
+{
+    "body": {
+        "global_resources":[...],
+        //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+

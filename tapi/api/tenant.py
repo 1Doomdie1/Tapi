@@ -4,6 +4,7 @@ from .team       import TeamsAPI
 from .event      import EventsAPI
 from .story      import StoriesAPI
 from .folder     import FoldersAPI
+from .resource   import ResourcesAPI
 from .audit_log  import AuditLogsAPI
 from .credential import CredentialsAPI
 
@@ -16,6 +17,7 @@ class TenantAPI(Client):
         self.events      = EventsAPI(domain, apiKey)
         self.stories     = StoriesAPI(domain, apiKey)
         self.folders     = FoldersAPI(domain, apiKey)
+        self.resources   = ResourcesAPI(domain, apiKey)
         self.audit_logs  = AuditLogsAPI(domain, apiKey)
         self.credentials = CredentialsAPI(domain, apiKey)
 
