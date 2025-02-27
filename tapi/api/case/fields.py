@@ -1,9 +1,8 @@
-from tapi.client import Client
 from typing      import Union
+from tapi.client import Client
 
 
 class CaseFieldsAPI(Client):
-
     def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
         self.base_endpoint = "cases"

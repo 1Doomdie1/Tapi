@@ -1,6 +1,6 @@
 from tapi.client      import Client
-from typing           import Optional
 from tapi.utils.types import CaseNoteColor
+from typing           import Optional, Union
 
 
 class CaseNotesAPI(Client):
@@ -12,9 +12,9 @@ class CaseNotesAPI(Client):
             self,
             case_id:  int,
             title:    str,
-            content:  Optional[str]           = None,
-            color:    Optional[CaseNoteColor] = None,
-            position: Optional[int]           = None
+            content:  Optional[str]                       = None,
+            color:    Optional[Union[CaseNoteColor, str]] = None,
+            position: Optional[int]                       = None
     ):
         return self._http_request(
             "POST",
@@ -39,10 +39,10 @@ class CaseNotesAPI(Client):
             self,
             case_id:  int,
             note_id:  int,
-            title:    Optional[str]           = None,
-            content:  Optional[str]           = None,
-            color:    Optional[CaseNoteColor] = None,
-            position: Optional[int]           = None
+            title:    Optional[str]                       = None,
+            content:  Optional[str]                       = None,
+            color:    Optional[Union[CaseNoteColor, str]] = None,
+            position: Optional[int]                       = None
     ):
         return self._http_request(
             "PUT",

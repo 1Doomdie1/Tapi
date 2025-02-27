@@ -1,6 +1,7 @@
 from enum   import IntEnum, StrEnum
 from typing import TypedDict, Union, Dict, Any
 
+
 class KeepEventsFor(IntEnum):
     ONE_HOUR                      = 3600
     SIX_HOURS                     = 21600

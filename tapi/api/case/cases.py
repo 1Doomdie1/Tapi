@@ -11,7 +11,7 @@ from .comments        import CaseCommentsAPI
 from .assignees       import CaseAssigneesAPI
 from .activities      import CaseActivitiesAPI
 from .subscribers     import CaseSubscribersAPI
-from typing           import List, Any, Dict, Optional
+from typing           import List, Any, Dict, Optional, Union
 from tapi.utils.types import CasePriority, CaseStatus, CaseReturnOrder
 
 
@@ -37,8 +37,8 @@ class CaseAPI(Client):
             team_id:            int,
             name:               str,
             description:        Optional[str]                  = None,
-            priority:           Optional[CasePriority]         = CasePriority.LOW,
-            status:             Optional[CaseStatus]           = CaseStatus.OPEN,
+            priority:           Union[CasePriority, str]       = CasePriority.LOW,
+            status:             Union[CaseStatus, str]         = CaseStatus.OPEN,
             sub_status_id:      Optional[int]                  = None,
             author_email:       Optional[str]                  = None,
             assignee_emails:    Optional[List[str]]            = None,
@@ -80,21 +80,21 @@ class CaseAPI(Client):
     def update(
             self,
             case_id:                int,
-            name:                   Optional[str]                  = None,
-            team_id:                Optional[int]                  = None,
-            description:            Optional[str]                  = None,
-            priority:               Optional[CasePriority]         = None,
-            status:                 Optional[CaseStatus]           = None,
-            sub_status_id:          Optional[int]                  = None,
-            author_email:           Optional[str]                  = None,
-            assignee_emails:        Optional[List[str]]            = None,
-            add_assignee_emails:    Optional[List[str]]            = None,
-            remove_assignee_emails: Optional[List[str]]            = None,
-            add_tag_names:          Optional[List[str]]            = None,
-            remove_tag_names:       Optional[List[str]]            = None,
-            opened_at:              Optional[str]                  = None,
-            resolved_at:            Optional[str]                  = None,
-            closure_conditions:     Optional[List[Dict[str, Any]]] = None
+            name:                   Optional[str]                      = None,
+            team_id:                Optional[int]                      = None,
+            description:            Optional[str]                      = None,
+            priority:               Optional[Union[CasePriority, str]] = None,
+            status:                 Optional[Union[CaseStatus, str]]   = None,
+            sub_status_id:          Optional[int]                      = None,
+            author_email:           Optional[str]                      = None,
+            assignee_emails:        Optional[List[str]]                = None,
+            add_assignee_emails:    Optional[List[str]]                = None,
+            remove_assignee_emails: Optional[List[str]]                = None,
+            add_tag_names:          Optional[List[str]]                = None,
+            remove_tag_names:       Optional[List[str]]                = None,
+            opened_at:              Optional[str]                      = None,
+            resolved_at:            Optional[str]                      = None,
+            closure_conditions:     Optional[List[Dict[str, Any]]]     = None
         ):
         return self._http_request(
             "PUT",
@@ -106,11 +106,11 @@ class CaseAPI(Client):
 
     def list(
             self,
-            team_id:  Optional[int]             = None,
-            filters:  Optional[Dict[str, Any]]  = None,
-            order:    Optional[CaseReturnOrder] = None,
-            per_page: int                       = 10,
-            page:     int                       = 1
+            team_id:  Optional[int]                         = None,
+            filters:  Optional[Dict[str, Any]]              = None,
+            order:    Optional[Union[CaseReturnOrder, str]] = None,
+            per_page: int                                   = 10,
+            page:     int                                   = 1
         ):
         return self._http_request(
             "GET",

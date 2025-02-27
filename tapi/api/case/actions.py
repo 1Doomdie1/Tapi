@@ -1,6 +1,6 @@
 from tapi.client      import Client
 from tapi.utils.types import CaseActionType
-from typing           import List, Optional, Dict, Any
+from typing           import List, Optional, Dict, Any, Union
 
 
 class CaseActionsAPI(Client):
@@ -13,7 +13,7 @@ class CaseActionsAPI(Client):
             case_id:     int,
             url:         str,
             label:       str,
-            action_type: CaseActionType,
+            action_type: Union[CaseActionType, str],
             action_text: Optional[str] = None
     ):
         return self._http_request(
@@ -39,10 +39,10 @@ class CaseActionsAPI(Client):
             self,
             case_id:     int,
             id:          int,
-            url:         Optional[str]            = None,
-            label:       Optional[str]            = None,
-            action_type: Optional[CaseActionType] = None,
-            action_text: Optional[str]            = None
+            url:         Optional[str]                        = None,
+            label:       Optional[str]                        = None,
+            action_type: Optional[Union[CaseActionType, str]] = None,
+            action_text: Optional[str]                        = None
     ):
         return self._http_request(
             "PUT",

@@ -4,7 +4,7 @@ from typing      import Optional, Dict, List, Union, Any, Literal
 
 class ResourcesAPI(Client):
 
-    def __init__(self, domain: str,apiKey: str):
+    def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
         self.base_endpoint = "global_resources"
 

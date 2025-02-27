@@ -14,7 +14,7 @@ class Client:
             self, 
             method:      str,
             endpoint:    str,
-            api_version: Optional[str] = "v1",
+            api_version: str = "v1",
             **kwargs
         ) -> HTTPResponse:
         url = f"https://{self.domain}.tines.com/api/{api_version}/{endpoint}"
@@ -36,7 +36,10 @@ class Client:
                 "status_code": 500
             }
 
-    def _parse_body(self, response: Response) -> Union[Dict[str, Any], str, bytes]:
+    def _parse_body(
+            self,
+            response: Response
+    ) -> Union[Dict[str, Any], str, bytes]:
         content_type = response.headers.get("Content-Type", "")
 
         if "application/json" in content_type:

@@ -45,10 +45,10 @@ class FoldersAPI(Client):
 
     def list(
             self,
-            team_id:      Optional[int]                                        = None,
-            content_type: Optional[Literal["CREDENTIAL", "RESOURCE", "STORY"]] = None,
-            per_page:     int                                                  = 10,
-            page:         int                                                  = 1
+            team_id:      Optional[int]                              = None,
+            content_type: Literal["CREDENTIAL", "RESOURCE", "STORY"] = "STORY",
+            per_page:     int                                        = 10,
+            page:         int                                        = 1
     ):
         return self._http_request(
             "GET",

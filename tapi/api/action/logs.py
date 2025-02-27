@@ -1,5 +1,5 @@
 from tapi.client      import Client
-from typing           import Optional
+from typing           import Optional, Union
 from tapi.utils.types import LogSeverityLevel
 
 
@@ -11,9 +11,9 @@ class ActionLogsAPI(Client):
     def list(
             self,
             action_id: int,
-            level:     Optional[LogSeverityLevel] = None,
-            per_page:  int                        = 10,
-            page:      int                        = 1
+            level:     Optional[Union[LogSeverityLevel, str]] = None,
+            per_page:  int                                    = 10,
+            page:      int                                    = 1
     ):
         return self._http_request(
             "GET",
@@ -25,7 +25,7 @@ class ActionLogsAPI(Client):
     def delete(
             self,
             action_id:      int,
-            async_deletion: Optional[bool] = True
+            async_deletion: bool = True
     ):
         return self._http_request(
             "DELETE",

@@ -1,5 +1,5 @@
+from typing      import List
 from tapi.client import Client
-from typing      import List, Optional
 
 
 class LinkedCasesAPI(Client):

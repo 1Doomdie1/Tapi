@@ -1,5 +1,5 @@
 from tapi.client      import Client
-from typing           import Optional
+from typing           import Optional, Union
 from tapi.utils.types import CaseActivityType
 
 
@@ -22,9 +22,9 @@ class CaseActivitiesAPI(Client):
     def list(
             self,
             case_id:       int,
-            activity_type: Optional[CaseActivityType] = None,
-            per_page:      int                        = 10,
-            page:          int                        = 1
+            activity_type: Optional[Union[CaseActivityType, str]] = None,
+            per_page:      int                                    = 10,
+            page:          int                                    = 1
     ):
         return self._http_request(
             "GET",

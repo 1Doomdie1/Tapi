@@ -1,6 +1,7 @@
 from tapi.utils.types import Role
 from tapi.client      import Client
-from typing           import Optional
+from typing           import Optional, Union
+
 
 class MembersAPI(Client):
     def __init__(self, domain, apiKey):
@@ -33,9 +34,9 @@ class MembersAPI(Client):
     def invite(
             self,
             team_id: int,
-            email:   Optional[str]  = None,
-            user_id: Optional[int]  = None,
-            role:    Optional[Role] = Role.VIEWER
+            email:   Optional[str]    = None,
+            user_id: Optional[int]    = None,
+            role:    Union[Role, str] = Role.VIEWER
     ):
         if email and user_id:
             raise ValueError("Invalid input: Provide either 'email' or 'user_id', not both.")

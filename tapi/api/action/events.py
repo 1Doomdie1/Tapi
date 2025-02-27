@@ -24,7 +24,7 @@ class ActionEventsAPI(Client):
     def delete(
             self,
             action_id:      int,
-            async_deletion: Optional[bool] = True
+            async_deletion: bool = True
     ):
         return self._http_request(
             "DELETE",
