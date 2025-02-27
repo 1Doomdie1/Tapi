@@ -81,11 +81,11 @@ class StoriesAPI(Client):
             self,
             team_id:   Optional[int]                = None,
             folder_id: Optional[int]                = None,
-            per_page:  Optional[int]                = 10,
-            page:      Optional[int]                = 1,
             tags:      Optional[List[str]]          = None,
             filter:    Optional[Filter]             = None,
             order:     Optional[StoriesReturnOrder] = None,
+            per_page:  int                          = 10,
+            page:      int                          = 1
         ):
         return self._http_request(
             "GET",

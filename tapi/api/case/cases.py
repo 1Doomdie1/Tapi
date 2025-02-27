@@ -109,8 +109,8 @@ class CaseAPI(Client):
             team_id:  Optional[int]             = None,
             filters:  Optional[Dict[str, Any]]  = None,
             order:    Optional[CaseReturnOrder] = None,
-            per_page: Optional[int]             = 10,
-            page:     Optional[int]             = 1
+            per_page: int                       = 10,
+            page:     int                       = 1
         ):
         return self._http_request(
             "GET",

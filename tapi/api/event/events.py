@@ -25,8 +25,8 @@ class EventsAPI(Client):
             team_id:        Optional[int]  = None,
             story_id:       Optional[int]  = None,
             include_groups: Optional[bool] = None,
-            per_page:       Optional[int]  = None,
-            page:           Optional[int]  = None,
+            per_page:       int            = 10,
+            page:           int            = 1,
     ):
         return self._http_request(
             "GET",

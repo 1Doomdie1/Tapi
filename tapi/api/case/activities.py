@@ -23,8 +23,8 @@ class CaseActivitiesAPI(Client):
             self,
             case_id:       int,
             activity_type: Optional[CaseActivityType] = None,
-            per_page:      Optional[int]              = 10,
-            page:          Optional[int]              = 1
+            per_page:      int                        = 10,
+            page:          int                        = 1
     ):
         return self._http_request(
             "GET",

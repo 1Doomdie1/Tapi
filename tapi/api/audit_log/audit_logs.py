@@ -15,8 +15,8 @@ class AuditLogsAPI(Client):
             after:          Optional[int]                = None,
             user_id:        Optional[List[int]]          = None,
             operation_name: Optional[List[AuditLogType]] = None,
-            per_page:       Optional[int]                = 10,
-            page:           Optional[int]                = 1
+            per_page:       int                          = 10,
+            page:           int                          = 1
     ):
         return self._http_request(
             "GET",
