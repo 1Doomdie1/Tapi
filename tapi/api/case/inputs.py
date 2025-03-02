@@ -12,9 +12,9 @@ class CaseInputsAPI(Client):
     def create(
             self,
             name:               str,
-            input_type:         CaseInputType,
+            input_type:         Union[CaseInputType, str],
             team_id:            int,
-            validation_type:    Optional[CaseValidationType]                          = None,
+            validation_type:    Optional[Union[CaseValidationType, str]]              = None,
             validation_options: Optional[Union[Dict[str, List[str]], Dict[str, str]]] = None
     ):
         return self._http_request(
@@ -36,8 +36,8 @@ class CaseInputsAPI(Client):
     def list(
             self,
             team_id:  Optional[int] = None,
-            per_page: Optional[int] = 10,
-            page:     Optional[int] = 1,
+            per_page: int           = 10,
+            page:     int           = 1,
     ):
         return self._http_request(
             "GET",

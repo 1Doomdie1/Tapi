@@ -1,7 +1,6 @@
 from tapi.client      import Client
-from typing           import Optional
 from tapi.utils.types import ReactionType
-
+from typing           import Optional, Union
 
 
 class CaseCommentsAPI(Client):
@@ -50,8 +49,8 @@ class CaseCommentsAPI(Client):
     def list(
             self,
             case_id:  int,
-            per_page: Optional[int] = 10,
-            page:     Optional[int] = 1
+            per_page: int = 10,
+            page:     int = 1
     ):
         return self._http_request(
             "GET",
@@ -80,7 +79,7 @@ class CaseCommentsReactionsAPI(Client):
             self,
             case_id:    int,
             comment_id: int,
-            value:      ReactionType
+            value:      Union[ReactionType, str]
     ):
         return self._http_request(
             "POST",
@@ -93,7 +92,7 @@ class CaseCommentsReactionsAPI(Client):
             self,
             case_id:    int,
             comment_id: int,
-            value:      ReactionType
+            value:      Union[ReactionType, str]
     ):
         return self._http_request(
             "DELETE",

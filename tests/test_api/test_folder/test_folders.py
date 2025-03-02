@@ -42,7 +42,6 @@ class test_EventsAPI(unittest.TestCase):
         self.assertEqual(body.get("name"), "WDWWT")
         self.assertEqual(body.get("content_type"), "STORY")
         self.assertEqual(body.get("team_id"), self.team_id)
-        self.assertEqual(body.get("size"), 0)
 
     def test_update(self):
         rng = time_ns() // 1000

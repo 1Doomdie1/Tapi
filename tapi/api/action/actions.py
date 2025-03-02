@@ -6,8 +6,7 @@ from typing           import List, Dict, Any, Optional, Union
 
 
 class ActionsAPI(Client):
-
-    def __init__(self, domain: str,apiKey: str):
+    def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
         self.base_endpoint = "actions"
         self.logs   = ActionLogsAPI(domain, apiKey)
@@ -22,14 +21,14 @@ class ActionsAPI(Client):
             story_id:                  Optional[int]                              = None,
             group_id:                  Optional[int]                              = None,
             description:               Optional[str]                              = None,
-            disabled:                  Optional[bool]                             = False,
+            disabled:                  bool                                       = False,
             source_ids:                Optional[List[int]]                        = None,
             links_to_sources:          Optional[List[Dict[str, Union[str, int]]]] = None,
             receiver_ids:              Optional[List[int]]                        = None,
             links_to_receivers:        Optional[List[Dict[str, Union[str, int]]]] = None,
             schedule:                  Optional[List[Dict[str, str]]]             = None,
-            monitor_failures:          Optional[bool]                             = True,
-            monitor_all_events:        Optional[bool]                             = False,
+            monitor_failures:          bool                                       = True,
+            monitor_all_events:        bool                                       = False,
             monitor_no_events_emitted: Optional[int]                              = None
     ):
         return self._http_request(
@@ -73,12 +72,12 @@ class ActionsAPI(Client):
 
     def list(
             self,
-            story_id:   Optional[int]       = None,
-            story_mode: Optional[StoryMode] = None,
-            team_id:    Optional[int]       = None,
-            group_id:   Optional[int]       = None,
-            per_page:   Optional[int]       = 10,
-            page:       Optional[int]       = 1
+            story_id:   Optional[int]                   = None,
+            story_mode: Optional[Union[StoryMode, str]] = None,
+            team_id:    Optional[int]                   = None,
+            group_id:   Optional[int]                   = None,
+            per_page:   int                             = 10,
+            page:       int                             = 1
     ):
         return self._http_request(
             "GET",

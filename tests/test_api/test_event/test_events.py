@@ -10,6 +10,7 @@ class test_EventsAPI(unittest.TestCase):
         self.event_action_id = int(getenv("EVENT_ACTION_ID"))
         self.events_api      = EventsAPI(getenv("DOMAIN"), getenv("API_KEY"))
 
+    @unittest.skip("I need to replace this every 7 days with a new event ID")
     def test_get(self):
         resp = self.events_api.get(
             event_id = self.event_id
@@ -29,6 +30,7 @@ class test_EventsAPI(unittest.TestCase):
         self.assertEqual(resp.get("status_code"), 200)
         self.assertEqual(type(body.get("events")), list)
 
+    @unittest.skip("This needs to have a valid event id, which needs to be created manually")
     def test_re_emit(self):
         resp = self.events_api.re_emit(
             event_id = self.event_id

@@ -9,12 +9,7 @@ from typing           import List, Optional, Dict, Any
 
 
 class StoriesAPI(Client):
-
-    def __init__(
-            self,
-            domain: str,
-            apiKey: str
-    ):
+    def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
         self.base_endpoint  = "stories"
         self.runs           = RunsAPI(domain, apiKey)
@@ -26,13 +21,13 @@ class StoriesAPI(Client):
     def create(
             self,
             team_id:         int,
-            name:            Optional[str]           = None,
-            description:     Optional[str]           = None,
-            keep_events_for: Optional[KeepEventsFor] = KeepEventsFor.ONE_DAY,
-            folder_id:       Optional[int]           = None,
-            tags:            Optional[List[str]]     = None,
-            disabled:        Optional[bool]          = False,
-            priority:        Optional[bool]          = False
+            name:            Optional[str]             = None,
+            description:     Optional[str]             = None,
+            keep_events_for: Union[KeepEventsFor, int] = KeepEventsFor.ONE_DAY,
+            folder_id:       Optional[int]             = None,
+            tags:            Optional[List[str]]       = None,
+            disabled:        bool                      = False,
+            priority:        bool                      = False
         ):
         return self._http_request(
             "POST",
@@ -43,7 +38,7 @@ class StoriesAPI(Client):
     def get(
             self,
             story_id:   int,
-            story_mode: Optional[StoryMode] = StoryMode.ALL
+            story_mode: Union[StoryMode, str] = StoryMode.ALL
         ):
         return self._http_request(
             "GET",
@@ -54,22 +49,22 @@ class StoriesAPI(Client):
     def update(
             self,
             story_id:                                      int,
-            name:                                          Optional[str]                     = None,
-            description:                                   Optional[str]                     = None,
-            add_tag_names:                                 Optional[List[str]]               = None,
-            remove_tag_names:                              Optional[List[str]]               = None,
-            keep_events_for:                               Optional[KeepEventsFor]           = None,
-            disabled:                                      Optional[bool]                    = None,
-            locked:                                        Optional[bool]                    = None,
-            priority:                                      Optional[bool]                    = None,
-            send_to_story_access_source:                   Optional[SendToStoryAccessSource] = None,
-            send_to_story_access:                          Optional[SendToStoryAccess]       = None,
-            send_to_story_skill_use_requires_confirmation: Optional[bool]                    = None,
-            entry_agent_id:                                Optional[int]                     = None,
-            exit_agent_ids:                                Optional[int]                     = None,
-            team_id:                                       Optional[int]                     = None,
-            folder_id:                                     Optional[int]                     = None,
-            change_control_enabled:                        Optional[bool]                    = None,
+            name:                                          Optional[str]                                 = None,
+            description:                                   Optional[str]                                 = None,
+            add_tag_names:                                 Optional[List[str]]                           = None,
+            remove_tag_names:                              Optional[List[str]]                           = None,
+            keep_events_for:                               Optional[Union[KeepEventsFor, str]]           = None,
+            disabled:                                      Optional[bool]                                = None,
+            locked:                                        Optional[bool]                                = None,
+            priority:                                      Optional[bool]                                = None,
+            send_to_story_access_source:                   Optional[Union[SendToStoryAccessSource, str]] = None,
+            send_to_story_access:                          Optional[Union[SendToStoryAccess, str]]       = None,
+            send_to_story_skill_use_requires_confirmation: Optional[bool]                                = None,
+            entry_agent_id:                                Optional[int]                                 = None,
+            exit_agent_ids:                                Optional[int]                                 = None,
+            team_id:                                       Optional[int]                                 = None,
+            folder_id:                                     Optional[int]                                 = None,
+            change_control_enabled:                        Optional[bool]                                = None,
         ):
         return self._http_request(
             "PUT",
@@ -79,13 +74,13 @@ class StoriesAPI(Client):
 
     def list(
             self,
-            team_id:   Optional[int]                = None,
-            folder_id: Optional[int]                = None,
-            per_page:  Optional[int]                = 10,
-            page:      Optional[int]                = 1,
-            tags:      Optional[List[str]]          = None,
-            filter:    Optional[Filter]             = None,
-            order:     Optional[StoriesReturnOrder] = None,
+            team_id:   Optional[int]                            = None,
+            folder_id: Optional[int]                            = None,
+            tags:      Optional[List[str]]                      = None,
+            filter:    Optional[Union[Filter, str]]             = None,
+            order:     Optional[Union[StoriesReturnOrder, str]] = None,
+            per_page:  int                                      = 10,
+            page:      int                                      = 1
         ):
         return self._http_request(
             "GET",
@@ -115,7 +110,7 @@ class StoriesAPI(Client):
     def export(
             self,
             story_id:       int,
-            randomize_urls: Optional[bool] = True
+            randomize_urls: bool = True
         ):
         return self._http_request(
             "GET",
@@ -128,8 +123,8 @@ class StoriesAPI(Client):
             new_name:  str,
             data:      Dict[str, Any],
             team_id:   int,
-            folder_id: Optional[str]  = None,
-            mode:      Optional[Mode] = Mode.NEW
+            folder_id: Optional[str]    = None,
+            mode:      Union[Mode, str] = Mode.NEW
         ):
         return self._http_request(
             "POST",

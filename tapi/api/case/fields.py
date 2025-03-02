@@ -1,9 +1,8 @@
-from tapi.client import Client
 from typing      import Union
+from tapi.client import Client
 
 
 class CaseFieldsAPI(Client):
-
     def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
         self.base_endpoint = "cases"
@@ -48,8 +47,8 @@ class CaseFieldsAPI(Client):
     def list(
             self,
             case_id:  int,
-            per_page: Union[int] = 10,
-            page:     Union[int] = 1
+            per_page: int = 10,
+            page:     int = 1
     ):
         return self._http_request(
             "GET",

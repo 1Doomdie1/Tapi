@@ -5,6 +5,7 @@ from .story      import *
 from .event      import *
 from .folder     import *
 from .action     import *
+from .resource   import *
 from .audit_log  import *
 from .credential import *
 from .tenant     import TenantAPI
@@ -27,6 +28,8 @@ __all__ = [
     "EventsAPI",
 
     "FoldersAPI",
+
+    "ResourcesAPI",
 
     "StoriesAPI", "ChangeRequestAPI", "RunsAPI", "VersionsAPI",
     "TeamsAPI", "MembersAPI"

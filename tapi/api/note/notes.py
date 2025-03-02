@@ -1,11 +1,10 @@
 from tapi.client      import Client
 from tapi.utils.types import StoryMode
-from typing           import Optional, Dict
+from typing           import Optional, Dict, Union
 
 
 class NotesAPI(Client):
-
-    def __init__(self, domain: str,apiKey: str):
+    def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
         self.base_endpoint = "notes"
 
@@ -53,13 +52,13 @@ class NotesAPI(Client):
 
     def list(
             self,
-            story_id: Optional[int]       = None,
-            mode:     Optional[StoryMode] = None,
-            team_id:  Optional[int]       = None,
-            group_id: Optional[int]       = None,
-            draft_id: Optional[int]       = None,
-            per_page: Optional[int]       = 10,
-            page:     Optional[int]       = 1
+            story_id: Optional[int]                   = None,
+            mode:     Optional[Union[StoryMode, str]] = None,
+            team_id:  Optional[int]                   = None,
+            group_id: Optional[int]                   = None,
+            draft_id: Optional[int]                   = None,
+            per_page: int                             = 10,
+            page:     int                             = 1
     ):
         return self._http_request(
             "GET",

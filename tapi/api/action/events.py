@@ -12,8 +12,8 @@ class ActionEventsAPI(Client):
             action_id: Optional[int] = None,
             since_id:  Optional[int] = None,
             until_id:  Optional[int] = None,
-            per_page:  Optional[int] = 10,
-            page:      Optional[int] = 1
+            per_page:  int           = 10,
+            page:      int           = 1
     ):
         return self._http_request(
             "GET",
@@ -24,7 +24,7 @@ class ActionEventsAPI(Client):
     def delete(
             self,
             action_id:      int,
-            async_deletion: Optional[bool] = True
+            async_deletion: bool = True
     ):
         return self._http_request(
             "DELETE",

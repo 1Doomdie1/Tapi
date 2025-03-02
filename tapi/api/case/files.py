@@ -42,8 +42,8 @@ class CaseFilesAPI(Client):
     def list(
             self,
             case_id:  int,
-            per_page: Optional[int] = 10,
-            page:     Optional[int] = 1
+            per_page: int = 10,
+            page:     int = 1
     ):
         return self._http_request(
             "GET",

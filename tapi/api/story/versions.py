@@ -3,11 +3,7 @@ from typing      import Optional
 
 
 class VersionsAPI(Client):
-    def __init__(
-            self,
-            domain: str,
-            apiKey: str
-    ):
+    def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
         self.base_endpoint = "stories"
 
@@ -48,8 +44,8 @@ class VersionsAPI(Client):
     def list(
             self,
             story_id: int,
-            per_page: Optional[int] = 10,
-            page:     Optional[int] = 1,
+            per_page: int = 10,
+            page:     int = 1,
     ):
         return self._http_request(
             "GET",
