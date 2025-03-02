@@ -1,7 +1,7 @@
 from tapi.utils.types import HTTPResponse
-from typing           import Optional, Union, Dict, Any
+from json             import JSONDecodeError
+from typing           import Union, Dict, Any
 from requests         import request, RequestException, Response
-
 
 class Client:
     verify_ssl: bool = True
@@ -43,7 +43,10 @@ class Client:
         content_type = response.headers.get("Content-Type", "")
 
         if "application/json" in content_type:
-            body = response.json()
+            try:
+                body = response.json()
+            except JSONDecodeError:
+                body = response.text
         elif "application/pdf" in content_type:
             body = response.content
         else:
