@@ -3,7 +3,6 @@ from typing      import Optional, Dict, List, Union, Any, Literal
 
 
 class ResourcesAPI(Client):
-
     def __init__(self, domain, apiKey):
         super().__init__(domain, apiKey)
         self.base_endpoint = "global_resources"
@@ -11,8 +10,8 @@ class ResourcesAPI(Client):
     def create(
             self,
             name:              str,
-            value:             Union[str, Dict[str, Any], List[Dict[str, Any]]],
-            team_id:           Optional[int]                               = None,
+            value:             Union[str, Dict[str, Any], List[Union[int, str, Dict[str, Any]]]],
+            team_id:           int                                         = None,
             folder_id:         Optional[int]                               = None,
             read_access:       Literal["TEAM", "GLOBAL", "SPECIFIC_TEAMS"] = "TEAM",
             shared_team_slugs: Optional[List[str]]                         = None,
@@ -20,7 +19,7 @@ class ResourcesAPI(Client):
             live_resource_id:  Optional[int]                               = None,
 
     ):
-        self._http_request(
+        return self._http_request(
             "POST",
             self.base_endpoint,
             json = {key: value for key, value in locals().items() if value is not None and key != "self"}
@@ -30,7 +29,7 @@ class ResourcesAPI(Client):
             self,
             resource_id: int
     ):
-        self._http_request(
+        return self._http_request(
             "GET",
             f"{self.base_endpoint}/{resource_id}"
         )
