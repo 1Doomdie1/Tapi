@@ -23,5 +23,5 @@ class TenantAPI(Client):
         self.audit_logs  = AuditLogsAPI(domain, apiKey)
         self.credentials = CredentialsAPI(domain, apiKey)
 
-    def info(self) -> dict:
+    def info(self):
         return self._http_request("GET", "info")
