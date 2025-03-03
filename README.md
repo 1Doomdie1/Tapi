@@ -96,23 +96,14 @@ def main():
     
     tenant = TenantAPI(DOMAIN, API_KEY)
     
-    cases = tenant.cases.list()
+    tenant_info = tenant.info()
     
-    print(dumps(cases, indent = 4))
+    print(dumps(tenant_info, indent = 4))
 ```
 ```json5
 {
     "body": {
-        "cases": [
-            {
-                "case_id": 1,
-                "name": "My Case Name",
-                "description": "",
-                "status": "OPEN",
-                //...[snip]...//
-            }
-        //...[snip]...//
-        ]
+        "stack": {...}
     },
     "headers": {...},
     "status_code": ...
