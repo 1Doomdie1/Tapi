@@ -1,9 +1,9 @@
 import unittest
-from os     import getenv
-from time   import time_ns
-from dotenv import load_dotenv
-from tapi   import CaseMetadataAPI
+from os                            import getenv
+from time                          import time_ns
+from dotenv                        import load_dotenv
 from tapi.utils.testing_decorators import premium_test
+from tapi                          import CaseMetadataAPI
 
 
 class test_CaseMetadataAPI(unittest.TestCase):

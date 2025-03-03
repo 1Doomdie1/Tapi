@@ -1,9 +1,9 @@
 import unittest
-from os               import getenv
-from tapi             import CaseAPI
-from dotenv           import load_dotenv
-from tapi.utils.types import CasePriority, CaseStatus
+from os                            import getenv
+from tapi                          import CaseAPI
+from dotenv                        import load_dotenv
 from tapi.utils.testing_decorators import premium_test
+from tapi.utils.types              import CasePriority, CaseStatus
 
 
 class test_CasesAPI(unittest.TestCase):

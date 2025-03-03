@@ -1,11 +1,10 @@
 import unittest
-from os               import getenv
-from time             import time_ns
-from dotenv           import load_dotenv
-
+from os                            import getenv
+from time                          import time_ns
+from dotenv                        import load_dotenv
 from tapi.utils.testing_decorators import premium_test
-from tapi.utils.types import CaseInputType
-from tapi             import CaseInputsAPI, CaseInputsFieldsAPI
+from tapi.utils.types              import CaseInputType
+from tapi                          import CaseInputsAPI, CaseInputsFieldsAPI
 
 
 class test_CaseInputsAPI(unittest.TestCase):

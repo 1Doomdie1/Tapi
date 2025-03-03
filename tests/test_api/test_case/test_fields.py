@@ -1,8 +1,8 @@
 import unittest
-from os     import getenv
-from dotenv import load_dotenv
-from tapi   import CaseFieldsAPI
+from os                            import getenv
+from dotenv                        import load_dotenv
 from tapi.utils.testing_decorators import premium_test
+from tapi                          import CaseFieldsAPI
 
 
 class test_CaseFieldsAPI(unittest.TestCase):

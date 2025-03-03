@@ -1,4 +1,4 @@
-from os import getenv
+from os       import getenv
 from unittest import skipIf
 
 def premium_test(func):

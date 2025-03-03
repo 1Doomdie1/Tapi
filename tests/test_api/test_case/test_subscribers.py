@@ -1,8 +1,8 @@
 import unittest
-from os     import getenv
-from dotenv import load_dotenv
-from tapi   import CaseSubscribersAPI
+from os                            import getenv
+from dotenv                        import load_dotenv
 from tapi.utils.testing_decorators import premium_test
+from tapi                          import CaseSubscribersAPI
 
 
 class test_CaseFilesAPI(unittest.TestCase):

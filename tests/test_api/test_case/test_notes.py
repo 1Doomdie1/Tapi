@@ -1,10 +1,10 @@
 import unittest
-from os               import getenv
-from time             import time_ns
-from dotenv           import load_dotenv
-from tapi             import CaseNotesAPI
+from os                            import getenv
+from time                          import time_ns
+from dotenv                        import load_dotenv
+from tapi                          import CaseNotesAPI
 from tapi.utils.testing_decorators import premium_test
-from tapi.utils.types import CaseNoteColor
+from tapi.utils.types              import CaseNoteColor
 
 
 class test_CaseMetadataAPI(unittest.TestCase):

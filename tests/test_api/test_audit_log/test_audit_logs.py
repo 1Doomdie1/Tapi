@@ -1,9 +1,9 @@
 import unittest
-from os               import getenv
-from dotenv           import load_dotenv
-from tapi             import AuditLogsAPI
+from os                            import getenv
+from dotenv                        import load_dotenv
+from tapi                          import AuditLogsAPI
 from tapi.utils.testing_decorators import premium_test
-from tapi.utils.types import AuditLogType
+from tapi.utils.types              import AuditLogType
 
 class test_AuditLogsAPI(unittest.TestCase):
     def setUp(self):

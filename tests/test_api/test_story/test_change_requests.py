@@ -1,8 +1,8 @@
 import unittest
-from os     import getenv
-from dotenv import load_dotenv
-from tapi   import ChangeRequestAPI
+from os                            import getenv
+from dotenv                        import load_dotenv
 from tapi.utils.testing_decorators import premium_test
+from tapi                          import ChangeRequestAPI
 
 
 class test_ChangeRequestAPI(unittest.TestCase):

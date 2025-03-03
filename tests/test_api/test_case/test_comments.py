@@ -1,9 +1,9 @@
 import unittest
-from os               import getenv
-from dotenv           import load_dotenv
-from tapi.utils.types import ReactionType
-from tapi             import CaseCommentsAPI, CaseCommentsReactionsAPI
+from os                            import getenv
+from dotenv                        import load_dotenv
 from tapi.utils.testing_decorators import premium_test
+from tapi.utils.types              import ReactionType
+from tapi                          import CaseCommentsAPI, CaseCommentsReactionsAPI
 
 
 class test_CaseCommentsAPI(unittest.TestCase):

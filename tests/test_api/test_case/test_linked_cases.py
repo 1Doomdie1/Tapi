@@ -1,8 +1,8 @@
 import unittest
-from os     import getenv
-from dotenv import load_dotenv
-from tapi   import LinkedCasesAPI
+from os                            import getenv
+from dotenv                        import load_dotenv
 from tapi.utils.testing_decorators import premium_test
+from tapi                          import LinkedCasesAPI
 
 
 class test_LinkedCasesAPI(unittest.TestCase):
