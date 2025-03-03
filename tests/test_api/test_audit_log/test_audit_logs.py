@@ -2,6 +2,7 @@ import unittest
 from os               import getenv
 from dotenv           import load_dotenv
 from tapi             import AuditLogsAPI
+from tapi.utils.testing_decorators import premium_test
 from tapi.utils.types import AuditLogType
 
 class test_AuditLogsAPI(unittest.TestCase):
@@ -9,6 +10,7 @@ class test_AuditLogsAPI(unittest.TestCase):
         load_dotenv()
         self.audt_logs_api = AuditLogsAPI(getenv("DOMAIN"), getenv("API_KEY"))
 
+    @premium_test
     def test_list(self):
         resp = self.audt_logs_api.list(
             operation_name = [

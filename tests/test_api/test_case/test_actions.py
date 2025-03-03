@@ -3,6 +3,8 @@ from os               import getenv
 from dotenv           import load_dotenv
 from tapi             import CaseActionsAPI
 from tapi.utils.types import CaseActionType
+from tapi.utils.testing_decorators import premium_test
+
 
 
 class test_CaseActionsAPI(unittest.TestCase):
@@ -19,6 +21,7 @@ class test_CaseActionsAPI(unittest.TestCase):
                 id      = self.action_id
             )
 
+    @premium_test
     def test_create(self):
         resp = self.case_action_api.create(
             case_id     = self.case_id,
@@ -36,6 +39,7 @@ class test_CaseActionsAPI(unittest.TestCase):
         self.assertEqual(body.get("action_type"), CaseActionType.PAGE)
         self.assertEqual(body.get("action_text"), "Open")
 
+    @premium_test
     def test_get(self):
         action = self.case_action_api.create(
             case_id     = self.case_id,
@@ -60,6 +64,7 @@ class test_CaseActionsAPI(unittest.TestCase):
         self.assertEqual(body.get("action_type"), CaseActionType.PAGE)
         self.assertEqual(body.get("action_text"), "Open")
 
+    @premium_test
     def test_update(self):
         action = self.case_action_api.create(
             case_id=self.case_id,
@@ -85,6 +90,7 @@ class test_CaseActionsAPI(unittest.TestCase):
         self.assertEqual(body.get("label"), "New Updated Action Unit Test")
         self.assertEqual(body.get("action_text"), "GoTo")
 
+    @premium_test
     def test_list(self):
         action = self.case_action_api.create(
             case_id     = self.case_id,
@@ -106,6 +112,7 @@ class test_CaseActionsAPI(unittest.TestCase):
         self.assertEqual(type(body.get("actions")), list)
         self.assertGreaterEqual(len(body.get("actions")), 1)
 
+    @premium_test
     def test_delete(self):
         action = self.case_action_api.create(
             case_id     = self.case_id,
@@ -124,6 +131,7 @@ class test_CaseActionsAPI(unittest.TestCase):
 
         self.assertEqual(resp.get("status_code"), 204)
 
+    @premium_test
     def tests_batch_update(self):
         actions = [
             {

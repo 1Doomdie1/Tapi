@@ -3,6 +3,7 @@ from os               import getenv
 from time             import time_ns
 from dotenv           import load_dotenv
 from tapi             import CaseNotesAPI
+from tapi.utils.testing_decorators import premium_test
 from tapi.utils.types import CaseNoteColor
 
 
@@ -14,6 +15,7 @@ class test_CaseMetadataAPI(unittest.TestCase):
         self.note_to_update_id = int(getenv("CASE_NOTE_TO_UPDATE"))
         self.case_notes_api    = CaseNotesAPI(getenv("DOMAIN"), getenv("API_KEY"))
 
+    @premium_test
     @unittest.skip("Hitting cap limit")
     def test_create(self):
         resp = self.case_notes_api.create(
@@ -30,6 +32,7 @@ class test_CaseMetadataAPI(unittest.TestCase):
         self.assertEqual(body.get("content"), "This is a comment created with Tapi :)")
         self.assertEqual(body.get("color"), CaseNoteColor.BLUE)
 
+    @premium_test
     def test_get(self):
         resp = self.case_notes_api.get(
             case_id = self.case_id,
@@ -41,6 +44,7 @@ class test_CaseMetadataAPI(unittest.TestCase):
         self.assertEqual(resp.get("status_code"), 200)
         self.assertEqual(body.get("title"), "Note to Get")
 
+    @premium_test
     def test_update(self):
         update_time = time_ns() // 1000
 
@@ -59,6 +63,7 @@ class test_CaseMetadataAPI(unittest.TestCase):
         self.assertEqual(body.get("color"), CaseNoteColor.MAGENTA)
         self.assertEqual(body.get("content"), f"This content has been updated at: {update_time}")
 
+    @premium_test
     def test_list(self):
         resp = self.case_notes_api.list(
             case_id = self.case_id
@@ -69,6 +74,7 @@ class test_CaseMetadataAPI(unittest.TestCase):
         self.assertEqual(resp.get("status_code"), 200)
         self.assertEqual(type(body.get("notes")), list)
 
+    @premium_test
     @unittest.skip("Function runs fine but apparently there is a limit on how much metadata a case can have")
     def test_delete(self):
         note = self.case_notes_api.create(
