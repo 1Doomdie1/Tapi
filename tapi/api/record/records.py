@@ -36,17 +36,17 @@ class RecordsAPI(Client):
 
     def list(
             self,
-            record_type_id:   Optional[int]                                       = None,
-            record_field_ids: Optional[int]                                       = None,
-            range_start:      Optional[Union[str, int]]                           = None,
-            range_end:        Optional[Union[str, int]]                           = None,
-            story_ids:        Optional[List[Union[str, int]]]                     = None,
-            order_direction:  Literal["ASC", "DESC"]                              = "DESC",
-            order_field_id:   Optional[int]                                       = None,
-            filters:          Optional[List[RecordFilter, Union[Dict[str, str]]]] = None,
-            test_mode:        Optional[bool]                                      = None,
-            per_page:         int                                                 = 10,
-            page:             int                                                 = 1
+            record_type_id:   Optional[int]                                              = None,
+            record_field_ids: Optional[int]                                              = None,
+            range_start:      Optional[Union[str, int]]                                  = None,
+            range_end:        Optional[Union[str, int]]                                  = None,
+            story_ids:        Optional[List[Union[str, int]]]                            = None,
+            order_direction:  Literal["ASC", "DESC"]                                     = "DESC",
+            order_field_id:   Optional[int]                                              = None,
+            filters:          Optional[List[Union[RecordFilter, Union[Dict[str, str]]]]] = None,
+            test_mode:        Optional[bool]                                             = None,
+            per_page:         int                                                        = 10,
+            page:             int                                                        = 1
     ):
         if not record_type_id and not record_field_ids:
             raise ValueError("Please specify either 'record_type_id' or 'record_field_ids'.")
