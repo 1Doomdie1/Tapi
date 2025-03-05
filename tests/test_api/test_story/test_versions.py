@@ -1,11 +1,18 @@
 import unittest
-from os     import getenv
-from dotenv import load_dotenv
-from tapi   import VersionsAPI
+from os                            import getenv
+from dotenv                        import load_dotenv
+from tapi                          import VersionsAPI
+from tapi.utils.testing_decorators import premium_feature
+from tapi.utils.http               import disable_ssl_verification
+
 
 class test_VersionsAPI(unittest.TestCase):
     def setUp(self):
         load_dotenv()
+
+        if getenv("SSL_VERIFICATION") == "0":
+            disable_ssl_verification()
+
         self.version_id   = None
         self.story_id     = int(getenv("VERSIONS_API_STORY_ID"))
         self.versions_api = VersionsAPI(getenv("DOMAIN"), getenv("API_KEY"))
@@ -17,6 +24,7 @@ class test_VersionsAPI(unittest.TestCase):
                 version_id = self.version_id
             )
 
+    @premium_feature
     def test_create(self):
         resp = self.versions_api.create(
             story_id = self.story_id,
@@ -28,6 +36,7 @@ class test_VersionsAPI(unittest.TestCase):
         self.assertEqual(resp.get("status_code"),                           200)
         self.assertEqual(resp.get("body").get("story_version").get("name"), "Create Version Unit Test")
 
+    @premium_feature
     def test_get(self):
         create_version = self.versions_api.create(
             story_id = self.story_id,
@@ -46,6 +55,7 @@ class test_VersionsAPI(unittest.TestCase):
         self.assertIsNotNone(resp.get("body").get("story_version").get("export_file"))
         self.assertEqual(type(resp.get("body").get("story_version").get("export_file")), dict)
 
+    @premium_feature
     def test_update(self):
         create_version = self.versions_api.create(
             story_id = self.story_id,
@@ -63,6 +73,7 @@ class test_VersionsAPI(unittest.TestCase):
         self.assertEqual(resp.get("status_code"), 200)
         self.assertEqual(resp.get("body").get("story_version").get("name"), "New Version Unit Test Name")
 
+    @premium_feature
     def test_list(self):
         create_version = self.versions_api.create(
             story_id = self.story_id,
@@ -79,6 +90,7 @@ class test_VersionsAPI(unittest.TestCase):
         self.assertEqual(type(resp.get("body").get("story_versions")), list)
         self.assertGreaterEqual(len(resp.get("body").get("story_versions")), 1)
 
+    @premium_feature
     def test_delete(self):
         create_version = self.versions_api.create(
             story_id = self.story_id,

@@ -1,12 +1,18 @@
 import unittest
-from os     import getenv
-from dotenv import load_dotenv
-from tapi   import CredentialsAPI
-from time   import time_ns
+from os              import getenv
+from time            import time_ns
+from dotenv          import load_dotenv
+from tapi            import CredentialsAPI
+from tapi.utils.http import disable_ssl_verification
+
 
 class test_CredentialsAPI(unittest.TestCase):
     def setUp(self):
         load_dotenv()
+
+        if getenv("SSL_VERIFICATION") == "0":
+            disable_ssl_verification()
+
         self._del_cred       = None
         self.cred_id         = int(getenv("CREDENTIAL_ID"))
         self.team_id         = int(getenv("TEAM_ID"))

@@ -4,10 +4,16 @@ from time             import time_ns
 from tapi.utils.types import AgentType
 from tapi             import ActionsAPI
 from dotenv           import load_dotenv
+from tapi.utils.http  import disable_ssl_verification
+
 
 class test_ActionsAPI(unittest.TestCase):
     def setUp(self):
         load_dotenv()
+
+        if getenv("SSL_VERIFICATION") == "0":
+            disable_ssl_verification()
+
         self.story_id    = int(getenv("ACTION_STORY_ID"))
         self.action_id   = int(getenv("ACTION_ID"))
         self.actions_api = ActionsAPI(getenv("DOMAIN"), getenv("API_KEY"))
@@ -43,8 +49,6 @@ class test_ActionsAPI(unittest.TestCase):
 
     def test_update(self):
         rng = time_ns() // 1000
-
-
         resp = self.actions_api.update(
             action_id   = self.action_id,
             description = f"Updated description: {rng}"

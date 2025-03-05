@@ -1,12 +1,17 @@
 import unittest
-from os          import getenv
-from tapi.client import Client
-from dotenv      import load_dotenv
+from os              import getenv
+from tapi.client     import Client
+from dotenv          import load_dotenv
+from tapi.utils.http import disable_ssl_verification
 
 
 class test_Client(unittest.TestCase):
     def setUp(self):
         load_dotenv()
+
+        if getenv("SSL_VERIFICATION") == "0":
+            disable_ssl_verification()
+
         self.DOMAIN  = getenv("DOMAIN")
         self.API_KEY = getenv("API_KEY")
 
@@ -16,21 +21,21 @@ class test_Client(unittest.TestCase):
 
     def test_http_request_with_good_credentials(self):
         client = Client(self.DOMAIN, self.API_KEY)
-        req = client._http_request(method="GET", endpoint="/info")
+        req = client._http_request(method="GET", endpoint="info")
 
         self.assertEqual(type(req), dict)
         self.assertEqual(req["status_code"], 200)
 
     def test_http_request_with_bad_api_key(self):
         client = Client(self.DOMAIN, "API_KEY")
-        req = client._http_request(method="GET", endpoint="/info")
+        req = client._http_request(method="GET", endpoint="info")
 
         self.assertEqual(type(req), dict)
         self.assertEqual(req["status_code"], 401)
 
     def test_http_request_with_bad_domain(self):
         client = Client("DOMAIN", self.API_KEY)
-        req = client._http_request(method="GET", endpoint="/info")
+        req = client._http_request(method="GET", endpoint="info")
 
         self.assertEqual(type(req), dict)
         self.assertEqual(req["status_code"], 500)

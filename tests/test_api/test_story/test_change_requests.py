@@ -1,13 +1,19 @@
 import unittest
-from os     import getenv
-from dotenv import load_dotenv
-from tapi   import ChangeRequestAPI
+from os                            import getenv
+from dotenv                        import load_dotenv
+from tapi.utils.testing_decorators import premium_feature
+from tapi                          import ChangeRequestAPI
+from tapi.utils.http               import disable_ssl_verification
 
 
 class test_ChangeRequestAPI(unittest.TestCase):
 
     def setUp(self):
         load_dotenv()
+
+        if getenv("SSL_VERIFICATION") == "0":
+            disable_ssl_verification()
+
         self.team_id            = getenv("TEAM_ID")
         self.story_id           = int(getenv("CHANGE_REQUEST_STORY_ID"))
         self.change_request_api = ChangeRequestAPI(getenv("DOMAIN"), getenv("API_KEY"))
@@ -19,6 +25,7 @@ class test_ChangeRequestAPI(unittest.TestCase):
             change_request_id = self.change_request_id
         )
 
+    @premium_feature
     def test_create(self):
         resp = self.change_request_api.create(
             story_id    = self.story_id,
@@ -32,6 +39,7 @@ class test_ChangeRequestAPI(unittest.TestCase):
         self.assertEqual(type(resp.get("body").get("id")), int)
         self.assertEqual(type(resp.get("body").get("change_request")), dict)
 
+    @premium_feature
     def test_approve(self):
         request = self.change_request_api.create(
             story_id    = self.story_id,
@@ -53,6 +61,7 @@ class test_ChangeRequestAPI(unittest.TestCase):
         self.assertIsNotNone(resp.get("body").get("id"))
         self.assertEqual(resp.get("body").get("change_request").get("status"), "APPROVED")
 
+    @premium_feature
     def test_cancel(self):
         request = self.change_request_api.create(
             story_id    = self.story_id,
@@ -71,6 +80,7 @@ class test_ChangeRequestAPI(unittest.TestCase):
         self.assertIsNotNone(resp.get("body").get("id"))
         self.assertEqual(type(resp.get("body").get("id")), int)
 
+    @premium_feature
     def test_promote(self):
         create_request = self.change_request_api.create(
             story_id    = self.story_id,
@@ -96,6 +106,7 @@ class test_ChangeRequestAPI(unittest.TestCase):
         self.assertEqual(resp.get("body").get("name"), "Testing")
         self.assertEqual(resp.get("body").get("id"), self.story_id)
 
+    @premium_feature
     def test_view(self):
         resp = self.change_request_api.view(
             story_id = self.story_id
