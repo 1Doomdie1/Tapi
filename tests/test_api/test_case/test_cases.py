@@ -2,13 +2,18 @@ import unittest
 from os                            import getenv
 from tapi                          import CaseAPI
 from dotenv                        import load_dotenv
-from tapi.utils.testing_decorators import premium_test
+from tapi.utils.testing_decorators import premium_feature
+from tapi.utils.http               import disable_ssl_verification
 from tapi.utils.types              import CasePriority, CaseStatus
 
 
 class test_CasesAPI(unittest.TestCase):
     def setUp(self):
         load_dotenv()
+
+        if getenv("SSL_VERIFICATION") == "0":
+            disable_ssl_verification()
+
         self.team_id   = 1 #int(getenv("TEAM_ID"))
         self.case_id   = None
         self.cases_api = CaseAPI(getenv("DOMAIN"), getenv("API_KEY"))
@@ -17,7 +22,7 @@ class test_CasesAPI(unittest.TestCase):
         if self.case_id:
             self.cases_api.delete(self.case_id)
 
-    @premium_test
+    @premium_feature
     def test_create(self):
         resp = self.cases_api.create(
             team_id     = self.team_id,
@@ -34,7 +39,7 @@ class test_CasesAPI(unittest.TestCase):
         self.assertEqual(body.get("status"), CaseStatus.OPEN)
         self.assertEqual(body.get("priority"), CasePriority.LOW)
 
-    @premium_test
+    @premium_feature
     def test_get(self):
         case = self.cases_api.create(
             team_id     = self.team_id,
@@ -55,7 +60,7 @@ class test_CasesAPI(unittest.TestCase):
         self.assertEqual(body.get("name"), "Get Case Unit test")
         self.assertEqual(body.get("description"), "Created with Tapi :)")
 
-    @premium_test
+    @premium_feature
     def test_download(self):
         resp = self.cases_api.download(
             case_id = 26
@@ -66,7 +71,7 @@ class test_CasesAPI(unittest.TestCase):
         self.assertEqual(resp.get("status_code"), 200)
         self.assertEqual(type(body), bytes)
 
-    @premium_test
+    @premium_feature
     def test_update(self):
         case = self.cases_api.create(
             team_id     = self.team_id,
@@ -89,7 +94,7 @@ class test_CasesAPI(unittest.TestCase):
         self.assertEqual(body.get("description"), "Created with Tapi :) :)")
         self.assertEqual(body.get("priority"), CasePriority.HIGH)
 
-    @premium_test
+    @premium_feature
     def test_list(self):
         case = self.cases_api.create(
             team_id     = self.team_id,
@@ -108,7 +113,7 @@ class test_CasesAPI(unittest.TestCase):
         self.assertGreaterEqual(len(body.get("cases")), 1)
         self.assertLessEqual(len(body.get("cases")), 5)
 
-    @premium_test
+    @premium_feature
     def test_delete(self):
         case = self.cases_api.create(
             team_id     = self.team_id,

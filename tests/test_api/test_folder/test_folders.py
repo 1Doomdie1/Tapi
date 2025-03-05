@@ -1,12 +1,18 @@
 import unittest
-from os     import getenv
-from time   import time_ns
-from tapi   import FoldersAPI
-from dotenv import load_dotenv
+from os              import getenv
+from time            import time_ns
+from tapi            import FoldersAPI
+from dotenv          import load_dotenv
+from tapi.utils.http import disable_ssl_verification
+
 
 class test_EventsAPI(unittest.TestCase):
     def setUp(self):
         load_dotenv()
+
+        if getenv("SSL_VERIFICATION") == "0":
+            disable_ssl_verification()
+
         self._del_folder_id = None
         self.folder_id      = int(getenv("FOLDER_ID"))
         self.team_id        = int(getenv("TEAM_ID"))
@@ -75,7 +81,7 @@ class test_EventsAPI(unittest.TestCase):
 
     def test_delete(self):
         folder = self.folders_api.create(
-            name         = f"To Delete",
+            name         = "To Delete",
             content_type = "STORY",
             team_id      = self.team_id
         )

@@ -1,13 +1,18 @@
 import unittest
-from os     import getenv
-from random import randint
-from tapi   import NotesAPI
-from dotenv import load_dotenv
+from os              import getenv
+from random          import randint
+from tapi            import NotesAPI
+from dotenv          import load_dotenv
+from tapi.utils.http import disable_ssl_verification
 
 
 class test_NotesAPI(unittest.TestCase):
     def setUp(self):
         load_dotenv()
+
+        if getenv("SSL_VERIFICATION") == "0":
+            disable_ssl_verification()
+
         self.note_id   = int(getenv("NOTE_ID"))
         self.story_id  = int(getenv("NOTE_STORY_ID"))
         self.notes_api = NotesAPI(getenv("DOMAIN"), getenv("API_KEY"))

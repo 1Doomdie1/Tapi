@@ -1,15 +1,20 @@
 import unittest
 from os                            import getenv
 from dotenv                        import load_dotenv
-from tapi.utils.testing_decorators import premium_test
+from tapi.utils.testing_decorators import premium_feature
 from tapi                          import CaseActionsAPI
 from tapi.utils.types              import CaseActionType
+from tapi.utils.http               import disable_ssl_verification
 
 
 
 class test_CaseActionsAPI(unittest.TestCase):
     def setUp(self):
         load_dotenv()
+
+        if getenv("SSL_VERIFICATION") == "0":
+            disable_ssl_verification()
+
         self.case_id         = int(getenv("CASE_ID"))
         self.action_id       = None
         self.case_action_api = CaseActionsAPI(getenv("DOMAIN"), getenv("API_KEY"))
@@ -21,7 +26,7 @@ class test_CaseActionsAPI(unittest.TestCase):
                 id      = self.action_id
             )
 
-    @premium_test
+    @premium_feature
     def test_create(self):
         resp = self.case_action_api.create(
             case_id     = self.case_id,
@@ -39,7 +44,7 @@ class test_CaseActionsAPI(unittest.TestCase):
         self.assertEqual(body.get("action_type"), CaseActionType.PAGE)
         self.assertEqual(body.get("action_text"), "Open")
 
-    @premium_test
+    @premium_feature
     def test_get(self):
         action = self.case_action_api.create(
             case_id     = self.case_id,
@@ -64,7 +69,7 @@ class test_CaseActionsAPI(unittest.TestCase):
         self.assertEqual(body.get("action_type"), CaseActionType.PAGE)
         self.assertEqual(body.get("action_text"), "Open")
 
-    @premium_test
+    @premium_feature
     def test_update(self):
         action = self.case_action_api.create(
             case_id=self.case_id,
@@ -90,7 +95,7 @@ class test_CaseActionsAPI(unittest.TestCase):
         self.assertEqual(body.get("label"), "New Updated Action Unit Test")
         self.assertEqual(body.get("action_text"), "GoTo")
 
-    @premium_test
+    @premium_feature
     def test_list(self):
         action = self.case_action_api.create(
             case_id     = self.case_id,
@@ -112,7 +117,7 @@ class test_CaseActionsAPI(unittest.TestCase):
         self.assertEqual(type(body.get("actions")), list)
         self.assertGreaterEqual(len(body.get("actions")), 1)
 
-    @premium_test
+    @premium_feature
     def test_delete(self):
         action = self.case_action_api.create(
             case_id     = self.case_id,
@@ -131,7 +136,7 @@ class test_CaseActionsAPI(unittest.TestCase):
 
         self.assertEqual(resp.get("status_code"), 204)
 
-    @premium_test
+    @premium_feature
     def tests_batch_update(self):
         actions = [
             {

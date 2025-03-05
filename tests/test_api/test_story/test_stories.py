@@ -1,13 +1,18 @@
 import unittest
-from os     import getenv
-from tapi   import StoriesAPI
-from dotenv import load_dotenv
+from os              import getenv
+from tapi            import StoriesAPI
+from dotenv          import load_dotenv
+from tapi.utils.http import disable_ssl_verification
 
 
 class test_StoriesAPI(unittest.TestCase):
 
     def setUp(self):
         load_dotenv()
+
+        if getenv("SSL_VERIFICATION") == "0":
+            disable_ssl_verification()
+
         self.stories_api = StoriesAPI(getenv("DOMAIN"), getenv("API_KEY"))
         self.team_id     = int(getenv("TEAM_ID"))
         self.story_id    = None

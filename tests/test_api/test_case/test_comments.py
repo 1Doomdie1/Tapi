@@ -1,18 +1,23 @@
 import unittest
 from os                            import getenv
 from dotenv                        import load_dotenv
-from tapi.utils.testing_decorators import premium_test
 from tapi.utils.types              import ReactionType
+from tapi.utils.testing_decorators import premium_feature
+from tapi.utils.http               import disable_ssl_verification
 from tapi                          import CaseCommentsAPI, CaseCommentsReactionsAPI
 
 
 class test_CaseCommentsAPI(unittest.TestCase):
     def setUp(self):
         load_dotenv()
+
+        if getenv("SSL_VERIFICATION") == "0":
+            disable_ssl_verification()
+
         self.case_id           = int(getenv("CASE_ID"))
         self.case_comments_api = CaseCommentsAPI(getenv("DOMAIN"), getenv("API_KEY"))
 
-    @premium_test
+    @premium_feature
     def test_create(self):
         resp = self.case_comments_api.create(
             case_id = self.case_id,
@@ -21,7 +26,7 @@ class test_CaseCommentsAPI(unittest.TestCase):
 
         self.assertEqual(resp.get("status_code"), 201)
 
-    @premium_test
+    @premium_feature
     def test_get(self):
         comment = self.case_comments_api.create(
             case_id = self.case_id,
@@ -41,7 +46,7 @@ class test_CaseCommentsAPI(unittest.TestCase):
         self.assertEqual(body.get("id"), comment_id)
         self.assertEqual(body.get("value"), "Get Comment Unit Test")
 
-    @premium_test
+    @premium_feature
     def test_update(self):
         comment = self.case_comments_api.create(
             case_id = self.case_id,
@@ -62,7 +67,7 @@ class test_CaseCommentsAPI(unittest.TestCase):
         self.assertEqual(body.get("id"), comment_id)
         self.assertEqual(body.get("value"), "New Updated Comment Unit Test")
 
-    @premium_test
+    @premium_feature
     def test_list(self):
         resp = self.case_comments_api.list(
             case_id = self.case_id
@@ -73,7 +78,7 @@ class test_CaseCommentsAPI(unittest.TestCase):
         self.assertEqual(resp.get("status_code"), 200)
         self.assertEqual(type(body.get("comments")), list)
 
-    @premium_test
+    @premium_feature
     def test_delete(self):
         comment = self.case_comments_api.create(
             case_id = self.case_id,
@@ -95,7 +100,7 @@ class test_CaseCommentsReactionsAPI(unittest.TestCase):
         self.case_id                     = int(getenv("CASE_ID"))
         self.case_comments_reactions_api = CaseCommentsReactionsAPI(getenv("DOMAIN"), getenv("API_KEY_2"))
 
-    @premium_test
+    @premium_feature
     def test_add(self):
         resp = self.case_comments_reactions_api.add(
             case_id    = self.case_id,
@@ -108,7 +113,7 @@ class test_CaseCommentsReactionsAPI(unittest.TestCase):
         self.assertEqual(resp.get("status_code"), 201)
         self.assertEqual(type(body.get("reactions")), list)
 
-    @premium_test
+    @premium_feature
     def test_remove(self):
         reaction = self.case_comments_reactions_api.add(
             case_id=self.case_id,
