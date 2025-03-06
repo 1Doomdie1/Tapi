@@ -3,7 +3,7 @@ from .members    import MembersAPI
 
 
 class TeamsAPI(Client):
-    def __init__(self, domain, apiKey):
+    def __init__(self, domain: str, apiKey: str):
         super().__init__(domain, apiKey)
         self.base_endpoint = "teams"
         self.members       = MembersAPI(domain, apiKey)

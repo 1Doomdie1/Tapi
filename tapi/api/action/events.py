@@ -3,7 +3,7 @@ from typing      import Optional
 
 
 class ActionEventsAPI(Client):
-    def __init__(self, domain, apiKey):
+    def __init__(self, domain: str, apiKey: str):
         super().__init__(domain, apiKey)
         self.base_endpoint = "actions"
 

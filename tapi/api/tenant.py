@@ -11,7 +11,7 @@ from .credential import CredentialsAPI
 
 
 class TenantAPI(Client):
-    def __init__(self, domain, apiKey):
+    def __init__(self, domain: str, apiKey: str):
         super().__init__(domain, apiKey)
         self.cases       = CaseAPI(domain, apiKey)
         self.teams       = TeamsAPI(domain, apiKey)

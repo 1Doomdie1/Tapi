@@ -6,7 +6,7 @@ from typing           import Optional, Dict, List, Union, Any, Literal
 
 
 class RecordsAPI(Client):
-    def __init__(self, domain, apiKey):
+    def __init__(self, domain: str, apiKey: str):
         super().__init__(domain, apiKey)
         self.base_endpoint = "records"
         self.types         = RecordTypesAPI(domain, apiKey)

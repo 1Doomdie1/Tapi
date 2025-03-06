@@ -9,7 +9,7 @@ from typing           import List, Optional, Dict, Any
 
 
 class StoriesAPI(Client):
-    def __init__(self, domain, apiKey):
+    def __init__(self, domain: str, apiKey: str):
         super().__init__(domain, apiKey)
         self.base_endpoint  = "stories"
         self.runs           = RunsAPI(domain, apiKey)

@@ -3,7 +3,7 @@ from typing      import Dict, Optional, List, Union
 
 
 class RecordTypesAPI(Client):
-    def __init__(self, domain, apiKey):
+    def __init__(self, domain: str, apiKey: str):
         super().__init__(domain, apiKey)
         self.base_endpoint = "record_types"
 

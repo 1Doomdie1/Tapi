@@ -6,7 +6,7 @@ from typing           import List, Dict, Any, Optional, Union
 
 
 class ActionsAPI(Client):
-    def __init__(self, domain, apiKey):
+    def __init__(self, domain: str, apiKey: str):
         super().__init__(domain, apiKey)
         self.base_endpoint = "actions"
         self.logs   = ActionLogsAPI(domain, apiKey)
