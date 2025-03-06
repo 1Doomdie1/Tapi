@@ -123,7 +123,7 @@ class StoriesAPI(Client):
             new_name:  str,
             data:      Dict[str, Any],
             team_id:   int,
-            folder_id: Optional[str]    = None,
+            folder_id: Optional[int]    = None,
             mode:      Union[Mode, str] = Mode.NEW
         ):
         return self._http_request(
