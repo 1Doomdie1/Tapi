@@ -1,11 +1,17 @@
 import unittest
-from os     import getenv
-from tapi   import EventsAPI
-from dotenv import load_dotenv
+from os              import getenv
+from tapi            import EventsAPI
+from dotenv          import load_dotenv
+from tapi.utils.http import disable_ssl_verification
+
 
 class test_EventsAPI(unittest.TestCase):
     def setUp(self):
         load_dotenv()
+
+        if getenv("SSL_VERIFICATION") == "0":
+            disable_ssl_verification()
+
         self.event_id        = int(getenv("EVENT_ID"))
         self.event_action_id = int(getenv("EVENT_ACTION_ID"))
         self.events_api      = EventsAPI(getenv("DOMAIN"), getenv("API_KEY"))

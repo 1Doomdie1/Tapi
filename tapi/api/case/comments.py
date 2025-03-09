@@ -4,7 +4,7 @@ from typing           import Optional, Union
 
 
 class CaseCommentsAPI(Client):
-    def __init__(self, domain, apiKey):
+    def __init__(self, domain: str, apiKey: str):
         super().__init__(domain, apiKey)
         self.base_endpoint = "cases"
         self.reactions     = CaseCommentsReactionsAPI(domain, apiKey)
@@ -71,7 +71,7 @@ class CaseCommentsAPI(Client):
         )
 
 class CaseCommentsReactionsAPI(Client):
-    def __init__(self, domain, apiKey):
+    def __init__(self, domain: str, apiKey: str):
         super().__init__(domain, apiKey)
         self.base_endpoint = "cases"
 

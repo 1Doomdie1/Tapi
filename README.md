@@ -1,4 +1,4 @@
-# Tapi (Tines API)
+# About Tapi
 A simple Python wrapper for the Tines API.
 
 ## ⚠ Disclaimer 
@@ -21,7 +21,7 @@ This class provides access to all endpoints offered by the Tines API.
 from tapi import TenantAPI
 
 def main():
-    tenant = TenantAPI(<DOMAIN>, <API_KEY>)
+    tenant = TenantAPI("<DOMAIN>", "<API_KEY>")
     teams = tenant.teams.list()
     cases = tenant.cases.list()
     stories = tenant.stories.list()
@@ -79,6 +79,7 @@ This class is designed to be used as a "parent" class from which all other endpo
 | `TenantAPI.events`      | `EventsAPI`      | Manage tenant-wide action events. |
 | `TenantAPI.stories`     | `StoriesAPI`     | Manage workflows.                 |
 | `TenantAPI.folders`     | `FoldersAPI`     | Manage folders.                   |
+| `TenantAPI.records`     | `RecordsAPI`     | Manage records.                   |
 | `TenantAPI.resources`   | `ResourcesAPI`   | Manage resources.                 |
 | `TenantAPI.audit_logs`  | `AuditLogsAPI`   | Pull tenant logs.                 |
 | `TenantAPI.credentials` | `CredentialsAPI` | Manage tenant credentials.        |
@@ -95,23 +96,14 @@ def main():
     
     tenant = TenantAPI(DOMAIN, API_KEY)
     
-    cases = tenant.cases.list()
+    tenant_info = tenant.info()
     
-    print(dumps(cases, indent = 4))
+    print(dumps(tenant_info, indent = 4))
 ```
 ```json5
 {
     "body": {
-        "cases": [
-            {
-                "case_id": 1,
-                "name": "My Case Name",
-                "description": "",
-                "status": "OPEN",
-                //...[snip]...//
-            }
-        //...[snip]...//
-        ]
+        "stack": {...}
     },
     "headers": {...},
     "status_code": ...
@@ -1729,3 +1721,150 @@ def main():
 
 </details>
 
+<details>
+<summary>RecordsAPI</summary>
+Manage actions.
+
+### Methods
+
+| **Method**     | **Description**             |
+|----------------|-----------------------------|
+| `create`       | Create record.              |
+| `get`          | Retrieve a single record.   |
+| `update`       | Updates a single record.    |
+| `list`         | Retrieve a list of records. |
+| `delete`       | Delete a record.            |
+
+
+### Subclasses
+
+| **Path**                      | **Class**            | **Description**           |
+|-------------------------------|----------------------|---------------------------|
+| `TenantAPI.records.types`     | `RecordTypesAPI`     | Manage record types.      |
+| `TenantAPI.records.artifacts` | `RecordArtifactsAPI` | Manage records artifacts. |
+
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import RecordsAPI
+
+def main():
+    DOMAIN  = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+    
+    records_api = RecordsAPI(DOMAIN, API_KEY)
+    
+    records = records_api.list(record_type_id=1234)
+    
+    print(dumps(records, indent = 4))
+```
+```json5
+{
+    "body": {
+        "record_results": [...],
+        //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>RecordTypesAPI</summary>
+Manage resources
+
+### Methods
+
+| **Method**        | **Description**                  |
+|-------------------|----------------------------------|
+| `create`          | Create a new record type.        |
+| `get`             | Retrieve a single record type.   |
+| `list`            | Retrieve a list of record types. |
+| `delete`          | Delete a record type.            |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import RecordTypesAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    record_types_api = RecordTypesAPI(DOMAIN, API_KEY)
+
+    record_types = record_types_api.list(team_id=1234)
+
+    print(dumps(record_types, indent=4))
+```
+```json5
+{
+    "body": {
+        "record_types":[...],
+        //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>RecordArtifactsAPI</summary>
+Manage resources
+
+### Methods
+
+| **Method**        | **Description**                         |
+|-------------------|-----------------------------------------|
+| `get`             | Retrieve an individual record artifact. |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import RecordArtifactsAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    record_artifacts_api = RecordArtifactsAPI(DOMAIN, API_KEY)
+
+    record_artifacts = record_artifacts_api.get(record_id = 1234, artifact_id = 5678)
+
+    print(dumps(record_artifacts, indent=4))
+```
+```json5
+{
+    "body": {
+        "id": 1,
+        "value": "artifact value",
+        "record_field": {
+            "id": 1,
+            "name": "record field name"
+        },
+        "created_at": "2024-02-16T15:37:39Z",
+        "updated_at": "2024-02-16T15:37:39Z"
+        //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>

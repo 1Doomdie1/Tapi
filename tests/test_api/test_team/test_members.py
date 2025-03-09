@@ -3,11 +3,16 @@ from tapi.utils.types import Role
 from os               import getenv
 from tapi             import MembersAPI
 from dotenv           import load_dotenv
+from tapi.utils.http  import disable_ssl_verification
 
 
 class test_MembersAPI(unittest.TestCase):
     def setUp(self):
         load_dotenv()
+
+        if getenv("SSL_VERIFICATION") == "0":
+            disable_ssl_verification()
+
         self.team_id     = int(getenv("TEAM_ID"))
         self.members_api = MembersAPI(getenv("DOMAIN"), getenv("API_KEY"))
 

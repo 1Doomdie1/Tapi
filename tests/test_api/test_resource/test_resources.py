@@ -1,13 +1,18 @@
 import unittest
-from os     import getenv
-from time   import time_ns
-from dotenv import load_dotenv
-from tapi   import ResourcesAPI
+from os              import getenv
+from time            import time_ns
+from dotenv          import load_dotenv
+from tapi            import ResourcesAPI
+from tapi.utils.http import disable_ssl_verification
 
 
 class test_ResourcesAPI(unittest.TestCase):
     def setUp(self):
         load_dotenv()
+
+        if getenv("SSL_VERIFICATION") == "0":
+            disable_ssl_verification()
+
         self._del_resource_id   = None
         self.team_id            = int(getenv("TEAM_ID"))
         self.resource_id        = int(getenv("RESOURCE_ID"))

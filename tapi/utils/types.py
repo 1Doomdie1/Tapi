@@ -1,5 +1,5 @@
 from enum   import IntEnum, StrEnum
-from typing import TypedDict, Union, Dict, Any
+from typing import TypedDict, Union, Dict, Any, Literal, Optional
 
 
 class KeepEventsFor(IntEnum):
@@ -50,12 +50,12 @@ class StoriesReturnOrder(StrEnum):
     LEAST_RECENTLY_EDITED = "LEAST_RECENTLY_EDITED"
 
 class Mode(StrEnum):
-    NEW = "new"
+    NEW             = "new"
     VERSION_REPLACE = "versionReplace"
 
 class Role(StrEnum):
-    VIEWER = "VIEWER"
-    EDITOR = "EDITOR"
+    VIEWER     = "VIEWER"
+    EDITOR     = "EDITOR"
     TEAM_ADMIN = "TEAM_ADMIN"
 
 class CasePriority(StrEnum):
@@ -129,7 +129,7 @@ class AgentType(StrEnum):
     EMAIL           = "Agents::EmailAgent"
     GROUP           = "Agents::GroupAgent"
     TRIGGER         = "Agents::TriggerAgent"
-    WEBHOOK        = "Agents::WebhookAgent"
+    WEBHOOK         = "Agents::WebhookAgent"
     HTTP_REQUEST    = "Agents::HTTPRequestAgent"
     SEND_T0_STORY   = "Agents::SendToStoryAgent"
     EVENT_TRANSFORM = "Agents::EventTransformationAgent"
@@ -278,3 +278,18 @@ class AuditLogType(StrEnum):
     TEAM_CASES_SAVED_VIEW_DESTRUCTION    = "TeamCasesSavedViewDestruction"
     RECORD_REPORT_ELEMENT_DESTRUCTION    = "RecordReportElementDestruction"
     RECORD_REPORT_ELEMENT_COLUMN_REORDER = "RecordReportElementColumnReorder"
+
+class RecordFieldValue(TypedDict):
+    field_id: Union[str, int]
+    value:    Union[Any]
+
+class RecordFilter(TypedDict):
+    field_id: Union[str, int]
+    operator: Union[Literal[
+        "EQUAL", "NOT_EQUAL", "GREATER_THAN",
+        "GREATER_THAN_OR_EQUAL_TO", "LESS_THAN",
+        "LESS_THAN_OR_EQUAL_TO", "IS_EMPTY",
+        "IS_NOT_EMPTY", "IS_TRUE", "IS_FALSE"],
+        str
+    ]
+    value: Optional[Union[str, int]]
