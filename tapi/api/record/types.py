@@ -11,9 +11,9 @@ class RecordTypesAPI(Client):
             self,
             name:     str,
             team_id:  int,
-            fields:   Optional[List[Dict[str, Union[str, int, bool]]]] = None,
-            editable: Optional[bool]                                   = None,
-            ttl_days: Optional[int]                                    = None
+            fields:   List[Dict[str, Union[str, int, bool]]],
+            editable: Optional[bool]                  = None,
+            ttl_days: Optional[int]                   = None
     ):
         return self._http_request(
             "POST",
