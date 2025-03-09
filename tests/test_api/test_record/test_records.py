@@ -7,7 +7,7 @@ from tapi.utils.testing_decorators import premium_feature
 from tapi.utils.http               import disable_ssl_verification
 
 
-class test_NotesAPI(unittest.TestCase):
+class test_RecordsAPI(unittest.TestCase):
     def setUp(self):
         load_dotenv()
 
