@@ -14,7 +14,7 @@ class test_CasesAPI(unittest.TestCase):
         if getenv("SSL_VERIFICATION") == "0":
             disable_ssl_verification()
 
-        self.team_id   = 1 #int(getenv("TEAM_ID"))
+        self.team_id   = int(getenv("TEAM_ID"))
         self.case_id   = None
         self.cases_api = CaseAPI(getenv("DOMAIN"), getenv("API_KEY"))
 
