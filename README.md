@@ -1,4 +1,4 @@
-# Tapi (Tines API)
+# About Tapi
 A simple Python wrapper for the Tines API.
 
 ## ⚠ Disclaimer 
