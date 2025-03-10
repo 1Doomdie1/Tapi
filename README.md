@@ -72,17 +72,18 @@ This class is designed to be used as a "parent" class from which all other endpo
 
 ### Subclasses
 
-| **Path**                | **Class**        | **Description**                   |
-|-------------------------|------------------|-----------------------------------|
-| `TenantAPI.cases`       | `CaseAPI`        | Manage cases.                     |
-| `TenantAPI.teams`       | `TeamsAPI`       | Manage teams.                     |
-| `TenantAPI.events`      | `EventsAPI`      | Manage tenant-wide action events. |
-| `TenantAPI.stories`     | `StoriesAPI`     | Manage workflows.                 |
-| `TenantAPI.folders`     | `FoldersAPI`     | Manage folders.                   |
-| `TenantAPI.records`     | `RecordsAPI`     | Manage records.                   |
-| `TenantAPI.resources`   | `ResourcesAPI`   | Manage resources.                 |
-| `TenantAPI.audit_logs`  | `AuditLogsAPI`   | Pull tenant logs.                 |
-| `TenantAPI.credentials` | `CredentialsAPI` | Manage tenant credentials.        |
+| **Path**                | **Class**        | **Description**                      |
+|-------------------------|------------------|--------------------------------------|
+| `TenantAPI.cases`       | `CaseAPI`        | Manage cases.                        |
+| `TenantAPI.teams`       | `TeamsAPI`       | Manage teams.                        |
+| `TenantAPI.events`      | `EventsAPI`      | Manage tenant-wide action events.    |
+| `TenantAPI.stories`     | `StoriesAPI`     | Manage workflows.                    |
+| `TenantAPI.folders`     | `FoldersAPI`     | Manage folders.                      |
+| `TenantAPI.records`     | `RecordsAPI`     | Manage records.                      |
+| `TenantAPI.resources`   | `ResourcesAPI`   | Manage resources.                    |
+| `TenantAPI.reporting`   | `ReportingAPI`   | Pull action performance & time saved |
+| `TenantAPI.audit_logs`  | `AuditLogsAPI`   | Pull tenant logs.                    |
+| `TenantAPI.credentials` | `CredentialsAPI` | Manage tenant credentials.           |
 
 
 ### Usage:
@@ -1723,7 +1724,7 @@ def main():
 
 <details>
 <summary>RecordsAPI</summary>
-Manage actions.
+Manage records.
 
 ### Methods
 
@@ -1775,7 +1776,7 @@ def main():
 
 <details>
 <summary>RecordTypesAPI</summary>
-Manage resources
+Manage record types
 
 ### Methods
 
@@ -1821,7 +1822,7 @@ def main():
 
 <details>
 <summary>RecordArtifactsAPI</summary>
-Manage resources
+Pull record artifacts.
 
 ### Methods
 
@@ -1860,6 +1861,50 @@ def main():
         },
         "created_at": "2024-02-16T15:37:39Z",
         "updated_at": "2024-02-16T15:37:39Z"
+        //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>ReportingAPI</summary>
+Get action performance and time saved metrics 
+
+### Methods
+
+| **Method**           | **Description**                                               |
+|----------------------|---------------------------------------------------------------|
+| `action_performance` | Returns action performance in Tines.                          |
+| `time_saved`         | Returns timed and dated records of time saved by using Tines. |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import ReportingAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    reporting_api = ReportingAPI(DOMAIN, API_KEY)
+
+    action_performance = reporting_api.action_performance()
+
+    print(dumps(action_performance, indent=4))
+```
+```json5
+{
+    "body": {
+        "action_performance": []
         //...[snip]...//
     },
     "headers": {...},
