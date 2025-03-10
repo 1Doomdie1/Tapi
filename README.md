@@ -66,9 +66,11 @@ This class is designed to be used as a "parent" class from which all other endpo
 
 ### Methods
 
-| **Method** | **Description**                        |
-|------------|----------------------------------------|
-| `info`     | Retries information about the tenant.  |
+| **Method**          | **Description**                                                       |
+|---------------------|-----------------------------------------------------------------------|
+| `info`              | Retries information about the tenant.                                 |
+| `web_statistics`    | Retrieve operational information about your web server. (Self Hosted) |
+| `worker_statistics` | Retrieve essential information about worker statistics. (Self Hosted) |
 
 ### Subclasses
 
