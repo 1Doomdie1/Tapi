@@ -5,6 +5,7 @@ from .event      import EventsAPI
 from .story      import StoriesAPI
 from .folder     import FoldersAPI
 from .record     import RecordsAPI
+from .report     import ReportingAPI
 from .resource   import ResourcesAPI
 from .audit_log  import AuditLogsAPI
 from .credential import CredentialsAPI
@@ -20,6 +21,7 @@ class TenantAPI(Client):
         self.folders     = FoldersAPI(domain, apiKey)
         self.records     = RecordsAPI(domain, apiKey)
         self.resources   = ResourcesAPI(domain, apiKey)
+        self.reporting   = ReportingAPI(domain, apiKey)
         self.audit_logs  = AuditLogsAPI(domain, apiKey)
         self.credentials = CredentialsAPI(domain, apiKey)
 

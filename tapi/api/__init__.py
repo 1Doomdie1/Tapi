@@ -6,6 +6,7 @@ from .event      import *
 from .folder     import *
 from .action     import *
 from .record     import *
+from .report     import *
 from .resource   import *
 from .audit_log  import *
 from .credential import *
@@ -33,6 +34,8 @@ __all__ = [
     "ResourcesAPI",
 
     "RecordsAPI", "RecordTypesAPI", "RecordArtifactsAPI",
+
+    "ReportingAPI",
 
     "StoriesAPI", "ChangeRequestAPI", "RunsAPI", "VersionsAPI",
     "TeamsAPI", "MembersAPI"
