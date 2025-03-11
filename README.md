@@ -1932,6 +1932,7 @@ Manage tenant through admin endpoint
 | **Path**                                  | **Class**                     | **Description**                         |
 |-------------------------------------------|-------------------------------|-----------------------------------------|
 | `TenantAPI.admin.jobs`                    | `JobsAPI`                     | Manage tenant jobs. (Self Hosted Only)  |
+| `TenantAPI.admin.templates`               | `TemplatesAPI`                | Manage templates.                       |
 | `TenantAPI.admin.ip_access_control`       | `IpAccessControlAPI`          | Manage IP access control.               |
 | `TenantAPI.admin.scim_user_group_mapping` | `SCIMUserGroupMappingAPI`     | Manage SCIM user group mappings.        |
 | `TenantAPI.admin.egress_rules`            | `ActionEgressControlRulesAPI` | Manage egress rules. (Self Hosted Only) |
@@ -2142,6 +2143,53 @@ def main():
 {
     "body": {
       "mappings": [],
+      //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>TemplatesAPI</summary>
+Manage templates
+
+### Methods
+
+| **Method** | **Description**                       |
+|------------|---------------------------------------|
+| `create`   | Create a private template.            |
+| `get`      | Retrieve a private template.          |
+| `update`   | Update a private template.            |
+| `list`     | Retrieve a list of private templates. |
+| `delete`   | Delete a private template by ID.      |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import TemplatesAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    templates_api = TemplatesAPI(DOMAIN, API_KEY)
+
+    templates = templates_api.list()
+
+    print(dumps(templates, indent=4))
+```
+```json5
+{
+    "body": {
+      "admin/templates": [],
       //...[snip]...//
     },
     "headers": {...},
