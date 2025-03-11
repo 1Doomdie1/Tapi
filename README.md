@@ -1929,11 +1929,12 @@ Manage tenant through admin endpoint
 
 ### Subclasses
 
-| **Path**                            | **Class**                     | **Description**                         |
-|-------------------------------------|-------------------------------|-----------------------------------------|
-| `TenantAPI.admin.jobs`              | `JobsAPI`                     | Manage tenant jobs. (Self Hosted Only)  |
-| `TenantAPI.admin.ip_access_control` | `IpAccessControlAPI`          | Manage IP access control.               |
-| `TenantAPI.admin.egress_rules`      | `ActionEgressControlRulesAPI` | Manage egress rules. (Self Hosted Only) |
+| **Path**                                  | **Class**                     | **Description**                         |
+|-------------------------------------------|-------------------------------|-----------------------------------------|
+| `TenantAPI.admin.jobs`                    | `JobsAPI`                     | Manage tenant jobs. (Self Hosted Only)  |
+| `TenantAPI.admin.ip_access_control`       | `IpAccessControlAPI`          | Manage IP access control.               |
+| `TenantAPI.admin.scim_user_group_mapping` | `SCIMUserGroupMappingAPI`     | Manage SCIM user group mappings.        |
+| `TenantAPI.admin.egress_rules`            | `ActionEgressControlRulesAPI` | Manage egress rules. (Self Hosted Only) |
 
 
 ### Usage:
@@ -2097,6 +2098,50 @@ def main():
 {
     "body": {
       "admin/dead_jobs": [],
+      //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>SCIMUserGroupMappingAPI</summary>
+Manage SCIM user group mappings.
+
+### Methods
+
+| **Method** | **Description**                                    |
+|------------|----------------------------------------------------|
+| `list`     | Get the SCIM user group mappings for the tenant.   |
+| `update`   | Update the SCIM user group mapping for the tenant. |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import SCIMUserGroupMappingAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    scim_api = SCIMUserGroupMappingAPI(DOMAIN, API_KEY)
+
+    scim_groups = scim_api.list()
+
+    print(dumps(scim_groups, indent=4))
+```
+```json5
+{
+    "body": {
+      "mappings": [],
       //...[snip]...//
     },
     "headers": {...},
