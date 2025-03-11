@@ -1926,6 +1926,7 @@ Manage tenant through admin endpoint
 | **Method**                         | **Description**                                                                          |
 |------------------------------------|------------------------------------------------------------------------------------------|
 | `set_custom_certificate_authority` | Set a custom certificate authority for use by all of your IMAP and HTTP Request actions. |
+| `tunnel_health`                    | Retrieve the health status of tunnels.                                                   |
 
 ### Subclasses
 
