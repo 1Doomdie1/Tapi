@@ -74,18 +74,19 @@ This class is designed to be used as a "parent" class from which all other endpo
 
 ### Subclasses
 
-| **Path**                | **Class**        | **Description**                      |
-|-------------------------|------------------|--------------------------------------|
-| `TenantAPI.cases`       | `CaseAPI`        | Manage cases.                        |
-| `TenantAPI.teams`       | `TeamsAPI`       | Manage teams.                        |
-| `TenantAPI.events`      | `EventsAPI`      | Manage tenant-wide action events.    |
-| `TenantAPI.stories`     | `StoriesAPI`     | Manage workflows.                    |
-| `TenantAPI.folders`     | `FoldersAPI`     | Manage folders.                      |
-| `TenantAPI.records`     | `RecordsAPI`     | Manage records.                      |
-| `TenantAPI.resources`   | `ResourcesAPI`   | Manage resources.                    |
-| `TenantAPI.reporting`   | `ReportingAPI`   | Pull action performance & time saved |
-| `TenantAPI.audit_logs`  | `AuditLogsAPI`   | Pull tenant logs.                    |
-| `TenantAPI.credentials` | `CredentialsAPI` | Manage tenant credentials.           |
+| **Path**                | **Class**        | **Description**                        |
+|-------------------------|------------------|----------------------------------------|
+| `TenantAPI.cases`       | `CaseAPI`        | Manage cases.                          |
+| `TenantAPI.teams`       | `TeamsAPI`       | Manage teams.                          |
+| `TenantAPI.admin`       | `AdminAPI`       | Manage tenant through admin endpoints. |
+| `TenantAPI.events`      | `EventsAPI`      | Manage tenant-wide action events.      |
+| `TenantAPI.stories`     | `StoriesAPI`     | Manage workflows.                      |
+| `TenantAPI.folders`     | `FoldersAPI`     | Manage folders.                        |
+| `TenantAPI.records`     | `RecordsAPI`     | Manage records.                        |
+| `TenantAPI.resources`   | `ResourcesAPI`   | Manage resources.                      |
+| `TenantAPI.reporting`   | `ReportingAPI`   | Pull action performance & time saved   |
+| `TenantAPI.audit_logs`  | `AuditLogsAPI`   | Pull tenant logs.                      |
+| `TenantAPI.credentials` | `CredentialsAPI` | Manage tenant credentials.             |
 
 
 ### Usage:
@@ -1908,6 +1909,148 @@ def main():
     "body": {
         "action_performance": []
         //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>AdminAPI</summary>
+Manage tenant through admin endpoint
+
+### Methods
+
+| **Method**                         | **Description**                                                                          |
+|------------------------------------|------------------------------------------------------------------------------------------|
+| `set_custom_certificate_authority` | Set a custom certificate authority for use by all of your IMAP and HTTP Request actions. |
+
+### Subclasses
+
+| **Path**                            | **Class**                     | **Description**           |
+|-------------------------------------|-------------------------------|---------------------------|
+| `TenantAPI.admin.ip_access_control` | `IpAccessControlAPI`          | Manage IP access control. |
+| `TenantAPI.admin.egress_rules`      | `ActionEgressControlRulesAPI` | Manage egress rules.      |
+
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import AdminAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    admin_api = AdminAPI(DOMAIN, API_KEY)
+
+    set_sert = admin_api.set_custom_certificate_authority(
+        name        = "default",
+        certificate = "<PEM encoded X.509 certificate>"
+    )
+
+    print(dumps(set_sert, indent=4))
+```
+```json5
+{
+    "body": "",
+    "headers": {...},
+    "status_code": 200
+}
+```
+
+</details>
+
+<details>
+<summary>ActionEgressControlRulesAPI</summary>
+Manage egress control rules (Self Hosted Only)
+
+### Methods
+
+| **Method** | **Description**                                  |
+|------------|--------------------------------------------------|
+| `create`   | Create a new Action egress control rule.         |
+| `get`      | Get an Action egress control rule by ID.         |
+| `update`   | Update an existing action egress control rule.   |
+| `list`     | List Action egress control rules for the tenant. |
+| `delete`   | Delete an existing Action egress control rule.   |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import ActionEgressControlRulesAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    egress_con_api = ActionEgressControlRulesAPI(DOMAIN, API_KEY)
+
+    controls = egress_con_api.list()
+
+    print(dumps(controls, indent=4))
+```
+```json5
+{
+    "body": {
+      "admin/action_egress_control_rules": [],
+      //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>IpAccessControlAPI</summary>
+Manage tenant IP access rules
+
+### Methods
+
+| **Method** | **Description**                              |
+|------------|----------------------------------------------|
+| `create`   | Create a new IP access control rule.         |
+| `get`      | Get an IP access control rule by ID.         |
+| `update`   | Update an existing IP access control rule.   |
+| `list`     | List IP access control rules for the tenant. |
+| `delete`   | Delete an existing IP access control rule.   |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import IpAccessControlAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    ip_acc_con_api = IpAccessControlAPI(DOMAIN, API_KEY)
+
+    ip_rules = ip_acc_con_api.list()
+
+    print(dumps(ip_rules, indent=4))
+```
+```json5
+{
+    "body": {
+      "admin/ip_access_control_rules": [],
+      //...[snip]...//
     },
     "headers": {...},
     "status_code": ...
