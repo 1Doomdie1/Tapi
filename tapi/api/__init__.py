@@ -3,6 +3,7 @@ from .team       import *
 from .note       import *
 from .story      import *
 from .event      import *
+from .admin      import *
 from .folder     import *
 from .action     import *
 from .record     import *
@@ -36,6 +37,8 @@ __all__ = [
     "RecordsAPI", "RecordTypesAPI", "RecordArtifactsAPI",
 
     "ReportingAPI",
+
+    "AdminAPI", "ActionEgressControlRulesAPI", "IpAccessControlAPI",
 
     "StoriesAPI", "ChangeRequestAPI", "RunsAPI", "VersionsAPI",
     "TeamsAPI", "MembersAPI"

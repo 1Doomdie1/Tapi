@@ -1,6 +1,7 @@
 from tapi.client import Client
 from .case       import CaseAPI
 from .team       import TeamsAPI
+from .admin      import AdminAPI
 from .event      import EventsAPI
 from .story      import StoriesAPI
 from .folder     import FoldersAPI
@@ -17,6 +18,7 @@ class TenantAPI(Client):
         self.base_endpoint = "info"
         self.cases         = CaseAPI(domain, apiKey)
         self.teams         = TeamsAPI(domain, apiKey)
+        self.admin         = AdminAPI(domain, apiKey)
         self.events        = EventsAPI(domain, apiKey)
         self.stories       = StoriesAPI(domain, apiKey)
         self.folders       = FoldersAPI(domain, apiKey)
