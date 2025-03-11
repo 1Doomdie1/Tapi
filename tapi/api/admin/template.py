@@ -41,17 +41,17 @@ class TemplatesAPI(Client):
 
     def update(
             self,
-            template_id: int,
-            name: str,
-            description: str,
-            vendor: str,
-            product: str,
-            agent_type: Union[AgentType, str],
+            template_id:   int,
+            name:          str,
+            description:   str,
+            vendor:        str,
+            product:       str,
+            agent_type:    Union[AgentType, str],
             agent_options: Dict[str, Any]
     ):
         return self._http_request(
-            "POST",
-            f"{self.base_endpoint}/templates{template_id}",
+            "PUT",
+            f"{self.base_endpoint}/templates/{template_id}",
             json = {
                 "name": name,
                 "description": description,
