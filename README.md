@@ -66,11 +66,11 @@ This class is designed to be used as a "parent" class from which all other endpo
 
 ### Methods
 
-| **Method**          | **Description**                                                       |
-|---------------------|-----------------------------------------------------------------------|
-| `info`              | Retries information about the tenant.                                 |
-| `web_statistics`    | Retrieve operational information about your web server. (Self Hosted) |
-| `worker_statistics` | Retrieve essential information about worker statistics. (Self Hosted) |
+| **Method**          | **Description**                                                            |
+|---------------------|----------------------------------------------------------------------------|
+| `info`              | Retries information about the tenant.                                      |
+| `web_statistics`    | Retrieve operational information about your web server. (Self Hosted Only) |
+| `worker_statistics` | Retrieve essential information about worker statistics. (Self Hosted Only) |
 
 ### Subclasses
 
@@ -1929,10 +1929,11 @@ Manage tenant through admin endpoint
 
 ### Subclasses
 
-| **Path**                            | **Class**                     | **Description**           |
-|-------------------------------------|-------------------------------|---------------------------|
-| `TenantAPI.admin.ip_access_control` | `IpAccessControlAPI`          | Manage IP access control. |
-| `TenantAPI.admin.egress_rules`      | `ActionEgressControlRulesAPI` | Manage egress rules.      |
+| **Path**                            | **Class**                     | **Description**                         |
+|-------------------------------------|-------------------------------|-----------------------------------------|
+| `TenantAPI.admin.jobs`              | `JobsAPI`                     | Manage tenant jobs. (Self Hosted Only)  |
+| `TenantAPI.admin.ip_access_control` | `IpAccessControlAPI`          | Manage IP access control.               |
+| `TenantAPI.admin.egress_rules`      | `ActionEgressControlRulesAPI` | Manage egress rules. (Self Hosted Only) |
 
 
 ### Usage:
@@ -2050,6 +2051,52 @@ def main():
 {
     "body": {
       "admin/ip_access_control_rules": [],
+      //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>JobsAPI</summary>
+Manage tenant jobs. (Self Hosted Only)
+
+### Methods
+
+| **Method**     | **Description**                                             |
+|----------------|-------------------------------------------------------------|
+| `list`         | Retrieve a list of dead, in progress, queued or retry jobs. |
+| `delete`       | Delete all dead, queued or retry jobs.                      |
+| `delete_by_id` | Delete all dead, queued or retry jobs by action id.         |
+
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import JobsAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    jobs_api = JobsAPI(DOMAIN, API_KEY)
+
+    jobs = jobs_api.list(job_type = "dead")
+
+    print(dumps(jobs, indent=4))
+```
+```json5
+{
+    "body": {
+      "admin/dead_jobs": [],
       //...[snip]...//
     },
     "headers": {...},
