@@ -31,3 +31,12 @@ class AdminAPI(Client):
                 "certificate": certificate
             }
         )
+
+    def tunnel_health(
+            self,
+            tunnel_name: str
+    ):
+        return self._http_request(
+            "GET",
+            f"{self.base_endpoint}/tunnel/{tunnel_name}/health"
+        )
