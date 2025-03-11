@@ -1933,6 +1933,7 @@ Manage tenant through admin endpoint
 | **Path**                                  | **Class**                     | **Description**                         |
 |-------------------------------------------|-------------------------------|-----------------------------------------|
 | `TenantAPI.admin.jobs`                    | `JobsAPI`                     | Manage tenant jobs. (Self Hosted Only)  |
+| `TenantAPI.admin.users`                   | `UsersAPI`                    | Manage tenant-wide users.               |
 | `TenantAPI.admin.templates`               | `TemplatesAPI`                | Manage templates.                       |
 | `TenantAPI.admin.ip_access_control`       | `IpAccessControlAPI`          | Manage IP access control.               |
 | `TenantAPI.admin.scim_user_group_mapping` | `SCIMUserGroupMappingAPI`     | Manage SCIM user group mappings.        |
@@ -2191,6 +2192,56 @@ def main():
 {
     "body": {
       "admin/templates": [],
+      //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>UsersAPI</summary>
+Manage tenant-wide users
+
+### Methods
+
+| **Method**          | **Description**                                                                |
+|---------------------|--------------------------------------------------------------------------------|
+| `create`            | Create a user in a Tines tenant.                                               |
+| `get`               | Retrieve details of a specific user.                                           |
+| `sign_in_activity`  | Retrieve a list of sign-in activities by a specified user.                     |
+| `update`            | Update a User.                                                                 |
+| `list`              | Retrieve a list of users from the Tines tenant.                                |
+| `delete`            | Delete a specific user.                                                        |
+| `resend_invitation` | Resend platform invitation to specified user.                                  |
+| `expire_session`    | Expires a user’s session, signing them out of the Tines tenant on all devices. |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import UsersAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    users_api = UsersAPI(DOMAIN, API_KEY)
+
+    users = users_api.list()
+
+    print(dumps(users, indent=4))
+```
+```json5
+{
+    "body": {
+      "admin/users": [],
       //...[snip]...//
     },
     "headers": {...},
