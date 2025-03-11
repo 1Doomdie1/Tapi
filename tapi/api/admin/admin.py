@@ -1,5 +1,6 @@
 from tapi.client                  import Client
 from .job                         import JobsAPI
+from .template                    import TemplatesAPI
 from .ip_access_control           import IpAccessControlAPI
 from .scim                        import SCIMUserGroupMappingAPI
 from .action_egress_control_rules import ActionEgressControlRulesAPI
@@ -10,6 +11,7 @@ class AdminAPI(Client):
         super().__init__(domain, apiKey)
         self.base_endpoint           = "admin"
         self.jobs                    = JobsAPI(domain, apiKey)
+        self.templates               = TemplatesAPI(domain, apiKey)
         self.ip_access_control       = IpAccessControlAPI(domain, apiKey)
         self.scim_user_group_mapping = SCIMUserGroupMappingAPI(domain, apiKey)
         self.egress_rules            = ActionEgressControlRulesAPI(domain, apiKey)
