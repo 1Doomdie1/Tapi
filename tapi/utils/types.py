@@ -293,3 +293,8 @@ class RecordFilter(TypedDict):
         str
     ]
     value: Optional[Union[str, int]]
+
+class SCIMUserGroupMapping(TypedDict):
+    group_name: str
+    team_name: str
+    role_name: str
