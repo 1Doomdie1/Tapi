@@ -18,7 +18,7 @@ __all__ = [
 
     "CaseAPI", "CaseActionsAPI", "CaseActivitiesAPI", "CaseAssigneesAPI", "CaseInputsAPI", "CaseInputsFieldsAPI",
     "CaseCommentsAPI", "CaseCommentsReactionsAPI", "CaseFieldsAPI", "CaseFilesAPI", "LinkedCasesAPI", "CaseMetadataAPI",
-    "CaseNotesAPI", "CaseRecordsAPI", "CaseSubscribersAPI",
+    "CaseNotesAPI", "CaseRecordsAPI", "CaseSubscribersAPI", "GroupsAPI",
 
     "ActionsAPI", "ActionLogsAPI", "ActionEventsAPI",
 
