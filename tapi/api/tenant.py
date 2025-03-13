@@ -1,4 +1,5 @@
 from tapi.client import Client
+from requests    import request
 from .case       import CaseAPI
 from .team       import TeamsAPI
 from .admin      import AdminAPI
@@ -10,6 +11,7 @@ from .report     import ReportingAPI
 from .resource   import ResourcesAPI
 from .audit_log  import AuditLogsAPI
 from .credential import CredentialsAPI
+from typing      import Optional, Literal
 
 
 class TenantAPI(Client):
@@ -28,6 +30,24 @@ class TenantAPI(Client):
         self.audit_logs    = AuditLogsAPI(domain, apiKey)
         self.credentials   = CredentialsAPI(domain, apiKey)
 
+    def trigger_webhook(
+            self,
+            path:   str,
+            secret: str,
+            method: Literal["GET", "PUT", "POST", "PATCH", "DELETE"] = "GET",
+            domain: Optional[str]                                    = None,
+            **kwargs
+    ):
+        domain = domain or self.domain
+
+        req = request(
+            method = method,
+            url    = f"https://{domain}.tines.com/webhook/{path}/{secret}",
+            **kwargs
+        )
+
+        return req.json()
+
     def info(self):
         return self._http_request(
             "GET",
@@ -45,3 +65,4 @@ class TenantAPI(Client):
             "GET",
             f"{self.base_endpoint}/worker_stats"
         )
+
