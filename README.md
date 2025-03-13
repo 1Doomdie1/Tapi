@@ -140,6 +140,7 @@ Manage tines workflows.
 |------------------------------------|--------------------|------------------------------|
 | `TenantAPI.stories.runs`           | `RunsAPI`          | Manage case runs.            |
 | `TenantAPI.stories.notes`          | `NotesAPI`         | Manage case notes.           |
+| `TenantAPI.stories.groups`         | `GroupsAPI`        | Pull action groups logs.     |
 | `TenantAPI.stories.actions`        | `ActionsAPI`       | Manage case actions.         |
 | `TenantAPI.stories.versions`       | `VersionsAPI`      | Manage case versions.        |
 | `TenantAPI.stories.change_request` | `ChangeRequestAPI` | Manage case change requests. |
@@ -2243,6 +2244,54 @@ def main():
 {
     "body": {
       "admin/users": [],
+      //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>GroupsAPI</summary>
+Pull group actions events and logs
+
+### Methods
+
+| **Method**        | **Description**                            |
+|-------------------|--------------------------------------------|
+| `list_run_events` | Retrieve a list of events for a group run. |
+| `list_runs`       | Retrieve a list of group runs.             |
+
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import GroupsAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    groups_api = GroupsAPI(DOMAIN, API_KEY)
+
+    events = groups_api.list_run_events(
+        group_id = 1234,
+        group_run_guid = "aaaabbbbccccddddeeeeffff"
+    )
+
+    print(dumps(events, indent=4))
+```
+```json5
+{
+    "body": {
+      "group_run_events": [],
       //...[snip]...//
     },
     "headers": {...},
