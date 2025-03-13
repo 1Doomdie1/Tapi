@@ -1,5 +1,4 @@
-from tapi.client      import Client
-from typing           import Optional, Union
+from tapi.client import Client
 
 
 class GroupsAPI(Client):
