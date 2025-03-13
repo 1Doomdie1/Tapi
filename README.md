@@ -66,23 +66,28 @@ This class is designed to be used as a "parent" class from which all other endpo
 
 ### Methods
 
-| **Method** | **Description**                        |
-|------------|----------------------------------------|
-| `info`     | Retries information about the tenant.  |
+| **Method**          | **Description**                                                            |
+|---------------------|----------------------------------------------------------------------------|
+| `info`              | Retries information about the tenant.                                      |
+| `web_statistics`    | Retrieve operational information about your web server. (Self Hosted Only) |
+| `trigger_webhook`   | Trigger a webhook from the tenant or external tenants.                     |
+| `worker_statistics` | Retrieve essential information about worker statistics. (Self Hosted Only) |
 
 ### Subclasses
 
-| **Path**                | **Class**        | **Description**                   |
-|-------------------------|------------------|-----------------------------------|
-| `TenantAPI.cases`       | `CaseAPI`        | Manage cases.                     |
-| `TenantAPI.teams`       | `TeamsAPI`       | Manage teams.                     |
-| `TenantAPI.events`      | `EventsAPI`      | Manage tenant-wide action events. |
-| `TenantAPI.stories`     | `StoriesAPI`     | Manage workflows.                 |
-| `TenantAPI.folders`     | `FoldersAPI`     | Manage folders.                   |
-| `TenantAPI.records`     | `RecordsAPI`     | Manage records.                   |
-| `TenantAPI.resources`   | `ResourcesAPI`   | Manage resources.                 |
-| `TenantAPI.audit_logs`  | `AuditLogsAPI`   | Pull tenant logs.                 |
-| `TenantAPI.credentials` | `CredentialsAPI` | Manage tenant credentials.        |
+| **Path**                | **Class**        | **Description**                        |
+|-------------------------|------------------|----------------------------------------|
+| `TenantAPI.cases`       | `CaseAPI`        | Manage cases.                          |
+| `TenantAPI.teams`       | `TeamsAPI`       | Manage teams.                          |
+| `TenantAPI.admin`       | `AdminAPI`       | Manage tenant through admin endpoints. |
+| `TenantAPI.events`      | `EventsAPI`      | Manage tenant-wide action events.      |
+| `TenantAPI.stories`     | `StoriesAPI`     | Manage workflows.                      |
+| `TenantAPI.folders`     | `FoldersAPI`     | Manage folders.                        |
+| `TenantAPI.records`     | `RecordsAPI`     | Manage records.                        |
+| `TenantAPI.resources`   | `ResourcesAPI`   | Manage resources.                      |
+| `TenantAPI.reporting`   | `ReportingAPI`   | Pull action performance & time saved   |
+| `TenantAPI.audit_logs`  | `AuditLogsAPI`   | Pull tenant logs.                      |
+| `TenantAPI.credentials` | `CredentialsAPI` | Manage tenant credentials.             |
 
 
 ### Usage:
@@ -1723,7 +1728,7 @@ def main():
 
 <details>
 <summary>RecordsAPI</summary>
-Manage actions.
+Manage records.
 
 ### Methods
 
@@ -1775,7 +1780,7 @@ def main():
 
 <details>
 <summary>RecordTypesAPI</summary>
-Manage resources
+Manage record types
 
 ### Methods
 
@@ -1821,7 +1826,7 @@ def main():
 
 <details>
 <summary>RecordArtifactsAPI</summary>
-Manage resources
+Pull record artifacts.
 
 ### Methods
 
@@ -1861,6 +1866,384 @@ def main():
         "created_at": "2024-02-16T15:37:39Z",
         "updated_at": "2024-02-16T15:37:39Z"
         //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>ReportingAPI</summary>
+Get action performance and time saved metrics 
+
+### Methods
+
+| **Method**           | **Description**                                               |
+|----------------------|---------------------------------------------------------------|
+| `action_performance` | Returns action performance in Tines.                          |
+| `time_saved`         | Returns timed and dated records of time saved by using Tines. |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import ReportingAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    reporting_api = ReportingAPI(DOMAIN, API_KEY)
+
+    action_performance = reporting_api.action_performance()
+
+    print(dumps(action_performance, indent=4))
+```
+```json5
+{
+    "body": {
+        "action_performance": []
+        //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>AdminAPI</summary>
+Manage tenant through admin endpoint
+
+### Methods
+
+| **Method**                         | **Description**                                                                          |
+|------------------------------------|------------------------------------------------------------------------------------------|
+| `set_custom_certificate_authority` | Set a custom certificate authority for use by all of your IMAP and HTTP Request actions. |
+| `tunnel_health`                    | Retrieve the health status of tunnels.                                                   |
+
+### Subclasses
+
+| **Path**                                  | **Class**                     | **Description**                         |
+|-------------------------------------------|-------------------------------|-----------------------------------------|
+| `TenantAPI.admin.jobs`                    | `JobsAPI`                     | Manage tenant jobs. (Self Hosted Only)  |
+| `TenantAPI.admin.users`                   | `UsersAPI`                    | Manage tenant-wide users.               |
+| `TenantAPI.admin.templates`               | `TemplatesAPI`                | Manage templates.                       |
+| `TenantAPI.admin.ip_access_control`       | `IpAccessControlAPI`          | Manage IP access control.               |
+| `TenantAPI.admin.scim_user_group_mapping` | `SCIMUserGroupMappingAPI`     | Manage SCIM user group mappings.        |
+| `TenantAPI.admin.egress_rules`            | `ActionEgressControlRulesAPI` | Manage egress rules. (Self Hosted Only) |
+
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import AdminAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    admin_api = AdminAPI(DOMAIN, API_KEY)
+
+    set_sert = admin_api.set_custom_certificate_authority(
+        name        = "default",
+        certificate = "<PEM encoded X.509 certificate>"
+    )
+
+    print(dumps(set_sert, indent=4))
+```
+```json5
+{
+    "body": "",
+    "headers": {...},
+    "status_code": 200
+}
+```
+
+</details>
+
+<details>
+<summary>ActionEgressControlRulesAPI</summary>
+Manage egress control rules (Self Hosted Only)
+
+### Methods
+
+| **Method** | **Description**                                  |
+|------------|--------------------------------------------------|
+| `create`   | Create a new Action egress control rule.         |
+| `get`      | Get an Action egress control rule by ID.         |
+| `update`   | Update an existing action egress control rule.   |
+| `list`     | List Action egress control rules for the tenant. |
+| `delete`   | Delete an existing Action egress control rule.   |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import ActionEgressControlRulesAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    egress_con_api = ActionEgressControlRulesAPI(DOMAIN, API_KEY)
+
+    controls = egress_con_api.list()
+
+    print(dumps(controls, indent=4))
+```
+```json5
+{
+    "body": {
+      "admin/action_egress_control_rules": [],
+      //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>IpAccessControlAPI</summary>
+Manage tenant IP access rules
+
+### Methods
+
+| **Method** | **Description**                              |
+|------------|----------------------------------------------|
+| `create`   | Create a new IP access control rule.         |
+| `get`      | Get an IP access control rule by ID.         |
+| `update`   | Update an existing IP access control rule.   |
+| `list`     | List IP access control rules for the tenant. |
+| `delete`   | Delete an existing IP access control rule.   |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import IpAccessControlAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    ip_acc_con_api = IpAccessControlAPI(DOMAIN, API_KEY)
+
+    ip_rules = ip_acc_con_api.list()
+
+    print(dumps(ip_rules, indent=4))
+```
+```json5
+{
+    "body": {
+      "admin/ip_access_control_rules": [],
+      //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>JobsAPI</summary>
+Manage tenant jobs. (Self Hosted Only)
+
+### Methods
+
+| **Method**     | **Description**                                             |
+|----------------|-------------------------------------------------------------|
+| `list`         | Retrieve a list of dead, in progress, queued or retry jobs. |
+| `delete`       | Delete all dead, queued or retry jobs.                      |
+| `delete_by_id` | Delete all dead, queued or retry jobs by action id.         |
+
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import JobsAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    jobs_api = JobsAPI(DOMAIN, API_KEY)
+
+    jobs = jobs_api.list(job_type = "dead")
+
+    print(dumps(jobs, indent=4))
+```
+```json5
+{
+    "body": {
+      "admin/dead_jobs": [],
+      //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>SCIMUserGroupMappingAPI</summary>
+Manage SCIM user group mappings.
+
+### Methods
+
+| **Method** | **Description**                                    |
+|------------|----------------------------------------------------|
+| `list`     | Get the SCIM user group mappings for the tenant.   |
+| `update`   | Update the SCIM user group mapping for the tenant. |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import SCIMUserGroupMappingAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    scim_api = SCIMUserGroupMappingAPI(DOMAIN, API_KEY)
+
+    scim_groups = scim_api.list()
+
+    print(dumps(scim_groups, indent=4))
+```
+```json5
+{
+    "body": {
+      "mappings": [],
+      //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>TemplatesAPI</summary>
+Manage templates
+
+### Methods
+
+| **Method** | **Description**                       |
+|------------|---------------------------------------|
+| `create`   | Create a private template.            |
+| `get`      | Retrieve a private template.          |
+| `update`   | Update a private template.            |
+| `list`     | Retrieve a list of private templates. |
+| `delete`   | Delete a private template by ID.      |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import TemplatesAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    templates_api = TemplatesAPI(DOMAIN, API_KEY)
+
+    templates = templates_api.list()
+
+    print(dumps(templates, indent=4))
+```
+```json5
+{
+    "body": {
+      "admin/templates": [],
+      //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>UsersAPI</summary>
+Manage tenant-wide users
+
+### Methods
+
+| **Method**          | **Description**                                                                |
+|---------------------|--------------------------------------------------------------------------------|
+| `create`            | Create a user in a Tines tenant.                                               |
+| `get`               | Retrieve details of a specific user.                                           |
+| `sign_in_activity`  | Retrieve a list of sign-in activities by a specified user.                     |
+| `update`            | Update a User.                                                                 |
+| `list`              | Retrieve a list of users from the Tines tenant.                                |
+| `delete`            | Delete a specific user.                                                        |
+| `resend_invitation` | Resend platform invitation to specified user.                                  |
+| `expire_session`    | Expires a user’s session, signing them out of the Tines tenant on all devices. |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import UsersAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    users_api = UsersAPI(DOMAIN, API_KEY)
+
+    users = users_api.list()
+
+    print(dumps(users, indent=4))
+```
+```json5
+{
+    "body": {
+      "admin/users": [],
+      //...[snip]...//
     },
     "headers": {...},
     "status_code": ...
