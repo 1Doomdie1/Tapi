@@ -105,6 +105,7 @@ class CaseBlockElementsAPI(Client):
         return self._http_request(
             "PUT",
             f"{self.base_endpoint}/{case_id}/blocks/{block_id}/elements/{element_id}",
+            "v2",
             json = {key: value for key, value in locals().items() if
                     value is not None and key not in ("self", "case_id", "block_id", "element_id")}
         )
