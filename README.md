@@ -4,7 +4,7 @@ A simple Python wrapper for the Tines API.
 ## ⚙️Installation
 
 ```bash
-pip install tapi-py
+pip install tapi-python
 ```
 
 ## 🔄 Usage
