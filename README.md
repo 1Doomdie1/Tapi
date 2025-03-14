@@ -1,15 +1,10 @@
 # About Tapi
 A simple Python wrapper for the Tines API.
 
-## ⚠ Disclaimer 
-The library is still under development so major changes and bugs are to be expected. Please feel free to open issues if you encounter any!
+## ⚙️Installation
 
-## ⚙️Installation 
 ```bash
-git clone https://github.com/1Doomdie1/Tapi.git
-cd tapi
-py -m build -s -w
-pip install .
+pip install tines-api
 ```
 
 ## 🔄 Usage
