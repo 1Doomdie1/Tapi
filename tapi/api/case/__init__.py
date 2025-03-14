@@ -10,10 +10,11 @@ from .assignees    import CaseAssigneesAPI
 from .activities   import CaseActivitiesAPI
 from .subscribers  import CaseSubscribersAPI
 from .inputs       import CaseInputsAPI, CaseInputsFieldsAPI
+from .blocks       import CaseBlocksAPI, CaseBlockElementsAPI
 from .comments     import CaseCommentsAPI, CaseCommentsReactionsAPI
 
 __all__ = [
     "CaseAPI", "CaseActionsAPI", "CaseAssigneesAPI", "CaseActivitiesAPI", "CaseInputsAPI", "CaseInputsFieldsAPI",
     "CaseCommentsAPI", "CaseCommentsReactionsAPI", "CaseFieldsAPI", "CaseFilesAPI", "LinkedCasesAPI", "CaseMetadataAPI",
-    "CaseNotesAPI", "CaseRecordsAPI", "CaseSubscribersAPI"
+    "CaseNotesAPI", "CaseRecordsAPI", "CaseSubscribersAPI", "CaseBlocksAPI", "CaseBlockElementsAPI"
 ]

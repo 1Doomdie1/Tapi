@@ -3,6 +3,7 @@ from .notes           import CaseNotesAPI
 from .files           import CaseFilesAPI
 from .fields          import CaseFieldsAPI
 from .inputs          import CaseInputsAPI
+from .blocks          import CaseBlocksAPI
 from .actions         import CaseActionsAPI
 from .linked_cases    import LinkedCasesAPI
 from .records         import CaseRecordsAPI
@@ -14,7 +15,6 @@ from .subscribers     import CaseSubscribersAPI
 from typing           import List, Any, Dict, Optional, Union
 from tapi.utils.types import CasePriority, CaseStatus, CaseReturnOrder
 
-
 class CaseAPI(Client):
     def __init__(self, domain: str, apiKey: str):
         super().__init__(domain, apiKey)
@@ -23,6 +23,7 @@ class CaseAPI(Client):
         self.notes         = CaseNotesAPI(domain, apiKey)
         self.inputs        = CaseInputsAPI(domain, apiKey)
         self.fields        = CaseFieldsAPI(domain, apiKey)
+        self.blocks        = CaseBlocksAPI(domain, apiKey)
         self.linked_cases  = LinkedCasesAPI(domain, apiKey)
         self.actions       = CaseActionsAPI(domain, apiKey)
         self.records       = CaseRecordsAPI(domain, apiKey)
