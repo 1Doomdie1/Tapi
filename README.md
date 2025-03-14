@@ -2331,7 +2331,7 @@ def main():
 
     drafts_api = DraftsAPI(DOMAIN, API_KEY)
 
-    drafts = DraftsAPI.list(story_id = 1234)
+    drafts = drafts_api.list(story_id = 1234)
 
     print(dumps(drafts, indent=4))
 ```
