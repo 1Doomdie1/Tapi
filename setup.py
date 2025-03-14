@@ -7,8 +7,8 @@ with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 
 setup(
-    name                          = "tapi",
-    version                       = "0.0.13",
+    name                          = "tapi-py", # This will be changed to tapi once this name will be available to be taken.
+    version                       = "0.1.0",
     description                   = "Tines REST API wrapper",
     long_description              = long_description,
     long_description_content_type = "text/markdown",
@@ -16,7 +16,7 @@ setup(
     author                        = "Todoran Horia",
     license                       = "GPL-3.0",
     classifiers                   = [
-        "License :: OSI Approved :: GPL-3.0 License",
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Programming Language :: Python :: 3.10",
         "Operating System :: OS Independent",
     ],
@@ -24,5 +24,5 @@ setup(
     extras_require                = {
         "dev": ["pytest", "twine"],
     },
-    python_requires               =">=3.10"
+    python_requires               = ">=3.10"
 )

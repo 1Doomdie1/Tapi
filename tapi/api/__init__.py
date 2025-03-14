@@ -16,9 +16,9 @@ from .tenant     import TenantAPI
 __all__ = [
     "TenantAPI",
 
-    "CaseAPI", "CaseActionsAPI", "CaseActivitiesAPI", "CaseAssigneesAPI", "CaseInputsAPI", "CaseInputsFieldsAPI",
+    "CasesAPI", "CaseActionsAPI", "CaseActivitiesAPI", "CaseAssigneesAPI", "CaseInputsAPI", "CaseInputsFieldsAPI",
     "CaseCommentsAPI", "CaseCommentsReactionsAPI", "CaseFieldsAPI", "CaseFilesAPI", "LinkedCasesAPI", "CaseMetadataAPI",
-    "CaseNotesAPI", "CaseRecordsAPI", "CaseSubscribersAPI", "GroupsAPI",
+    "CaseNotesAPI", "CaseRecordsAPI", "CaseSubscribersAPI", "GroupsAPI", "CaseBlocksAPI", "CaseBlockElementsAPI",
 
     "ActionsAPI", "ActionLogsAPI", "ActionEventsAPI",
 
@@ -39,7 +39,7 @@ __all__ = [
     "ReportingAPI",
 
     "AdminAPI", "ActionEgressControlRulesAPI", "IpAccessControlAPI", "JobsAPI", "SCIMUserGroupMappingAPI",
-    "TemplatesAPI", "UsersAPI",
+    "TemplatesAPI", "UsersAPI", "DraftsAPI",
 
     "StoriesAPI", "ChangeRequestAPI", "RunsAPI", "VersionsAPI",
     "TeamsAPI", "MembersAPI"

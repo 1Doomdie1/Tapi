@@ -1,15 +1,10 @@
 # About Tapi
 A simple Python wrapper for the Tines API.
 
-## ⚠ Disclaimer 
-The library is still under development so major changes and bugs are to be expected. Please feel free to open issues if you encounter any!
+## ⚙️Installation
 
-## ⚙️Installation 
 ```bash
-git clone https://github.com/1Doomdie1/Tapi.git
-cd tapi
-py -m build -s -w
-pip install .
+pip install tapi-py
 ```
 
 ## 🔄 Usage
@@ -34,13 +29,13 @@ if __name__ == "__main__":
 While the main `TenantAPI` class is convenient, using specific endpoint classes may be preferable in certain scenarios. Each class requires `DOMAIN` and `API_KEY` to be passed explicitly.
 
 ```python
-from tapi import CaseAPI, TeamsAPI, StoriesAPI
+from tapi import CasesAPI, TeamsAPI, StoriesAPI
 
 def main():
     DOMAIN = "MY_COOL_DOMAIN"
     API_KEY = "DO_NOT_PUT_THIS_ON_GITHUB"
 
-    cases_api = CaseAPI(DOMAIN, API_KEY)
+    cases_api = CasesAPI(DOMAIN, API_KEY)
     teams_api = TeamsAPI(DOMAIN, API_KEY)
     stories_api = StoriesAPI(DOMAIN, API_KEY)
 
@@ -77,7 +72,7 @@ This class is designed to be used as a "parent" class from which all other endpo
 
 | **Path**                | **Class**        | **Description**                        |
 |-------------------------|------------------|----------------------------------------|
-| `TenantAPI.cases`       | `CaseAPI`        | Manage cases.                          |
+| `TenantAPI.cases`       | `CasesAPI`        | Manage cases.                          |
 | `TenantAPI.teams`       | `TeamsAPI`       | Manage teams.                          |
 | `TenantAPI.admin`       | `AdminAPI`       | Manage tenant through admin endpoints. |
 | `TenantAPI.events`      | `EventsAPI`      | Manage tenant-wide action events.      |
@@ -141,6 +136,7 @@ Manage tines workflows.
 | `TenantAPI.stories.runs`           | `RunsAPI`          | Manage case runs.            |
 | `TenantAPI.stories.notes`          | `NotesAPI`         | Manage case notes.           |
 | `TenantAPI.stories.groups`         | `GroupsAPI`        | Pull action groups logs.     |
+| `TenantAPI.stories.drafts`         | `DraftsAPI`        | Manage story drafts.         |
 | `TenantAPI.stories.actions`        | `ActionsAPI`       | Manage case actions.         |
 | `TenantAPI.stories.versions`       | `VersionsAPI`      | Manage case versions.        |
 | `TenantAPI.stories.change_request` | `ChangeRequestAPI` | Manage case change requests. |
@@ -430,6 +426,7 @@ Manage tines cases.
 | `TenantAPI.cases.notes`        | `CaseNotesAPI`       | Manage case notes.       |
 | `TenantAPI.cases.inputs`       | `CaseInputsAPI`      | Manage case inputs.      |
 | `TenantAPI.cases.fields`       | `CaseFieldsAPI`      | Manage case fields.      |
+| `TenantAPI.cases.blocks`       | `CaseBlocksAPI`      | Manage case blocks.      |
 | `TenantAPI.cases.linked_cases` | `LinkedCasesAPI`     | Manage linked cases.     |
 | `TenantAPI.cases.actions`      | `CaseActionsAPI`     | Manage case actions.     |
 | `TenantAPI.cases.records`      | `CaseRecordsAPI`     | Manage case records.     |
@@ -443,13 +440,13 @@ Manage tines cases.
 
 ```python
 from json import dumps
-from tapi import CaseAPI
+from tapi import CasesAPI
 
 def main():
     DOMAIN  = "my-cool-domain-1234"
     API_KEY = "do_not_put_this_on_github_lol"
     
-    case_api = CaseAPI(DOMAIN, API_KEY)
+    case_api = CasesAPI(DOMAIN, API_KEY)
     
     cases = case_api.list()
     
@@ -1272,6 +1269,104 @@ def main():
                 "id": 2231
             }
         ],
+        //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>CaseBlocksAPI</summary>
+Manage case blocks.
+
+### Methods
+
+| **Method**     | **Description**                       |
+|----------------|---------------------------------------|
+| `create`       | Add a block to a case.                |
+| `get`          | Retrieve a single block for a case.   |
+| `update`       | Update an existing block.             |
+| `list`         | Retrieve a list of blocks for a case. |
+| `delete`       | Delete a block from a case.           |
+
+### Subclasses
+
+| **Path**                          | **Class**              | **Description**              |
+|-----------------------------------|------------------------|------------------------------|
+| `TenantAPI.cases.blocks.elements` | `CaseBlockElementsAPI` | Manage case blocks elements. |
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import CaseBlocksAPI
+
+def main():
+    DOMAIN  = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+    
+    case_blocks_api = CaseBlocksAPI(DOMAIN, API_KEY)
+    
+    blocks = case_blocks_api.list(case_id = 1234)
+    
+    print(dumps(blocks, indent = 4))
+```
+```json5
+{
+    "body": {
+        "blocks": [...],
+        //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>CaseBlockElementsAPI</summary>
+Manage case block elements.
+
+### Methods
+
+| **Method**     | **Description**                       |
+|----------------|---------------------------------------|
+| `get`          | Retrieve a single block for a case.   |
+| `update`       | Update an existing block.             |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import CaseBlockElementsAPI
+
+def main():
+    DOMAIN  = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+    
+    case_blocks_elements_api = CaseBlockElementsAPI(DOMAIN, API_KEY)
+    
+    element = case_blocks_elements_api.get(
+        case_id    = 123,
+        block_id   = 456,
+        element_id = 789
+    )
+    
+    print(dumps(element, indent = 4))
+```
+```json5
+{
+    "body": {
+        "element_id": 789,
+        "id": 456,
+        "element_type": "note",
         //...[snip]...//
     },
     "headers": {...},
@@ -2292,6 +2387,52 @@ def main():
 {
     "body": {
       "group_run_events": [],
+      //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>DraftsAPI</summary>
+Manage story drafts
+
+### Methods
+
+| **Method** | **Description**                        |
+|------------|----------------------------------------|
+| `create`   | Create a new draft for a story.        |
+| `list`     | Retrieve a list of drafts for a story. |
+| `delete`   | Delete a draft for a story.            |
+
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import DraftsAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    drafts_api = DraftsAPI(DOMAIN, API_KEY)
+
+    drafts = drafts_api.list(story_id = 1234)
+
+    print(dumps(drafts, indent=4))
+```
+```json5
+{
+    "body": {
+      "drafts": [],
       //...[snip]...//
     },
     "headers": {...},

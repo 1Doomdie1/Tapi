@@ -1,7 +1,7 @@
 import unittest
-from os     import getenv
-from tapi   import TenantAPI
-from dotenv import load_dotenv
+from os              import getenv
+from tapi            import TenantAPI
+from dotenv          import load_dotenv
 from tapi.utils.http import disable_ssl_verification
 
 

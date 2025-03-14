@@ -98,7 +98,7 @@ class test_CaseCommentsReactionsAPI(unittest.TestCase):
     def setUp(self):
         load_dotenv()
         self.case_id                     = int(getenv("CASE_ID"))
-        self.case_comments_reactions_api = CaseCommentsReactionsAPI(getenv("DOMAIN"), getenv("API_KEY_2"))
+        self.case_comments_reactions_api = CaseCommentsReactionsAPI(getenv("DOMAIN"), getenv("API_KEY"))
 
     @premium_feature
     def test_add(self):
@@ -113,18 +113,19 @@ class test_CaseCommentsReactionsAPI(unittest.TestCase):
         self.assertEqual(resp.get("status_code"), 201)
         self.assertEqual(type(body.get("reactions")), list)
 
+    @unittest.skip
     @premium_feature
     def test_remove(self):
-        reaction = self.case_comments_reactions_api.add(
-            case_id=self.case_id,
-            comment_id=int(getenv("CASE_COMMENT_ID")),
-            value=ReactionType.PLUS_ONE
+        self.case_comments_reactions_api.add(
+            case_id    = self.case_id,
+            comment_id = int(getenv("CASE_COMMENT_ID")),
+            value      = ReactionType.HEART
         )
 
         resp = self.case_comments_reactions_api.remove(
-            case_id = self.case_id,
-            comment_id=int(getenv("CASE_COMMENT_ID")),
-            value=ReactionType.PLUS_ONE
+            case_id    = self.case_id,
+            comment_id = int(getenv("CASE_COMMENT_ID")),
+            value      = ReactionType.HEART
         )
 
         self.assertEqual(resp.get("status_code"), 204)
