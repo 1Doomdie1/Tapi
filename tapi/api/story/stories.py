@@ -3,6 +3,7 @@ from tapi.client      import Client
 from .runs            import RunsAPI
 from ..note           import NotesAPI
 from .groups          import GroupsAPI
+from .drafts          import DraftsAPI
 from ..action.actions import ActionsAPI
 from .versions        import VersionsAPI
 from .change_requests import ChangeRequestAPI
@@ -16,6 +17,7 @@ class StoriesAPI(Client):
         self.runs           = RunsAPI(domain, apiKey)
         self.notes          = NotesAPI(domain, apiKey)
         self.groups         = GroupsAPI(domain, apiKey)
+        self.drafts         = DraftsAPI(domain, apiKey)
         self.actions        = ActionsAPI(domain, apiKey)
         self.versions       = VersionsAPI(domain, apiKey)
         self.change_request = ChangeRequestAPI(domain, apiKey)
