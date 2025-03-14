@@ -7,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 
 setup(
-    name                          = "tapi-py", # This will be changed to tapi once this name will be available to be taken.
+    name                          = "tapi-python", # This will be changed to tapi once this name will be available to be taken.
     version                       = "0.1.0",
     description                   = "Tines REST API wrapper",
     long_description              = long_description,
