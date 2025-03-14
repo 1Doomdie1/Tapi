@@ -1,6 +1,5 @@
-from typing import Union, Literal, List, Dict, Optional
-
 from tapi.client import Client
+from typing      import Union, Literal, List, Dict, Optional
 
 
 class CaseBlocksAPI(Client):
@@ -83,9 +82,30 @@ class CaseBlockElementsAPI(Client):
         super().__init__(domain, apiKey)
         self.base_endpoint = "cases"
 
-    def get(self):
-        ...
+    def get(
+            self,
+            case_id:    int,
+            block_id:   int,
+            element_id: int,
+    ):
+        return self._http_request(
+            "GET",
+            f"{self.base_endpoint}/{case_id}/blocks/{block_id}/elements/{element_id}",
+            "v2"
+        )
 
-    def update(self):
-        ...
+    def update(
+            self,
+            case_id:    int,
+            block_id:   int,
+            element_id: int,
+            content:    Optional[str]                                                   = None,
+            color:      Optional[Literal[ "white", "gold", "magenta", "green", "blue"]] = None
+    ):
+        return self._http_request(
+            "PUT",
+            f"{self.base_endpoint}/{case_id}/blocks/{block_id}/elements/{element_id}",
+            json = {key: value for key, value in locals().items() if
+                    value is not None and key not in ("self", "case_id", "block_id", "element_id")}
+        )
 
