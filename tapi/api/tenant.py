@@ -1,6 +1,6 @@
 from tapi.client import Client
 from requests    import request
-from .case       import CaseAPI
+from .case       import CasesAPI
 from .team       import TeamsAPI
 from .admin      import AdminAPI
 from .event      import EventsAPI
@@ -18,7 +18,7 @@ class TenantAPI(Client):
     def __init__(self, domain: str, apiKey: str):
         super().__init__(domain, apiKey)
         self.base_endpoint = "info"
-        self.cases         = CaseAPI(domain, apiKey)
+        self.cases         = CasesAPI(domain, apiKey)
         self.teams         = TeamsAPI(domain, apiKey)
         self.admin         = AdminAPI(domain, apiKey)
         self.events        = EventsAPI(domain, apiKey)

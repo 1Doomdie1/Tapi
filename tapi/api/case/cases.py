@@ -15,7 +15,7 @@ from .subscribers     import CaseSubscribersAPI
 from typing           import List, Any, Dict, Optional, Union
 from tapi.utils.types import CasePriority, CaseStatus, CaseReturnOrder
 
-class CaseAPI(Client):
+class CasesAPI(Client):
     def __init__(self, domain: str, apiKey: str):
         super().__init__(domain, apiKey)
         self.base_endpoint = "cases"

@@ -1,4 +1,4 @@
-from .cases        import CaseAPI
+from .cases        import CasesAPI
 from .notes        import CaseNotesAPI
 from .files        import CaseFilesAPI
 from .fields       import CaseFieldsAPI
@@ -14,7 +14,7 @@ from .blocks       import CaseBlocksAPI, CaseBlockElementsAPI
 from .comments     import CaseCommentsAPI, CaseCommentsReactionsAPI
 
 __all__ = [
-    "CaseAPI", "CaseActionsAPI", "CaseAssigneesAPI", "CaseActivitiesAPI", "CaseInputsAPI", "CaseInputsFieldsAPI",
+    "CasesAPI", "CaseActionsAPI", "CaseAssigneesAPI", "CaseActivitiesAPI", "CaseInputsAPI", "CaseInputsFieldsAPI",
     "CaseCommentsAPI", "CaseCommentsReactionsAPI", "CaseFieldsAPI", "CaseFilesAPI", "LinkedCasesAPI", "CaseMetadataAPI",
     "CaseNotesAPI", "CaseRecordsAPI", "CaseSubscribersAPI", "CaseBlocksAPI", "CaseBlockElementsAPI"
 ]

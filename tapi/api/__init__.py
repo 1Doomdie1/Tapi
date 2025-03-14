@@ -16,7 +16,7 @@ from .tenant     import TenantAPI
 __all__ = [
     "TenantAPI",
 
-    "CaseAPI", "CaseActionsAPI", "CaseActivitiesAPI", "CaseAssigneesAPI", "CaseInputsAPI", "CaseInputsFieldsAPI",
+    "CasesAPI", "CaseActionsAPI", "CaseActivitiesAPI", "CaseAssigneesAPI", "CaseInputsAPI", "CaseInputsFieldsAPI",
     "CaseCommentsAPI", "CaseCommentsReactionsAPI", "CaseFieldsAPI", "CaseFilesAPI", "LinkedCasesAPI", "CaseMetadataAPI",
     "CaseNotesAPI", "CaseRecordsAPI", "CaseSubscribersAPI", "GroupsAPI", "CaseBlocksAPI", "CaseBlockElementsAPI",
 
