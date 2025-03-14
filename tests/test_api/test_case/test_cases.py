@@ -1,6 +1,6 @@
 import unittest
 from os                            import getenv
-from tapi                          import CaseAPI
+from tapi                          import CasesAPI
 from dotenv                        import load_dotenv
 from tapi.utils.testing_decorators import premium_feature
 from tapi.utils.http               import disable_ssl_verification
@@ -16,7 +16,7 @@ class test_CasesAPI(unittest.TestCase):
 
         self.team_id   = int(getenv("TEAM_ID"))
         self.case_id   = None
-        self.cases_api = CaseAPI(getenv("DOMAIN"), getenv("API_KEY"))
+        self.cases_api = CasesAPI(getenv("DOMAIN"), getenv("API_KEY"))
 
     def tearDown(self):
         if self.case_id:
