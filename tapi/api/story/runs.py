@@ -1,4 +1,5 @@
 from tapi.client      import Client
+from datetime         import datetime
 from tapi.utils.types import StoryMode
 from typing           import Optional, Union
 
@@ -13,6 +14,7 @@ class RunsAPI(Client):
             story_id:       int,
             story_run_guid: str,
             story_mode:     Optional[Union[StoryMode, str]] = None,
+            draft_id:       Optional[int]                   = None,
             per_page:       int                             = 10,
             page:           int                             = 1,
     ):
@@ -27,6 +29,9 @@ class RunsAPI(Client):
             self,
             story_id:   int,
             story_mode: Optional[Union[StoryMode, str]] = None,
+            draft_id:   Optional[int]                   = None,
+            since:      Optional[Union[datetime, str]]  = None,
+            until:      Optional[Union[datetime, str]]  = None,
             per_page:   int                             = 10,
             page:       int                             = 1,
     ):
