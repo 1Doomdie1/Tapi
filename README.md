@@ -141,6 +141,7 @@ Manage tines workflows.
 | `TenantAPI.stories.runs`           | `RunsAPI`          | Manage case runs.            |
 | `TenantAPI.stories.notes`          | `NotesAPI`         | Manage case notes.           |
 | `TenantAPI.stories.groups`         | `GroupsAPI`        | Pull action groups logs.     |
+| `TenantAPI.stories.drafts`         | `DraftsAPI`        | Manage story drafts.         |
 | `TenantAPI.stories.actions`        | `ActionsAPI`       | Manage case actions.         |
 | `TenantAPI.stories.versions`       | `VersionsAPI`      | Manage case versions.        |
 | `TenantAPI.stories.change_request` | `ChangeRequestAPI` | Manage case change requests. |
@@ -2292,6 +2293,52 @@ def main():
 {
     "body": {
       "group_run_events": [],
+      //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>DraftsAPI</summary>
+Manage story drafts
+
+### Methods
+
+| **Method** | **Description**                        |
+|------------|----------------------------------------|
+| `create`   | Create a new draft for a story.        |
+| `list`     | Retrieve a list of drafts for a story. |
+| `delete`   | Delete a draft for a story.            |
+
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import DraftsAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    drafts_api = DraftsAPI(DOMAIN, API_KEY)
+
+    drafts = DraftsAPI.list(story_id = 1234)
+
+    print(dumps(drafts, indent=4))
+```
+```json5
+{
+    "body": {
+      "drafts": [],
       //...[snip]...//
     },
     "headers": {...},
