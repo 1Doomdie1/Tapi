@@ -72,12 +72,14 @@ class ActionsAPI(Client):
 
     def list(
             self,
-            story_id:   Optional[int]                   = None,
-            story_mode: Optional[Union[StoryMode, str]] = None,
-            team_id:    Optional[int]                   = None,
-            group_id:   Optional[int]                   = None,
-            per_page:   int                             = 10,
-            page:       int                             = 1
+            story_id:    Optional[int]                   = None,
+            story_mode:  Optional[Union[StoryMode, str]] = None,
+            team_id:     Optional[int]                   = None,
+            group_id:    Optional[int]                   = None,
+            draft_id:    Optional[str]                   = None,
+            action_type: Optional[str]                   = None,
+            per_page:    int                             = 10,
+            page:        int                             = 1
     ):
         return self._http_request(
             "GET",

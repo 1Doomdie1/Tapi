@@ -118,16 +118,17 @@ Manage tines workflows.
 
 ### Methods
 
-| **Method**     | **Description**                         |
-|----------------|-----------------------------------------|
-| `create`       | Create story.                           |
-| `get`          | Get story details.                      |
-| `update`       | Update story details.                   |
-| `list`         | List all stories in the tenant or team. |
-| `delete`       | Delete story.                           |
-| `batch_delete` | Delete multiple stories.                |
-| `export`       | Export story.                           |
-| `import_`      | Import story.                           |
+| **Method**     | **Description**                          |
+|----------------|------------------------------------------|
+| `create`       | Create story.                            |
+| `get`          | Get story details.                       |
+| `update`       | Update story details.                    |
+| `list`         | List all stories in the tenant or team.  |
+| `delete`       | Delete story.                            |
+| `batch_delete` | Delete multiple stories.                 |
+| `export`       | Export story.                            |
+| `import_`      | Import story.                            |
+| `disable`      | Update the disabled state of a story.    |
 
 ### Subclasses
 
