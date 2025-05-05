@@ -9,11 +9,12 @@ class CaseFilesAPI(Client):
 
     def create(
             self,
-            case_id:       int,
-            filename:      str,
-            file_contents: str,
-            value:         Optional[str] = None,
-            author_email:  Optional[str] = None,
+            case_id:            int,
+            filename:           str,
+            file_contents:      str,
+            value:              Optional[str] = None,
+            author_email:       Optional[str] = None,
+            team_case_block_id: Optional[int] = None
 
     ):
         return self._http_request(
@@ -24,7 +25,8 @@ class CaseFilesAPI(Client):
                 "filename": filename,
                 "file_contents": file_contents,
                 "value": value,
-                "author_email": author_email
+                "author_email": author_email,
+                "team_case_block_id": team_case_block_id
             }
         )
 

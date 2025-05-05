@@ -42,12 +42,16 @@ class StoriesAPI(Client):
     def get(
             self,
             story_id:   int,
-            story_mode: Union[StoryMode, str] = StoryMode.ALL
+            story_mode: Union[StoryMode, str] = StoryMode.ALL,
+            draft_id:   Optional[int]         = None
         ):
         return self._http_request(
             "GET",
             f"{self.base_endpoint}/{story_id}",
-            json = {"story_mode": story_mode}
+            json = {
+                "story_mode": story_mode,
+                "draft_id": draft_id
+            }
         )
 
     def update(
@@ -61,14 +65,19 @@ class StoriesAPI(Client):
             disabled:                                      Optional[bool]                                = None,
             locked:                                        Optional[bool]                                = None,
             priority:                                      Optional[bool]                                = None,
+            webhook_api_enabled:                           Optional[bool]                                = None,
             send_to_story_access_source:                   Optional[Union[SendToStoryAccessSource, str]] = None,
             send_to_story_access:                          Optional[Union[SendToStoryAccess, str]]       = None,
+            shared_team_slugs:                             Optional[List[str]]                           = None,
             send_to_story_skill_use_requires_confirmation: Optional[bool]                                = None,
-            entry_agent_id:                                Optional[int]                                 = None,
-            exit_agent_ids:                                Optional[int]                                 = None,
+            api_entry_action_id:                           Optional[int]                                 = None,
+            api_exit_action_ids:                           Optional[int]                                 = None,
             team_id:                                       Optional[int]                                 = None,
             folder_id:                                     Optional[int]                                 = None,
             change_control_enabled:                        Optional[bool]                                = None,
+            draft_id:                                      Optional[int]                                 = None,
+            monitor_failures:                              Optional[bool]                                = None
+
         ):
         return self._http_request(
             "PUT",
@@ -81,6 +90,7 @@ class StoriesAPI(Client):
             team_id:   Optional[int]                            = None,
             folder_id: Optional[int]                            = None,
             tags:      Optional[List[str]]                      = None,
+            search:    Optional[str]                            = None,
             filter:    Optional[Union[Filter, str]]             = None,
             order:     Optional[Union[StoriesReturnOrder, str]] = None,
             per_page:  int                                      = 10,
@@ -114,12 +124,16 @@ class StoriesAPI(Client):
     def export(
             self,
             story_id:       int,
-            randomize_urls: bool = True
+            randomize_urls: Optional[bool] = True,
+            draft_id:       Optional[int]  = None,
         ):
         return self._http_request(
             "GET",
             f"{self.base_endpoint}/{story_id}/export",
-            json = {"randomize_urls": randomize_urls}
+            json = {
+                "randomize_urls": randomize_urls,
+                "draft_id": draft_id
+            }
         )
 
     def import_(
@@ -134,4 +148,15 @@ class StoriesAPI(Client):
             "POST",
             f"{self.base_endpoint}/import",
             json = {key: value for key, value in locals().items() if value is not None and key != "self"}
+        )
+
+    def disable(
+            self,
+            id:       int,
+            disabled: bool
+        ):
+        return self._http_request(
+            "POST",
+            f"{self.base_endpoint}/{id}/disable",
+            json = {"disabled": disabled}
         )
