@@ -10,11 +10,14 @@ class CaseBlocksAPI(Client):
 
     def create(
             self,
-            case_id:    int,
-            title:      str,
-            block_type: Union[Literal["note", "file"]],
-            elements:   List[Dict[str, str]],
-            position:   int                        = 0,
+            case_id:        int,
+            title:          str,
+            block_type:     Union[Literal["note", "file", "linked_cases", "metadata", "closure_conditions", "case_action", "block_group", "html"]],
+            elements:       Optional[List[Dict[str, str]]] = None,
+            position:       Optional[int]                  = None,
+            hidden:         Optional[bool]                 = None,
+            block_group_id: Optional[int]                  = None,
+            author_email:   Optional[str]                  = None
     ):
         return self._http_request(
             "POST",
@@ -37,10 +40,12 @@ class CaseBlocksAPI(Client):
 
     def update(
             self,
-            case_id:  int,
-            block_id: int,
-            title:    Optional[str] = None,
-            position: Optional[str] = None
+            case_id:        int,
+            block_id:       int,
+            title:          Optional[str]  = None,
+            position:       Optional[int]  = None,
+            hidden:         Optional[bool] = None,
+            block_group_id: Optional[int]  = None,
     ):
         return self._http_request(
             "PUT",
@@ -53,9 +58,9 @@ class CaseBlocksAPI(Client):
     def list(
             self,
             case_id:    int,
-            block_type: Optional[Literal["note", "file"]] = None,
-            per_page:   int = 10,
-            page:       int = 1
+            block_type: Optional[Literal["note", "file", "linked_cases", "metadata", "closure_conditions", "case_action", "block_group", "html"]] = None,
+            per_page:   int                                                                                                                       = 10,
+            page:       int                                                                                                                       = 1
     ):
         return self._http_request(
             "GET",
@@ -67,8 +72,9 @@ class CaseBlocksAPI(Client):
 
     def delete(
             self,
-            case_id:  int,
-            block_id: int
+            case_id:          int,
+            block_id:         int,
+            include_children: Optional[bool] = None
     ):
         return self._http_request(
             "DELETE",
@@ -99,14 +105,12 @@ class CaseBlockElementsAPI(Client):
             case_id:    int,
             block_id:   int,
             element_id: int,
-            content:    Optional[str]                                                   = None,
-            color:      Optional[Literal[ "white", "gold", "magenta", "green", "blue"]] = None
+            **kwargs
     ):
         return self._http_request(
             "PUT",
             f"{self.base_endpoint}/{case_id}/blocks/{block_id}/elements/{element_id}",
             "v2",
-            json = {key: value for key, value in locals().items() if
-                    value is not None and key not in ("self", "case_id", "block_id", "element_id")}
+            json = kwargs
         )
 

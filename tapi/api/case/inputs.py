@@ -21,7 +21,7 @@ class CaseInputsAPI(Client):
             "POST",
             self.base_endpoint,
             json = {key: value for key, value in locals().items() if
-                    value is not None and key not in ("self", "case_id")}
+                    value is not None and key != "self"}
         )
 
     def get(
