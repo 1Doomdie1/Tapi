@@ -1913,6 +1913,7 @@ Manage records.
 | **Path**                      | **Class**            | **Description**           |
 |-------------------------------|----------------------|---------------------------|
 | `TenantAPI.records.types`     | `RecordTypesAPI`     | Manage record types.      |
+| `TenantAPI.records.views`     | `RecordViewsAPI`     | Manage records views.     |
 | `TenantAPI.records.artifacts` | `RecordArtifactsAPI` | Manage records artifacts. |
 
 
@@ -2033,6 +2034,51 @@ def main():
         "created_at": "2024-02-16T15:37:39Z",
         "updated_at": "2024-02-16T15:37:39Z"
         //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>RecordViewsAPI</summary>
+Manage record views
+
+### Methods
+
+| **Method** | **Description**                            |
+|------------|--------------------------------------------|
+| `list`     | Retrieve a paginated list of record views. |
+| `delete`   | Delete a record view.                      |
+| `export`   | Export a record view.                      |
+| `import`   | Import a record view.                      |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import RecordViewsAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    record_views_api = RecordViewsAPI(DOMAIN, API_KEY)
+
+    record_views = record_views_api.list()
+
+    print(dumps(record_views, indent=4))
+```
+```json5
+{
+    "body": {
+        "record_views":[...]
     },
     "headers": {...},
     "status_code": ...
