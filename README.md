@@ -1,9 +1,6 @@
 # About Tapi
 A simple Python wrapper for the Tines API.
 
-<a href="https://github.com/1Doomdie1/tapi/stargazers">![GitHub Repo stars](https://img.shields.io/github/stars/1Doomdie1/tapi?style=social)</a>
-[![Downloads](https://static.pepy.tech/personalized-badge/tapi?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/tapi)
-
 ## ⚙️Installation
 
 ```bash
