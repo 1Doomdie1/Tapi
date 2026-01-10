@@ -34,7 +34,7 @@ __all__ = [
 
     "ResourcesAPI",
 
-    "RecordsAPI", "RecordTypesAPI", "RecordArtifactsAPI",
+    "RecordsAPI", "RecordTypesAPI", "RecordArtifactsAPI", "RecordViewsAPI",
 
     "ReportingAPI",
 
