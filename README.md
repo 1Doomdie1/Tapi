@@ -448,6 +448,7 @@ Manage tines cases.
 |--------------------------------|----------------------|--------------------------|
 | `TenantAPI.cases.files`        | `CaseFilesAPI`       | Manage case files.       |
 | `TenantAPI.cases.notes`        | `CaseNotesAPI`       | Manage case notes.       |
+| `TenantAPI.cases.tasks`        | `CaseTasksAPI`       | Manage case tasks.       |
 | `TenantAPI.cases.inputs`       | `CaseInputsAPI`      | Manage case inputs.      |
 | `TenantAPI.cases.fields`       | `CaseFieldsAPI`      | Manage case fields.      |
 | `TenantAPI.cases.blocks`       | `CaseBlocksAPI`      | Manage case blocks.      |
@@ -968,13 +969,14 @@ Manage case files.
 
 ### Methods
 
-| **Method** | **Description**                      |
-|------------|--------------------------------------|
-| `create`   | Attach a file to a case.             |
-| `get`      | Retrieve details for a case file.    |
-| `list`     | Retrieve a list of files for a case. |
-| `delete`   | Delete a file from a case.           |
-| `download` | Retrieve a case file attachment.     |
+| **Method** | **Description**                                                         |
+|------------|-------------------------------------------------------------------------|
+| `create`   | Attach a file to a case.                                                |
+| `get`      | Retrieve details for a case file.                                       |
+| `list`     | Retrieve a list of files for a case.                                    |
+| `delete`   | Delete a file from a case.                                              |
+| `download` | Retrieve a case file attachment.                                        |
+| `info`     | Retrieve metadata for a case file attachment without the file contents. |
 
 ### Subclasses
 - **None**
@@ -1294,6 +1296,51 @@ def main():
             }
         ],
         //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>CaseTasksAPI</summary>
+Manage case tasks.
+
+### Methods
+
+| **Method**     | **Description**                               |
+|----------------|-----------------------------------------------|
+| `create`       | Create a task for a specific case.            |
+| `get`          | Retrieve a single task from a specific case.  |
+| `update`       | Update a task for a specific case.            |
+| `list`         | Retrieve a list of tasks for a specific case. |
+| `delete`       | Delete a task.                                |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import CaseTasksAPI
+
+def main():
+    DOMAIN  = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+    
+    case_tasks_api = CaseTasksAPI(DOMAIN, API_KEY)
+    
+    tasks = case_tasks_api.list(case_id=1234)
+    
+    print(dumps(tasks, indent = 4))
+```
+```json5
+{
+    "body": {
+        "tasks": [...]
     },
     "headers": {...},
     "status_code": ...
