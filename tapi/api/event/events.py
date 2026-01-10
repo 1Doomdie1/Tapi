@@ -18,15 +18,16 @@ class EventsAPI(Client):
 
     def list(
             self,
-            since_id:       Optional[int]  = None,
-            until_id:       Optional[int]  = None,
-            since:          Optional[str]  = None,
-            until:          Optional[str]  = None,
-            team_id:        Optional[int]  = None,
-            story_id:       Optional[int]  = None,
-            include_groups: Optional[bool] = None,
-            per_page:       int            = 10,
-            page:           int            = 1,
+            since_id:                   Optional[int]  = None,
+            until_id:                   Optional[int]  = None,
+            since:                      Optional[str]  = None,
+            until:                      Optional[str]  = None,
+            team_id:                    Optional[int]  = None,
+            story_id:                   Optional[int]  = None,
+            include_groups:             Optional[bool] = False,
+            show_reemitted_events_only: Optional[bool] = False,
+            per_page:                   int            = 10,
+            page:                       int            = 1
     ):
         return self._http_request(
             "GET",
