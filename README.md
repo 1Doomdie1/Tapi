@@ -2058,6 +2058,7 @@ Manage tenant through admin endpoint
 | `TenantAPI.admin.templates`               | `TemplatesAPI`                | Manage templates.                       |
 | `TenantAPI.admin.ip_access_control`       | `IpAccessControlAPI`          | Manage IP access control.               |
 | `TenantAPI.admin.scim_user_group_mapping` | `SCIMUserGroupMappingAPI`     | Manage SCIM user group mappings.        |
+| `TenantAPI.admin.story_sync_destinations` | `StorySyncDestinationsAPI`    | Manage story syncing.                   |
 | `TenantAPI.admin.egress_rules`            | `ActionEgressControlRulesAPI` | Manage egress rules. (Self Hosted Only) |
 
 
@@ -2364,6 +2365,69 @@ def main():
     "body": {
       "admin/users": [],
       //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>StorySyncDestinationsAPI</summary>
+Manage story syncing
+
+### Methods
+
+| **Method**    | **Description**                                                                |
+|---------------|--------------------------------------------------------------------------------|
+| `create`      | Create a new sync destination and subscribe it to one or more stories.         |
+| `list`        | Retrieve a paginated list of sync destinations configured on the tenant.       |
+| `delete`      | Remove a sync destination configuration.                                       |
+| `manual_sync` | Trigger an immediate push of all subscribed stories to the destination tenant. |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import StorySyncDestinationsAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    story_sync_api = StorySyncDestinationsAPI(DOMAIN, API_KEY)
+
+    story_syncs = story_sync_api.list()
+
+    print(dumps(users, indent=4))
+```
+```json5
+{
+    "body": {
+      "sync_destinations": [
+        {
+            "id": 23,
+            "destination_tenant_url": "https://<<META.tenant.domain>>.tines.com",
+            "destination_team_id": 42,
+            "origin_team_id": 7,
+            "subscriptions": [
+                {
+                "story": {
+                    "id": 9981,
+                    "name": "Example"
+                },
+                "status": "synced",
+                "error_message": null
+                }
+            ]
+        },
+        //...[snip]...//
+      ]
     },
     "headers": {...},
     "status_code": ...
