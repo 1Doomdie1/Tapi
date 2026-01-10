@@ -2093,10 +2093,9 @@ Get action performance and time saved metrics
 
 ### Methods
 
-| **Method**           | **Description**                                               |
-|----------------------|---------------------------------------------------------------|
-| `action_performance` | Returns action performance in Tines.                          |
-| `time_saved`         | Returns timed and dated records of time saved by using Tines. |
+| **Method**   | **Description**                                               |
+|------------- |---------------------------------------------------------------|
+| `time_saved` | Returns timed and dated records of time saved by using Tines. |
 
 ### Subclasses
 - **None**
@@ -2114,15 +2113,14 @@ def main():
 
     reporting_api = ReportingAPI(DOMAIN, API_KEY)
 
-    action_performance = reporting_api.action_performance()
+    time_saved = reporting_api.time_saved()
 
-    print(dumps(action_performance, indent=4))
+    print(dumps(time_saved, indent=4))
 ```
 ```json5
 {
     "body": {
-        "action_performance": []
-        //...[snip]...//
+        "time_saved": [...]
     },
     "headers": {...},
     "status_code": ...
