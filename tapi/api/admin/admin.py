@@ -35,9 +35,15 @@ class AdminAPI(Client):
 
     def tunnel_health(
             self,
-            tunnel_name: str
+            tunnel_name: str,
+            per_page:    int = 10,
+            page:        int = 1
     ):
         return self._http_request(
             "GET",
-            f"{self.base_endpoint}/tunnel/{tunnel_name}/health"
+            f"{self.base_endpoint}/tunnel/{tunnel_name}/health",
+            params = {
+                "per_page": per_page, 
+                "page": page
+            }
         )
