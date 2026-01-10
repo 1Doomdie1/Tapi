@@ -1,6 +1,9 @@
 # About Tapi
 A simple Python wrapper for the Tines API.
 
+<a href="https://github.com/1Doomdie1/tapi/stargazers">![GitHub Repo stars](https://img.shields.io/github/stars/1Doomdie1/tapi?style=social)</a>
+[![Downloads](https://static.pepy.tech/personalized-badge/tapi?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/tapi)
+
 ## ⚙️Installation
 
 ```bash
@@ -53,6 +56,29 @@ from tapi.utils.http import disable_ssl_verification
 disable_ssl_verification()
 ```
 
+### Star History
+
+<div align="center">
+
+<a href="https://www.star-history.com/#1Doomdie1/Tapi&type=timeline&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=1Doomdie1/Tapi&type=timeline&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=1Doomdie1/Tapi&type=timeline&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=1Doomdie1/Tapi&type=timeline&legend=top-left" />
+ </picture>
+</a>
+
+<a href="https://github.com/1Doomdie1/tapi/stargazers">
+  <img src="https://img.shields.io/github/stars/1Doomdie1/tapi?style=social" alt="GitHub Repo stars" />
+</a>
+<a href="https://pepy.tech/projects/tapi">
+  <img src="https://static.pepy.tech/personalized-badge/tapi?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads" alt="Downloads" />
+</a>
+
+</div>
+
+
+
 ## Endpoint Classes
 
 <details>
@@ -72,7 +98,7 @@ This class is designed to be used as a "parent" class from which all other endpo
 
 | **Path**                | **Class**        | **Description**                        |
 |-------------------------|------------------|----------------------------------------|
-| `TenantAPI.cases`       | `CasesAPI`        | Manage cases.                          |
+| `TenantAPI.cases`       | `CasesAPI`       | Manage cases.                          |
 | `TenantAPI.teams`       | `TeamsAPI`       | Manage teams.                          |
 | `TenantAPI.admin`       | `AdminAPI`       | Manage tenant through admin endpoints. |
 | `TenantAPI.events`      | `EventsAPI`      | Manage tenant-wide action events.      |
