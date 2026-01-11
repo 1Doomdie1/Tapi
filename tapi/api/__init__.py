@@ -11,6 +11,7 @@ from .report     import *
 from .resource   import *
 from .audit_log  import *
 from .credential import *
+from .workbench  import *
 from .tenant     import TenantAPI
 
 __all__ = [
@@ -42,5 +43,7 @@ __all__ = [
     "TemplatesAPI", "UsersAPI", "DraftsAPI", 
 
     "StoriesAPI", "ChangeRequestAPI", "RunsAPI", "VersionsAPI",
-    "TeamsAPI", "MembersAPI", "StorySyncDestinationsAPI", "OwnersAPI"
+    "TeamsAPI", "MembersAPI", "StorySyncDestinationsAPI", "OwnersAPI",
+
+    "WorkbenchAPI"
 ]

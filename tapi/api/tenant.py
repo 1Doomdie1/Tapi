@@ -10,6 +10,7 @@ from .record     import RecordsAPI
 from .report     import ReportingAPI
 from .resource   import ResourcesAPI
 from .audit_log  import AuditLogsAPI
+from .workbench  import WorkbenchAPI
 from .credential import CredentialsAPI
 from typing      import Optional, Literal
 
@@ -27,6 +28,7 @@ class TenantAPI(Client):
         self.records       = RecordsAPI(domain, apiKey)
         self.resources     = ResourcesAPI(domain, apiKey)
         self.reporting     = ReportingAPI(domain, apiKey)
+        self.workbench     = WorkbenchAPI(domain, apiKey)
         self.audit_logs    = AuditLogsAPI(domain, apiKey)
         self.credentials   = CredentialsAPI(domain, apiKey)
 
