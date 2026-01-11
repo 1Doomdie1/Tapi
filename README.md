@@ -75,7 +75,6 @@ disable_ssl_verification()
 </div>
 
 
-
 ## Endpoint Classes
 
 <details>
@@ -104,6 +103,7 @@ This class is designed to be used as a "parent" class from which all other endpo
 | `TenantAPI.records`     | `RecordsAPI`     | Manage records.                        |
 | `TenantAPI.resources`   | `ResourcesAPI`   | Manage resources.                      |
 | `TenantAPI.reporting`   | `ReportingAPI`   | Pull action performance & time saved   |
+| `TenantAPI.workbench`   | `WorkbenchAPI`   | Manage workbench conversations         |
 | `TenantAPI.audit_logs`  | `AuditLogsAPI`   | Pull tenant logs.                      |
 | `TenantAPI.credentials` | `CredentialsAPI` | Manage tenant credentials.             |
 
@@ -198,6 +198,51 @@ def main():
             }
         //...[snip]...//
         ]
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>WorkbenchAPI</summary>
+Manage workbench conversations.
+
+### Methods
+
+| **Method** | **Description**                    |
+|------------|------------------------------------|
+| `get`      | Retrieve a workbench conversation. |
+| `list`     | List workbench conversations.      |
+
+### Subclasses
+- **None**
+
+### Usage
+
+```python
+from json import dumps
+from tapi import WorkbenchAPI
+
+def main():
+    DOMAIN  = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+    
+    workbench_api = WorkbenchAPI(DOMAIN, API_KEY)
+    
+    get_conversation = workbench_api.get(
+        guid = "ca68403e-5594-42a4-bec7-879b0b417a83"
+    )
+    
+    print(dumps(get_conversation, indent = 4))
+```
+```json5
+{
+    "body": {
+        "guid": "ca68403e-5594-42a4-bec7-879b0b417a83",
+        "steps": [...]
     },
     "headers": {...},
     "status_code": ...
