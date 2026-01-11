@@ -11,13 +11,27 @@ class ChangeRequestAPI(Client):
             self,
             story_id:    int,
             title:       Optional[str] = None,
-            description: Optional[str] = None
+            description: Optional[str] = None,
+            draft_id:    Optional[int] = None
     ):
         return self._http_request(
             "POST",
             f"{self.base_endpoint}/{story_id}/change_request",
             json={key: value for key, value in locals().items() if
                   value is not None and key not in ("self", "story_id")}
+        )
+    
+    def create_change_request_description(
+            self,
+            story_id: int,
+            draft_id: int
+    ):
+        return self._http_request(
+            "GET",
+            f"{self.base_endpoint}/{story_id}/change_request/ai_description",
+            json = {
+                "draft_id": draft_id
+            }
         )
 
     def approve(
@@ -55,10 +69,14 @@ class ChangeRequestAPI(Client):
 
     def view(
             self,
-            story_id: int
+            story_id: int,
+            draft_id: int
     ):
         return self._http_request(
             "GET",
-            f"{self.base_endpoint}/{story_id}/change_request/view"
+            f"{self.base_endpoint}/{story_id}/change_request/view",
+            json = {
+                "draft_id": draft_id
+            }
         )
 

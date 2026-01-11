@@ -39,8 +39,8 @@ __all__ = [
     "ReportingAPI",
 
     "AdminAPI", "ActionEgressControlRulesAPI", "IpAccessControlAPI", "JobsAPI", "SCIMUserGroupMappingAPI",
-    "TemplatesAPI", "UsersAPI", "DraftsAPI", "StorySyncDestinationsAPI",
+    "TemplatesAPI", "UsersAPI", "DraftsAPI", 
 
     "StoriesAPI", "ChangeRequestAPI", "RunsAPI", "VersionsAPI",
-    "TeamsAPI", "MembersAPI"
+    "TeamsAPI", "MembersAPI", "StorySyncDestinationsAPI", "OwnersAPI"
 ]

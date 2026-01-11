@@ -10,7 +10,8 @@ class VersionsAPI(Client):
     def create(
             self,
             story_id: int,
-            name:     Optional[str] = None
+            name:     Optional[str] = None,
+            draft_id: Optional[int] = None
     ):
         return self._http_request(
             "POST",
@@ -44,13 +45,14 @@ class VersionsAPI(Client):
     def list(
             self,
             story_id: int,
-            per_page: int = 10,
-            page:     int = 1,
+            per_page: int           = 10,
+            page:     int           = 1,
+            draft_id: Optional[int] = None
     ):
         return self._http_request(
             "GET",
             f"{self.base_endpoint}/{story_id}/versions",
-            json={key: value for key, value in locals().items() if
+            json = {key: value for key, value in locals().items() if
                   value is not None and key not in ("self", "story_id")}
         )
 
