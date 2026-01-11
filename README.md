@@ -475,13 +475,15 @@ Manage tines teams.
 
 ### Methods
 
-| **Method** | **Description**                       |
-|------------|---------------------------------------|
-| `create`   | Create a team in Tines.               |
-| `get`      | Retrieve a single team or case group. |
-| `update`   | Update a team.                        |
-| `list`     | Retrieve a list of teams.             |
-| `delete`   | Delete a team or case group.          |
+| **Method**                   |**Description**                              |
+|------------------------------|---------------------------------------------|
+| `create`                     | Create a team in Tines.                     |
+| `get`                        | Retrieve a single team or case group.       |
+| `update`                     | Update a team.                              |
+| `list`                       | Retrieve a list of teams.                   |
+| `delete`                     | Delete a team or case group.                |
+| `destroy_static_external_id` | Destroy a team static external ID in Tines. |
+
 
 ### Subclasses
 
