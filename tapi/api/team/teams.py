@@ -58,3 +58,12 @@ class TeamsAPI(Client):
             "DELETE",
             f"{self.base_endpoint}/{team_id}",
         )
+    
+    def destroy_static_external_id(
+            self,
+            team_id: int
+        ):
+        return self._http_request(
+            "POST",
+            f"{self.base_endpoint}/{team_id}/destroy_static_external_id",
+        )
