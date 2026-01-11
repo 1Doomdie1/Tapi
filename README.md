@@ -155,15 +155,17 @@ Manage tines workflows.
 
 ### Subclasses
 
-| **Path**                           | **Class**          | **Description**              |
-|------------------------------------|--------------------|------------------------------|
-| `TenantAPI.stories.runs`           | `RunsAPI`          | Manage case runs.            |
-| `TenantAPI.stories.notes`          | `NotesAPI`         | Manage case notes.           |
-| `TenantAPI.stories.groups`         | `GroupsAPI`        | Pull action groups logs.     |
-| `TenantAPI.stories.drafts`         | `DraftsAPI`        | Manage story drafts.         |
-| `TenantAPI.stories.actions`        | `ActionsAPI`       | Manage case actions.         |
-| `TenantAPI.stories.versions`       | `VersionsAPI`      | Manage case versions.        |
-| `TenantAPI.stories.change_request` | `ChangeRequestAPI` | Manage case change requests. |
+| **Path**                           | **Class**          | **Description**                       |
+|------------------------------------|--------------------|---------------------------------------|
+| `TenantAPI.stories.runs`           | `RunsAPI`          | Manage case runs.                     |
+| `TenantAPI.stories.notes`          | `NotesAPI`         | Manage case notes.                    |
+| `TenantAPI.stories.groups`         | `GroupsAPI`        | Pull action groups logs.              |
+| `TenantAPI.stories.drafts`         | `DraftsAPI`        | Manage story drafts.                  |
+| `TenantAPI.stories.owners`         | `OwnersAPI`        | Manage story owners.                  |
+| `TenantAPI.stories.actions`        | `ActionsAPI`       | Manage case actions.                  |
+| `TenantAPI.stories.versions`       | `VersionsAPI`      | Manage case versions.                 |
+| `TenantAPI.stories.recipients`     | `RecipientsAPI`    | Create a story recipient for a story. |
+| `TenantAPI.stories.change_request` | `ChangeRequestAPI` | Manage case change requests.          |
 
 ### Usage:
 
@@ -196,6 +198,158 @@ def main():
             }
         //...[snip]...//
         ]
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>RecipientsAPI</summary>
+Manage workflows recipients.
+
+### Methods
+
+| **Method** | **Description**                       |
+|------------|---------------------------------------|
+| `create`   | Create a story recipient for a story. |
+| `delete`   | Delete a story recipient for a story. |
+
+### Subclasses
+- **None**
+
+### Usage
+
+```python
+from json import dumps
+from tapi import RecipientsAPI
+
+def main():
+    DOMAIN  = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+    
+    recipients_api = RecipientsAPI(DOMAIN, API_KEY)
+    
+    add_story_recipient = recipients_api.create(
+        story_id = 1234,
+        address  = "alice@example.com"
+    )
+    
+    print(dumps(add_story_recipient, indent = 4))
+```
+```json5
+{
+    "body": {
+        "name": "Simple story",
+        "user_id": 5678,
+        "description": "In the simple story we will create a fictional situation where a detection system is configured to send alerts to our Tines tenant",
+        "keep_events_for": 604800,
+        "disabled": false,
+        //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>OwnersAPI</summary>
+Manage workflows owners.
+
+### Methods
+
+| **Method** | **Description**                   |
+|------------|-----------------------------------|
+| `create`   | Create a story owner for a story. |
+| `delete`   | Delete a story owner for a story. |
+
+### Subclasses
+- **None**
+
+### Usage
+
+```python
+from json import dumps
+from tapi import OwnersAPI
+
+def main():
+    DOMAIN  = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+    
+    owners_api = OwnersAPI(DOMAIN, API_KEY)
+    
+    assign_owner = owners_api.create(
+        story_id = 1234,
+        user_id  = 5678
+    )
+    
+    print(dumps(assign_owner, indent = 4))
+```
+```json5
+{
+    "body": {
+        "name": "Simple story",
+        "user_id": 5678,
+        "description": "In the simple story we will create a fictional situation where a detection system is configured to send alerts to our Tines tenant",
+        "keep_events_for": 604800,
+        "disabled": false,
+        //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>ChangeRequestAPI</summary>
+Manage workflows change request.
+
+### Methods
+
+| **Method** | **Description**                                                       |
+|-------------------------------------|----------------------------------------------|
+| `create`                            | Create a change request.                     |
+| `create_change_request_description` | Generate a new description for the changes captured in the change request. AI features must be enabled for a successful response.                      |
+| `approve`                           | Approve a change request.                    |
+| `cancel`                            | Cancel a change request.                     |
+| `promote`                           | Promote changes to the live story.           |
+| `view`                              | View the current change request for a story. |
+
+### Subclasses
+- **None**
+
+### Usage
+
+```python
+from json import dumps
+from tapi import ChangeRequestAPI
+
+def main():
+    DOMAIN  = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+    
+    change_request_api = ChangeRequestAPI(DOMAIN, API_KEY)
+    
+    view_request = change_request_api.view(
+        story_id = 1234,
+        draft_id = 5678
+    )
+    
+    print(dumps(view_request, indent = 4))
+```
+```json5
+{
+    "body": {
+        "id": 154,
+        "draft_id": 5678,
+        "draft_name": "Initial Draft",
+        "change_request": {...}
     },
     "headers": {...},
     "status_code": ...
