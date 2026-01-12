@@ -8,7 +8,7 @@ with open("README.md", "r", encoding="utf-8") as f:
 
 setup(
     name                          = "Tapi",
-    version                       = "0.1.3",
+    version                       = "0.2.0",
     description                   = "Tines REST API wrapper",
     long_description              = long_description,
     long_description_content_type = "text/markdown",
