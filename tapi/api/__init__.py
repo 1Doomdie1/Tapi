@@ -11,6 +11,7 @@ from .report     import *
 from .resource   import *
 from .audit_log  import *
 from .credential import *
+from .workbench  import *
 from .tenant     import TenantAPI
 
 __all__ = [
@@ -18,7 +19,7 @@ __all__ = [
 
     "CasesAPI", "CaseActionsAPI", "CaseActivitiesAPI", "CaseAssigneesAPI", "CaseInputsAPI", "CaseInputsFieldsAPI",
     "CaseCommentsAPI", "CaseCommentsReactionsAPI", "CaseFieldsAPI", "CaseFilesAPI", "LinkedCasesAPI", "CaseMetadataAPI",
-    "CaseNotesAPI", "CaseRecordsAPI", "CaseSubscribersAPI", "GroupsAPI", "CaseBlocksAPI", "CaseBlockElementsAPI",
+    "CaseNotesAPI", "CaseRecordsAPI", "CaseSubscribersAPI", "GroupsAPI", "CaseBlocksAPI", "CaseBlockElementsAPI", "CaseTasksAPI",
 
     "ActionsAPI", "ActionLogsAPI", "ActionEventsAPI",
 
@@ -34,13 +35,15 @@ __all__ = [
 
     "ResourcesAPI",
 
-    "RecordsAPI", "RecordTypesAPI", "RecordArtifactsAPI",
+    "RecordsAPI", "RecordTypesAPI", "RecordArtifactsAPI", "RecordViewsAPI",
 
     "ReportingAPI",
 
     "AdminAPI", "ActionEgressControlRulesAPI", "IpAccessControlAPI", "JobsAPI", "SCIMUserGroupMappingAPI",
-    "TemplatesAPI", "UsersAPI", "DraftsAPI",
+    "TemplatesAPI", "UsersAPI", "DraftsAPI", 
 
     "StoriesAPI", "ChangeRequestAPI", "RunsAPI", "VersionsAPI",
-    "TeamsAPI", "MembersAPI"
+    "TeamsAPI", "MembersAPI", "StorySyncDestinationsAPI", "OwnersAPI",
+
+    "WorkbenchAPI"
 ]

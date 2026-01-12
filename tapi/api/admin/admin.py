@@ -4,6 +4,7 @@ from .user                        import UsersAPI
 from .template                    import TemplatesAPI
 from .ip_access_control           import IpAccessControlAPI
 from .scim                        import SCIMUserGroupMappingAPI
+from .story_sync_destinations     import StorySyncDestinationsAPI
 from .action_egress_control_rules import ActionEgressControlRulesAPI
 
 
@@ -16,6 +17,7 @@ class AdminAPI(Client):
         self.templates               = TemplatesAPI(domain, apiKey)
         self.ip_access_control       = IpAccessControlAPI(domain, apiKey)
         self.scim_user_group_mapping = SCIMUserGroupMappingAPI(domain, apiKey)
+        self.story_sync_destinations = StorySyncDestinationsAPI(domain, apiKey)
         self.egress_rules            = ActionEgressControlRulesAPI(domain, apiKey)
 
     def set_custom_certificate_authority(
@@ -35,9 +37,15 @@ class AdminAPI(Client):
 
     def tunnel_health(
             self,
-            tunnel_name: str
+            tunnel_name: str,
+            per_page:    int = 10,
+            page:        int = 1
     ):
         return self._http_request(
             "GET",
-            f"{self.base_endpoint}/tunnel/{tunnel_name}/health"
+            f"{self.base_endpoint}/tunnel/{tunnel_name}/health",
+            params = {
+                "per_page": per_page, 
+                "page": page
+            }
         )

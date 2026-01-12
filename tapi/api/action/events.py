@@ -9,11 +9,12 @@ class ActionEventsAPI(Client):
 
     def list(
             self,
-            action_id: Optional[int] = None,
-            since_id:  Optional[int] = None,
-            until_id:  Optional[int] = None,
-            per_page:  int           = 10,
-            page:      int           = 1
+            action_id:                  Optional[int]  = None,
+            since_id:                   Optional[int]  = None,
+            until_id:                   Optional[int]  = None,
+            show_reemitted_events_only: Optional[bool] = False,
+            per_page:                   int            = 10,
+            page:                       int            = 1
     ):
         return self._http_request(
             "GET",

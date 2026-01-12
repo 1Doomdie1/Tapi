@@ -1,6 +1,7 @@
 from tapi.client      import Client
 from .notes           import CaseNotesAPI
 from .files           import CaseFilesAPI
+from .tasks           import CaseTasksAPI
 from .fields          import CaseFieldsAPI
 from .inputs          import CaseInputsAPI
 from .blocks          import CaseBlocksAPI
@@ -21,6 +22,7 @@ class CasesAPI(Client):
         self.base_endpoint = "cases"
         self.files         = CaseFilesAPI(domain, apiKey)
         self.notes         = CaseNotesAPI(domain, apiKey)
+        self.tasks         = CaseTasksAPI(domain, apiKey)
         self.inputs        = CaseInputsAPI(domain, apiKey)
         self.fields        = CaseFieldsAPI(domain, apiKey)
         self.blocks        = CaseBlocksAPI(domain, apiKey)
@@ -48,7 +50,8 @@ class CasesAPI(Client):
             resolved_at:        Optional[str]                  = None,
             metadata:           Optional[Dict[str, str]]       = None,
             closure_conditions: Optional[List[Dict[str, Any]]] = None,
-            field_values:       Optional[Dict[str, Any]]       = None
+            field_values:       Optional[Dict[str, Any]]       = None,
+            tasks:              Optional[List[Dict[str, Any]]] = None
         ):
         return self._http_request(
             "POST",

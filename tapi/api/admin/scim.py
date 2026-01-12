@@ -8,7 +8,7 @@ class SCIMUserGroupMappingAPI(Client):
         super().__init__(domain, apiKey)
         self.base_endpoint      = "admin"
 
-    def list(self):
+    def get(self):
         return self._http_request(
             "GET",
             f"{self.base_endpoint}/scim_user_group_mapping"

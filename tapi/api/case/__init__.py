@@ -1,6 +1,7 @@
 from .cases        import CasesAPI
 from .notes        import CaseNotesAPI
 from .files        import CaseFilesAPI
+from .tasks        import CaseTasksAPI
 from .fields       import CaseFieldsAPI
 from .records      import CaseRecordsAPI
 from .actions      import CaseActionsAPI
@@ -16,5 +17,5 @@ from .comments     import CaseCommentsAPI, CaseCommentsReactionsAPI
 __all__ = [
     "CasesAPI", "CaseActionsAPI", "CaseAssigneesAPI", "CaseActivitiesAPI", "CaseInputsAPI", "CaseInputsFieldsAPI",
     "CaseCommentsAPI", "CaseCommentsReactionsAPI", "CaseFieldsAPI", "CaseFilesAPI", "LinkedCasesAPI", "CaseMetadataAPI",
-    "CaseNotesAPI", "CaseRecordsAPI", "CaseSubscribersAPI", "CaseBlocksAPI", "CaseBlockElementsAPI"
+    "CaseNotesAPI", "CaseRecordsAPI", "CaseSubscribersAPI", "CaseBlocksAPI", "CaseBlockElementsAPI", "CaseTasksAPI"
 ]

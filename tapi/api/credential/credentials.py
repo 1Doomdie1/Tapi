@@ -15,6 +15,7 @@ class CredentialsAPI(Client):
             aws_access_key:          str,
             aws_secret_key:          str,
             aws_assumed_role_arn:    Optional[str]                               = None,
+            use_static_external_id:  Optional[bool]                              = None,
             folder_id:               Optional[int]                               = None,
             read_access:             Literal["TEAM", "GLOBAL", "SPECIFIC_TEAMS"] = "TEAM",
             shared_team_slugs:       Optional[List[str]]                         = None,
@@ -40,7 +41,6 @@ class CredentialsAPI(Client):
             http_request_location_of_token: str,
             http_request_secret:            Optional[str]                               = None,
             http_request_ttl:               Optional[int]                               = None,
-            content_type:                   Optional[str]                               = None,
             folder_id:                      Optional[int]                               = None,
             read_access:                    Literal["TEAM", "GLOBAL", "SPECIFIC_TEAMS"] = "TEAM",
             shared_team_slugs:              Optional[List[str]]                         = None,
@@ -61,11 +61,11 @@ class CredentialsAPI(Client):
     def create_jwt(
             self,
             name:                          str,
-            team_id:                       int,
             jwt_algorithm:                 str,
             jwt_payload:                   Dict[str, str],
             jwt_auto_generate_time_claims: bool,
             jwt_private_key:               str,
+            team_id:                       int,
             folder_id:                     Optional[int]                               = None,
             read_access:                   Literal["TEAM", "GLOBAL", "SPECIFIC_TEAMS"] = "TEAM",
             shared_team_slugs:             Optional[List[str]]                         = None,
@@ -82,7 +82,6 @@ class CredentialsAPI(Client):
             self.base_endpoint,
             json = data
         )
-
 
     def create_mtls(
             self,
@@ -115,7 +114,6 @@ class CredentialsAPI(Client):
             http_request_location_of_token: str,
             credential_requests:            List[Dict[str, Any]],
             http_request_ttl:               Optional[int]                               = None,
-            content_type:                   Optional[str]                               = None,
             folder_id:                      Optional[int]                               = None,
             read_access:                    Literal["TEAM", "GLOBAL", "SPECIFIC_TEAMS"] = "TEAM",
             shared_team_slugs:              Optional[List[str]]                         = None,
@@ -196,10 +194,10 @@ class CredentialsAPI(Client):
             allowed_hosts:           Optional[List[str]]                         = None,
             test_credential_enabled: Optional[bool]                              = None,
             is_test:                 Optional[bool]                              = None,
-            **options
+            **kwargs
     ):
         data = {key: value for key, value in locals().items() if value is not None and key not in ("self", "credential_id", "options")}
-        data = {**data, **locals()["options"]}
+        data = {**data, **locals()["kwargs"]}
 
         return self._http_request(
             "PUT",
@@ -218,10 +216,11 @@ class CredentialsAPI(Client):
 
     def list(
             self,
-            folder_id: Optional[int] = None,
-            team_id:   Optional[int] = None,
-            per_page:  int           = 10,
-            page:      int           = 1
+            folder_id: Optional[int]                                                        = None,
+            team_id:   Optional[int]                                                        = None,
+            filter:    Optional[Literal["UNUSED_IN_ACTIONS", "UNRESTRICTED", "RESTRICTED"]] = None,
+            per_page:  int                                                                  = 10,
+            page:      int                                                                  = 1
     ):
         return self._http_request(
             "GET",

@@ -8,21 +8,6 @@ class ReportingAPI(Client):
         super().__init__(domain, apiKey)
         self.base_endpoint = "reporting"
 
-    def action_performance(
-            self,
-            team_id:       Optional[int] = None,
-            story_id:      Optional[int] = None,
-            action_id:     Optional[int] = None,
-            filter_option: Optional[Literal["most_active_actions", "action_with_least_activity", "slowest_actions", "fastest_actions"]] = None,
-            per_page:      int           = 10,
-            page:          int           = 1,
-    ):
-        return self._http_request(
-            "GET",
-            f"{self.base_endpoint}/action_performance",
-            params = {key: value for key, value in locals().items() if value is not None and key != "self"}
-        )
-
     def time_saved(
             self,
             start_date: Optional[Union[datetime, str]]          = None,

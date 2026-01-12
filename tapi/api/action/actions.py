@@ -29,7 +29,8 @@ class ActionsAPI(Client):
             schedule:                  Optional[List[Dict[str, str]]]             = None,
             monitor_failures:          bool                                       = True,
             monitor_all_events:        bool                                       = False,
-            monitor_no_events_emitted: Optional[int]                              = None
+            monitor_no_events_emitted: Optional[int]                              = None,
+            draft_id:                  Optional[int]                              = None
     ):
         return self._http_request(
             "POST",
@@ -39,11 +40,13 @@ class ActionsAPI(Client):
 
     def get(
             self,
-            action_id: int
+            action_id:             int,
+            include_live_activity: Optional[bool] = False
     ):
         return self._http_request(
             "GET",
-            f"{self.base_endpoint}/{action_id}"
+            f"{self.base_endpoint}/{action_id}",
+            params = {"include_live_activity": include_live_activity}
         )
 
     def update(
@@ -61,7 +64,8 @@ class ActionsAPI(Client):
             disabled:                  Optional[bool]                             = None,
             monitor_failures:          Optional[bool]                             = None,
             monitor_all_events:        Optional[bool]                             = None,
-            monitor_no_events_emitted: Optional[int]                              = None
+            monitor_no_events_emitted: Optional[int]                              = None,
+            num_runs_to_save:          Optional[int]                              = None
     ):
         return self._http_request(
             "PUT",
@@ -72,14 +76,15 @@ class ActionsAPI(Client):
 
     def list(
             self,
-            story_id:    Optional[int]                   = None,
-            story_mode:  Optional[Union[StoryMode, str]] = None,
-            team_id:     Optional[int]                   = None,
-            group_id:    Optional[int]                   = None,
-            draft_id:    Optional[str]                   = None,
-            action_type: Optional[str]                   = None,
-            per_page:    int                             = 10,
-            page:        int                             = 1
+            story_id:              Optional[int]                   = None,
+            story_mode:            Optional[Union[StoryMode, str]] = None,
+            team_id:               Optional[int]                   = None,
+            group_id:              Optional[int]                   = None,
+            action_type:           Optional[str]                   = None,
+            per_page:              int                             = 10,
+            page:                  int                             = 1,
+            draft_id:              Optional[str]                   = None,
+            include_live_activity: Optional[bool]                  = False
     ):
         return self._http_request(
             "GET",

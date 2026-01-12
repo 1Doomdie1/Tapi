@@ -27,24 +27,32 @@ class ResourcesAPI(Client):
 
     def get(
             self,
-            resource_id: int
+            resource_id: int,
+            include_referencing_action_ids: Optional[bool] = True,
+            typed_value:                    Optional[bool] = False
     ):
         return self._http_request(
             "GET",
-            f"{self.base_endpoint}/{resource_id}"
+            f"{self.base_endpoint}/{resource_id}",
+            params = {
+                "include_referencing_action_ids": include_referencing_action_ids,
+                "typed_value":                    typed_value
+            }
         )
 
     def update(
             self,
-            resource_id:           int,
-            value:                 Union[str, Dict[str, Any], List[Dict[str, Any]]],
-            name:                  Optional[str]                                         = None,
-            folder_id:             Optional[int]                                         = None,
-            read_access:           Optional[Literal["TEAM", "GLOBAL", "SPECIFIC_TEAMS"]] = None,
-            shared_team_slugs:     Optional[List[str]]                                   = None,
-            description:           Optional[str]                                         = None,
-            test_resource_enabled: Optional[bool]                                        = None,
-            is_test:               Optional[bool]                                        = None
+            resource_id:                    int,
+            value:                          Union[str, Dict[str, Any], List[Dict[str, Any]]],
+            name:                           Optional[str]                                         = None,
+            folder_id:                      Optional[int]                                         = None,
+            read_access:                    Optional[Literal["TEAM", "GLOBAL", "SPECIFIC_TEAMS"]] = None,
+            shared_team_slugs:              Optional[List[str]]                                   = None,
+            description:                    Optional[str]                                         = None,
+            test_resource_enabled:          Optional[bool]                                        = None,
+            is_test:                        Optional[bool]                                        = None,
+            include_referencing_action_ids: Optional[bool]                                        = True,
+            typed_value:                    Optional[bool]                                        = False
     ):
         return self._http_request(
             "PUT",
@@ -55,10 +63,14 @@ class ResourcesAPI(Client):
 
     def list(
             self,
-            team_id:   Optional[int] = None,
-            folder_id: Optional[int] = None,
-            per_page:  int           = 10,
-            page:      int           = 1,
+            team_id:                        Optional[int]                          = None,
+            folder_id:                      Optional[int]                          = None,
+            per_page:                       int                                    = 10,
+            page:                           int                                    = 1,
+            filter:                         Optional[Literal["UNUSED_IN_ACTIONS"]] = None,
+            include_referencing_action_ids: Optional[bool]                         = True,
+            typed_value:                    Optional[bool]                         = False
+
     ):
         return self._http_request(
             "GET",

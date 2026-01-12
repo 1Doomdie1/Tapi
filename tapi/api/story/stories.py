@@ -4,8 +4,10 @@ from .runs            import RunsAPI
 from ..note           import NotesAPI
 from .groups          import GroupsAPI
 from .drafts          import DraftsAPI
+from .owners          import OwnersAPI
 from ..action.actions import ActionsAPI
 from .versions        import VersionsAPI
+from .recipients      import RecipientsAPI
 from .change_requests import ChangeRequestAPI
 from typing           import List, Optional, Dict, Any
 
@@ -18,8 +20,10 @@ class StoriesAPI(Client):
         self.notes          = NotesAPI(domain, apiKey)
         self.groups         = GroupsAPI(domain, apiKey)
         self.drafts         = DraftsAPI(domain, apiKey)
+        self.owners         = OwnersAPI(domain, apiKey)
         self.actions        = ActionsAPI(domain, apiKey)
         self.versions       = VersionsAPI(domain, apiKey)
+        self.recipients     = RecipientsAPI(domain, apiKey)
         self.change_request = ChangeRequestAPI(domain, apiKey)
 
     def create(
@@ -41,17 +45,15 @@ class StoriesAPI(Client):
 
     def get(
             self,
-            story_id:   int,
-            story_mode: Union[StoryMode, str] = StoryMode.ALL,
-            draft_id:   Optional[int]         = None
+            story_id:              int,
+            story_mode:            Union[StoryMode, str] = StoryMode.ALL,
+            draft_id:              Optional[int]         = None,
+            include_live_activity: Optional[bool]        = None
         ):
         return self._http_request(
             "GET",
             f"{self.base_endpoint}/{story_id}",
-            json = {
-                "story_mode": story_mode,
-                "draft_id": draft_id
-            }
+            params = {key: value for key, value in locals().items() if value is not None and key not in ("self", "story_id")}
         )
 
     def update(
@@ -66,18 +68,19 @@ class StoriesAPI(Client):
             locked:                                        Optional[bool]                                = None,
             priority:                                      Optional[bool]                                = None,
             webhook_api_enabled:                           Optional[bool]                                = None,
+            api_entry_action_id:                           Optional[int]                                 = None,
+            api_exit_action_ids:                           Optional[List[int]]                           = None,
             send_to_story_access_source:                   Optional[Union[SendToStoryAccessSource, str]] = None,
+            entry_action_id:                               Optional[int]                                 = None,
+            exit_action_id:                                Optional[int]                                 = None,
             send_to_story_access:                          Optional[Union[SendToStoryAccess, str]]       = None,
             shared_team_slugs:                             Optional[List[str]]                           = None,
             send_to_story_skill_use_requires_confirmation: Optional[bool]                                = None,
-            api_entry_action_id:                           Optional[int]                                 = None,
-            api_exit_action_ids:                           Optional[int]                                 = None,
             team_id:                                       Optional[int]                                 = None,
             folder_id:                                     Optional[int]                                 = None,
             change_control_enabled:                        Optional[bool]                                = None,
             draft_id:                                      Optional[int]                                 = None,
             monitor_failures:                              Optional[bool]                                = None
-
         ):
         return self._http_request(
             "PUT",
@@ -87,14 +90,15 @@ class StoriesAPI(Client):
 
     def list(
             self,
-            team_id:   Optional[int]                            = None,
-            folder_id: Optional[int]                            = None,
-            tags:      Optional[List[str]]                      = None,
-            search:    Optional[str]                            = None,
-            filter:    Optional[Union[Filter, str]]             = None,
-            order:     Optional[Union[StoriesReturnOrder, str]] = None,
-            per_page:  int                                      = 10,
-            page:      int                                      = 1
+            team_id:               Optional[int]                            = None,
+            folder_id:             Optional[int]                            = None,
+            per_page:              int                                      = 10,
+            page:                  int                                      = 1,
+            tags:                  Optional[List[str]]                      = None,
+            search:                Optional[str]                            = None,
+            filter:                Optional[Union[Filter, str]]             = None,
+            order:                 Optional[Union[StoriesReturnOrder, str]] = None,
+            include_live_activity: Optional[bool]                           = None
         ):
         return self._http_request(
             "GET",
@@ -159,4 +163,27 @@ class StoriesAPI(Client):
             "POST",
             f"{self.base_endpoint}/{id}/disable",
             json = {"disabled": disabled}
+        )
+    
+    def list_pending_actions(
+            self,
+            story_id:   int,
+            search:     Optional[str]                     = None,
+            story_mode: Optional[Literal["LIVE", "TEST"]] = "LIVE",
+            per_page:   int                               = 10,
+            page:       int                               = 1,
+            draft_id:   Optional[int]                     = None
+        ):
+        return self._http_request(
+            "GET",
+            f"{self.base_endpoint}/{story_id}/pending_actions",
+            json = {
+                "search":   search,
+                "draft_id": draft_id
+            },
+            params = {
+                "page":       page,
+                "per_page":   per_page,
+                "story_mode": story_mode,
+            }
         )

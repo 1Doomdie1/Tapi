@@ -75,7 +75,6 @@ disable_ssl_verification()
 </div>
 
 
-
 ## Endpoint Classes
 
 <details>
@@ -104,6 +103,7 @@ This class is designed to be used as a "parent" class from which all other endpo
 | `TenantAPI.records`     | `RecordsAPI`     | Manage records.                        |
 | `TenantAPI.resources`   | `ResourcesAPI`   | Manage resources.                      |
 | `TenantAPI.reporting`   | `ReportingAPI`   | Pull action performance & time saved   |
+| `TenantAPI.workbench`   | `WorkbenchAPI`   | Manage workbench conversations         |
 | `TenantAPI.audit_logs`  | `AuditLogsAPI`   | Pull tenant logs.                      |
 | `TenantAPI.credentials` | `CredentialsAPI` | Manage tenant credentials.             |
 
@@ -155,15 +155,17 @@ Manage tines workflows.
 
 ### Subclasses
 
-| **Path**                           | **Class**          | **Description**              |
-|------------------------------------|--------------------|------------------------------|
-| `TenantAPI.stories.runs`           | `RunsAPI`          | Manage case runs.            |
-| `TenantAPI.stories.notes`          | `NotesAPI`         | Manage case notes.           |
-| `TenantAPI.stories.groups`         | `GroupsAPI`        | Pull action groups logs.     |
-| `TenantAPI.stories.drafts`         | `DraftsAPI`        | Manage story drafts.         |
-| `TenantAPI.stories.actions`        | `ActionsAPI`       | Manage case actions.         |
-| `TenantAPI.stories.versions`       | `VersionsAPI`      | Manage case versions.        |
-| `TenantAPI.stories.change_request` | `ChangeRequestAPI` | Manage case change requests. |
+| **Path**                           | **Class**          | **Description**                       |
+|------------------------------------|--------------------|---------------------------------------|
+| `TenantAPI.stories.runs`           | `RunsAPI`          | Manage case runs.                     |
+| `TenantAPI.stories.notes`          | `NotesAPI`         | Manage case notes.                    |
+| `TenantAPI.stories.groups`         | `GroupsAPI`        | Pull action groups logs.              |
+| `TenantAPI.stories.drafts`         | `DraftsAPI`        | Manage story drafts.                  |
+| `TenantAPI.stories.owners`         | `OwnersAPI`        | Manage story owners.                  |
+| `TenantAPI.stories.actions`        | `ActionsAPI`       | Manage case actions.                  |
+| `TenantAPI.stories.versions`       | `VersionsAPI`      | Manage case versions.                 |
+| `TenantAPI.stories.recipients`     | `RecipientsAPI`    | Create a story recipient for a story. |
+| `TenantAPI.stories.change_request` | `ChangeRequestAPI` | Manage case change requests.          |
 
 ### Usage:
 
@@ -196,6 +198,203 @@ def main():
             }
         //...[snip]...//
         ]
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>WorkbenchAPI</summary>
+Manage workbench conversations.
+
+### Methods
+
+| **Method** | **Description**                    |
+|------------|------------------------------------|
+| `get`      | Retrieve a workbench conversation. |
+| `list`     | List workbench conversations.      |
+
+### Subclasses
+- **None**
+
+### Usage
+
+```python
+from json import dumps
+from tapi import WorkbenchAPI
+
+def main():
+    DOMAIN  = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+    
+    workbench_api = WorkbenchAPI(DOMAIN, API_KEY)
+    
+    get_conversation = workbench_api.get(
+        guid = "ca68403e-5594-42a4-bec7-879b0b417a83"
+    )
+    
+    print(dumps(get_conversation, indent = 4))
+```
+```json5
+{
+    "body": {
+        "guid": "ca68403e-5594-42a4-bec7-879b0b417a83",
+        "steps": [...]
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>RecipientsAPI</summary>
+Manage workflows recipients.
+
+### Methods
+
+| **Method** | **Description**                       |
+|------------|---------------------------------------|
+| `create`   | Create a story recipient for a story. |
+| `delete`   | Delete a story recipient for a story. |
+
+### Subclasses
+- **None**
+
+### Usage
+
+```python
+from json import dumps
+from tapi import RecipientsAPI
+
+def main():
+    DOMAIN  = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+    
+    recipients_api = RecipientsAPI(DOMAIN, API_KEY)
+    
+    add_story_recipient = recipients_api.create(
+        story_id = 1234,
+        address  = "alice@example.com"
+    )
+    
+    print(dumps(add_story_recipient, indent = 4))
+```
+```json5
+{
+    "body": {
+        "name": "Simple story",
+        "user_id": 5678,
+        "description": "In the simple story we will create a fictional situation where a detection system is configured to send alerts to our Tines tenant",
+        "keep_events_for": 604800,
+        "disabled": false,
+        //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>OwnersAPI</summary>
+Manage workflows owners.
+
+### Methods
+
+| **Method** | **Description**                   |
+|------------|-----------------------------------|
+| `create`   | Create a story owner for a story. |
+| `delete`   | Delete a story owner for a story. |
+
+### Subclasses
+- **None**
+
+### Usage
+
+```python
+from json import dumps
+from tapi import OwnersAPI
+
+def main():
+    DOMAIN  = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+    
+    owners_api = OwnersAPI(DOMAIN, API_KEY)
+    
+    assign_owner = owners_api.create(
+        story_id = 1234,
+        user_id  = 5678
+    )
+    
+    print(dumps(assign_owner, indent = 4))
+```
+```json5
+{
+    "body": {
+        "name": "Simple story",
+        "user_id": 5678,
+        "description": "In the simple story we will create a fictional situation where a detection system is configured to send alerts to our Tines tenant",
+        "keep_events_for": 604800,
+        "disabled": false,
+        //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>ChangeRequestAPI</summary>
+Manage workflows change request.
+
+### Methods
+
+| **Method** | **Description**                                                       |
+|-------------------------------------|----------------------------------------------|
+| `create`                            | Create a change request.                     |
+| `create_change_request_description` | Generate a new description for the changes captured in the change request. AI features must be enabled for a successful response.                      |
+| `approve`                           | Approve a change request.                    |
+| `cancel`                            | Cancel a change request.                     |
+| `promote`                           | Promote changes to the live story.           |
+| `view`                              | View the current change request for a story. |
+
+### Subclasses
+- **None**
+
+### Usage
+
+```python
+from json import dumps
+from tapi import ChangeRequestAPI
+
+def main():
+    DOMAIN  = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+    
+    change_request_api = ChangeRequestAPI(DOMAIN, API_KEY)
+    
+    view_request = change_request_api.view(
+        story_id = 1234,
+        draft_id = 5678
+    )
+    
+    print(dumps(view_request, indent = 4))
+```
+```json5
+{
+    "body": {
+        "id": 154,
+        "draft_id": 5678,
+        "draft_name": "Initial Draft",
+        "change_request": {...}
     },
     "headers": {...},
     "status_code": ...
@@ -321,13 +520,15 @@ Manage tines teams.
 
 ### Methods
 
-| **Method** | **Description**                       |
-|------------|---------------------------------------|
-| `create`   | Create a team in Tines.               |
-| `get`      | Retrieve a single team or case group. |
-| `update`   | Update a team.                        |
-| `list`     | Retrieve a list of teams.             |
-| `delete`   | Delete a team or case group.          |
+| **Method**                   |**Description**                              |
+|------------------------------|---------------------------------------------|
+| `create`                     | Create a team in Tines.                     |
+| `get`                        | Retrieve a single team or case group.       |
+| `update`                     | Update a team.                              |
+| `list`                       | Retrieve a list of teams.                   |
+| `delete`                     | Delete a team or case group.                |
+| `destroy_static_external_id` | Destroy a team static external ID in Tines. |
+
 
 ### Subclasses
 
@@ -448,6 +649,7 @@ Manage tines cases.
 |--------------------------------|----------------------|--------------------------|
 | `TenantAPI.cases.files`        | `CaseFilesAPI`       | Manage case files.       |
 | `TenantAPI.cases.notes`        | `CaseNotesAPI`       | Manage case notes.       |
+| `TenantAPI.cases.tasks`        | `CaseTasksAPI`       | Manage case tasks.       |
 | `TenantAPI.cases.inputs`       | `CaseInputsAPI`      | Manage case inputs.      |
 | `TenantAPI.cases.fields`       | `CaseFieldsAPI`      | Manage case fields.      |
 | `TenantAPI.cases.blocks`       | `CaseBlocksAPI`      | Manage case blocks.      |
@@ -968,13 +1170,14 @@ Manage case files.
 
 ### Methods
 
-| **Method** | **Description**                      |
-|------------|--------------------------------------|
-| `create`   | Attach a file to a case.             |
-| `get`      | Retrieve details for a case file.    |
-| `list`     | Retrieve a list of files for a case. |
-| `delete`   | Delete a file from a case.           |
-| `download` | Retrieve a case file attachment.     |
+| **Method** | **Description**                                                         |
+|------------|-------------------------------------------------------------------------|
+| `create`   | Attach a file to a case.                                                |
+| `get`      | Retrieve details for a case file.                                       |
+| `list`     | Retrieve a list of files for a case.                                    |
+| `delete`   | Delete a file from a case.                                              |
+| `download` | Retrieve a case file attachment.                                        |
+| `info`     | Retrieve metadata for a case file attachment without the file contents. |
 
 ### Subclasses
 - **None**
@@ -1294,6 +1497,51 @@ def main():
             }
         ],
         //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>CaseTasksAPI</summary>
+Manage case tasks.
+
+### Methods
+
+| **Method**     | **Description**                               |
+|----------------|-----------------------------------------------|
+| `create`       | Create a task for a specific case.            |
+| `get`          | Retrieve a single task from a specific case.  |
+| `update`       | Update a task for a specific case.            |
+| `list`         | Retrieve a list of tasks for a specific case. |
+| `delete`       | Delete a task.                                |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import CaseTasksAPI
+
+def main():
+    DOMAIN  = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+    
+    case_tasks_api = CaseTasksAPI(DOMAIN, API_KEY)
+    
+    tasks = case_tasks_api.list(case_id=1234)
+    
+    print(dumps(tasks, indent = 4))
+```
+```json5
+{
+    "body": {
+        "tasks": [...]
     },
     "headers": {...},
     "status_code": ...
@@ -1866,6 +2114,7 @@ Manage records.
 | **Path**                      | **Class**            | **Description**           |
 |-------------------------------|----------------------|---------------------------|
 | `TenantAPI.records.types`     | `RecordTypesAPI`     | Manage record types.      |
+| `TenantAPI.records.views`     | `RecordViewsAPI`     | Manage records views.     |
 | `TenantAPI.records.artifacts` | `RecordArtifactsAPI` | Manage records artifacts. |
 
 
@@ -1995,15 +2244,59 @@ def main():
 </details>
 
 <details>
+<summary>RecordViewsAPI</summary>
+Manage record views
+
+### Methods
+
+| **Method** | **Description**                            |
+|------------|--------------------------------------------|
+| `list`     | Retrieve a paginated list of record views. |
+| `delete`   | Delete a record view.                      |
+| `export`   | Export a record view.                      |
+| `import`   | Import a record view.                      |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import RecordViewsAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    record_views_api = RecordViewsAPI(DOMAIN, API_KEY)
+
+    record_views = record_views_api.list()
+
+    print(dumps(record_views, indent=4))
+```
+```json5
+{
+    "body": {
+        "record_views":[...]
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
 <summary>ReportingAPI</summary>
 Get action performance and time saved metrics 
 
 ### Methods
 
-| **Method**           | **Description**                                               |
-|----------------------|---------------------------------------------------------------|
-| `action_performance` | Returns action performance in Tines.                          |
-| `time_saved`         | Returns timed and dated records of time saved by using Tines. |
+| **Method**   | **Description**                                               |
+|------------- |---------------------------------------------------------------|
+| `time_saved` | Returns timed and dated records of time saved by using Tines. |
 
 ### Subclasses
 - **None**
@@ -2021,15 +2314,14 @@ def main():
 
     reporting_api = ReportingAPI(DOMAIN, API_KEY)
 
-    action_performance = reporting_api.action_performance()
+    time_saved = reporting_api.time_saved()
 
-    print(dumps(action_performance, indent=4))
+    print(dumps(time_saved, indent=4))
 ```
 ```json5
 {
     "body": {
-        "action_performance": []
-        //...[snip]...//
+        "time_saved": [...]
     },
     "headers": {...},
     "status_code": ...
@@ -2058,6 +2350,7 @@ Manage tenant through admin endpoint
 | `TenantAPI.admin.templates`               | `TemplatesAPI`                | Manage templates.                       |
 | `TenantAPI.admin.ip_access_control`       | `IpAccessControlAPI`          | Manage IP access control.               |
 | `TenantAPI.admin.scim_user_group_mapping` | `SCIMUserGroupMappingAPI`     | Manage SCIM user group mappings.        |
+| `TenantAPI.admin.story_sync_destinations` | `StorySyncDestinationsAPI`    | Manage story syncing.                   |
 | `TenantAPI.admin.egress_rules`            | `ActionEgressControlRulesAPI` | Manage egress rules. (Self Hosted Only) |
 
 
@@ -2364,6 +2657,69 @@ def main():
     "body": {
       "admin/users": [],
       //...[snip]...//
+    },
+    "headers": {...},
+    "status_code": ...
+}
+```
+
+</details>
+
+<details>
+<summary>StorySyncDestinationsAPI</summary>
+Manage story syncing
+
+### Methods
+
+| **Method**    | **Description**                                                                |
+|---------------|--------------------------------------------------------------------------------|
+| `create`      | Create a new sync destination and subscribe it to one or more stories.         |
+| `list`        | Retrieve a paginated list of sync destinations configured on the tenant.       |
+| `delete`      | Remove a sync destination configuration.                                       |
+| `manual_sync` | Trigger an immediate push of all subscribed stories to the destination tenant. |
+
+### Subclasses
+- **None**
+
+### Usage:
+
+```python
+from json import dumps
+from tapi import StorySyncDestinationsAPI
+
+
+def main():
+    DOMAIN = "my-cool-domain-1234"
+    API_KEY = "do_not_put_this_on_github_lol"
+
+    story_sync_api = StorySyncDestinationsAPI(DOMAIN, API_KEY)
+
+    story_syncs = story_sync_api.list()
+
+    print(dumps(users, indent=4))
+```
+```json5
+{
+    "body": {
+      "sync_destinations": [
+        {
+            "id": 23,
+            "destination_tenant_url": "https://<<META.tenant.domain>>.tines.com",
+            "destination_team_id": 42,
+            "origin_team_id": 7,
+            "subscriptions": [
+                {
+                "story": {
+                    "id": 9981,
+                    "name": "Example"
+                },
+                "status": "synced",
+                "error_message": null
+                }
+            ]
+        },
+        //...[snip]...//
+      ]
     },
     "headers": {...},
     "status_code": ...

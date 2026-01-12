@@ -24,11 +24,9 @@ class ActionLogsAPI(Client):
 
     def delete(
             self,
-            action_id:      int,
-            async_deletion: bool = True
+            action_id: int
     ):
         return self._http_request(
             "DELETE",
-            f"{self.base_endpoint}/{action_id}/remove_logs",
-            json={"async_deletion": async_deletion}
+            f"{self.base_endpoint}/{action_id}/remove_logs"
         )

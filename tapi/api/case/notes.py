@@ -10,11 +10,13 @@ class CaseNotesAPI(Client):
 
     def create(
             self,
-            case_id:  int,
-            title:    str,
-            content:  Optional[str]                       = None,
-            color:    Optional[Union[CaseNoteColor, str]] = None,
-            position: Optional[int]                       = None
+            case_id:      int,
+            title:        str,
+            content:      Optional[str]                       = None,
+            color:        Optional[Union[CaseNoteColor, str]] = None,
+            position:     Optional[int]                       = None,
+            sensitive:    Optional[bool]                      = False,
+            author_email: Optional[str]                       = None
     ):
         return self._http_request(
             "POST",
@@ -37,12 +39,14 @@ class CaseNotesAPI(Client):
 
     def update(
             self,
-            case_id:  int,
-            note_id:  int,
-            title:    Optional[str]                       = None,
-            content:  Optional[str]                       = None,
-            color:    Optional[Union[CaseNoteColor, str]] = None,
-            position: Optional[int]                       = None
+            case_id:      int,
+            note_id:      int,
+            title:        Optional[str]                       = None,
+            content:      Optional[str]                       = None,
+            color:        Optional[Union[CaseNoteColor, str]] = None,
+            position:     Optional[int]                       = None,
+            sensitive:    Optional[bool]                      = False,
+            author_email: Optional[str]                       = None
     ):
         return self._http_request(
             "PUT",

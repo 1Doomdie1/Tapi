@@ -21,11 +21,11 @@ class TemplatesAPI(Client):
             "POST",
             f"{self.base_endpoint}/templates",
             json = {
-                "name": name,
-                "description": description,
-                "vendor": vendor,
-                "product": product,
-                "agent_type": agent_type,
+                "name":          name,
+                "description":   description,
+                "vendor":        vendor,
+                "product":       product,
+                "agent_type":    agent_type,
                 "agent_options": agent_options
             }
         )

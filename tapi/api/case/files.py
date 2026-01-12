@@ -75,3 +75,14 @@ class CaseFilesAPI(Client):
             f"{self.base_endpoint}/{case_id}/files/{file_id}/download",
             "v2"
         )
+    
+    def info(
+            self,
+            case_id: int,
+            file_id: int
+    ):
+        return self._http_request(
+            "GET",
+            f"{self.base_endpoint}/{case_id}/files/{file_id}/info",
+            "v2"
+        )
