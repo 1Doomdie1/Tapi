@@ -17,8 +17,12 @@ class AuditLogsAPI(Client):
             per_page:       int                                      = 10,
             page:           int                                      = 1
     ):
+        params = {key: value for key, value in locals().items() if value is not None and key != "self"}
+        params["user_id[]"] = params.pop("user_id", None)
+        params["operation_name[]"] = params.pop("operation_name", None)
+
         return self._http_request(
             "GET",
             self.base_endpoint,
-            params = {key: value for key, value in locals().items() if value is not None and key != "self"}
+            params = {key: value for key, value in params.items() if value is not None}
         )
