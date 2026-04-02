@@ -1,5 +1,5 @@
 from tapi.client import Client
-from requests    import request
+from httpx       import request
 from .case       import CasesAPI
 from .team       import TeamsAPI
 from .admin      import AdminAPI
