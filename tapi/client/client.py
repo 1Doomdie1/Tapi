@@ -1,7 +1,8 @@
 from tapi.utils.types import HTTPResponse
 from json             import JSONDecodeError
 from typing           import Union, Dict, Any
-from requests         import request, RequestException, Response
+from httpx            import request, RequestError, Response
+
 
 class Client:
     verify_ssl: bool = True
@@ -29,7 +30,7 @@ class Client:
                 "status_code": response.status_code
             }
 
-        except RequestException as e:
+        except RequestError as e:
             return {
                 "body": str(e),
                 "headers": {},
