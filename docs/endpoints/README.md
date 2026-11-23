@@ -24,6 +24,7 @@ parameter.
 | `stories`      | `tines.stories`      | [Stories](stories.md), [Stories: actions](stories_actions.md) | The automations built in Tines, with their sub-areas.   |
 | `tags`         | `tines.tags`         | [Tags](tags.md)                       | Tags that classify content.                             |
 | `teams`        | `tines.teams`        | [Teams](teams.md)                     | Teams and, as a sub-area, their members.                |
+| `workbench`    | `tines.workbench`    | [Workbench](workbench.md)             | Workbench and other AI conversations, read only.        |
 
 ## Sub-areas
 
@@ -41,4 +42,4 @@ the page of its module, except for the actions of a story.
 ## Not covered yet
 
 These Tines API areas have no methods and no page yet: `admin`, `dashboards`, `records`,
-`reporting`, `scim`, `skills` and `workbench`. A page is added when its module is built.
+`reporting`, `scim` and `skills`. A page is added when its module is built.

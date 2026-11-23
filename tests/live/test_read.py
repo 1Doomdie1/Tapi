@@ -36,6 +36,7 @@ LISTS = [
         True,
         id="change_requests.list",
     ),
+    pytest.param("workbench.list", {"per_page": 1}, "conversations", True, id="workbench.list"),
     pytest.param("cases.fields.list", {"per_page": 1}, "case_inputs", True, id="fields.list"),
     pytest.param("cases.webhooks.list", {"per_page": 1}, "webhooks", True, id="webhooks.list"),
     pytest.param("stories.list", {"per_page": 1}, "stories", True, id="stories.list"),
@@ -232,6 +233,31 @@ def test_change_requests_report_what_is_not_found_or_not_valid(live):
     assert unknown_id.data == ["StoryChangeRequest not found"]
     assert bad_status.status_code == 422
     assert "PENDING" in str(bad_status.data)
+
+
+def test_the_first_conversation_can_be_read_by_its_guid(live):
+    listed = check(reply=live.workbench.list(per_page=1), status=200)["conversations"]
+    if not listed:
+        pytest.skip("the test tenant has no workbench conversations")
+
+    data = check(reply=live.workbench.get(conversation_id=listed[0]["guid"]), status=200)
+
+    assert data["guid"] == listed[0]["guid"]
+    assert {"status", "usage", "steps"} <= set(data)
+    assert isinstance(data["steps"], list)
+    assert {step["role"] for step in data["steps"]} <= {"user", "assistant", "tool"}
+
+
+def test_workbench_reports_what_is_not_found_or_not_valid(live):
+    unknown = live.workbench.get(conversation_id="00000000-0000-0000-0000-000000000000")
+    bad_type = live.workbench.list(conversation_type="bogus")
+    bad_range = live.workbench.list(
+        created_after="2026-11-22T00:00:00Z", created_before="2020-01-01T00:00:00Z"
+    )
+
+    assert (unknown.status_code, unknown.data) == (404, ["Conversation not found"])
+    assert (bad_type.status_code, bad_range.status_code) == (400, 400)
+    assert bad_range.data == ["created_after must be before created_before"]
 
 
 def test_the_members_of_a_team_can_be_listed(live, team_id):

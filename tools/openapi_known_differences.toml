@@ -50,10 +50,6 @@ reason = "Not built yet. It probably belongs under the admin module."
 prefix = "/api/v1/skills"
 reason = "The skills module is not built yet."
 
-[[not_built]]
-prefix = "/api/v1/workbench"
-reason = "The workbench module is not built yet."
-
 [[not_offered]]
 prefix = "/api/v1/cases"
 reason = "The v1 Cases routes are deprecated, and Tines removes them on December 1, 2026. tapi offers the v2 routes."

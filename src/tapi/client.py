@@ -15,6 +15,7 @@ from tapi.resources import Resources
 from tapi.stories import Stories
 from tapi.tags import Tags
 from tapi.teams import Teams
+from tapi.workbench import Workbench
 
 
 class Tines:
@@ -46,6 +47,7 @@ class Tines:
             ``tapi.stories.Stories``.
         tags: Tags. See ``tapi.tags.Tags``.
         teams: Teams and their members. See ``tapi.teams.Teams``.
+        workbench: Workbench conversations. See ``tapi.workbench.Workbench``.
 
     Raises:
         TinesConfigurationError: If the tenant domain or the API key is missing or invalid.
@@ -75,6 +77,7 @@ class Tines:
         self.stories = Stories(transport=self._transport)
         self.tags = Tags(transport=self._transport)
         self.teams = Teams(transport=self._transport)
+        self.workbench = Workbench(transport=self._transport)
 
     def close(self) -> None:
         """Close the underlying connections."""

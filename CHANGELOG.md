@@ -38,6 +38,8 @@ aims to follow [Semantic Versioning](https://semver.org/).
   current API is offered: the v1 routes that Tines is removing are left out.
 - `change_requests` module (`tines.change_requests`): `list`, filterable by teams and statuses, and
   `get`. The operations on the change request of one story stay in `stories.change_control`.
+- `workbench` module (`tines.workbench`): `list`, filterable by title, favorite, creator, type and
+  creation time, and `get`, which returns a conversation with its usage and transcript.
 - `tags` module (`tines.tags`): `list`, `get`, `create`, `update` and `delete`.
 - `teams` module (`tines.teams`): `list`, `get`, `create`, `update`, `delete` and
   `destroy_static_external_id`, and `members` (`tines.teams.members`): `list`, `invite`,
