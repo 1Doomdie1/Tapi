@@ -4,9 +4,10 @@ build-backend = "hatchling.build"
 
 [project]
 name = "tapi"
-version = "0.1.0"
+version = "3.0.0"
 description = "Unofficial Python wrapper for the Tines REST API."
 readme = "README.md"
+license = "GPL-3.0"
 requires-python = ">=3.11"
 keywords = ["tines", "api", "wrapper", "automation"]
 classifiers = [
