@@ -29,6 +29,13 @@ LISTS = [
     pytest.param("teams.list", {"per_page": 1}, "teams", True, id="teams.list"),
     pytest.param("apps.list", {"per_page": 1}, "apps", True, id="apps.list"),
     pytest.param("cases.list", {"per_page": 1}, "cases", True, id="cases.list"),
+    pytest.param(
+        "change_requests.list",
+        {"per_page": 1},
+        "change_requests",
+        True,
+        id="change_requests.list",
+    ),
     pytest.param("cases.fields.list", {"per_page": 1}, "case_inputs", True, id="fields.list"),
     pytest.param("cases.webhooks.list", {"per_page": 1}, "webhooks", True, id="webhooks.list"),
     pytest.param("stories.list", {"per_page": 1}, "stories", True, id="stories.list"),
@@ -62,6 +69,14 @@ FIRST_ITEMS = [
     ),
     pytest.param(
         "stories.events.list", "events", "stories.events.get", "event_id", True, id="events"
+    ),
+    pytest.param(
+        "change_requests.list",
+        "change_requests",
+        "change_requests.get",
+        "change_request_id",
+        True,
+        id="change_requests",
     ),
     pytest.param(
         "cases.fields.list", "case_inputs", "cases.fields.get", "field_id", True, id="fields"
@@ -206,6 +221,17 @@ def test_the_first_status_or_template_of_a_team_can_be_read_by_its_id(
     )
 
     assert data["id"] == items[0]["id"]
+
+
+def test_change_requests_report_what_is_not_found_or_not_valid(live):
+    unknown_team = live.change_requests.list(team_ids=[999999999])
+    bad_status = live.change_requests.list(statuses=["BOGUS"])
+    unknown_id = live.change_requests.get(change_request_id=999999999)
+
+    assert (unknown_team.status_code, unknown_id.status_code) == (404, 404)
+    assert unknown_id.data == ["StoryChangeRequest not found"]
+    assert bad_status.status_code == 422
+    assert "PENDING" in str(bad_status.data)
 
 
 def test_the_members_of_a_team_can_be_listed(live, team_id):

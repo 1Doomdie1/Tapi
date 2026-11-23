@@ -36,6 +36,8 @@ aims to follow [Semantic Versioning](https://semver.org/).
   `tasks`, `field_values`, `metadata`, `files`, `blocks` (with their elements), `linked_cases`,
   `records`, `subscribers`, `actions`, `fields`, `statuses`, `templates` and `webhooks`. Only the
   current API is offered: the v1 routes that Tines is removing are left out.
+- `change_requests` module (`tines.change_requests`): `list`, filterable by teams and statuses, and
+  `get`. The operations on the change request of one story stay in `stories.change_control`.
 - `tags` module (`tines.tags`): `list`, `get`, `create`, `update` and `delete`.
 - `teams` module (`tines.teams`): `list`, `get`, `create`, `update`, `delete` and
   `destroy_static_external_id`, and `members` (`tines.teams.members`): `list`, `invite`,

@@ -5,6 +5,7 @@ from tapi.ai import AI
 from tapi.apps import Apps
 from tapi.audit_logs import AuditLogs
 from tapi.cases import Cases
+from tapi.change_requests import ChangeRequests
 from tapi.core.config import resolve_api_key, resolve_base_url
 from tapi.core.transport import Transport
 from tapi.credentials import Credentials
@@ -36,6 +37,7 @@ class Tines:
         apps: Apps. See ``tapi.apps.Apps``.
         audit_logs: Audit logs. See ``tapi.audit_logs.AuditLogs``.
         cases: Cases, with their activities and assignees. See ``tapi.cases.Cases``.
+        change_requests: Change requests of stories. See ``tapi.change_requests.ChangeRequests``.
         credentials: Credentials. See ``tapi.credentials.Credentials``.
         folders: Folders. See ``tapi.folders.Folders``.
         info: Information about your tenant. See ``tapi.info.Info``.
@@ -65,6 +67,7 @@ class Tines:
         self.apps = Apps(transport=self._transport)
         self.audit_logs = AuditLogs(transport=self._transport)
         self.cases = Cases(transport=self._transport)
+        self.change_requests = ChangeRequests(transport=self._transport)
         self.credentials = Credentials(transport=self._transport)
         self.folders = Folders(transport=self._transport)
         self.info = Info(transport=self._transport)

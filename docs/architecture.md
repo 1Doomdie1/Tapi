@@ -12,8 +12,8 @@ Endpoint modules (`tapi.info`, `tapi.stories`, `tapi.tags`, ...) each take the `
 their requests through `Transport.request`. `Tines` builds one `Transport` and hands it to every
 module, which then becomes an attribute such as `tines.info`.
 
-Implemented so far: `info`, `ai`, `apps`, `audit_logs`, `cases`, `credentials`, `folders`,
-`resources`, `stories`, `tags` and `teams`. The other module folders exist but are still empty.
+Implemented so far: `info`, `ai`, `apps`, `audit_logs`, `cases`, `change_requests`, `credentials`,
+`folders`, `resources`, `stories`, `tags` and `teams`. The other module folders exist but are still empty.
 
 ## The core layer
 

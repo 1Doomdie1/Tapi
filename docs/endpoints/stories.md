@@ -67,8 +67,8 @@ ten methods, and [its own page](stories_actions.md) describes them: `list`, `get
 
 ## What is not here
 
-The change request endpoints at `/api/v1/change_requests` belong to `change_requests`.
-`change_control` holds only the operations that Tines routes under a story. The OpenAPI document
+The change request endpoints at `/api/v1/change_requests` belong to
+[`change_requests`](change_requests.md). `change_control` holds only the operations that Tines routes under a story. The OpenAPI document
 also lists `/api/v1/annotations` routes, which are copies of the `/api/v1/notes` routes, and tapi
 offers the notes routes only.
 
