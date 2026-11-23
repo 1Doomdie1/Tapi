@@ -3,7 +3,11 @@ from typing import Self
 
 from tapi.core.config import resolve_api_key, resolve_base_url
 from tapi.core.transport import Transport
+from tapi.credentials import Credentials
+from tapi.folders import Folders
 from tapi.info import Info
+from tapi.resources import Resources
+from tapi.tags import Tags
 
 
 class Tines:
@@ -22,7 +26,11 @@ class Tines:
             takes longer raises ``TinesConnectionError``.
 
     Attributes:
+        credentials: Credentials. See ``tapi.credentials.Credentials``.
+        folders: Folders. See ``tapi.folders.Folders``.
         info: Information about your tenant. See ``tapi.info.Info``.
+        resources: Resources. See ``tapi.resources.Resources``.
+        tags: Tags. See ``tapi.tags.Tags``.
 
     Raises:
         TinesConfigurationError: If the tenant domain or the API key is missing or invalid.
@@ -40,7 +48,11 @@ class Tines:
             api_key=resolve_api_key(api_key=api_key),
             timeout=timeout,
         )
+        self.credentials = Credentials(transport=self._transport)
+        self.folders = Folders(transport=self._transport)
         self.info = Info(transport=self._transport)
+        self.resources = Resources(transport=self._transport)
+        self.tags = Tags(transport=self._transport)
 
     def close(self) -> None:
         """Close the underlying connections."""
