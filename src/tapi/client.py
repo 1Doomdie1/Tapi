@@ -10,6 +10,7 @@ from tapi.credentials import Credentials
 from tapi.folders import Folders
 from tapi.info import Info
 from tapi.resources import Resources
+from tapi.stories import Stories
 from tapi.tags import Tags
 from tapi.teams import Teams
 
@@ -37,6 +38,8 @@ class Tines:
         folders: Folders. See ``tapi.folders.Folders``.
         info: Information about your tenant. See ``tapi.info.Info``.
         resources: Resources. See ``tapi.resources.Resources``.
+        stories: Stories, their actions, drafts, runs, versions and change requests. See
+            ``tapi.stories.Stories``.
         tags: Tags. See ``tapi.tags.Tags``.
         teams: Teams and their members. See ``tapi.teams.Teams``.
 
@@ -63,6 +66,7 @@ class Tines:
         self.folders = Folders(transport=self._transport)
         self.info = Info(transport=self._transport)
         self.resources = Resources(transport=self._transport)
+        self.stories = Stories(transport=self._transport)
         self.tags = Tags(transport=self._transport)
         self.teams = Teams(transport=self._transport)
 
