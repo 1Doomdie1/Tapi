@@ -23,6 +23,8 @@ Requires Python 3.11 or newer.
 
 ## Documentation
 
+The [documentation overview](docs/README.md) lists every page and says where to start.
+
 | Page                                                 | Covers                                              |
 | ---------------------------------------------------- | --------------------------------------------------- |
 | [Getting started](docs/getting-started.md)           | Installing and making a first call                  |
