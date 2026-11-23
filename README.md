@@ -32,5 +32,4 @@ Requires Python 3.11 or newer.
 | [OpenAPI drift](docs/openapi-drift.md)               | Comparing tapi's routes with the Tines OpenAPI file |
 | [Responses](docs/responses.md)                       | The `Response` class, body decoding, non-2xx        |
 | [Pagination](docs/pagination.md)                     | Walking pages yourself                              |
-| [Rate limits](docs/rate-limits.md)                   | Tines limits and `Retry-After`                      |
 | [Endpoints](docs/endpoints/)                         | One page per module, mapping methods to routes      |
