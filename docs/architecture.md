@@ -13,8 +13,8 @@ their requests through `Transport.request`. `Tines` builds one `Transport` and h
 module, which then becomes an attribute such as `tines.info`.
 
 Implemented so far: `info`, `ai`, `apps`, `audit_logs`, `cases`, `change_requests`, `credentials`,
-`folders`, `resources`, `stories`, `tags`, `teams` and `workbench`. The other module folders exist
-but are still empty.
+`folders`, `reporting`, `resources`, `stories`, `tags`, `teams` and `workbench`. The other module
+folders exist but are still empty.
 
 ## The core layer
 

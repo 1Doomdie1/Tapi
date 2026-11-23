@@ -1,3 +1,5 @@
+from datetime import UTC, datetime, timedelta
+
 import pytest
 
 from tapi import Response
@@ -258,6 +260,52 @@ def test_workbench_reports_what_is_not_found_or_not_valid(live):
     assert (unknown.status_code, unknown.data) == (404, ["Conversation not found"])
     assert (bad_type.status_code, bad_range.status_code) == (400, 400)
     assert bad_range.data == ["created_after must be before created_before"]
+
+
+def test_flow_usage_answers_with_its_documented_shape(live):
+    reply = live.reporting.flow_usage()
+    if reply.status_code == 400:
+        pytest.skip("the test tenant is not on the flows pricing model")
+
+    data = check(reply=reply, status=200)
+
+    assert set(data) == {"flows", "teams", "meta"}
+    assert {"used", "limit", "allocated", "unallocated"} <= set(data["flows"])
+    assert all(
+        {"id", "name", "flows_used", "flows_allocated", "flows_available"} <= set(team)
+        for team in data["teams"]
+    )
+    assert "next_page_number" in data["meta"]
+
+
+def test_time_saved_returns_the_records_from_the_start_date(live):
+    start = datetime.now(UTC) - timedelta(days=3)
+
+    data = check(reply=live.reporting.time_saved(start_date=start), status=200)
+
+    assert 4 <= len(data["time_saved"]) <= 5
+    assert all(set(record) == {"date", "value"} for record in data["time_saved"])
+    assert "next_page_number" in data["meta"]
+
+
+def test_time_saved_reports_what_is_not_valid_or_not_found(live):
+    now = datetime.now(UTC)
+    unit = live.reporting.time_saved(date_unit="year")
+    backwards = live.reporting.time_saved(start_date=now, end_date=now - timedelta(days=1))
+    bad_date = live.reporting.time_saved(start_date="not a date")
+    unknown = [
+        live.reporting.time_saved(team_id=999999999),
+        live.reporting.time_saved(story_id=999999999),
+        live.reporting.time_saved(action_id=999999999),
+    ]
+
+    assert (unit.status_code, backwards.status_code, bad_date.status_code) == (400, 400, 422)
+    assert [reply.status_code for reply in unknown] == [404, 404, 404]
+    assert [reply.data for reply in unknown] == [
+        ["Team not found"],
+        ["Story not found"],
+        ["Action not found"],
+    ]
 
 
 def test_the_members_of_a_team_can_be_listed(live, team_id):

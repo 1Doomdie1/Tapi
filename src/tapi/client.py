@@ -11,6 +11,7 @@ from tapi.core.transport import Transport
 from tapi.credentials import Credentials
 from tapi.folders import Folders
 from tapi.info import Info
+from tapi.reporting import Reporting
 from tapi.resources import Resources
 from tapi.stories import Stories
 from tapi.tags import Tags
@@ -42,6 +43,7 @@ class Tines:
         credentials: Credentials. See ``tapi.credentials.Credentials``.
         folders: Folders. See ``tapi.folders.Folders``.
         info: Information about your tenant. See ``tapi.info.Info``.
+        reporting: Reports about your tenant. See ``tapi.reporting.Reporting``.
         resources: Resources. See ``tapi.resources.Resources``.
         stories: Stories, their actions, drafts, runs, versions and change requests. See
             ``tapi.stories.Stories``.
@@ -73,6 +75,7 @@ class Tines:
         self.credentials = Credentials(transport=self._transport)
         self.folders = Folders(transport=self._transport)
         self.info = Info(transport=self._transport)
+        self.reporting = Reporting(transport=self._transport)
         self.resources = Resources(transport=self._transport)
         self.stories = Stories(transport=self._transport)
         self.tags = Tags(transport=self._transport)

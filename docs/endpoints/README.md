@@ -20,6 +20,7 @@ parameter.
 | `credentials`  | `tines.credentials`  | [Credentials](credentials.md)         | The secrets that actions use.                           |
 | `folders`      | `tines.folders`      | [Folders](folders.md)                 | Folders that organize stories, credentials and resources. |
 | `info`         | `tines.info`         | [Info](info.md)                       | Information about the tenant: its stack, web server and workers. |
+| `reporting`    | `tines.reporting`    | [Reporting](reporting.md)             | Flow usage by team and the time saved.                  |
 | `resources`    | `tines.resources`    | [Resources](resources.md)             | Named values such as text, JSON and files.              |
 | `stories`      | `tines.stories`      | [Stories](stories.md), [Stories: actions](stories_actions.md) | The automations built in Tines, with their sub-areas.   |
 | `tags`         | `tines.tags`         | [Tags](tags.md)                       | Tags that classify content.                             |
@@ -42,4 +43,4 @@ the page of its module, except for the actions of a story.
 ## Not covered yet
 
 These Tines API areas have no methods and no page yet: `admin`, `dashboards`, `records`,
-`reporting`, `scim` and `skills`. A page is added when its module is built.
+`scim` and `skills`. A page is added when its module is built.
