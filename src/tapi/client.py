@@ -14,6 +14,7 @@ from tapi.folders import Folders
 from tapi.info import Info
 from tapi.reporting import Reporting
 from tapi.resources import Resources
+from tapi.skills import Skills
 from tapi.stories import Stories
 from tapi.tags import Tags
 from tapi.teams import Teams
@@ -47,6 +48,7 @@ class Tines:
         info: Information about your tenant. See ``tapi.info.Info``.
         reporting: Reports about your tenant. See ``tapi.reporting.Reporting``.
         resources: Resources. See ``tapi.resources.Resources``.
+        skills: Skills of AI agents. See ``tapi.skills.Skills``.
         stories: Stories, their actions, drafts, runs, versions and change requests. See
             ``tapi.stories.Stories``.
         tags: Tags. See ``tapi.tags.Tags``.
@@ -80,6 +82,7 @@ class Tines:
         self.info = Info(transport=self._transport)
         self.reporting = Reporting(transport=self._transport)
         self.resources = Resources(transport=self._transport)
+        self.skills = Skills(transport=self._transport)
         self.stories = Stories(transport=self._transport)
         self.tags = Tags(transport=self._transport)
         self.teams = Teams(transport=self._transport)

@@ -26,6 +26,7 @@ COLLECTIONS = (
     ("cases.templates.list", "case_templates", {"team_id": TEAM}),
     ("cases.webhooks.list", "webhooks", {}),
     ("dashboards.list", "dashboards", {}),
+    ("skills.list", "skills", {}),
 )
 
 

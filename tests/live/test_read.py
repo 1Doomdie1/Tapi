@@ -40,6 +40,7 @@ LISTS = [
     ),
     pytest.param("workbench.list", {"per_page": 1}, "conversations", True, id="workbench.list"),
     pytest.param("dashboards.list", {"per_page": 1}, "dashboards", True, id="dashboards.list"),
+    pytest.param("skills.list", {"per_page": 1}, "skills", True, id="skills.list"),
     pytest.param("cases.fields.list", {"per_page": 1}, "case_inputs", True, id="fields.list"),
     pytest.param("cases.webhooks.list", {"per_page": 1}, "webhooks", True, id="webhooks.list"),
     pytest.param("stories.list", {"per_page": 1}, "stories", True, id="stories.list"),
@@ -283,6 +284,28 @@ def test_dashboards_report_what_is_not_found(live):
         404,
         ["Dashboard not found"],
     )
+
+
+def test_the_first_skill_can_be_read_by_its_name_and_team(live):
+    listed = check(reply=live.skills.list(per_page=1), status=200)["skills"]
+    if not listed:
+        pytest.skip("the test tenant has no skills")
+
+    skill = listed[0]
+    data = check(
+        reply=live.skills.get(skill_name=skill["name"], team_id=skill["team_id"]), status=200
+    )
+
+    assert set(data) == set(skill)
+    assert data["name"] == skill["name"]
+
+
+def test_skills_report_what_is_not_found(live, team_id):
+    unknown_team = live.skills.list(team_id=999999999)
+    unknown_skill = live.skills.get(skill_name="no-such-skill", team_id=team_id)
+
+    assert (unknown_team.status_code, unknown_team.data) == (404, ["Team not found"])
+    assert (unknown_skill.status_code, unknown_skill.data) == (404, ["Skill not found"])
 
 
 def test_flow_usage_answers_with_its_documented_shape(live):

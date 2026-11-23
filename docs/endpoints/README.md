@@ -23,6 +23,7 @@ parameter.
 | `info`         | `tines.info`         | [Info](info.md)                       | Information about the tenant: its stack, web server and workers. |
 | `reporting`    | `tines.reporting`    | [Reporting](reporting.md)             | Flow usage by team and the time saved.                  |
 | `resources`    | `tines.resources`    | [Resources](resources.md)             | Named values such as text, JSON and files.              |
+| `skills`       | `tines.skills`       | [Skills](skills.md)                   | Skills that AI agents can load, found by name and team. |
 | `stories`      | `tines.stories`      | [Stories](stories.md), [Stories: actions](stories_actions.md) | The automations built in Tines, with their sub-areas.   |
 | `tags`         | `tines.tags`         | [Tags](tags.md)                       | Tags that classify content.                             |
 | `teams`        | `tines.teams`        | [Teams](teams.md)                     | Teams and, as a sub-area, their members.                |
@@ -43,5 +44,5 @@ the page of its module, except for the actions of a story.
 
 ## Not covered yet
 
-These Tines API areas have no methods and no page yet: `admin`, `records`, `scim` and
-`skills`. A page is added when its module is built.
+These Tines API areas have no methods and no page yet: `admin`, `records` and
+`scim`. A page is added when its module is built.

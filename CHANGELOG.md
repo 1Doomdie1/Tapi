@@ -43,6 +43,8 @@ aims to follow [Semantic Versioning](https://semver.org/).
 - `reporting` module (`tines.reporting`): `flow_usage`, the flow usage of the tenant by team, and
   `time_saved`, the time saved grouped by hour, day, week or month.
 - `dashboards` module (`tines.dashboards`): `list`, `delete`, `export` and `import_`.
+- `skills` module (`tines.skills`): `list`, `get`, `create`, `update` and `delete`. A skill is found
+  by its name and the ID of its team.
 - `tags` module (`tines.tags`): `list`, `get`, `create`, `update` and `delete`.
 - `teams` module (`tines.teams`): `list`, `get`, `create`, `update`, `delete` and
   `destroy_static_external_id`, and `members` (`tines.teams.members`): `list`, `invite`,
