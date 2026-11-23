@@ -15,10 +15,6 @@ prefix = "/api/v1/admin"
 reason = "The admin module is not built yet."
 
 [[not_built]]
-prefix = "/api/v1/dashboards"
-reason = "The dashboards module is not built yet."
-
-[[not_built]]
 prefix = "/api/v1/records"
 reason = "The records module is not built yet."
 

@@ -18,6 +18,7 @@ parameter.
 | `cases`        | `tines.cases`        | [Cases](cases.md)                     | Cases and their sub-areas, from the current v2 API.     |
 | `change_requests` | `tines.change_requests` | [Change requests](change_requests.md) | Listing and reading change requests across stories. The operations on one story are in `stories.change_control`. |
 | `credentials`  | `tines.credentials`  | [Credentials](credentials.md)         | The secrets that actions use.                           |
+| `dashboards`   | `tines.dashboards`   | [Dashboards](dashboards.md)           | Listing, exporting, importing and deleting dashboards.  |
 | `folders`      | `tines.folders`      | [Folders](folders.md)                 | Folders that organize stories, credentials and resources. |
 | `info`         | `tines.info`         | [Info](info.md)                       | Information about the tenant: its stack, web server and workers. |
 | `reporting`    | `tines.reporting`    | [Reporting](reporting.md)             | Flow usage by team and the time saved.                  |
@@ -42,5 +43,5 @@ the page of its module, except for the actions of a story.
 
 ## Not covered yet
 
-These Tines API areas have no methods and no page yet: `admin`, `dashboards`, `records`,
-`scim` and `skills`. A page is added when its module is built.
+These Tines API areas have no methods and no page yet: `admin`, `records`, `scim` and
+`skills`. A page is added when its module is built.

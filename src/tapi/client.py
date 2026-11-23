@@ -9,6 +9,7 @@ from tapi.change_requests import ChangeRequests
 from tapi.core.config import resolve_api_key, resolve_base_url
 from tapi.core.transport import Transport
 from tapi.credentials import Credentials
+from tapi.dashboards import Dashboards
 from tapi.folders import Folders
 from tapi.info import Info
 from tapi.reporting import Reporting
@@ -41,6 +42,7 @@ class Tines:
         cases: Cases, with their activities and assignees. See ``tapi.cases.Cases``.
         change_requests: Change requests of stories. See ``tapi.change_requests.ChangeRequests``.
         credentials: Credentials. See ``tapi.credentials.Credentials``.
+        dashboards: Dashboards. See ``tapi.dashboards.Dashboards``.
         folders: Folders. See ``tapi.folders.Folders``.
         info: Information about your tenant. See ``tapi.info.Info``.
         reporting: Reports about your tenant. See ``tapi.reporting.Reporting``.
@@ -73,6 +75,7 @@ class Tines:
         self.cases = Cases(transport=self._transport)
         self.change_requests = ChangeRequests(transport=self._transport)
         self.credentials = Credentials(transport=self._transport)
+        self.dashboards = Dashboards(transport=self._transport)
         self.folders = Folders(transport=self._transport)
         self.info = Info(transport=self._transport)
         self.reporting = Reporting(transport=self._transport)

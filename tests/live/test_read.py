@@ -39,6 +39,7 @@ LISTS = [
         id="change_requests.list",
     ),
     pytest.param("workbench.list", {"per_page": 1}, "conversations", True, id="workbench.list"),
+    pytest.param("dashboards.list", {"per_page": 1}, "dashboards", True, id="dashboards.list"),
     pytest.param("cases.fields.list", {"per_page": 1}, "case_inputs", True, id="fields.list"),
     pytest.param("cases.webhooks.list", {"per_page": 1}, "webhooks", True, id="webhooks.list"),
     pytest.param("stories.list", {"per_page": 1}, "stories", True, id="stories.list"),
@@ -260,6 +261,28 @@ def test_workbench_reports_what_is_not_found_or_not_valid(live):
     assert (unknown.status_code, unknown.data) == (404, ["Conversation not found"])
     assert (bad_type.status_code, bad_range.status_code) == (400, 400)
     assert bad_range.data == ["created_after must be before created_before"]
+
+
+def test_the_first_dashboard_can_be_exported(live):
+    listed = check(reply=live.dashboards.list(per_page=1), status=200)["dashboards"]
+    if not listed:
+        pytest.skip("the test tenant has no dashboards")
+
+    data = check(reply=live.dashboards.export(dashboard_id=listed[0]["id"]), status=200)
+
+    assert {"schema_version", "export_type", "exported_at", "dashboard"} <= set(data)
+    assert data["export_type"] == "dashboard"
+
+
+def test_dashboards_report_what_is_not_found(live):
+    unknown_team = live.dashboards.list(team_id=999999999)
+    unknown_dashboard = live.dashboards.export(dashboard_id=999999999)
+
+    assert (unknown_team.status_code, unknown_team.data) == (404, ["Team not found"])
+    assert (unknown_dashboard.status_code, unknown_dashboard.data) == (
+        404,
+        ["Dashboard not found"],
+    )
 
 
 def test_flow_usage_answers_with_its_documented_shape(live):

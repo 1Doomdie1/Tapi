@@ -46,10 +46,11 @@ with Tines() as tines:
 ## What is available
 
 The client and its core layer are in place. Endpoint modules are attached to `Tines` as attributes
-as they are implemented. So far there are fourteen: [Info](endpoints/info.md), [AI](endpoints/ai.md),
+as they are implemented. So far there are fifteen: [Info](endpoints/info.md), [AI](endpoints/ai.md),
 [Apps](endpoints/apps.md), [Audit logs](endpoints/audit_logs.md), [Cases](endpoints/cases.md),
 [Change requests](endpoints/change_requests.md), [Credentials](endpoints/credentials.md),
-[Folders](endpoints/folders.md), [Reporting](endpoints/reporting.md),
+[Dashboards](endpoints/dashboards.md), [Folders](endpoints/folders.md),
+[Reporting](endpoints/reporting.md),
 [Resources](endpoints/resources.md), [Stories](endpoints/stories.md) (with its
 [actions](endpoints/stories_actions.md)), [Tags](endpoints/tags.md), [Teams](endpoints/teams.md) and
 [Workbench](endpoints/workbench.md).
