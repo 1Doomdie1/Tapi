@@ -1,0 +1,71 @@
+[[not_offered]]
+prefix = "/api/v1/agents"
+reason = "A copy of the /api/v1/actions routes under their old name. tapi offers the actions routes."
+
+[[not_offered]]
+prefix = "/api/v1/annotations"
+reason = "A copy of the /api/v1/notes routes under their old name. tapi offers the notes routes."
+
+[[not_offered]]
+route = "POST /api/v1/actions/{id}/run"
+reason = "Only in the OpenAPI document. The Tines documentation pages for actions list no such operation, and tapi does not offer it."
+
+[[not_built]]
+prefix = "/api/v1/admin"
+reason = "The admin module is not built yet."
+
+[[not_built]]
+prefix = "/api/v1/change_requests"
+reason = "The change_requests module is not built yet."
+
+[[not_built]]
+prefix = "/api/v1/dashboards"
+reason = "The dashboards module is not built yet."
+
+[[not_built]]
+prefix = "/api/v1/records"
+reason = "The records module is not built yet."
+
+[[not_built]]
+prefix = "/api/v1/record_types"
+reason = "The records module is not built yet."
+
+[[not_built]]
+prefix = "/api/v1/record_views"
+reason = "The records module is not built yet."
+
+[[not_built]]
+prefix = "/api/v2/records"
+reason = "The records module is not built yet."
+
+[[not_built]]
+prefix = "/api/v2/record_types"
+reason = "The records module is not built yet."
+
+[[not_built]]
+prefix = "/api/v1/reporting"
+reason = "The reporting module is not built yet."
+
+[[not_built]]
+prefix = "/api/v1/run_script_environments"
+reason = "Not built yet. It probably belongs under the admin module."
+
+[[not_built]]
+prefix = "/api/v1/skills"
+reason = "The skills module is not built yet."
+
+[[not_built]]
+prefix = "/api/v1/workbench"
+reason = "The workbench module is not built yet."
+
+[[not_offered]]
+prefix = "/api/v1/cases"
+reason = "The v1 Cases routes are deprecated, and Tines removes them on December 1, 2026. tapi offers the v2 routes."
+
+[[not_offered]]
+prefix = "/api/v1/case_files"
+reason = "A v1 route with no page in the Tines docs, which list the v2 file routes."
+
+[[not_in_spec]]
+route = "POST /api/v3/cases/search"
+reason = "Documented by Tines as the way to search cases, but not in the OpenAPI document."
