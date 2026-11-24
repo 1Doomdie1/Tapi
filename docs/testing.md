@@ -53,6 +53,7 @@ python -m pytest
 | `tests/<area>/test_api.py` | The table of cases of one module, and its two tests. Sub-areas share the parent's file. |
 | `tests/test_conventions.py`| Rules that hold for every method, checked by looking at the classes.                  |
 | `tests/test_client.py`     | `Tines` itself: configuration, wiring of the modules, one call from end to end.       |
+| `tests/test_packaging.py`  | The release metadata: the files that the sdist may hold, and the changelog heading.   |
 | `tests/core/`              | The foundation: `Transport`, `Response`, configuration, authentication and `params`.  |
 | `tests/live/`              | The opt-in tests against a test tenant. See [Live tests](#live-tests).                |
 

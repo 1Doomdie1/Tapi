@@ -6,6 +6,8 @@ aims to follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [3.0.0] - 2026-11-24
+
 ### Added
 
 - Project skeleton: package layout, documentation structure and tooling configuration.
@@ -67,8 +69,10 @@ aims to follow [Semantic Versioning](https://semver.org/).
   are listed in `tools/openapi_known_differences.toml`.
 - Opt-in live tests in `tests/live`, for a dedicated test tenant. The default `pytest` run leaves
   them out.
-- Documentation in `docs/`: the guides, an overview page and one page per module in
-  `docs/endpoints/`. The README has an installation, a quick start and how to contribute.
+- Documentation in `docs/`: the guides, and for each module a page in `docs/endpoints/`, in a
+  folder with a page for each sub-endpoint when the module has some. A page lists the methods
+  and, for each one, its arguments, the values they accept and its response codes. The README has
+  an installation, a quick start and how to contribute.
 - `requirements.txt` with the runtime dependencies, `httpx` and `pydantic`.
 
 ### Changed
@@ -90,3 +94,6 @@ aims to follow [Semantic Versioning](https://semver.org/).
 ### Removed
 
 - The 0.2.x implementation, with `setup.py` and `MANIFEST.in`.
+
+[Unreleased]: https://github.com/1Doomdie1/Tapi/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/1Doomdie1/Tapi/releases/tag/v3.0.0
