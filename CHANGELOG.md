@@ -34,8 +34,7 @@ aims to follow [Semantic Versioning](https://semver.org/).
   `append_description`, `search`, `bulk_update_fields` and `get_pdf`, and the sub-areas
   `activities` (`list` and `get`), `assignees` (`list`), `comments` (with reactions), `notes`,
   `tasks`, `field_values`, `metadata`, `files`, `blocks` (with their elements), `linked_cases`,
-  `records`, `subscribers`, `actions`, `fields`, `statuses`, `templates` and `webhooks`. Only the
-  current API is offered: the v1 routes that Tines is removing are left out.
+  `records`, `subscribers`, `actions`, `fields`, `statuses`, `templates` and `webhooks`.
 - `change_requests` module (`tines.change_requests`): `list`, filterable by teams and statuses, and
   `get`. The operations on the change request of one story stay in `stories.change_control`.
 - `workbench` module (`tines.workbench`): `list`, filterable by title, favorite, creator, type and
@@ -50,8 +49,7 @@ aims to follow [Semantic Versioning](https://semver.org/).
   `templates` (with `move`) and `tunnels` (`health`), the sub-areas `ip_access_control_rules`,
   `action_egress_control_rules` and `sync_destinations` (with `manual_sync` and `sync_story`), and
   the sub-areas `license`, `smtp` and `custom_certificate_authority` (`set`) for self-hosted
-  tenants, `jobs` for dedicated tenants (four lists and six deletes) and `user_provisioning`
-  (`update_mapping`). The deprecated `scim_user_group_mapping` routes are not offered.
+  tenants, and `jobs` for dedicated tenants (four lists and six deletes).
 - `tags` module (`tines.tags`): `list`, `get`, `create`, `update` and `delete`.
 - `teams` module (`tines.teams`): `list`, `get`, `create`, `update`, `delete` and
   `destroy_static_external_id`, and `members` (`tines.teams.members`): `list`, `invite`,

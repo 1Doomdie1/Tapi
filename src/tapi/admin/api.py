@@ -8,7 +8,6 @@ from tapi.admin.smtp import Smtp
 from tapi.admin.sync_destinations import SyncDestinations
 from tapi.admin.templates import Templates
 from tapi.admin.tunnels import Tunnels
-from tapi.admin.user_provisioning import UserProvisioning
 from tapi.admin.users import Users
 from tapi.core import Transport
 
@@ -39,8 +38,6 @@ class Admin:
         sync_destinations: The story sync destinations. See ``tapi.admin.SyncDestinations``.
         templates: The private templates. See ``tapi.admin.Templates``.
         tunnels: The tunnels. See ``tapi.admin.Tunnels``.
-        user_provisioning: The mapping of identity-provider groups. See
-            ``tapi.admin.UserProvisioning``.
         users: The users of the tenant. See ``tapi.admin.Users``.
     """
 
@@ -56,5 +53,4 @@ class Admin:
         self.sync_destinations = SyncDestinations(transport=transport)
         self.templates = Templates(transport=transport)
         self.tunnels = Tunnels(transport=transport)
-        self.user_provisioning = UserProvisioning(transport=transport)
         self.users = Users(transport=transport)

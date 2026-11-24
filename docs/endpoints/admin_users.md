@@ -37,16 +37,14 @@ The endpoint is paginated, and one call returns one page; see [Pagination](../pa
 
 | Parameter  | Type         | Meaning                                                                          |
 | ---------- | ------------ | -------------------------------------------------------------------------------- |
-| `filter`   | `UserFilter` | Which users to list: `ALL`, `ADMIN`, `ACTIVE`, `INACTIVE` or `TENANT_OWNER`.     |
+| `filter`   | `UserFilter` | `TENANT_OWNER` to list only the tenant owners.                                   |
 | `search`   | `str`        | Only users whose name or email contains this text, in any case.                  |
 | `include`  | `UserInclude`| `team_memberships` to add the teams of each user.                                |
 | `per_page` | `int`        | The number of results per page. Tines defaults to 20 and caps it at 500.         |
 | `page`     | `int`        | The page to return, starting at 1. Tines defaults to 1.                          |
 
-The Tines docs and the OpenAPI document give only `TENANT_OWNER` for `filter`. The server's own list
-is `ALL`, `ADMIN`, `ACTIVE` and `INACTIVE`, and it accepts `TENANT_OWNER` too, which gave the same
-users as `ADMIN`. The values are case-sensitive, and another one is a `422` that lists the valid ones.
-A value of `include` that is not `team_memberships` is ignored.
+The value of `filter` is case-sensitive, and another one is a `422` that lists the values that the
+server knows. A value of `include` that is not `team_memberships` is ignored.
 
 `data` is an object with `admin/users`, the users of the page, and `meta`, the pagination details.
 
@@ -65,7 +63,6 @@ the teams. A user that does not exist is a `404` with `['User not found']`.
 | `admin`              | `bool`            | Whether the user is a tenant owner. Tines defaults to `False`.      |
 | `tenant_permissions` | sequence of `str` | The tenant permissions, such as `AUDIT_LOG_READ`. `update` replaces the old ones. |
 | `is_active`          | `bool`            | Whether the user is active. Tines defaults to `True`.               |
-| `team_id`            | `int`             | `create` only: a shared team to add the user to. Only the OpenAPI document has it. |
 
 `update` also takes `user_id`, and every other argument is optional. The Tines docs show it as `PUT`,
 and the OpenAPI document lists `PUT` and `PATCH`, and both worked. `False` is sent, not left out.
@@ -78,11 +75,8 @@ none is granted, and `update` replaces the list.
   an error: Tines answers `201` with the ID of that user and overwrites the fields that were sent. The
   match ignores the case of the address. Never call `create` with the address of a user that must
   stay as it is.
-- **A refused call can still create the user.** A `422` for a permission that does not exist, or a
-  `404` for a team that does not exist, left the user behind, inactive. Check the list after such a
-  call.
-
-A user created with `team_id` became a `VIEWER` of that team.
+- **A refused call can still create the user.** A `422` for a permission that does not exist left the
+  user behind, inactive. Check the list after such a call.
 
 **Every new user gets a personal team, and `delete` does not remove it.** Creating a user also creates
 a team for the user, listed by `tines.teams.list(scope="personal_only")`, with one story called `Your
@@ -113,7 +107,7 @@ leaves one team, including a call that was refused with a `422` or a `404` but l
 | Status | When                                                                                          |
 | ------ | --------------------------------------------------------------------------------------------- |
 | `400`  | `list` and `list_signin_activities` with a `per_page` or `page` that is not a positive integer (`['Invalid per_page: 0. per_page must be a positive integer.']`). |
-| `404`  | `get`, `update`, `delete` and `resend_invitation` with a user that does not exist (`['User not found']`), and `create` with a `team_id` that does not exist (`['Team not found']`). |
+| `404`  | `get`, `update`, `delete` and `resend_invitation` with a user that does not exist (`['User not found']`). |
 | `422`  | `list` with a `filter` that is not valid, and `list_signin_activities` with a `before` or `after` that cannot be read. `data` is a list holding an object that names the parameter. `create` with an email address that is missing or not valid (`['Validation failed: Email is not a valid email address']`) and with a permission that does not exist (`['Validation failed: Tenant permissions contains invalid permissions: NOT_A_PERMISSION']`). `expire_session` with a user that does not exist is also a `422`, not a `404` (`['User with ID ... not found.']`). |
 
 `list_signin_activities` for a user that does not exist is a `200` with an empty list, not a `404`.

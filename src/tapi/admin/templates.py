@@ -95,9 +95,7 @@ class Templates:
             agent_type: The type of action to create. The Tines docs give ``Agents::EmailAgent``,
                 ``Agents::EventTransformationAgent``, ``Agents::HTTPRequestAgent``,
                 ``Agents::IMAPAgent``, ``Agents::LLMAgent``, ``Agents::TriggerAgent``,
-                ``Agents::WebhookAgent`` and ``Agents::SendToStoryAgent``. Tines also takes the
-                action types that it lists in its error message, such as ``eventTransformation``
-                and ``webhook``, and returns the ``Agents::`` name.
+                ``Agents::WebhookAgent`` and ``Agents::SendToStoryAgent``.
             agent_options: The options of the action, as an object. Tines checks them against the
                 type, so they must be valid for it.
             product: The name of the product.

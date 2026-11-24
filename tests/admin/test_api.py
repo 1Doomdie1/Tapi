@@ -217,7 +217,7 @@ USER_CASES = [
     Case(
         target="admin.users.list",
         arguments={
-            "filter": "ADMIN",
+            "filter": "TENANT_OWNER",
             "search": "alice",
             "include": "team_memberships",
             "per_page": 50,
@@ -225,7 +225,7 @@ USER_CASES = [
         },
         route="GET /api/v1/admin/users",
         params={
-            "filter": "ADMIN",
+            "filter": "TENANT_OWNER",
             "search": "alice",
             "include": "team_memberships",
             "per_page": 50,
@@ -256,7 +256,6 @@ USER_CASES = [
             "admin": False,
             "tenant_permissions": ("AUDIT_LOG_READ",),
             "is_active": False,
-            "team_id": 3,
         },
         route="POST /api/v1/admin/users",
         body={
@@ -266,7 +265,6 @@ USER_CASES = [
             "admin": False,
             "tenant_permissions": ["AUDIT_LOG_READ"],
             "is_active": False,
-            "team_id": 3,
         },
     ),
     Case(
@@ -621,24 +619,6 @@ CERTIFICATE_CASES = [
     ),
 ]
 
-USER_GROUP_MAPPING = {
-    "mappings": [
-        {"group_name": "Managers", "team_name": "Analytics", "role_name": "TEAM_ADMIN"},
-        {"group_name": "Analysts", "team_name": "Analytics", "role_name": "EDITOR"},
-    ],
-    "tenant_permissions": [{"group_name": "Managers", "permission": "TENANT_ADMIN"}],
-    "tenant_owners_groups": ["Managers"],
-}
-
-PROVISIONING_CASES = [
-    Case(
-        target="admin.user_provisioning.update_mapping",
-        arguments={"user_group_mapping": USER_GROUP_MAPPING},
-        route="POST /api/v1/admin/user_provisioning/mapping",
-        body={"user_group_mapping": USER_GROUP_MAPPING},
-    ),
-]
-
 JOB_LISTS = {
     "list_dead": "dead_jobs",
     "list_in_progress": "in_progress_jobs",
@@ -695,7 +675,6 @@ CASES = [
     *LICENSE_CASES,
     *SMTP_CASES,
     *CERTIFICATE_CASES,
-    *PROVISIONING_CASES,
     *JOB_CASES,
 ]
 

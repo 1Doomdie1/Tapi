@@ -32,15 +32,11 @@ class is `tapi.admin.Templates`. Every method returns a [`Response`](../response
 
 ## `agent_type`
 
-`AgentType` is `tapi.admin.AgentType`. The Tines docs and the OpenAPI document give eight values:
-`Agents::EmailAgent`, `Agents::EventTransformationAgent`, `Agents::HTTPRequestAgent`,
-`Agents::IMAPAgent`, `Agents::LLMAgent`, `Agents::TriggerAgent`, `Agents::WebhookAgent` and
-`Agents::SendToStoryAgent`. The error of a value that is not valid lists the action types that Tines
-knows: `eventTransformation`, `trigger`, `webhook`, `httpRequest`, `sendToStory`, `email`, `imap`,
-`grpcRequest`, `mcpRequest`, `group`, `groupInput`, `groupOutput`, `form`, `file`, `record`, `case`,
-`runScript` and `llm`. Both kinds are typed. `eventTransformation` was accepted in place of
-`Agents::EventTransformationAgent`, and the reply holds the `Agents::` name. The options are checked
-against the type: a `webhook` without a `path` and a `secret` is a `422`.
+`AgentType` is `tapi.admin.AgentType`. It has eight values: `Agents::EmailAgent`,
+`Agents::EventTransformationAgent`, `Agents::HTTPRequestAgent`, `Agents::IMAPAgent`,
+`Agents::LLMAgent`, `Agents::TriggerAgent`, `Agents::WebhookAgent` and `Agents::SendToStoryAgent`. The
+options are checked against the type: an `Agents::WebhookAgent` without a `path` and a `secret` is a
+`422`.
 
 ## `list()`
 
@@ -104,7 +100,7 @@ description, the type, the options, the vendor or the product was a `422`. tapi 
 | `template_id`       | `int`                     | The ID of the template. Required.                                    |
 | `name`              | `str`                     | The name. Required.                                                  |
 | `description`       | `str`                     | A description. Required.                                             |
-| `agent_type`        | `AgentType`               | The type of action. Required, and it cannot change: another type is a `422` with `Action type cannot be changed`. The camelCase name of the same type was accepted. |
+| `agent_type`        | `AgentType`               | The type of action. Required, and it cannot change: another type is a `422` with `Action type cannot be changed`. |
 | `agent_options`     | mapping                   | The options of the action. Required, and it must be an object.       |
 | `vendor`            | `str`                     | The name of the vendor. Required.                                    |
 | `product`           | `str`                     | The name of the product. Required.                                   |

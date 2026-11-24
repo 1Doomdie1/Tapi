@@ -15,8 +15,7 @@ class Tunnels:
         """Get the health of a tunnel. ``GET /api/v1/admin/tunnel/{tunnel_name}/health``
 
         The route has ``tunnel`` in the singular. The Tines docs say that a tenant-level API key is
-        needed. They also list ``per_page`` and ``page`` for it, which the OpenAPI document does
-        not, and which tapi does not offer.
+        needed.
 
         Args:
             tunnel_name: The name of the tunnel.

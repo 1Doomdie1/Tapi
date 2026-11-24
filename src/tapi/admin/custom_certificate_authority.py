@@ -5,9 +5,7 @@ from tapi.core.params import omit_none
 class CustomCertificateAuthority:
     """The custom certificate authority, available as ``tines.admin.custom_certificate_authority``.
 
-    The authority is used by all the IMAP and HTTP Request actions of the tenant. The Tines docs and
-    the OpenAPI document have a single operation for it, ``set``, and no route to read or remove an
-    authority.
+    The authority is used by all the IMAP and HTTP Request actions of the tenant.
 
     Args:
         transport: The transport used to send requests.

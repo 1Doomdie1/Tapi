@@ -199,7 +199,7 @@ def test_a_template_is_created_read_listed_changed_moved_and_deleted(live, team_
     assert templates.delete(template_id=created["id"]).status_code == 404
 
 
-def test_a_user_is_created_read_changed_signed_out_and_deleted(live, team_id, cleanup):
+def test_a_user_is_created_read_changed_signed_out_and_deleted(live, cleanup):
     users = live.admin.users
     email = f"{throwaway(kind='user')}@example.invalid"
     personal = {"scope": "personal_only"}
@@ -215,7 +215,6 @@ def test_a_user_is_created_read_changed_signed_out_and_deleted(live, team_id, cl
             admin=False,
             tenant_permissions=["AUDIT_LOG_READ"],
             is_active=True,
-            team_id=team_id,
         ),
         status=201,
     )
@@ -237,9 +236,7 @@ def test_a_user_is_created_read_changed_signed_out_and_deleted(live, team_id, cl
     by_email = check(reply=users.get(user_id=email), status=200)
     assert by_email["id"] == user_id
     teams = check(reply=users.get(user_id=user_id, include="team_memberships"), status=200)
-    assert [(item["team_id"], item["role"]) for item in teams["team_memberships"]] == [
-        (team_id, "VIEWER")
-    ]
+    assert isinstance(teams["team_memberships"], list)
     assert check(reply=users.list(search=email), status=200)["admin/users"][0]["id"] == user_id
 
     again = check(reply=users.create(email=email.upper(), first_name="Other"), status=201)
@@ -257,10 +254,8 @@ def test_a_user_is_created_read_changed_signed_out_and_deleted(live, team_id, cl
         for key, value in arguments.items():
             assert changed[key] == value
     assert changed["updated_at"] != created["updated_at"]
-    inactive = check(reply=users.list(filter="INACTIVE", per_page=100), status=200)
-    assert user_id in {item["id"] for item in inactive["admin/users"]}
-    active = check(reply=users.list(filter="ACTIVE", per_page=100), status=200)
-    assert user_id not in {item["id"] for item in active["admin/users"]}
+    owners = check(reply=users.list(filter="TENANT_OWNER", per_page=100), status=200)
+    assert user_id not in {item["id"] for item in owners["admin/users"]}
 
     sign_ins = check(reply=users.list_signin_activities(user_id=user_id), status=200)
     assert sign_ins["admin/login_activities"] == []

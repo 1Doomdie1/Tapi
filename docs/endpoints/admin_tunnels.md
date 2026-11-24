@@ -9,8 +9,6 @@ The tunnels of the tenant are a sub-area of [`admin`](admin.md), available as
 | `health(tunnel_name=...)`        | `GET /api/v1/admin/tunnel/{tunnel_name}/health`  |
 
 The route has `tunnel` in the singular. The Tines docs say that a tenant-level API key is needed.
-They also list `per_page` and `page` for the route, which the OpenAPI document does not list and a
-health reply has no use for, so tapi does not offer them.
 
 ## `health()`
 

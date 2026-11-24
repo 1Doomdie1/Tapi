@@ -38,9 +38,7 @@ class Users:
         whether to ask for the next page.
 
         Args:
-            filter: Which users to list: ``ALL``, ``ADMIN`` (the tenant owners), ``ACTIVE`` or
-                ``INACTIVE``. The Tines docs give only ``TENANT_OWNER``, which Tines accepts and
-                treats as ``ADMIN``. The values are case-sensitive.
+            filter: ``TENANT_OWNER`` to list only the tenant owners. The value is case-sensitive.
             search: Only users whose name or email contains this text, in any case.
             include: ``team_memberships`` to add the teams of each user. Another value is ignored.
             per_page: The number of results per page. Tines defaults to 20 and caps it at 500.
@@ -94,7 +92,6 @@ class Users:
         admin: bool | None = None,
         tenant_permissions: Sequence[str] | None = None,
         is_active: bool | None = None,
-        team_id: int | None = None,
     ) -> Response:
         """Create a user. ``POST /api/v1/admin/users``
 
@@ -115,16 +112,13 @@ class Users:
             tenant_permissions: The tenant permissions to grant, such as ``AUDIT_LOG_READ``. The
                 Tines docs link a list of them.
             is_active: Whether the user is active. Tines defaults to ``True``.
-            team_id: The ID of a shared team to add the user to. The OpenAPI document has it, and
-                the Tines docs do not.
 
         Returns:
             A ``Response`` whose ``data`` is the created user, with a 201 status. The reply is a
             422 for an email address that is missing or not valid and for a permission that does
-            not exist (``Tenant permissions contains invalid permissions``), and a 404 with
-            ``Team not found`` for a ``team_id`` that does not exist. A call that is refused for
-            an invalid permission or an unknown team can still leave the user behind, so check
-            the list after one.
+            not exist (``Tenant permissions contains invalid permissions``). A call that is
+            refused for an invalid permission can still leave the user behind, so check the list
+            after one.
         """
         return self._transport.request(
             method="POST",
@@ -137,7 +131,6 @@ class Users:
                     "admin": admin,
                     "tenant_permissions": to_list(values=tenant_permissions),
                     "is_active": is_active,
-                    "team_id": team_id,
                 }
             ),
         )

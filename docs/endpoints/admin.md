@@ -20,16 +20,10 @@ available as an attribute and described on its own page. Every method returns a
 | License                 | `tines.admin.license`                  | [Admin: license](admin_license.md)        | Built, not tried (self-hosted tenants) |
 | SMTP configuration      | `tines.admin.smtp`                     | [Admin: SMTP configuration](admin_smtp.md) | Built, not tried (self-hosted tenants) |
 | Custom certificate authority | `tines.admin.custom_certificate_authority` | [Admin: custom certificate authority](admin_custom_certificate_authority.md) | Built, not tried |
-| User provisioning       | `tines.admin.user_provisioning`        | [Admin: user provisioning](admin_user_provisioning.md) | Built, not tried |
 
 "Not tried" means that the routes were built from the Tines docs and the OpenAPI document and the tenant
 used to check them could not run them, or they were not run on purpose. Each page says what was and
 was not seen.
-
-The run script environments are not part of this module: the OpenAPI document tags them separately and
-the Tines docs have no page for them. The routes of `/api/v1/admin/scim_user_group_mapping` are not
-offered, because the OpenAPI document deprecates them in favor of the user provisioning route: tapi
-offers no deprecated routes.
 
 ## Access
 

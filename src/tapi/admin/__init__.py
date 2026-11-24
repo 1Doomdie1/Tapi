@@ -19,12 +19,8 @@ from tapi.admin.types import (
     SmtpEncryptionMode,
     SyncMode,
     UserFilter,
-    UserGroupMapping,
-    UserGroupMappingEntry,
-    UserGroupMappingTenantPermission,
     UserInclude,
 )
-from tapi.admin.user_provisioning import UserProvisioning
 from tapi.admin.users import Users
 
 __all__ = [
@@ -48,10 +44,6 @@ __all__ = [
     "Templates",
     "Tunnels",
     "UserFilter",
-    "UserGroupMapping",
-    "UserGroupMappingEntry",
-    "UserGroupMappingTenantPermission",
     "UserInclude",
-    "UserProvisioning",
     "Users",
 ]

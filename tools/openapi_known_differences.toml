@@ -30,13 +30,17 @@ reason = "The records module is not built yet."
 prefix = "/api/v2/record_types"
 reason = "The records module is not built yet."
 
-[[not_built]]
+[[not_offered]]
 prefix = "/api/v1/run_script_environments"
-reason = "Not built yet. It probably belongs under the admin module."
+reason = "Only in the OpenAPI document: the Tines docs have no page for them. tapi offers only what the Tines docs offer."
+
+[[not_offered]]
+prefix = "/api/v1/admin/user_provisioning"
+reason = "Only in the OpenAPI document: the Tines docs have no page for it. tapi offers only what the Tines docs offer."
 
 [[not_offered]]
 prefix = "/api/v1/admin/scim_user_group_mapping"
-reason = "Deprecated in the OpenAPI document in favor of /api/v1/admin/user_provisioning/mapping. tapi offers no deprecated routes."
+reason = "Deprecated in the OpenAPI document in favor of /api/v1/admin/user_provisioning/mapping, which the Tines docs do not list. tapi offers no deprecated routes."
 
 [[not_offered]]
 prefix = "/api/v1/cases"
