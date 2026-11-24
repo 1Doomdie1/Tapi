@@ -17,7 +17,7 @@ import re
 import sys
 import tomllib
 from collections import Counter
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Collection, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -64,6 +64,7 @@ class Report:
     matched_count: int
     missing: list[Route] = field(default_factory=list)
     extra: list[Route] = field(default_factory=list)
+    deprecated: list[Route] = field(default_factory=list)
     not_offered: Counter[str] = field(default_factory=Counter)
     not_built: Counter[str] = field(default_factory=Counter)
     stale: list[str] = field(default_factory=list)
@@ -71,7 +72,7 @@ class Report:
 
     @property
     def clean(self) -> bool:
-        return not (self.missing or self.extra or self.stale or self.unparsed)
+        return not (self.missing or self.extra or self.deprecated or self.stale or self.unparsed)
 
 
 def normalize(*, path: str) -> str:
@@ -113,6 +114,23 @@ def spec_routes(*, spec: dict[str, Any]) -> set[Route]:
         for path, operations in spec["paths"].items()
         for verb in HTTP_VERBS
         if verb in operations
+    }
+
+
+def deprecated_routes(*, spec: dict[str, Any]) -> set[Route]:
+    """List the operations that an OpenAPI document marks as deprecated.
+
+    Args:
+        spec: The parsed OpenAPI document.
+
+    Returns:
+        The verb and the normalized path of every operation with ``deprecated: true``.
+    """
+    return {
+        (verb.upper(), normalize(path=path))
+        for path, operations in spec["paths"].items()
+        for verb in HTTP_VERBS
+        if isinstance(operations.get(verb), dict) and operations[verb].get("deprecated") is True
     }
 
 
@@ -191,7 +209,14 @@ def label(*, entry: Entry) -> str:
     return " ".join(entry.route) if entry.route is not None else f"{entry.prefix}/..."
 
 
-def compare(*, spec: set[Route], tapi: set[Route], known: Known, unparsed: Sequence[str]) -> Report:
+def compare(
+    *,
+    spec: set[Route],
+    tapi: set[Route],
+    known: Known,
+    unparsed: Sequence[str],
+    deprecated: Collection[Route] = frozenset(),
+) -> Report:
     """Compare the routes of the OpenAPI documents with the routes of tapi.
 
     Args:
@@ -199,10 +224,12 @@ def compare(*, spec: set[Route], tapi: set[Route], known: Known, unparsed: Seque
         tapi: The operations of tapi.
         known: The differences that are known and accepted.
         unparsed: The methods of tapi whose docstring states no route.
+        deprecated: The operations that the documents mark as deprecated.
 
     Returns:
         The report: the routes that are missing from tapi or from the documents without being
-        known, the known differences counted by entry, and the known entries that no longer apply.
+        known, the routes that tapi offers although the documents deprecate them, the known
+        differences counted by entry, and the known entries that no longer apply.
     """
     expected = align_updates(spec=spec, tapi=tapi)
     missing: list[Route] = []
@@ -219,6 +246,9 @@ def compare(*, spec: set[Route], tapi: set[Route], known: Known, unparsed: Seque
             missing.append(route)
     absent = sorted(tapi - expected)
     extra = [r for r in absent if not any(covers(entry=e, route=r) for e in known.not_in_spec)]
+    offered_deprecated = sorted(
+        r for r in tapi if r in deprecated or (r[0] == "PATCH" and ("PUT", r[1]) in deprecated)
+    )
 
     stale: list[str] = []
     for entry in known.not_offered:
@@ -244,6 +274,7 @@ def compare(*, spec: set[Route], tapi: set[Route], known: Known, unparsed: Seque
         matched_count=len(expected & tapi),
         missing=missing,
         extra=extra,
+        deprecated=offered_deprecated,
         not_offered=not_offered,
         not_built=not_built,
         stale=stale,
@@ -274,6 +305,7 @@ def render(*, report: Report) -> str:
     sections = (
         ("In the OpenAPI documents, missing from tapi", [" ".join(r) for r in report.missing]),
         ("In tapi, missing from the OpenAPI documents", [" ".join(r) for r in report.extra]),
+        ("In tapi, deprecated in the OpenAPI documents", [" ".join(r) for r in report.deprecated]),
         ("Known differences that no longer apply", report.stale),
         ("Methods of tapi whose docstring states no route", report.unparsed),
     )
@@ -356,14 +388,23 @@ def main(*, arguments: Sequence[str] | None = None) -> int:
     parsed = parser.parse_args(arguments)
 
     spec: set[Route] = set()
+    deprecated: set[Route] = set()
     for url in parsed.spec or DEFAULT_SPECS:
         try:
-            spec |= spec_routes(spec=fetch_spec(url=url))
+            document = fetch_spec(url=url)
+            spec |= spec_routes(spec=document)
+            deprecated |= deprecated_routes(spec=document)
         except (httpx.HTTPError, ValueError, KeyError) as error:
             print(f"Could not read {url}: {type(error).__name__}", file=sys.stderr)
             return 2
     tapi, unparsed = tapi_routes()
-    report = compare(spec=spec, tapi=tapi, known=load_known(path=parsed.known), unparsed=unparsed)
+    report = compare(
+        spec=spec,
+        tapi=tapi,
+        known=load_known(path=parsed.known),
+        unparsed=unparsed,
+        deprecated=deprecated,
+    )
     print(render(report=report))
     return 0 if report.clean else 1
 

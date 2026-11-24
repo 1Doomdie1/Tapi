@@ -58,6 +58,9 @@ An unexpected difference is one of these, listed under its own heading:
   that it should not. Build it, or add it to the known differences with a reason.
 - **In tapi, missing from the OpenAPI documents.** A route that tapi sends and the document does not
   list. It may be a typo, or a route that Tines has removed.
+- **In tapi, deprecated in the OpenAPI documents.** A route that tapi sends and a document marks with
+  `deprecated: true`. tapi offers no deprecated routes: remove the method, and list the route under
+  `not_offered` with the reason.
 - **Known differences that no longer apply.** An entry that now says something untrue, such as an
   area that has been built since. Remove it.
 - **Methods of tapi whose docstring states no route.** Fix the docstring.

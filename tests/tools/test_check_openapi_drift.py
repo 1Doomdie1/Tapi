@@ -30,6 +30,36 @@ def test_only_the_http_verbs_of_a_path_are_operations():
     }
 
 
+def test_only_the_operations_marked_deprecated_are_deprecated():
+    spec = {
+        "paths": {
+            "/api/v1/tags": {"get": {"deprecated": True}, "post": {"deprecated": False}},
+            "/api/v1/tags/{id}": {"put": {}, "delete": {"deprecated": True}, "parameters": []},
+        }
+    }
+
+    assert drift.deprecated_routes(spec=spec) == {
+        ("GET", "/api/v1/tags"),
+        ("DELETE", "/api/v1/tags/{}"),
+    }
+
+
+def test_a_route_that_tapi_offers_and_the_documents_deprecate_makes_the_report_unclean():
+    spec = {("GET", "/a"), ("GET", "/old"), ("PUT", "/old/{}"), ("GET", "/fine")}
+    tapi = {("GET", "/a"), ("GET", "/old"), ("PATCH", "/old/{}"), ("GET", "/fine")}
+
+    report = drift.compare(
+        spec=spec,
+        tapi=tapi,
+        known=drift.Known(),
+        unparsed=[],
+        deprecated={("GET", "/old"), ("PUT", "/old/{}")},
+    )
+
+    assert report.deprecated == [("GET", "/old"), ("PATCH", "/old/{}")]
+    assert not report.clean
+
+
 @pytest.mark.parametrize(
     ("spec", "tapi", "expected"),
     [
