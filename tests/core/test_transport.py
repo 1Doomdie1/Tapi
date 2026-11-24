@@ -34,6 +34,16 @@ def test_query_parameters_and_json_body_are_sent(transport, router):
     assert json.loads(request.content) == {"name": "phishing"}
 
 
+def test_extra_headers_are_sent_beside_the_api_key(transport, router, api_key):
+    route = router.post("/api/v2/records").mock(return_value=httpx.Response(201, json={}))
+
+    transport.request(method="POST", path="/api/v2/records", headers={"Idempotency-Key": "once"})
+
+    request = route.calls.last.request
+    assert request.headers["idempotency-key"] == "once"
+    assert request.headers["x-user-token"] == api_key
+
+
 @pytest.mark.parametrize(
     ("status", "kwargs"),
     [

@@ -37,6 +37,7 @@ class Transport:
         path: str,
         params: Mapping[str, Any] | None = None,
         json: Any = None,
+        headers: Mapping[str, str] | None = None,
     ) -> Response:
         """Send one request.
 
@@ -45,6 +46,7 @@ class Transport:
             path: The path on the tenant, such as ``/api/v1/tags``.
             params: Query string parameters. Values must not be ``None``.
             json: A value to send as the JSON request body.
+            headers: Extra request headers, such as ``Idempotency-Key``.
 
         Returns:
             The reply, whatever its status code.
@@ -54,7 +56,9 @@ class Transport:
                 failed or timed out.
         """
         try:
-            reply = self._client.request(method=method, url=path, params=params, json=json)
+            reply = self._client.request(
+                method=method, url=path, params=params, json=json, headers=headers
+            )
         except httpx.TransportError as error:
             raise TinesConnectionError(f"Could not reach {self.base_url}: {error}") from error
         return Response(
