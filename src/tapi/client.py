@@ -13,6 +13,7 @@ from tapi.credentials import Credentials
 from tapi.dashboards import Dashboards
 from tapi.folders import Folders
 from tapi.info import Info
+from tapi.records import Records
 from tapi.reporting import Reporting
 from tapi.resources import Resources
 from tapi.skills import Skills
@@ -48,6 +49,7 @@ class Tines:
         dashboards: Dashboards. See ``tapi.dashboards.Dashboards``.
         folders: Folders. See ``tapi.folders.Folders``.
         info: Information about your tenant. See ``tapi.info.Info``.
+        records: Records, their types and their views. See ``tapi.records.Records``.
         reporting: Reports about your tenant. See ``tapi.reporting.Reporting``.
         resources: Resources. See ``tapi.resources.Resources``.
         skills: Skills of AI agents. See ``tapi.skills.Skills``.
@@ -83,6 +85,7 @@ class Tines:
         self.dashboards = Dashboards(transport=self._transport)
         self.folders = Folders(transport=self._transport)
         self.info = Info(transport=self._transport)
+        self.records = Records(transport=self._transport)
         self.reporting = Reporting(transport=self._transport)
         self.resources = Resources(transport=self._transport)
         self.skills = Skills(transport=self._transport)
