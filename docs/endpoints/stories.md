@@ -646,10 +646,11 @@ story that has change control, and the interaction of `story_id` and a `group_id
 
 ## Filters and orders
 
-`filter` takes one of: `SEND_TO_STORY_ENABLED`, `HIGH_PRIORITY`, `API_ENABLED`, `PUBLISHED` (which
-Tines marks as deprecated), `FAVORITE`, `CHANGE_CONTROL_ENABLED`, `CHANGE_CONTROL_DISABLED`,
-`ENABLED`, `DISABLED` and `LOCKED`. The server also accepts `ALL_STORIES`, `WORKBENCH_ENABLED` and
-`TUNNELS_ENABLED`, which neither the Tines docs nor the OpenAPI document list, and tapi offers them.
+`filter` takes one of: `SEND_TO_STORY_ENABLED`, `HIGH_PRIORITY`, `API_ENABLED`, `FAVORITE`,
+`CHANGE_CONTROL_ENABLED`, `CHANGE_CONTROL_DISABLED`, `ENABLED`, `DISABLED` and `LOCKED`. The server
+also accepts `ALL_STORIES`, `WORKBENCH_ENABLED` and `TUNNELS_ENABLED`, which neither the Tines docs
+nor the OpenAPI document list, and tapi offers them. `PUBLISHED`, which Tines marks as deprecated, is
+not offered.
 
 `order` takes one of: `NAME`, `NAME_DESC`, `RECENTLY_EDITED`, `LEAST_RECENTLY_EDITED`,
 `ACTION_COUNT_ASC`, `ACTION_COUNT_DESC`, `CONCURRENT_RUNS_COUNT_DESC`,

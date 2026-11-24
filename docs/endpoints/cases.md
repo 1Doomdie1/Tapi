@@ -450,11 +450,12 @@ with `include_children` set to true it deletes them too. A block that does not e
 
 The methods for elements take the `element_id` of the element, which is a different number from its
 `id`: the `id` was a `404` with `['TeamCaseBlockElement not found']`. A slug in place of the block ID
-was a `404` as well. `update_element` takes `content`, `color` (deprecated: set the color of the
-block), `sensitive` (only the OpenAPI document lists it, and the server answered 200 and left the
-element as it was), and `author_email` and `annotation` (only the Tines docs list them, and
-`annotation` works for a file element). `append_element_content` adds text to a note element, and a
-file element is a `422` with `['Element type does not support append']`.
+was a `404` as well. `update_element` takes `content`, `sensitive` (only the OpenAPI document lists
+it, and the server answered 200 and left the element as it was), and `author_email` and `annotation`
+(only the Tines docs list them, and `annotation` works for a file element). It does not offer the
+deprecated `color` of an element: change the color of the block with `update`.
+`append_element_content` adds text to a note element, and a file element is a `422` with
+`['Element type does not support append']`.
 
 ## `linked_cases`
 

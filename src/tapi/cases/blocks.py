@@ -245,7 +245,6 @@ class Blocks:
         block_id: int,
         element_id: int,
         content: str | None = None,
-        color: BlockColor | None = None,
         sensitive: bool | None = None,
         author_email: str | None = None,
         annotation: str | None = None,
@@ -253,15 +252,15 @@ class Blocks:
         """Edit element. ``PATCH /api/v2/cases/{case_id}/blocks/{block_id}/elements/{element_id}``
 
         The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
+        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``. The deprecated
+        ``color`` of an element is not offered: change the color of the block with
+        ``update``.
 
         Args:
             case_id: The ID of the case.
             block_id: The ID of the block. A slug was a 404.
             element_id: The ``element_id`` of the element, not its ``id``.
             content: New content for a note element, as Markdown.
-            color: A new color for a note element. The Tines docs deprecate it: set the color of
-                the block instead.
             sensitive: Whether the element is sensitive. Only the OpenAPI document lists it, and
                 the server answered 200 and left the element as it was.
             author_email: The email address of the author of a note element. Only the Tines docs
@@ -278,7 +277,6 @@ class Blocks:
             json=omit_none(
                 values={
                     "content": content,
-                    "color": color,
                     "sensitive": sensitive,
                     "author_email": author_email,
                     "annotation": annotation,

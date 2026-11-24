@@ -666,7 +666,6 @@ BLOCK_CASES = [
             "block_id": 12,
             "element_id": 9,
             "content": "New",
-            "color": "white",
             "sensitive": False,
             "author_email": "a@example.com",
             "annotation": "Note",
@@ -674,7 +673,6 @@ BLOCK_CASES = [
         route=f"PATCH {ELEMENT}",
         body={
             "content": "New",
-            "color": "white",
             "sensitive": False,
             "author_email": "a@example.com",
             "annotation": "Note",
