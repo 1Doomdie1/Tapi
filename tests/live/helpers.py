@@ -59,6 +59,23 @@ def all_items(
     return items
 
 
+def all_cursor_items(
+    *,
+    method: Callable[..., Response],
+    key: str = "data",
+    arguments: Mapping[str, Any] | None = None,
+) -> list[dict[str, Any]]:
+    items: list[dict[str, Any]] = []
+    token: str | None = None
+    while True:
+        extra = {"after": token} if token else {}
+        data = check(reply=method(**(arguments or {}), limit=100, **extra), status=200)
+        items += data[key]
+        token = data["page"].get("next_page_token")
+        if not token:
+            return items
+
+
 def wait_until_gone(*, read: Callable[[], Response], timeout: float = 30.0) -> int:
     deadline = time.monotonic() + timeout
     while True:

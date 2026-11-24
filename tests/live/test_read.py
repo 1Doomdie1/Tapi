@@ -20,6 +20,8 @@ PLAN_DEPENDENT = {
     "admin.jobs.list_in_progress",
     "admin.jobs.list_queued",
     "admin.jobs.list_retry",
+    "records.record_types.list",
+    "records.record_views.list",
 }
 UNAVAILABLE = (402, 403, 404, 422)
 
@@ -94,6 +96,20 @@ LISTS = [
     ),
     pytest.param(
         "admin.jobs.list_retry", {"per_page": 1}, "admin/retry_jobs", False, id="admin.jobs.retry"
+    ),
+    pytest.param(
+        "records.record_types.list",
+        {"limit": 1},
+        "data",
+        False,
+        id="records.record_types.list",
+    ),
+    pytest.param(
+        "records.record_views.list",
+        {"per_page": 1},
+        "record_views",
+        True,
+        id="records.record_views.list",
     ),
     pytest.param("cases.fields.list", {"per_page": 1}, "case_inputs", True, id="fields.list"),
     pytest.param("cases.webhooks.list", {"per_page": 1}, "webhooks", True, id="webhooks.list"),
@@ -498,3 +514,112 @@ def test_the_members_of_a_team_can_be_listed(live, team_id):
 
     assert isinstance(data["members"], list)
     assert "next_page_number" in data["meta"]
+
+
+def test_a_record_type_is_read_and_its_records_are_searched_counted_and_read(live):
+    listed = live.records.record_types.list(limit=1)
+    if listed.status_code in UNAVAILABLE:
+        pytest.skip(f"records are not available on this tenant ({listed.status_code})")
+    types = check(reply=listed, status=200)["data"]
+    if not types:
+        pytest.skip("the test tenant has no record types")
+    type_id = types[0]["id"]
+
+    read = check(reply=live.records.record_types.get(record_type_id=type_id), status=200)["data"]
+    found = check(
+        reply=live.records.search(
+            record_type_id=type_id, limit=1, include=["record_type"], include_total=True
+        ),
+        status=200,
+    )
+    counted = check(
+        reply=live.records.aggregate(
+            record_type_id=type_id, aggregations=[{"fn": "COUNT", "alias": "total"}]
+        ),
+        status=200,
+    )
+
+    assert read["id"] == type_id
+    assert {"data", "field_ids", "page", "applied", "included"} <= set(found)
+    assert counted["rows"][0]["total"] == found["page"]["total"]
+    assert set(counted["meta"]) == {"row_count", "truncated", "columns"}
+    if not found["data"]:
+        pytest.skip("the first record type has no records")
+    record_id = found["data"][0]["id"]
+
+    got = check(
+        reply=live.records.get(
+            record_id=record_id, include=["record_type", "child_record_ids", "cases"]
+        ),
+        status=200,
+    )
+    cases = check(reply=live.records.list_cases(record_id=record_id, limit=1), status=200)
+    child_ids = check(
+        reply=live.records.list_child_record_ids(record_id=record_id, limit=1), status=200
+    )
+    child_records = check(
+        reply=live.records.list_child_records(record_id=record_id, limit=1), status=200
+    )
+
+    assert got["data"]["id"] == record_id
+    assert {"record_type", "parent_record"} <= set(got["data"]["relationships"])
+    assert isinstance(cases["data"], list)
+    assert isinstance(child_ids["data"], list)
+    assert isinstance(child_records["data"], list)
+
+
+def test_a_record_view_can_be_exported(live):
+    listed = live.records.record_views.list(per_page=1)
+    if listed.status_code in UNAVAILABLE:
+        pytest.skip(f"records are not available on this tenant ({listed.status_code})")
+    views = check(reply=listed, status=200)["record_views"]
+    if not views:
+        pytest.skip("the test tenant has no record views")
+
+    exported = check(
+        reply=live.records.record_views.export(record_view_id=views[0]["id"]), status=200
+    )
+
+    assert exported["export_type"] == "record_view"
+    assert {"schema_version", "exported_at", "record_view"} <= set(exported)
+
+
+def test_records_report_what_is_not_found_or_not_valid(live):
+    if live.records.record_types.list(limit=1).status_code in UNAVAILABLE:
+        pytest.skip("records are not available on this tenant")
+    records = live.records
+    not_found = {
+        "a record": (records.get(record_id=999999999), "Record not found"),
+        "a field of a record": (
+            records.fields.get(record_id=999999999, field="x"),
+            "Record not found",
+        ),
+        "the cases of a record": (records.list_cases(record_id=999999999), "Record not found"),
+        "a record type": (
+            records.record_types.get(record_type_id=999999999),
+            "Record type not found",
+        ),
+        "a search of a record type": (
+            records.search(record_type_id=999999999),
+            "Record type not found",
+        ),
+        "the record types of a team": (
+            records.record_types.list(team_id=999999999),
+            "Team not found",
+        ),
+    }
+    bad_direction = records.record_types.list(direction="SIDEWAYS")
+    no_type = records.search()
+    artifact = records.artifacts.get(record_id=999999999, artifact_id=1)
+    view = records.record_views.export(record_view_id=999999999)
+    views_of_type = records.record_views.list(record_type_id=999999999)
+
+    for reply, message in not_found.values():
+        assert reply.status_code == 404
+        assert reply.data == {"error": {"type": "not_found", "message": message}}
+    assert (bad_direction.status_code, no_type.status_code) == (400, 400)
+    assert bad_direction.data["error"]["field"] == "direction"
+    assert no_type.data["error"]["type"] == "bad_request"
+    assert (artifact.status_code, artifact.data) == (404, ["Record artifact not found"])
+    assert (view.status_code, view.data) == (404, ["Record view not found"])
+    assert (views_of_type.status_code, views_of_type.data) == (404, ["RecordType not found"])

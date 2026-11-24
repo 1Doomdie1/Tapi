@@ -13,8 +13,8 @@ their requests through `Transport.request`. `Tines` builds one `Transport` and h
 module, which then becomes an attribute such as `tines.info`.
 
 Implemented so far: `info`, `admin`, `ai`, `apps`, `audit_logs`, `cases`, `change_requests`, `credentials`,
-`dashboards`, `folders`, `reporting`, `resources`, `skills`, `stories`, `tags`, `teams` and
-`workbench`. The `records` module folder exists but is still empty.
+`dashboards`, `folders`, `records`, `reporting`, `resources`, `skills`, `stories`, `tags`, `teams` and
+`workbench`.
 
 ## The core layer
 
@@ -32,7 +32,7 @@ Implemented so far: `info`, `admin`, `ai`, `apps`, `audit_logs`, `cases`, `chang
 ## Life of a request
 
 1. `Tines` resolves the tenant domain and the API key (`config.py`) and creates a `Transport`.
-2. A module method calls `Transport.request(method=..., path=..., params=..., json=...)`.
+2. A module method calls `Transport.request(method=..., path=..., params=..., json=..., headers=...)`.
 3. `httpx` sends the request. `ApiKeyAuth` adds the `X-User-Token` header.
 4. The reply becomes a `Response`: its status code, its decoded body and its lower-cased headers.
 5. If no reply arrives, `TinesConnectionError` is raised instead.

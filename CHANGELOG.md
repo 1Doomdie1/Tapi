@@ -50,9 +50,15 @@ aims to follow [Semantic Versioning](https://semver.org/).
   `action_egress_control_rules` and `sync_destinations` (with `manual_sync` and `sync_story`), and
   the sub-areas `license`, `smtp` and `custom_certificate_authority` (`set`) for self-hosted
   tenants, and `jobs` for dedicated tenants (four lists and six deletes).
+- `records` module (`tines.records`): `create` (with an idempotency key), `get`, `update`, `delete`,
+  `search`, `aggregate`, `list_cases`, `link_case`, `unlink_case`, `list_child_record_ids` and
+  `list_child_records`, and the sub-areas `record_types` (`list`, `get`, `create`, `update` and
+  `delete`), `record_views` (`list`, `delete`, `export` and `import_`), `fields` (`get`) and
+  `artifacts` (`get`).
 - `tags` module (`tines.tags`): `list`, `get`, `create`, `update` and `delete`.
 - `teams` module (`tines.teams`): `list`, `get`, `create`, `update`, `delete` and
   `destroy_static_external_id`, and `members` (`tines.teams.members`): `list`, `invite`,
   `resend_invitation` and `remove`.
 - Request parameter helpers in `core/params.py`: `omit_none`, `to_iso` and `to_list`.
+- `Transport.request` takes extra request `headers`.
 - `print(response)` shows a `Response` as indented JSON. Binary data is shown as its size.

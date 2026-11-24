@@ -22,6 +22,7 @@ parameter.
 | `dashboards`   | `tines.dashboards`   | [Dashboards](dashboards.md)           | Listing, exporting, importing and deleting dashboards.  |
 | `folders`      | `tines.folders`      | [Folders](folders.md)                 | Folders that organize stories, credentials and resources. |
 | `info`         | `tines.info`         | [Info](info.md)                       | Information about the tenant: its stack, web server and workers. |
+| `records`      | `tines.records`      | [Records](records.md), [Records: record types](records_record_types.md), [Records: record views](records_record_views.md) | Records, their types and their views. |
 | `reporting`    | `tines.reporting`    | [Reporting](reporting.md)             | Flow usage by team and the time saved.                  |
 | `resources`    | `tines.resources`    | [Resources](resources.md)             | Named values such as text, JSON and files.              |
 | `skills`       | `tines.skills`       | [Skills](skills.md)                   | Skills that AI agents can load, found by name and team. |
@@ -41,10 +42,6 @@ the page of its module, except for the actions of a story.
 | `admin`   | `users`, `roles`, `templates`, `tunnels`, `ip_access_control_rules`, `action_egress_control_rules`, `sync_destinations`, `jobs`, `license`, `smtp`, `custom_certificate_authority`, each on its own page, listed on [the admin page](admin.md). |
 | `ai`      | `providers` and `usage`.                                                                           |
 | `cases`   | `activities`, `assignees`, `comments`, `notes`, `tasks`, `field_values`, `metadata`, `files`, `blocks`, `linked_cases`, `records`, `subscribers`, `actions`, `fields`, `statuses`, `templates` and `webhooks`. |
+| `records` | `artifacts`, `fields`, `record_types` and `record_views`. The last two are on pages of their own.  |
 | `stories` | `actions`, `events`, `links`, `notes`, `drafts`, `owners`, `recipients`, `runs`, `groups`, `versions` and `change_control`. |
 | `teams`   | `members`.                                                                                         |
-
-## Not covered yet
-
-This Tines API area has no methods and no page yet: `records`. A page is added when its module is
-built.

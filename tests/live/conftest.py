@@ -14,6 +14,7 @@ from tests.live.helpers import (
     TEAM,
     TEAM_VARIABLE,
     Cleanup,
+    all_cursor_items,
     all_items,
 )
 from tests.support import resolve
@@ -69,6 +70,13 @@ def no_leftovers(live: Tines, team_id: int) -> None:
             label = str(item.get("name") or item.get("email") or "")
             if label.startswith(PREFIX):
                 found.append(f"{target.split('.')[0]} {item.get('id', item.get('case_id'))}")
+    if live.records.record_types.list(limit=1).status_code == 200:
+        for item in all_cursor_items(method=live.records.record_types.list):
+            if str(item["name"]).startswith(PREFIX):
+                found.append(f"record type {item['id']}")
+        for item in all_items(method=live.records.record_views.list, key="record_views"):
+            if str(item["name"]).startswith(PREFIX):
+                found.append(f"record view {item['id']}")
     if found:
         pytest.exit(
             f"throwaway objects of an earlier run are still on the test tenant: {', '.join(found)}."
