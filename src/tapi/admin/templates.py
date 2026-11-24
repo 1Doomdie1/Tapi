@@ -31,22 +31,18 @@ class Templates:
     ) -> Response:
         """List templates. ``GET /api/v1/admin/templates``
 
-        Lists the private templates. The endpoint is paginated and one call returns one page.
+        Lists the private templates.
 
         Args:
             search: Only templates that match this text in the name, the description, the vendor,
                 the product or the action options.
             folder_id: Only templates in this folder.
-            per_page: The number of results per page. Tines defaults to 20 and caps it at 500.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
 
         Returns:
             A ``Response`` whose ``data`` is an object with ``admin/templates``, the templates of
-            the page, and ``meta``, the pagination details: ``current_page``, ``previous_page``
-            and ``next_page`` (links), ``next_page_number``, ``per_page``, ``pages`` (the number
-            of pages) and ``count``. The reply is a 404 with ``Folder not found`` for a
-            ``folder_id`` that does not exist, and a 400 for a ``per_page`` or ``page`` that is
-            not a positive integer.
+            the page, and ``meta``, the pagination details.
         """
         return self._transport.request(
             method="GET",
@@ -92,35 +88,23 @@ class Templates:
 
         Args:
             name: The name of the template. Tines does not require it to be unique.
-            agent_type: The type of action to create. The Tines docs give ``Agents::EmailAgent``,
-                ``Agents::EventTransformationAgent``, ``Agents::HTTPRequestAgent``,
-                ``Agents::IMAPAgent``, ``Agents::LLMAgent``, ``Agents::TriggerAgent``,
-                ``Agents::WebhookAgent`` and ``Agents::SendToStoryAgent``.
-            agent_options: The options of the action, as an object. Tines checks them against the
-                type, so they must be valid for it.
+            agent_type: The type of action to create.
+            agent_options: The options of the action, as an object.
             product: The name of the product.
             description: A description of the template. Tines refuses a template without one,
                 although the OpenAPI document does not list it as required.
             vendor: The name of the vendor. Required in the same way.
             team_id: The ID of the team that the template belongs to.
             folder_id: The ID of a template folder of the same team to put the template in.
-            read_access: Where the template can be used: ``TEAM``, ``GLOBAL`` or
-                ``SPECIFIC_TEAMS``, which is a premium feature that Tines ignored without an error
-                where it was not available. Tines defaults to ``TEAM`` when ``team_id`` is sent
-                and to ``GLOBAL`` otherwise, and then ``team_id`` is ``null``.
+            read_access: Where the template can be used: ``TEAM``, ``GLOBAL`` or ``SPECIFIC_TEAMS``,
+                which is a premium feature that Tines ignored without an error where it was not
+                available.
             shared_team_slugs: The slugs of the teams where the template can be used. Needed for
                 ``SPECIFIC_TEAMS``.
             action_inputs: The input parameters of the template. See ``tapi.admin.ActionInput``.
-                Tines allows at most 300, with unique names and at most one ``CREDENTIAL``, which
-                needs ``required`` set to true and takes no other field.
 
         Returns:
-            A ``Response`` whose ``data`` is the created template, with a 200 status. The reply
-            is a 422 for a missing required field, an ``agent_type`` that is not valid (the
-            message lists the valid ones), options that are not valid for the type, and an input
-            that is not valid (``Invalid key: description, for action input: c (CREDENTIAL)``).
-            It is a 404 with ``Team not found`` or ``Folder not found`` for a ``team_id`` or a
-            ``folder_id`` that does not exist.
+            A ``Response`` whose ``data`` is the created template, with a 200 status.
         """
         return self._transport.request(
             method="POST",
@@ -159,37 +143,26 @@ class Templates:
     ) -> Response:
         """Change a template. ``PATCH /api/v1/admin/templates/{template_id}``
 
-        The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``. Both are a full
-        update, not a partial one: Tines refuses a call that leaves out the name, the
-        description, the type, the options, the vendor or the product, even though the OpenAPI
-        document lists only the name and the product. The team cannot be changed here, and a
-        ``team_id`` in the body is ignored: use ``move``.
+        A full update: send the name, the description, the type, the options, the vendor and the
+        product every time. To change the team, use ``move``.
 
         Args:
             template_id: The ID of the template.
             name: The name of the template.
             description: A description of the template.
-            agent_type: The type of action, which cannot be changed: it must be the type that
-                the template has. See ``create`` for the values.
+            agent_type: The type of action. It cannot be changed. See ``create`` for the values.
             agent_options: The options of the action, as an object.
             vendor: The name of the vendor.
             product: The name of the product.
-            folder_id: The ID of a template folder of the same team to put the template in. Tines
-                takes ``null`` to remove the template from its folder, which tapi cannot send.
-            read_access: Where the template can be used: ``TEAM``, ``GLOBAL`` or
-                ``SPECIFIC_TEAMS``. It is unchanged when left out.
-            shared_team_slugs: The slugs of the teams where the template can be used. Needed for
-                ``SPECIFIC_TEAMS``, and unchanged when left out.
-            action_inputs: The input parameters, which replace the existing ones. They are
-                unchanged when left out, and an empty list removes them.
+            folder_id: The ID of a template folder of the same team.
+            read_access: ``TEAM``, ``GLOBAL`` or ``SPECIFIC_TEAMS``.
+            shared_team_slugs: The slugs of the teams where it can be used. Needed for
+                ``SPECIFIC_TEAMS``.
+            action_inputs: The input parameters. They replace the old ones, and an empty list
+                removes them.
 
         Returns:
-            A ``Response`` whose ``data`` is the updated template. The reply is a 422 for a
-            missing required field, options that are not an object, and a different ``agent_type``
-            (``Action type cannot be changed``). For a template that does not exist it is a 422
-            with an object that has ``message`` (``Couldn't find Template with 'id'=...``), not a
-            404. It is a 404 with ``Folder not found`` for a ``folder_id`` that does not exist.
+            A ``Response`` whose ``data`` is the updated template.
         """
         return self._transport.request(
             method="PATCH",

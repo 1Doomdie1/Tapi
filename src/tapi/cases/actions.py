@@ -77,20 +77,14 @@ class Actions:
 
         Args:
             case_id: The ID of the case.
-            url: The address that the action opens or calls. An address that is not a URL is a
-                422.
-            label: The name that identifies the action. The server refuses an action without
-                one, as the Tines docs say and the OpenAPI document does not.
-            action_type: ``webhook`` or ``page``, as the Tines docs say. The server also lists
-                ``chat``, ``story`` and ``app``, which were not tried. It refuses an action
-                without a type, as the Tines docs say and the OpenAPI document does not.
+            url: The address that the action opens or calls.
+            label: The name that identifies the action.
+            action_type: ``webhook`` or ``page``.
             action_text: The text of the button.
             query_params: Key-value pairs that are added to the address as a query string.
 
         Returns:
-            A ``Response`` whose ``data`` is the created action, with a 201 status. The reply is
-            a 422 naming the field for a value that is missing or not valid, and a 400 when
-            ``query_params`` is not an object.
+            A ``Response`` with a 201 status whose ``data`` is the created action.
         """
         return self._transport.request(
             method="POST",
@@ -119,9 +113,6 @@ class Actions:
     ) -> Response:
         """Change an action of a case. ``PATCH /api/v2/cases/{case_id}/actions/{action_id}``
 
-        The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
-
         Args:
             case_id: The ID of the case.
             action_id: The ID of the action.
@@ -132,9 +123,7 @@ class Actions:
             query_params: New key-value pairs for the query string.
 
         Returns:
-            A ``Response`` whose ``data`` is the updated action. A call that sends nothing is a
-            200. The reply is a 400 when ``query_params`` is not an object, and a 404 with
-            ``Action not found`` for an action that does not exist.
+            A ``Response`` whose ``data`` is the updated action.
         """
         return self._transport.request(
             method="PATCH",
@@ -167,19 +156,16 @@ class Actions:
     def batch_update(self, *, case_id: int, actions: Sequence[CaseActionInput]) -> Response:
         """Replace the actions of a case. ``PUT /api/v2/cases/{case_id}/actions/batch``
 
-        The actions that are sent replace the ones the case has, and an empty list removes them
-        all.
+        The actions that are sent replace the ones the case has, and an empty list removes them all.
 
         Args:
             case_id: The ID of the case.
-            actions: The new actions, each an object with a ``url``, a ``label``, an
-                ``action_type`` and optionally ``action_text`` and ``query_params``. See
+            actions: The new actions, each an object with a ``url``, a ``label``, an ``action_type``
+                and optionally ``action_text`` and ``query_params``. See
                 ``tapi.cases.CaseActionInput``.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``case_id`` and ``actions``. The
-            reply is a 422 with ``Validation failed: Label can't be blank`` for an action
-            without a label, and a 400 when the ``query_params`` of an action is not an object.
+            A ``Response`` whose ``data`` is an object with ``case_id`` and ``actions``.
         """
         return self._transport.request(
             method="PUT",

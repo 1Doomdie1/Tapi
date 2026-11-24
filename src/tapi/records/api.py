@@ -77,29 +77,26 @@ class Records:
         """Create a record. ``POST /api/v2/records``
 
         Args:
-            record_type_id: The ID of the record type. Send this or ``record_type_name``. When
-                both are sent, the ID wins.
-            record_type_name: The name or the slug of the record type. A name that matches more
-                than one type is a 400.
+            record_type_id: The ID of the record type. Send this or ``record_type_name``. When both
+                are sent, the ID wins.
+            record_type_name: The name or the slug of the record type. A name that matches more than
+                one type is a 400.
             field_values: The values of the fields, each an object with ``value`` and either
-                ``field_id`` or ``field_name``, never both. See ``tapi.records.FieldValue``. A
-                field can appear once. A ``value`` of ``None`` clears the field. Scalar fields
-                take a string, a number, a boolean or an ISO 8601 string for a timestamp, JSON
-                fields take an object or an array, and artifact fields take a text.
+                ``field_id`` or ``field_name``, never both. See ``tapi.records.FieldValue``. A field
+                can appear once. A ``value`` of ``None`` clears the field. Scalar fields take a
+                string, a number, a boolean or an ISO 8601 string for a timestamp, JSON fields take
+                an object or an array, and artifact fields take a text.
             parent_id: The ID of the parent record. Leave it out for a top-level record.
-            test_mode: ``True`` to create a test record, which needs change control. Tines
-                defaults to ``False``.
-            idempotency_key: A key of at most 255 characters that makes the create safe to
-                retry, sent in the ``Idempotency-Key`` header. The same key with the same body
-                replays the first reply. The same key with another body is a 422, a retry while
-                the first request is running is a 409 and a replay after the record was deleted
-                is a 410. Keys expire after 24 hours.
+            test_mode: ``True`` to create a test record, which needs change control.
+            idempotency_key: A key of at most 255 characters that makes the create safe to retry,
+                sent in the ``Idempotency-Key`` header. The same key with the same body replays the
+                first reply. The same key with another body is a 422, a retry while the first
+                request is running is a 409 and a replay after the record was deleted is a 410. Keys
+                expire after 24 hours.
 
         Returns:
-            A ``Response`` with a 201 status whose ``data`` is an object with ``data``, the
-            record, and ``field_ids``. The reply is a 400 when neither type is given, a 404 for
-            a type or a parent that does not exist, a 403 without permission to create records of
-            the type and a 422 for a value that is not valid.
+            A ``Response`` with a 201 status whose ``data`` is an object with ``data``, the record,
+            and ``field_ids``.
         """
         return self._transport.request(
             method="POST",
@@ -134,19 +131,18 @@ class Records:
             include: What to embed, any of ``record_type``, ``parent_record``, ``child_records``,
                 ``child_record_ids`` and ``cases``. They are sent as one comma-separated value.
                 ``record_type``, ``child_records`` and ``cases`` add bodies under ``included``,
-                ``child_record_ids`` adds the IDs of every direct child under ``relationships``,
-                and ``parent_record`` changes nothing, because the reference is always there. The
+                ``child_record_ids`` adds the IDs of every direct child under ``relationships``, and
+                ``parent_record`` changes nothing, because the reference is always there. The
                 to-many embeds hold at most 20 items and say when they were cut short.
             expand: The JSON and artifact fields to inline, such as ``fields.payload``, or
                 ``fields.*`` for all of them. They are sent as one comma-separated value.
-            fields: The slugs of the fields to return, instead of all of them. They are sent as
-                one comma-separated ``fields[record]``.
-            timezone: An IANA timezone name for the timestamps. Tines defaults to ``UTC``.
+            fields: The slugs of the fields to return, instead of all of them. They are sent as one
+                comma-separated ``fields[record]``.
+            timezone: An IANA timezone name for the timestamps.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``data``, the record, ``field_ids``
-            and, with ``include``, ``included``. The reply is a 404 for a record that does not
-            exist, and a 400 for an unknown field, ``include``, ``expand`` or ``timezone``.
+            A ``Response`` whose ``data`` is an object with ``data``, the record, ``field_ids`` and,
+            with ``include``, ``included``.
         """
         return self._transport.request(
             method="GET",
@@ -172,24 +168,20 @@ class Records:
     ) -> Response:
         """Update a record. ``PATCH /api/v2/records/{record_id}``
 
-        The fields that are left out keep their value. The request must set a field value or
-        ``parent_id``, or it is a 400. Tines detaches a record from its parent for a
-        ``parent_id`` of ``null``, which tapi cannot send.
+        The fields that are left out keep their value.
 
         Args:
             record_id: The ID of the record.
-            field_values: The values to set, each an object with ``value`` and either
-                ``field_id`` or ``field_name``. See ``tapi.records.FieldValue``. A ``value`` of
-                ``None`` clears the field. An empty list is accepted only with ``parent_id``.
+            field_values: The values to set, each an object with ``value`` and either ``field_id``
+                or ``field_name``. See ``tapi.records.FieldValue``. A ``value`` of ``None`` clears
+                the field. An empty list is accepted only with ``parent_id``.
             parent_id: The ID of the new parent record.
-            test_mode: A guard: ``True`` requires a test record and ``False`` a live record, and
-                a record of the other mode is a 422. Leave it out to update either.
+            test_mode: A guard: ``True`` requires a test record and ``False`` a live record, and a
+                record of the other mode is a 422. Leave it out to update either.
 
         Returns:
             A ``Response`` whose ``data`` is an object with ``data``, the updated record, and
-            ``field_ids``. The reply is a 404 for a record that does not exist, a 403 without
-            permission and a 422 when the record type cannot be edited, a value is not valid, the
-            new parent would make a cycle or ``test_mode`` does not match.
+            ``field_ids``.
         """
         return self._transport.request(
             method="PATCH",
@@ -240,52 +232,31 @@ class Records:
     ) -> Response:
         """Search records. ``POST /api/v2/records/search``
 
-        The request reads records, although it is a ``POST``. An unknown key in the body is a 400.
+        Reads records, although it is a ``POST``.
 
         Args:
             record_type_id: The ID of the record type. Send this or ``record_type_name``.
             record_type_name: The name or the slug of the record type.
-            filter: A condition, or a group ``{"op": "AND", "nodes": [...]}`` of conditions and
-                groups. A condition has ``operator``, either ``field_id`` or ``field_name``, and
-                a ``value``. See ``tapi.records.RecordFilterNode``. A group nests at most 4 levels
-                and a filter has at most 50 nodes. ``value`` is a list for ``IS_ANY_OF``,
-                ``IS_NONE_OF``, ``IS_IN_ANY_CIDR`` and ``IS_NOT_IN_ANY_CIDR``, it is left out for
-                ``IS_EMPTY``, ``IS_NOT_EMPTY``, ``IS_TRUE`` and ``IS_FALSE``, and it is one
-                value for the others. JSON and artifact fields cannot be filtered. A field name
-                matches in any case and with any separator.
-            sort: The keys to sort by, in priority order, each with ``field_id`` or
-                ``field_name`` and a ``direction``, ``ASC`` by default. ``created_at`` is a
-                ``field_name`` for the creation time. A field can appear once, and IP address,
-                artifact and JSON fields cannot be sorted. Without it the newest records come
-                first.
-            fields: The slugs of the fields to return, instead of all of them.
-            include: ``record_type``, to add the type under ``included``. ``parent_record`` changes
-                nothing.
-            ids: The IDs of the records to return, at most 500. Not with ``after``. Without
-                ``limit``, all of them come back in one page.
-            time_range: At most two windows, each for a ``field`` (``created_at``, the default,
-                or ``updated_at``), at most one per field. A window takes a
-                ``rolling_date_range`` (``TODAY``, ``YESTERDAY``, ``LAST_7_DAYS``,
-                ``LAST_31_DAYS``, ``LAST_365_DAYS`` or ``ALL_TIME``), or ``range_start`` and
-                ``range_end``, which are inclusive and take a ``datetime`` or an ISO 8601 string,
-                not both kinds. See ``tapi.records.RecordTimeRange``.
-            timezone: An IANA timezone name for the presets and the timestamps. Tines defaults to
-                ``UTC``.
-            limit: The number of records in a page, from 1 to 500. Tines defaults to 20, or to
-                the number of ``ids``.
-            after: The ``page.next_page_token`` of the previous page. The sort of the first
-                request is kept: another one is a 400.
-            include_total: ``True`` to add ``page.total``, the number of records that match.
-                Tines defaults to ``False``.
-            test_mode: ``True`` to search test records, which needs change control (a 403
-                without it). Tines defaults to ``False``.
+            filter: A condition ``{"field_name": ..., "operator": ..., "value": ...}`` or a group
+                ``{"op": "AND", "nodes": [...]}``, up to 4 levels and 50 nodes. See
+                ``tapi.records.RecordFilterNode``.
+            sort: Keys in priority order, each with ``field_id`` or ``field_name`` and a
+                ``direction`` (``ASC`` or ``DESC``). Without it the newest records come first.
+            fields: The slugs of the fields to return.
+            include: ``record_type``, to add the type under ``included``.
+            ids: At most 500 record IDs. Not with ``after``.
+            time_range: At most two windows, one for each ``field`` (``created_at`` or
+                ``updated_at``), each with a ``rolling_date_range`` or a ``range_start`` and
+                ``range_end``. See ``tapi.records.RecordTimeRange``.
+            timezone: An IANA timezone name for the presets and the timestamps.
+            limit: The number of records in a page, from 1 to 500.
+            after: The ``page.next_page_token`` of the previous page.
+            include_total: ``True`` adds ``page.total``.
+            test_mode: ``True`` searches test records, which needs change control.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``data``, the records of the page,
-            ``field_ids``, ``included`` with ``include``, ``page`` (``next_page_token`` when
-            there is more, and ``total``) and ``applied``, the ``filter`` and ``sort`` as the
-            server read them, with field IDs. The reply is a 400 for a body that is not valid, a
-            404 for a record type that does not exist and a 503 when search is not available.
+            A ``Response`` whose ``data`` has ``data`` (the records), ``field_ids``, ``page`` and
+            ``applied``, and ``included`` with ``include``.
         """
         return self._transport.request(
             method="POST",
@@ -325,37 +296,29 @@ class Records:
     ) -> Response:
         """Aggregate records. ``POST /api/v2/records/aggregate``
 
-        The request reads records, although it is a ``POST``. It does not page.
+        Reads records, although it is a ``POST``. It does not page.
 
         Args:
-            aggregations: One to five values to compute, each with an ``fn`` (``COUNT``, ``SUM``,
-                ``AVG``, ``MIN``, ``MAX``, ``MEDIAN``, ``P90``, ``P95`` or ``P99``), a
-                ``field_id`` or ``field_name`` for every function but ``COUNT``, and an optional
-                ``alias`` for the column. All but ``COUNT`` need a number field. See
+            aggregations: One to five values, each with an ``fn`` (``COUNT``, ``SUM``, ``AVG``,
+                ``MIN``, ``MAX``, ``MEDIAN``, ``P90``, ``P95`` or ``P99``), a ``field_id`` or
+                ``field_name`` (not for ``COUNT``) and an ``alias``. See
                 ``tapi.records.RecordAggregation``.
             record_type_id: The ID of the record type. Send this or ``record_type_name``.
             record_type_name: The name or the slug of the record type.
-            group_by: Up to two fields to group by, each with ``field_id`` or ``field_name`` and,
-                for a timestamp, a ``date_trunc`` (``hour``, ``day``, ``week``, ``month`` or
-                ``year``). Without it there is one row. JSON and artifact fields cannot be
-                grouped. See ``tapi.records.RecordGroupBy``.
+            group_by: Up to two fields, each with ``field_id`` or ``field_name`` and, for a
+                timestamp, a ``date_trunc`` (``hour``, ``day``, ``week``, ``month`` or ``year``).
+                See ``tapi.records.RecordGroupBy``.
             filter: A condition or a group, as for ``search``.
             time_range: At most two windows, as for ``search``.
-            order_by: At most one key, a group-by field (``field_id`` or ``field_name``) or an
-                ``alias``, with a ``direction``, ``ASC`` by default. Without it the rows are
-                ordered by the group-by fields. See ``tapi.records.RecordOrderBy``.
+            order_by: At most one key, a group-by field or an ``alias``, with a ``direction``. See
+                ``tapi.records.RecordOrderBy``.
             parent_ids: At most 100 record IDs: only their direct children are counted.
-            timezone: An IANA timezone name for the buckets and the time ranges. Tines defaults
-                to ``UTC``.
+            timezone: An IANA timezone name for the buckets and the time ranges.
             limit: The number of rows, from 1 to 500. Without it Tines returns up to 1000.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``rows``, flat objects with a key for
-            each group-by field and each aggregation (``COUNT`` is an integer, the others are
-            strings), and ``meta`` with ``row_count``, ``truncated`` (true when more than 1000
-            rows matched and ``limit`` was left out) and ``columns``. The reply is a 400 for a
-            body that is not valid, a 404 for a record type that does not exist and a 504 when
-            the query takes more than 30 seconds.
+            A ``Response`` whose ``data`` has ``rows`` and ``meta`` (``row_count``, ``truncated``
+            and ``columns``).
         """
         return self._transport.request(
             method="POST",
@@ -390,15 +353,14 @@ class Records:
 
         Args:
             record_id: The ID of the record.
-            timezone: An IANA timezone name for the timestamps. Tines defaults to ``UTC``.
-            limit: The number of cases in a page, from 1 to 500. Tines defaults to 20.
+            timezone: An IANA timezone name for the timestamps.
+            limit: The number of cases in a page, from 1 to 500.
             after: The ``page.next_page_token`` of the previous page.
 
         Returns:
             A ``Response`` whose ``data`` is an object with ``data``, the cases, each with ``id``
-            (the case number), ``name``, ``status``, ``priority``, ``linked_at``, ``created_at``
-            and ``updated_at``, and ``page``. The reply is a 404 for a record that does not
-            exist.
+            (the case number), ``name``, ``status``, ``priority``, ``linked_at``, ``created_at`` and
+            ``updated_at``, and ``page``.
         """
         return self._transport.request(
             method="GET",

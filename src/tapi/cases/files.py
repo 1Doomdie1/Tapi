@@ -82,14 +82,11 @@ class Files:
             value: A comment to add with the file, as Markdown. User mentions are written
                 ``<@user-2435>``.
             author_email: The email address of the user who attaches the file.
-            team_case_block_id: The ID of the file block to attach the file to. The reply then
-                has a ``block_id``.
+            team_case_block_id: The ID of the file block to attach the file to. The reply then has a
+                ``block_id``.
 
         Returns:
-            A ``Response`` whose ``data`` is the activity that attached the file, with a 201
-            status. The server accepted text that is not Base64 and an empty filename. The reply
-            is a 422 when ``file_contents`` is missing, and a 404 with ``TeamCaseBlock not
-            found`` for a block that does not exist.
+            A ``Response`` whose ``data`` is the activity that attached the file, with a 201 status.
         """
         return self._transport.request(
             method="POST",

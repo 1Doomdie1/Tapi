@@ -32,22 +32,17 @@ class Activities:
     ) -> Response:
         """List the activities of a case. ``GET /api/v2/cases/{case_id}/activities``
 
-        The endpoint is paginated and one call returns one page.
-
         Args:
             case_id: The ID of the case.
-            activity_types: Only activities of these types. Sent as ``activity_type[]``, once per
-                type. See ``tapi.cases.types.ActivityType`` for the values.
-            per_page: The number of results per page. Tines defaults to 20, and its docs give a
-                maximum of 50, which the server did not enforce.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            activity_types: Only activities of these types. See ``tapi.cases.types.ActivityType``
+                for the values.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
             resolve_mentions: When true, user mentions in comments are replaced by display names.
-                Tines defaults to false.
 
         Returns:
             A ``Response`` whose ``data`` is an object with ``case_id``, ``activities``, the
-            activities of the page, and ``meta``, the pagination details. The reply is a 422
-            listing the valid values for an activity type that does not exist.
+            activities of the page, and ``meta``, the pagination details.
         """
         return self._transport.request(
             method="GET",

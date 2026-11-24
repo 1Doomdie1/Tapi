@@ -83,14 +83,11 @@ class FieldValues:
     def update(self, *, case_id: int, field_id: int, value: str) -> Response:
         """Change a field value. ``PATCH /api/v2/cases/{case_id}/fields/{field_id}``
 
-        The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
-
         Args:
             case_id: The ID of the case.
             field_id: The ID of the field value.
-            value: The new value, as a string. A field that allows several values takes them as
-                one string separated by ``|``.
+            value: The new value, as a string. A field that allows several values takes them as one
+                string separated by ``|``.
 
         Returns:
             A ``Response`` whose ``data`` is an object with ``case_id`` and ``field``.

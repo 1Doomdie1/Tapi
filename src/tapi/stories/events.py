@@ -41,10 +41,10 @@ class Events:
     ) -> Response:
         """List events. ``GET /api/v1/events``
 
-        The endpoint is paginated and one call returns one page, the newest events first. A tenant
-        can hold a very large number of events, so narrow the list: with ``since`` and ``until``
-        or with a small ``per_page``. ``include_groups`` with ``story_id`` timed out on the tested
-        tenant. To list the events of one action, use ``tines.stories.actions.list_events``.
+        A tenant can hold a very large number of events, so narrow the list: with ``since`` and
+        ``until`` or with a small ``per_page``. ``include_groups`` with ``story_id`` timed out on
+        the tested tenant. To list the events of one action, use
+        ``tines.stories.actions.list_events``.
 
         Args:
             team_id: Only events of this team. When it is given with ``story_id``, Tines ignores
@@ -53,28 +53,22 @@ class Events:
             story_mode: ``test`` to list the events of the default test story. Only with
                 ``story_id``.
             include_groups: Whether to include the events of groups in the story. Only with
-                ``story_id``. Tines defaults to ``False``.
+                ``story_id``.
             since_id: Only events after this event ID.
             until_id: Only events until and including this event ID.
             since: Only events created after this time. A ``datetime``, or an ISO 8601 string. A
                 ``datetime`` without a timezone is treated as UTC.
             until: Only events created until this time. A ``datetime``, or an ISO 8601 string. A
                 ``datetime`` without a timezone is treated as UTC.
-            show_reemitted_events_only: Only events that were re-emitted. Tines defaults to
-                ``False``.
+            show_reemitted_events_only: Only events that were re-emitted.
             exclude_previous_event_payloads: Keep only the output of the action in the payload of
                 each event, without the payloads that came from upstream events of the story run.
-                Tines defaults to ``False``.
-            per_page: The number of results per page. Tines defaults to 20 and caps it at 500.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``events``, the events of the page,
-            and ``meta``, the pagination details. The reply is a 400 when ``since`` or ``until``
-            is not a time, a 422 when the payloads of the page add up to more than 200 MB, in
-            which case a lower ``per_page`` helps, and a 504 with the message ``Listing events
-            timed out; narrow since/until, reduce per_page, or filter by agent_id.`` when the
-            list takes too long. A ``team_id`` that does not exist is a 404.
+            A ``Response`` whose ``data`` is an object with ``events``, the events of the page, and
+            ``meta``, the pagination details.
         """
         return self._transport.request(
             method="GET",

@@ -90,18 +90,15 @@ class Comments:
     def update(self, *, case_id: int, comment_id: int, value: str) -> Response:
         """Change a comment. ``PATCH /api/v2/cases/{case_id}/comments/{comment_id}``
 
-        The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
-
         Args:
             case_id: The ID of the case.
             comment_id: The ID of the comment.
             value: The new text of the comment, as Markdown.
 
         Returns:
-            A ``Response`` whose ``data`` is the updated comment. The reply is a 422 with
-            ``Comment cannot be blank`` for an empty ``value``, and a 404 with ``Comment not
-            found`` for a comment that does not exist.
+            A ``Response`` whose ``data`` is the updated comment. The reply is a 422 with ``Comment
+            cannot be blank`` for an empty ``value``, and a 404 with ``Comment not found`` for a
+            comment that does not exist.
         """
         return self._transport.request(
             method="PATCH",
@@ -147,8 +144,6 @@ class Comments:
     def remove_reaction(self, *, case_id: int, comment_id: int, value: Reaction) -> Response:
         """Remove a reaction. ``DELETE /api/v2/cases/{case_id}/comments/{comment_id}/reactions``
 
-        The reaction is sent as a JSON body, as the Tines docs show.
-
         Args:
             case_id: The ID of the case.
             comment_id: The ID of the comment.
@@ -156,11 +151,7 @@ class Comments:
                 ``white_check_mark``.
 
         Returns:
-            A ``Response`` with a 204 status and no data, according to the Tines docs. On the
-            tenant that tapi was tried on the server answered every request, however the value
-            was sent, with a 404 and ``User not found``, and the reaction stayed. The deprecated
-            v1 route ``POST /api/v1/cases/{case_id}/comments/{comment_id}/remove_reaction`` did
-            remove it, and Tines removes that route on December 1, 2026.
+            A ``Response`` with a 204 status and no data.
         """
         return self._transport.request(
             method="DELETE",

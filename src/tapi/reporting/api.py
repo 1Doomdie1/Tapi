@@ -23,30 +23,16 @@ class Reporting:
     ) -> Response:
         """Get flow usage by team. ``GET /api/v1/reporting/flow_usage``
 
-        Returns the flow usage of the tenant against its licensed flow limit, broken down by team.
-        Tines recalculates the counts when a story changes, not on each request. Only tenant owners
-        can call it, and only tenants on the flows pricing model can use it.
-
-        The teams are paginated and one call returns one page.
+        For tenant owners on the flows pricing model. The counts change when a story changes.
 
         Args:
-            per_page: The number of teams per page. Tines defaults to 20 and caps it at 500.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            per_page: The number of teams per page, at most 500.
+            page: The page to return, from 1.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with:
-
-            - ``flows``: the usage of the whole tenant, with ``used`` (flows in use), ``limit``
-              (the licensed limit), ``allocated`` (flows given to specific teams) and
-              ``unallocated`` (flows that teams without an allocation share).
-            - ``teams``: the teams of the page. Each has ``id``, ``name``, ``flows_used``,
-              ``flows_allocated`` and ``flows_available``. The last two are ``null`` for a team
-              that has no allocation and draws from the unallocated flows.
-            - ``meta``: ``current_page``, ``previous_page`` and ``next_page`` (links),
-              ``next_page_number``, ``per_page``, ``pages`` (the number of pages) and ``count``.
-
-            The reply is a 400 when the tenant is not on the flows pricing model, and a 400 for a
-            ``per_page`` or ``page`` that is not a positive integer.
+            A ``Response`` whose ``data`` has ``flows`` (``used``, ``limit``, ``allocated`` and
+            ``unallocated``), ``teams`` (each with ``id``, ``name``, ``flows_used``,
+            ``flows_allocated`` and ``flows_available``) and ``meta``.
         """
         return self._transport.request(
             method="GET",
@@ -69,42 +55,30 @@ class Reporting:
     ) -> Response:
         """List time saved. ``GET /api/v1/reporting/time_saved``
 
-        Returns the time that Tines saved, as dated records, grouped by an hour, a day, a week or
-        a month.
-
-        The endpoint is paginated and one call returns one page. Read ``data["meta"]`` to decide
-        whether to ask for the next page.
+        Returns the time that Tines saved, as dated records, grouped by an hour, a day, a week or a
+        month.
 
         Args:
             start_date: Only records after this time, as a ``datetime`` or an ISO 8601 string. A
-                datetime without a timezone is treated as UTC. The reply holds no records when it
-                is left out, so pass it to get any.
-            end_date: Only records before this time, in the same formats. Tines defaults to the
-                current time, and it must be later than ``start_date``.
-            date_unit: How to group the records: ``hour``, ``day``, ``week`` or ``month``, in
-                lower case. Tines defaults to ``day``. A value in upper case is not refused, and
-                the reply holds no records.
-            fill_gaps: Whether to fill the groups that have no data with a value of 0. Tines
-                defaults to ``True``. ``False`` is sent, and then only the groups that have data
-                are returned.
+                datetime without a timezone is treated as UTC. The reply holds no records when it is
+                left out, so pass it to get any.
+            end_date: Only records before this time, in the same formats.
+            date_unit: How to group the records: ``hour``, ``day``, ``week`` or ``month``, in lower
+                case. A value in upper case is not refused, and the reply holds no records.
+            fill_gaps: Whether to fill the groups that have no data with a value of 0. ``False`` is
+                sent, and then only the groups that have data are returned.
             team_id: Only records of this team.
             story_id: Only records of this story.
             action_id: Only records of this action.
-            per_page: The number of results per page. Tines defaults to 20 and caps it at 500.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``time_saved``, the records of the
-            page, and ``meta``, the pagination details: ``current_page``, ``previous_page`` and
-            ``next_page`` (links), ``next_page_number``, ``per_page``, ``pages`` (the number of
-            pages) and ``count``. Each record has ``date``, a UTC timestamp rounded down to the
-            ``date_unit`` (written ``2026-11-23T00:00:00Z``, and ``2026-11-23T21:00:00+00:00``
-            for hours), and ``value``, the time saved in seconds as a number. The reply is a 400
-            for a ``date_unit`` that is not valid, an ``end_date`` that is not later than the
-            start, and a ``per_page`` or ``page`` that is not a positive integer, a 422 for a date
-            that cannot be read, and a 404 (``Team not found``, ``Story not found`` or ``Action
-            not found``) for a ``team_id``, ``story_id`` or ``action_id`` that does not exist or
-            that the key cannot see.
+            A ``Response`` whose ``data`` is an object with ``time_saved``, the records of the page,
+            and ``meta``, the pagination details. Each record has ``date``, a UTC timestamp rounded
+            down to the ``date_unit`` (written ``2026-11-23T00:00:00Z``, and
+            ``2026-11-23T21:00:00+00:00`` for hours), and ``value``, the time saved in seconds as a
+            number.
         """
         return self._transport.request(
             method="GET",

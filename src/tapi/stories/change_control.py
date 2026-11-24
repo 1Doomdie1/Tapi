@@ -133,11 +133,9 @@ class ChangeControl:
 
         Returns:
             A ``Response`` whose ``data`` has the ``change_request`` with its new ``status``
-            (``IN_PROGRESS`` when the author cancels it, ``REJECTED`` otherwise) and ``comment``,
-            an object with ``id``, ``message`` and ``created_at``, or ``null``. A change request
-            that was pending or approved can be canceled. The reply is a 401 when your key may not
-            do this, and a 422 when the comment is too long or the change request is in a state
-            that cannot be canceled, such as one that is already ``IN_PROGRESS``.
+            (``IN_PROGRESS`` when the author cancels it, ``REJECTED`` otherwise) and ``comment``, an
+            object with ``id``, ``message`` and ``created_at``, or ``null``. A change request that
+            was pending or approved can be canceled.
         """
         return self._transport.request(
             method="POST",
@@ -164,10 +162,8 @@ class ChangeControl:
 
         Returns:
             A ``Response`` whose ``data`` has the ``change_request`` with its new ``status``
-            (``REJECTED``, or ``IN_PROGRESS`` when the author cancels it) and ``comment``, an
-            object with ``id``, ``message`` and ``created_at``, or ``null``. The reply is a 401
-            when your key may not do this, and a 422 when the comment is too long or the change
-            request is in a state that cannot be rejected.
+            (``REJECTED``, or ``IN_PROGRESS`` when the author cancels it) and ``comment``, an object
+            with ``id``, ``message`` and ``created_at``, or ``null``.
         """
         return self._transport.request(
             method="POST",
@@ -186,19 +182,18 @@ class ChangeControl:
     ) -> Response:
         """Promote a change request. ``POST /api/v1/stories/{story_id}/change_request/promote``
 
-        Promotes the changes of a change request to the live story. Bypassing the approval needs
-        the permission to manage the story on its team, is recorded in the audit trail and sends a
+        Promotes the changes of a change request to the live story. Bypassing the approval needs the
+        permission to manage the story on its team, is recorded in the audit trail and sends a
         notification.
 
         Args:
             story_id: The ID of the story.
             change_request_id: The ID of the change request.
-            bypass_approval: Whether to promote a change request that is still pending, skipping
-                its approval. Tines defaults to ``False``.
-            bypass_approval_reason: The reason recorded in the audit trail. Tines records
-                ``Approval bypassed via API`` when the approval is bypassed without one.
-            delete_draft: Whether to delete the draft after promoting it. Tines defaults to
-                ``False``, which keeps the draft on the story.
+            bypass_approval: Whether to promote a change request that is still pending, skipping its
+                approval.
+            bypass_approval_reason: The reason recorded in the audit trail. Tines records ``Approval
+                bypassed via API`` when the approval is bypassed without one.
+            delete_draft: Whether to delete the draft after promoting it.
 
         Returns:
             A ``Response`` whose ``data`` is the updated live story.

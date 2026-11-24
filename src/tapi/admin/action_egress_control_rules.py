@@ -111,16 +111,14 @@ class ActionEgressControlRules:
     ) -> Response:
         """Change a rule. ``PATCH /api/v1/admin/action_egress_control_rules/{rule_id}``
 
-        The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``. Both replace the whole
-        rule, so send the description, the types and the ``ip`` or the ``fqdn`` every time, even
-        when a value has not changed.
+        Replaces the whole rule: send the description, the types and the ``ip`` or ``fqdn`` every
+        time.
 
         Args:
             rule_id: The ID of the rule.
             description: A description of the rule.
-            allowed_action_types: The types of action that may send traffic: ``http-request``,
-                ``send-email`` or both. ``send-email`` is for a domain name only.
+            allowed_action_types: ``http-request``, ``send-email`` or both. ``send-email`` is for a
+                domain name only.
             ip: An IP address or a CIDR range. Send ``ip`` or ``fqdn``, not both.
             fqdn: A fully qualified domain name.
 

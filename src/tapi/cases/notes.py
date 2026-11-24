@@ -93,22 +93,17 @@ class Notes:
 
         Args:
             case_id: The ID of the case.
-            title: The title of the note. The server refuses a note without one, as the Tines
-                docs say and the OpenAPI document does not. An empty title was accepted.
+            title: The title of the note.
             content: The content of the note, as Markdown.
             color: The color, in lower case: ``white`` (the default), ``gold``, ``magenta``,
                 ``green``, ``blue``, ``red``, ``mint`` or ``indigo``.
-            position: The zero-based position of the note in the case. The server accepted it,
-                and the reply does not show it.
-            sensitive: Whether to leave the note out of exports. Tines defaults to false.
-            hidden: Whether the note is hidden. Tines defaults to false.
-            author_email: The email address of the author of the note. An address that is not a
-                user was accepted.
+            position: The zero-based position of the note in the case.
+            sensitive: Whether to leave the note out of exports.
+            hidden: Whether the note is hidden.
+            author_email: The email address of the author of the note.
 
         Returns:
-            A ``Response`` whose ``data`` is the created note, with a 201 status. The reply is a
-            422 naming the field when ``title`` is missing or ``color`` is not one of the
-            values.
+            A ``Response`` whose ``data`` is the created note, with a 201 status.
         """
         return self._transport.request(
             method="POST",
@@ -141,9 +136,6 @@ class Notes:
     ) -> Response:
         """Change a note. ``PATCH /api/v2/cases/{case_id}/notes/{note_id}``
 
-        The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
-
         Args:
             case_id: The ID of the case.
             note_id: The ID of the note.
@@ -151,15 +143,13 @@ class Notes:
             content: New content, as Markdown. To add to it, use ``append_content``.
             color: A new color: ``white``, ``gold``, ``magenta``, ``green``, ``blue``, ``red``,
                 ``mint`` or ``indigo``.
-            position: A new zero-based position in the case. Only the Tines docs list it.
+            position: A new zero-based position in the case.
             sensitive: Whether to leave the note out of exports.
             hidden: Whether the note is hidden.
-            author_email: The email address of the author of the note. Only the Tines docs list
-                it.
+            author_email: The email address of the author of the note.
 
         Returns:
-            A ``Response`` whose ``data`` is the updated note. A call that sends nothing is a
-            200, and a note that does not exist is a 404 with ``Note not found``.
+            A ``Response`` whose ``data`` is the updated note.
         """
         return self._transport.request(
             method="PATCH",

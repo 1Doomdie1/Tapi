@@ -122,28 +122,20 @@ class Cases:
     ) -> Response:
         """List cases. ``GET /api/v2/cases``
 
-        The endpoint is paginated and one call returns one page. Tines recommends ``search`` for
-        new integrations.
+        Tines recommends ``search`` for new integrations.
 
         Args:
             team_id: Only cases of this team.
-            filters: The filters to apply, an object with any of the keys of
-                ``tapi.cases.CaseFilters``. They are sent as a JSON body, as the Tines docs show,
-                and the server reads them in the query too. A single value is accepted in place
-                of a list of one. Dates take a ``datetime`` or an ISO 8601 string. An unknown key
-                is a 400 with ``Unsupported filter parameters``, and ``status`` takes one value,
-                ``OPEN`` or ``CLOSED``, not a list.
-            order: The order of the results: ``RECENTLY_EDITED``, ``LEAST_RECENTLY_EDITED``,
-                ``PRIORITY_ASC``, ``PRIORITY_DESC``, ``OPENED_ASC``, ``OPENED_DESC``,
-                ``CREATED_ASC`` or ``CREATED_DESC``. A value that is none of them was ignored.
-            per_page: The number of results per page. Tines defaults to 20 and caps it at 500.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            filters: Any of the keys of ``tapi.cases.CaseFilters``. Dates take a ``datetime`` or an
+                ISO 8601 string.
+            order: ``RECENTLY_EDITED``, ``LEAST_RECENTLY_EDITED``, ``PRIORITY_ASC``,
+                ``PRIORITY_DESC``, ``OPENED_ASC``, ``OPENED_DESC``, ``CREATED_ASC`` or
+                ``CREATED_DESC``.
+            per_page: The number of results per page, at most 500.
+            page: The page to return, from 1.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``cases``, the cases of the page, and
-            ``meta``, the pagination details. The reply is a 404 with ``Team not found`` for a
-            ``team_id`` that does not exist, and a 400 with the message when ``per_page`` is not a
-            positive integer or a filter is not valid. A search that takes too long is a 408.
+            A ``Response`` whose ``data`` has ``cases`` and ``meta``, the pagination details.
         """
         return self._transport.request(
             method="GET",
@@ -197,38 +189,31 @@ class Cases:
         Args:
             team_id: The ID of the team the case belongs to.
             name: The name of the case.
-            template_id: The ID or the slug of a case template. The values of the template fill
-                the parameters that are left out.
+            template_id: The ID or the slug of a case template. The values of the template fill the
+                parameters that are left out.
             description: The description, as Markdown. User mentions are written ``<@user-2435>``.
-            priority: The priority: ``CRITICAL``, ``HIGH``, ``MEDIUM``, ``LOW`` or ``INFO``, in
-                any case. A new case has the priority ``LOW`` if none is given.
-            status: The status: ``OPEN`` or ``CLOSED``, in any case. A new case is ``OPEN`` if
-                none is given.
-            sub_status_id: The ID of a case status of the team. An ID that does not exist was
-                ignored.
+            priority: The priority: ``CRITICAL``, ``HIGH``, ``MEDIUM``, ``LOW`` or ``INFO``, in any
+                case. A new case has the priority ``LOW`` if none is given.
+            status: The status: ``OPEN`` or ``CLOSED``, in any case. A new case is ``OPEN`` if none
+                is given.
+            sub_status_id: The ID of a case status of the team.
             author_email: The email address of the user creating the case.
-            assignee_emails: The email addresses of the users to assign. An address that is not a
-                user of the tenant was ignored.
+            assignee_emails: The email addresses of the users to assign.
             tag_names: The names of the tags to add.
             opened_at: When the case was opened: a ``datetime`` or an ISO 8601 string.
             resolved_at: When the case was resolved: a ``datetime`` or an ISO 8601 string.
             metadata: Key-value pairs to store on the case.
-            closure_conditions: The conditions that must be true to close the case, each an
-                object with a ``name`` and a ``formula``, such as ``=SIZE(team_case.assignees) >
-                0``.
-            field_values: The values of the case fields, keyed by the ID of the field. A field
-                that allows several values takes them as one string separated by ``|``.
+            closure_conditions: The conditions that must be true to close the case, each an object
+                with a ``name`` and a ``formula``, such as ``=SIZE(team_case.assignees) > 0``.
+            field_values: The values of the case fields, keyed by the ID of the field. A field that
+                allows several values takes them as one string separated by ``|``.
             tasks: Tasks to create with the case, each an object with a ``description`` and
                 optionally ``assignee_ids`` and ``assignee_emails``.
             blocks: Blocks to create with the case, each an object with a ``title``, a
                 ``block_type`` and its ``elements``. See ``tapi.cases.CaseBlock``.
 
         Returns:
-            A ``Response`` whose ``data`` is the created case, with a 201 status. The reply is a
-            422 naming the field when a value is not valid, such as a ``priority`` or ``status``
-            that does not exist, an ``opened_at`` that is not a date or a closure condition
-            without a ``formula``, and a 404 with ``Team not found`` for a ``team_id`` that does
-            not exist.
+            A ``Response`` whose ``data`` is the created case, with a 201 status.
         """
         return self._transport.request(
             method="POST",
@@ -278,9 +263,6 @@ class Cases:
     ) -> Response:
         """Update a case. ``PATCH /api/v2/cases/{case_id}``
 
-        The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
-
         Args:
             case_id: The ID of the case.
             name: A new name.
@@ -292,24 +274,18 @@ class Cases:
                 ``resolved_at`` and ``resolved_by``, and opening it again clears ``resolved_at``.
             sub_status_id: The ID of a case status of the team.
             author_email: The email address of the user making the change.
-            assignee_emails: The email addresses of the users to assign. Only the Tines docs list
-                it, and it replaces the assignees.
-            add_assignee_emails: The email addresses of users to add as assignees. An address that
-                is not a user of the tenant was ignored.
+            assignee_emails: The email addresses of the users to assign.
+            add_assignee_emails: The email addresses of users to add as assignees.
             remove_assignee_emails: The email addresses of users to remove as assignees.
             add_tag_names: The names of tags to add.
             remove_tag_names: The names of tags to remove.
             opened_at: When the case was opened: a ``datetime`` or an ISO 8601 string.
             resolved_at: When the case was resolved: a ``datetime`` or an ISO 8601 string.
-            closure_conditions: The conditions that must be true to close the case, each an
-                object with a ``name`` and a ``formula``.
+            closure_conditions: The conditions that must be true to close the case, each an object
+                with a ``name`` and a ``formula``.
 
         Returns:
-            A ``Response`` whose ``data`` is the updated case. A call that sends nothing is a
-            200. The reply is a 422 naming the field when a value is not valid, such as a
-            ``priority`` that does not exist, and a 422 with ``Cannot close case as all case
-            requirements have not been met`` when ``status`` is ``CLOSED`` while a closure
-            condition is not true.
+            A ``Response`` whose ``data`` is the updated case.
         """
         return self._transport.request(
             method="PATCH",
@@ -374,42 +350,25 @@ class Cases:
     ) -> Response:
         """Search cases. ``POST /api/v3/cases/search``
 
-        This is the endpoint that Tines recommends over ``list``. It is available on Tines Cloud
-        only, and the OpenAPI document does not list it. The index is not updated at once: a case
-        created or deleted a moment ago may take a few seconds to appear in or leave the results,
-        and ``list`` shows the change immediately.
+        Recommended over ``list``, on Tines Cloud only. The index lags by a few seconds: ``list``
+        shows a change at once.
 
         Args:
-            filter: What to match. A condition is an object with a ``field`` (see
-                ``tapi.cases.types.SearchField``), an ``operator`` (see
-                ``tapi.cases.types.SearchOperator``) and, depending on the operator, a ``value``
-                and a ``key``. A group is ``{"op": "AND", "nodes": [...]}``, with ``OR`` and
-                ``NOT`` too (``NOT`` takes one node, and a group needs at least one). A nested
-                filter on the comments, notes, records or tasks of a case is ``{"op": "NESTED",
-                "path": "task", "filter": {"field": "text", ...}}``, and inside it the fields
-                have no ``task.`` prefix: a task has ``text``, ``completed`` and ``assignee``.
-                Left out, every case you can see matches. Operators are not case-sensitive, and
-                neither are the values of ``status`` and ``priority``. Each field supports only
-                some of the operators, and the 400 for a field that does not support one lists
-                those it does.
-            sort: Up to three objects with a ``field`` (``created_at``, ``name``, ``opened_at``,
-                ``priority``, ``resolved_at`` or ``updated_at``) and a ``direction`` (``ASC`` or
-                ``DESC``, in any case), in order of importance. A fourth key is a 400. Cases are
-                sorted by ID if none is given.
-            page: An object with a ``size`` (1 to 50, 20 by default) and a ``token``, the
-                ``next_page_token`` of the previous reply. The filter and the sort must be the
-                same.
+            filter: A condition ``{"field": ..., "operator": ..., "value": ...}`` or a group
+                ``{"op": "AND", "nodes": [...]}``, with ``OR`` and ``NOT`` too. A nested filter on
+                the comments, notes, records or tasks of a case is ``{"op": "NESTED", "path":
+                "task", "filter": {...}}``. See ``tapi.cases.SearchNode``. Left out, every case
+                matches.
+            sort: Up to three objects with a ``field`` and a ``direction`` (``ASC`` or ``DESC``), in
+                order of importance. Cases are sorted by ID if none is given.
+            page: An object with a ``size`` (1 to 50) and a ``token``, the ``next_page_token`` of
+                the previous reply.
             include_total: When true, the reply holds the number of cases that match.
-            timezone: An IANA time zone name such as ``Europe/Dublin``, used by relative dates
-                and times of day. Tines defaults to UTC.
+            timezone: An IANA time zone name, used by relative dates and times of day.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``cases``, the cases of the page,
-            ``total`` when ``include_total`` is true, and ``next_page_token`` when there are more
-            pages. The reply is a 400 whose ``data`` is ``{"error": {"type", "message", "field",
-            "hint"}}`` for an invalid request, such as an unknown field, an operator the field
-            does not support or a time zone that does not exist, and a 403 when your tenant has
-            no access to Cases.
+            A ``Response`` whose ``data`` has ``cases``, ``total`` when ``include_total`` is true,
+            and ``next_page_token`` when there are more pages.
         """
         return self._transport.request(
             method="POST",
@@ -436,17 +395,13 @@ class Cases:
         Args:
             case_ids: The IDs of the cases to update.
             fields: The values to set, each an object with the ``input_id`` of the field, the
-                ``value`` and, optionally, ``upsert``. By default only the cases that already
-                have the field are updated, and ``upsert`` set to true adds the field to the
-                others. A field that allows several values takes them as one string separated by
-                ``|``. The OpenAPI document shows an object with ``case_id`` in each item, and
-                the Tines docs show ``case_ids`` apart, which tapi follows.
+                ``value`` and, optionally, ``upsert``. By default only the cases that already have
+                the field are updated, and ``upsert`` set to true adds the field to the others. A
+                field that allows several values takes them as one string separated by ``|``.
 
         Returns:
             A ``Response`` whose ``data`` is an object with ``cases``, a list with the ``case_id``
-            and the ``fields`` of each updated case. The reply is a 400 when ``case_ids`` or
-            ``fields`` is missing or empty, and a 404 with ``TeamCaseInput not found`` for a field
-            that does not exist or ``One or more cases not found``.
+            and the ``fields`` of each updated case.
         """
         return self._transport.request(
             method="POST",

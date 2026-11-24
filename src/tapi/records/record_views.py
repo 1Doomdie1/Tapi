@@ -33,22 +33,16 @@ class RecordViews:
     ) -> Response:
         """List record views. ``GET /api/v1/record_views``
 
-        The endpoint is paginated and one call returns one page. Read ``data["meta"]`` to decide
-        whether to ask for the next page.
-
         Args:
             team_id: Only the views of this team.
             record_type_id: Only the views of this record type.
-            order: ``NAME``, ``RECENTLY_CREATED`` or ``RECENTLY_UPDATED``. Tines defaults to
-                ``NAME``, also for a value that is not valid.
-            per_page: The number of results per page. Tines defaults to 20 and caps it at 500.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            order: ``NAME``, ``RECENTLY_CREATED`` or ``RECENTLY_UPDATED``.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``record_views``, the views of the
-            page, and ``meta``, the pagination details: ``current_page``, ``previous_page`` and
-            ``next_page`` (links), ``next_page_number``, ``per_page``, ``pages`` (the number of
-            pages) and ``count``.
+            A ``Response`` whose ``data`` is an object with ``record_views``, the views of the page,
+            and ``meta``, the pagination details.
         """
         return self._transport.request(
             method="GET",
@@ -111,18 +105,15 @@ class RecordViews:
 
         Args:
             team_id: The ID of the team to add the view to.
-            data: The view in the form that ``export`` returns, with ``schema_version``. Keep
-                the ``id`` of each element and the ``i`` of each layout entry.
-            mode: ``new`` to create a view, the default, or ``replace`` to replace the view of
-                the team that has the same name.
-            name: The name of the view. Tines defaults to the name in ``data``. With ``replace``
-                it picks the view to replace.
+            data: The view in the form that ``export`` returns, with ``schema_version``. Keep the
+                ``id`` of each element and the ``i`` of each layout entry.
+            mode: ``new`` to create a view, the default, or ``replace`` to replace the view of the
+                team that has the same name.
+            name: The name of the view. With ``replace`` it picks the view to replace.
 
         Returns:
             A ``Response`` with a 201 status whose ``data`` is an object with ``id``, ``name``,
-            ``team`` (with ``id`` and ``name``), ``created_at`` and ``updated_at``. The reply is a
-            400 when ``data`` is not a JSON object, cannot be read or holds a team that is not
-            valid.
+            ``team`` (with ``id`` and ``name``), ``created_at`` and ``updated_at``.
         """
         return self._transport.request(
             method="POST",

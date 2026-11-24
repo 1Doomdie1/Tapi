@@ -33,19 +33,15 @@ class Templates:
     ) -> Response:
         """List the case templates of a team. ``GET /api/v1/case_templates``
 
-        The endpoint is paginated and one call returns one page.
-
         Args:
             team_id: The ID of the team.
             search: Only templates whose name matches this text.
-            per_page: The number of results per page. Tines defaults to 20, and its docs give a
-                maximum of 100, which the server does not enforce.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``case_templates``, the templates of
-            the page, and ``meta``, the pagination details. The reply is a 400 when ``team_id``
-            is missing.
+            A ``Response`` whose ``data`` is an object with ``case_templates``, the templates of the
+            page, and ``meta``, the pagination details.
         """
         return self._transport.request(
             method="GET",
@@ -85,19 +81,14 @@ class Templates:
         Args:
             team_id: The ID of the team that gets the template.
             name: The name of the template. It is unique within the team.
-            emoji: The emoji of the template, as a shortcode such as ``:mag:``. Tines picks one if
-                it is left out.
-            options: What a case created from the template gets, an object with any of the keys
-                of ``tapi.cases.TemplateOptions``. A name and a description can hold formulas and
-                field mentions, which Tines evaluates when a case is created. ``status`` and
-                ``priority`` are taken in upper and lower case.
+            emoji: The emoji of the template, as a shortcode such as ``:mag:``.
+            options: What a case created from the template gets, an object with any of the keys of
+                ``tapi.cases.TemplateOptions``. A name and a description can hold formulas and field
+                mentions, which Tines evaluates when a case is created. ``status`` and ``priority``
+                are taken in upper and lower case.
 
         Returns:
-            A ``Response`` whose ``data`` is the created template, with a 201 status. The reply
-            is a 400 when ``team_id`` is missing and when an option is not valid (``Template
-            contains a malformed status``, ``priority``, ``buttons``, ``case requirements`` or
-            ``sub-status``, or a message about a field ID that does not exist), a 404 for a team
-            that does not exist and a 422 for a ``name`` that the team already has.
+            A ``Response`` whose ``data`` is the created template, with a 201 status.
         """
         return self._transport.request(
             method="POST",
@@ -117,20 +108,16 @@ class Templates:
     ) -> Response:
         """Change a case template. ``PATCH /api/v1/case_templates/{template_id}``
 
-        The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
-
         Args:
             template_id: The ID of the template.
             name: A new name.
             emoji: A new emoji, as a shortcode.
-            options: New options. An option that is left out keeps its value, and an option that
-                is sent replaces the old value as a whole.
+            options: New options. An option that is left out keeps its value, and an option that is
+                sent replaces the old value as a whole.
 
         Returns:
-            A ``Response`` whose ``data`` is the updated template. Cases that were created from
-            the template before are not changed. The reply is a 404 with ``Case template not
-            found`` for a template that does not exist.
+            A ``Response`` whose ``data`` is the updated template. Cases that were created from the
+            template before are not changed.
         """
         return self._transport.request(
             method="PATCH",

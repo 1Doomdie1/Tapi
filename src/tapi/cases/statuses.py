@@ -32,19 +32,16 @@ class Statuses:
     ) -> Response:
         """List the case statuses of a team. ``GET /api/v1/case_sub_statuses``
 
-        The endpoint is paginated and one call returns one page.
-
         Args:
             team_id: The ID of the team.
             parent_status: Only statuses under this one: ``OPEN`` or ``CLOSED``.
             search: Only statuses whose name contains this text, in any case.
-            per_page: The number of results per page. Tines defaults to 20.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
 
         Returns:
             A ``Response`` whose ``data`` is an object with ``case_sub_statuses``, the statuses of
-            the page, and ``meta``, the pagination details. The reply is a 400 with ``team_id is
-            required`` when ``team_id`` is missing.
+            the page, and ``meta``, the pagination details.
         """
         return self._transport.request(
             method="GET",
@@ -116,9 +113,6 @@ class Statuses:
         description: str | None = None,
     ) -> Response:
         """Change a case status. ``PATCH /api/v1/case_sub_statuses/{status_id}``
-
-        The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
 
         Args:
             status_id: The ID of the status.

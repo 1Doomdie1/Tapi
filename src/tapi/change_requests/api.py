@@ -37,31 +37,21 @@ class ChangeRequests:
     ) -> Response:
         """List change requests. ``GET /api/v1/change_requests``
 
-        Lists change requests across the stories that the API key can access, newest first. Only
-        the latest change request of each draft is returned.
-
-        The endpoint is paginated and one call returns one page. Read ``data["meta"]`` to decide
-        whether to ask for the next page.
+        Lists change requests across the stories that the API key can access, newest first. Only the
+        latest change request of each draft is returned.
 
         Args:
-            team_ids: Only change requests of stories in these teams. Sent as ``team_id[]``, once
-                per team.
+            team_ids: Only change requests of stories in these teams.
             statuses: Only change requests with one of these statuses: ``PENDING``, ``APPROVED``,
-                ``REJECTED``, ``PUSHED`` or ``IN_PROGRESS``. Sent as ``status[]``, once per status.
-                Tines returns every status except ``PUSHED`` when this is left out.
-            per_page: The number of results per page. Tines defaults to 20 and caps it at 500.
-            page: The page to return, starting at 1. Tines defaults to 1.
+                ``REJECTED``, ``PUSHED`` or ``IN_PROGRESS``. Tines returns every status except
+                ``PUSHED`` when this is left out.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``change_requests``, the change
-            requests of the page, and ``meta``, the pagination details: ``current_page``,
-            ``previous_page`` and ``next_page`` (links), ``next_page_number``, ``per_page``,
-            ``pages`` (the number of pages) and ``count``. The items do not hold
-            ``live_story_export`` and ``draft_export``, which ``get`` returns. The reply is a 400
-            for a ``per_page`` that is not a positive integer, a 404 with ``Team not found`` for
-            a team that does not exist or that the key cannot access, and a 422 that lists the
-            valid values for a status that is not valid. The OpenAPI document gives a 400 for
-            that.
+            A ``Response`` whose ``data`` is an object with ``change_requests``, the change requests
+            of the page, and ``meta``, the pagination details. The items do not hold
+            ``live_story_export`` and ``draft_export``, which ``get`` returns.
         """
         return self._transport.request(
             method="GET",

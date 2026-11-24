@@ -79,12 +79,12 @@ class Stories:
     ) -> Response:
         """List stories. ``GET /api/v1/stories``
 
-        The endpoint is paginated and one call returns one page. Only live stories are listed.
+        Only live stories are listed.
 
         Args:
             team_id: Only stories of this team.
             folder_id: Only stories in this folder.
-            tags: Only stories with these tag names. Sent as ``tags[]``, once per name.
+            tags: Only stories with these tag names.
             search: Only stories whose name matches this text.
             filter: Only stories that match one condition: ``SEND_TO_STORY_ENABLED``,
                 ``HIGH_PRIORITY``, ``API_ENABLED``, ``FAVORITE``, ``CHANGE_CONTROL_ENABLED``,
@@ -96,10 +96,9 @@ class Stories:
                 ``ACTION_COUNT_DESC`` were answered with a 500 after about 35 seconds, which is
                 longer than the default timeout of ``Tines``.
             include_live_activity: Add ``pending_action_runs_count``, ``concurrent_runs_count``,
-                ``tokens_used_percentage`` and ``not_working_actions_count`` to each story. Tines
-                defaults to ``False``.
-            per_page: The number of results per page. Tines defaults to 20 and caps it at 500.
-            page: The page to return, starting at 1. Tines defaults to 1.
+                ``tokens_used_percentage`` and ``not_working_actions_count`` to each story.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
 
         Returns:
             A ``Response`` whose ``data`` is an object with ``stories``, the stories of the page,
@@ -179,13 +178,11 @@ class Stories:
                 ``259200``, ``604800``, ``1209600``, ``2592000``, ``5184000``, ``7776000``,
                 ``15552000`` or ``31536000``.
             folder_id: The ID of the folder the story is added to.
-            tags: Tag names used to classify the story. The Tines docs say that Tines creates the
-                tags, but a request with ``tags`` was answered with a 500 and created nothing,
-                even for tags that exist. Create the story without them and add the tags with
-                ``update`` and ``add_tag_names``.
-            disabled: Whether the story is disabled. Tines defaults to ``False``.
-            priority: Whether the story is high priority. Tines defaults to ``False``. A tenant
-                without priority processing refuses ``True`` with a 422.
+            tags: Tag names used to classify the story. Create the story without them and add the
+                tags with ``update`` and ``add_tag_names``.
+            disabled: Whether the story is disabled.
+            priority: Whether the story is high priority. A tenant without priority processing
+                refuses ``True`` with a 422.
 
         Returns:
             A ``Response`` whose ``data`` is the created story, with a 201 status. A new story has
@@ -237,53 +234,39 @@ class Stories:
     ) -> Response:
         """Update a story. ``PATCH /api/v1/stories/{story_id}``
 
-        If change control is enabled on the story and no ``draft_id`` is given, Tines updates a
-        draft called ``test`` and leaves the live story as it is. The reply then describes the
-        draft, with ``draft_id`` and ``draft_name``. A field left as ``None`` is not sent, and the
-        story keeps its value. The Tines documentation shows this operation as ``PUT``. The
-        OpenAPI document lists the same operation under ``PUT`` and ``PATCH``, and tapi uses
-        ``PATCH``.
+        With change control and no ``draft_id``, Tines updates the ``test`` draft and the reply
+        describes it.
 
         Args:
-            story_id: The ID of the story to update.
-            name: The new name of the story.
-            description: The new description of the story.
-            add_tag_names: Tag names to add to the story. The tags must exist on the team of the
-                story, or Tines answers with a 422.
-            remove_tag_names: Tag names to remove from the story.
+            story_id: The ID of the story.
+            name: The new name.
+            description: The new description.
+            add_tag_names: Tag names to add. They must exist on the team of the story.
+            remove_tag_names: Tag names to remove.
             keep_events_for: How long events are kept, in seconds: ``3600``, ``21600``, ``86400``,
                 ``259200``, ``604800``, ``1209600``, ``2592000``, ``5184000``, ``7776000``,
                 ``15552000`` or ``31536000``.
-            disabled: Whether the story is disabled from running.
-            locked: Whether the story is locked, which prevents edits. An update of a locked
-                story was accepted on the tested tenant.
-            priority: Whether the story runs with high priority. A tenant without priority
-                processing refuses ``True`` with a 422.
-            webhook_api_enabled: Whether the story can be run through its webhook API. Enabling it
-                also needs ``api_entry_action_id`` and ``api_exit_action_ids``, and ``draft_id``
-                if the story is not live.
-            api_entry_action_id: The ID of the entry action of an API-enabled story. It must be a
-                webhook action.
-            api_exit_action_ids: The IDs of the exit actions of an API-enabled story.
-            send_to_story_access_source: Where Send to Story can be used: ``STS``,
-                ``STS_AND_WORKBENCH``, ``WORKBENCH`` or ``OFF``. Enabling it also needs
-                ``entry_action_id`` and ``exit_action_ids``.
-            entry_action_id: The ID of the entry action of a Send to Story story. It must be a
-                webhook action.
-            exit_action_ids: The IDs of the exit actions of a Send to Story story.
-            send_to_story_access: Who may send to the story: ``TEAM``, ``GLOBAL`` or
-                ``SPECIFIC_TEAMS``. Tines defaults to ``TEAM``. ``SPECIFIC_TEAMS`` also needs
-                ``shared_team_slugs``.
+            disabled: Whether the story is disabled.
+            locked: Whether the story is locked.
+            priority: Whether the story runs with high priority.
+            webhook_api_enabled: Whether the story can be run through its webhook API. Needs
+                ``api_entry_action_id`` and ``api_exit_action_ids``.
+            api_entry_action_id: The entry action of an API-enabled story, a webhook action.
+            api_exit_action_ids: The exit actions of an API-enabled story.
+            send_to_story_access_source: ``STS``, ``STS_AND_WORKBENCH``, ``WORKBENCH`` or ``OFF``.
+                Enabling it needs ``entry_action_id`` and ``exit_action_ids``.
+            entry_action_id: The entry action of a Send to Story story, a webhook action.
+            exit_action_ids: The exit actions of a Send to Story story.
+            send_to_story_access: ``TEAM``, ``GLOBAL`` or ``SPECIFIC_TEAMS``. ``SPECIFIC_TEAMS``
+                needs ``shared_team_slugs``.
             shared_team_slugs: The slugs of the teams that may send to the story.
-            send_to_story_skill_use_requires_confirmation: Whether Workbench asks for confirmation
-                before it runs the story.
+            send_to_story_skill_use_requires_confirmation: Whether Workbench asks before it runs the
+                story.
             team_id: The ID of the team to move the story to.
-            folder_id: The ID of the folder to move the story to. Tines moves a story to the root
-                folder when this is empty. A parameter left as ``None`` is not sent, so tapi cannot
-                do that yet.
-            change_control_enabled: Whether change control is enabled on the story.
+            folder_id: The ID of the folder to move the story to.
+            change_control_enabled: Whether change control is enabled.
             draft_id: The ID of the draft to update.
-            monitor_failures: Whether failures are monitored in the story.
+            monitor_failures: Whether failures are monitored.
 
         Returns:
             A ``Response`` whose ``data`` is the updated story.
@@ -406,10 +389,9 @@ class Stories:
             data: The story in exported form, as ``export`` returns it.
             team_id: The ID of the team the story is added to.
             folder_id: The ID of the folder the story is added to.
-            mode: ``new`` to create a new story, or ``versionReplace`` to update an existing one
-                by name. Tines defaults to ``new``.
-            draft_name: The name of the draft when change control is enabled. Tines defaults to
-                ``Imported story``.
+            mode: ``new`` to create a new story, or ``versionReplace`` to update an existing one by
+                name.
+            draft_name: The name of the draft when change control is enabled.
 
         Returns:
             A ``Response`` whose ``data`` is the imported story. The status is 200, although the
@@ -445,16 +427,14 @@ class Stories:
 
         Args:
             story_id: The ID of the story to draw.
-            format: The image format: ``png`` or ``svg``. Tines defaults to ``png``.
-            content: ``full`` for actions, links, notes and sections, or ``actions`` for actions
-                and links only. Tines defaults to ``full``.
+            format: The image format: ``png`` or ``svg``.
+            content: ``full`` for actions, links, notes and sections, or ``actions`` for actions and
+                links only.
             draft_id: The ID of the draft to draw. Tines draws the live story without it.
 
         Returns:
-            A ``Response`` whose ``data`` is the image: the raw ``bytes`` of a PNG
-            (``image/png``), or the text, a ``str``, of an SVG (``image/svg+xml``). The reply is a
-            422 when the format or the content is not supported or the story is over the limits,
-            and a 503 when the diagram could not be rendered.
+            A ``Response`` whose ``data`` is the image: the raw ``bytes`` of a PNG (``image/png``),
+            or the text, a ``str``, of an SVG (``image/svg+xml``).
         """
         return self._transport.request(
             method="GET",
@@ -495,15 +475,14 @@ class Stories:
         """List pending actions. ``GET /api/v1/stories/{story_id}/pending_actions``
 
         Lists the actions of a story that have pending action runs, the one with the most first.
-        The endpoint is paginated and one call returns one page.
 
         Args:
             story_id: The ID of the story.
             search: Only actions whose name matches this text.
-            story_mode: The mode of the story: ``TEST`` or ``LIVE``. Tines defaults to ``LIVE``.
+            story_mode: The mode of the story: ``TEST`` or ``LIVE``.
             draft_id: Only actions of this draft.
-            per_page: The number of results per page. Tines defaults to 20.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
 
         Returns:
             A ``Response`` whose ``data`` is an object with ``pending_actions``, a list of objects

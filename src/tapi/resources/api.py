@@ -43,20 +43,16 @@ class Resources:
     ) -> Response:
         """List resources. ``GET /api/v1/global_resources``
 
-        The endpoint is paginated and one call returns one page.
-
         Args:
             team_id: Only resources of this team.
             folder_id: Only resources in this folder.
             filter: ``UNUSED_IN_ACTIONS`` keeps only the resources that no action uses.
             include_referencing_action_ids: Whether each resource has ``referencing_action_ids``.
-                Tines defaults to true.
-            include_value: Whether each resource has ``value`` and ``test_resource.value``. Tines
-                defaults to true.
-            typed_value: When true, ``value`` is a boolean, a number, an array or an object where
-                it holds one, instead of a string. Tines defaults to false.
-            per_page: The number of results per page. Tines defaults to 20.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            include_value: Whether each resource has ``value`` and ``test_resource.value``.
+            typed_value: When true, ``value`` is a boolean, a number, an array or an object where it
+                holds one, instead of a string.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
 
         Returns:
             A ``Response`` whose ``data`` is an object with ``global_resources``, the resources of
@@ -137,14 +133,13 @@ class Resources:
                 ``SPECIFIC_TEAMS``, which is a premium feature.
             shared_team_slugs: The slugs of the teams that can use the resource. Needed to set
                 ``read_access`` to ``SPECIFIC_TEAMS``.
-            description: A description of the resource. Tines defaults to an empty string.
-            live_resource_id: For a test resource used in the TEST mode of change control, the ID
-                of the live resource it corresponds to. The other optional values then default to
-                those of the live resource.
+            description: A description of the resource.
+            live_resource_id: For a test resource used in the TEST mode of change control, the ID of
+                the live resource it corresponds to. The other optional values then default to those
+                of the live resource.
             include_referencing_action_ids: Whether the reply has ``referencing_action_ids``.
-                Tines defaults to true.
             typed_value: When true, ``value`` in the reply is a boolean, a number, an array or an
-                object where it holds one, instead of a string. Tines defaults to false.
+                object where it holds one, instead of a string.
 
         Returns:
             A ``Response`` whose ``data`` is the created resource, with a 201 status.
@@ -186,11 +181,9 @@ class Resources:
         """Update a resource. ``PATCH /api/v1/global_resources/{resource_id}``
 
         ``value`` is needed on every update, even to rename a resource: without it Tines answers a
-        422 with the message ``Value may not be null``. The other parameters are sent only when
-        you give them. A parameter left as ``None`` is not sent, so tapi cannot set a field to
-        ``null``, and cannot move a resource to the root folder, which Tines does with an empty
-        value. The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists
-        the same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
+        422 with the message ``Value may not be null``. The other parameters are sent only when you
+        give them. A parameter left as ``None`` is not sent, so tapi cannot set a field to ``null``,
+        and cannot move a resource to the root folder, which Tines does with an empty value.
 
         Args:
             resource_id: The ID of the live resource to update.
@@ -199,8 +192,8 @@ class Resources:
                 ``type``.
             name: The new name of the resource.
             folder_id: The ID of the folder to move the resource to.
-            read_access: Where the resource can be used: ``TEAM``, ``GLOBAL`` or
-                ``SPECIFIC_TEAMS``, which is a premium feature.
+            read_access: Where the resource can be used: ``TEAM``, ``GLOBAL`` or ``SPECIFIC_TEAMS``,
+                which is a premium feature.
             shared_team_slugs: The slugs of the teams that can use the resource. Needed to set
                 ``read_access`` to ``SPECIFIC_TEAMS``.
             description: The new description of the resource.
@@ -208,9 +201,8 @@ class Resources:
             is_test: Whether the test resource is the one to update. It requires
                 ``test_resource_enabled`` to be true and a test resource to exist.
             include_referencing_action_ids: Whether the reply has ``referencing_action_ids``.
-                Tines defaults to true.
             typed_value: When true, ``value`` in the reply is a boolean, a number, an array or an
-                object where it holds one, instead of a string. Tines defaults to false.
+                object where it holds one, instead of a string.
 
         Returns:
             A ``Response`` whose ``data`` is the updated resource.
@@ -294,16 +286,15 @@ class Resources:
         Args:
             resource_id: The ID of the live resource.
             key: The key to remove, for an object resource.
-            index: The index of the element to remove, for an array resource, counting from 0.
-                When omitted, the last element is removed.
+            index: The index of the element to remove, for an array resource, counting from 0. When
+                omitted, the last element is removed.
             if_value: Only remove the element if its current value matches this. If it does not,
                 Tines answers with a 422 whose ``data`` holds the current value.
             is_test: Whether the test resource is the one to modify.
 
         Returns:
-            A ``Response`` whose ``data`` is the removed item, or ``None`` when there was nothing
-            to remove, such as a key that does not exist. The reply is a 422 when the resource is
-            locked, when the index is out of bounds, or when ``if_value`` does not match.
+            A ``Response`` whose ``data`` is the removed item, or ``None`` when there was nothing to
+            remove, such as a key that does not exist.
         """
         return self._transport.request(
             method="POST",
@@ -333,14 +324,13 @@ class Resources:
             key: The key to replace, for an object resource.
             index: The index of the element to replace, for an array resource, counting from 0.
             if_value: Only replace the element if its current value matches this. If it does not,
-                Tines answers with a 422 whose ``data`` holds the current value, and the resource
-                is unchanged.
+                Tines answers with a 422 whose ``data`` holds the current value, and the resource is
+                unchanged.
             is_test: Whether the test resource is the one to modify.
 
         Returns:
-            A ``Response`` whose ``data`` is the updated value of the resource. Replacing a key
-            that does not exist adds it. The reply is a 422 when the resource is locked, when the
-            index is out of bounds, or when ``if_value`` does not match.
+            A ``Response`` whose ``data`` is the updated value of the resource. Replacing a key that
+            does not exist adds it.
         """
         return self._transport.request(
             method="POST",

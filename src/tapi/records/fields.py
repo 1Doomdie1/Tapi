@@ -24,17 +24,13 @@ class Fields:
         Args:
             record_id: The ID of the record.
             field: The ID, the name or the slug of the field.
-            format: ``json`` to return JSON, re-encoded in a canonical form, or ``text``,
-                ``txt`` or ``plain`` to return the stored text as it is. Tines defaults to
-                ``json`` for a JSON field and ``text`` for a text artifact.
+            format: ``json`` to return JSON, re-encoded in a canonical form, or ``text``, ``txt`` or
+                ``plain`` to return the stored text as it is.
 
         Returns:
             A ``Response`` whose ``data`` is the content of the field, without an envelope: the
-            parsed JSON for ``json``, and a ``str`` for ``text``. A field with no stored value
-            has ``None`` as ``data`` for a text, and ``null`` for JSON. The reply is a 404 for a
-            record that does not exist and for a field without a value, a 400 for an unknown or
-            ambiguous field, a field that is not stored as an artifact or a ``format`` that is
-            not valid, and a 500 when stored JSON is not valid.
+            parsed JSON for ``json``, and a ``str`` for ``text``. A field with no stored value has
+            ``None`` as ``data`` for a text, and ``null`` for JSON.
         """
         return self._transport.request(
             method="GET",

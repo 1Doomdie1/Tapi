@@ -46,19 +46,15 @@ class LinkedCases:
     def create(self, *, case_id: int, id: int) -> Response:
         """Link a case to another. ``POST /api/v2/cases/{case_id}/linked_cases``
 
-        The link shows on both cases. Linking two cases that are linked already is a 201 and
-        changes nothing.
+        The link shows on both cases.
 
         Args:
             case_id: The ID of the case that gets the link.
-            id: The ID of the case to link to it. This is the property of the Tines docs. The
-                OpenAPI document calls it ``linked_case_id``, which the server did not read.
+            id: The ID of the case to link to it. This is the property of the Tines docs.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with the ``case_id`` and ``name`` of the
-            case and the ``linked_case``, with a 201 status. The reply is a 422 with ``Cannot
-            link case to itself``, and a 404 with ``TeamCase not found`` for a case that does
-            not exist.
+            A ``Response`` whose ``data`` is an object with the ``case_id`` and ``name`` of the case
+            and the ``linked_case``, with a 201 status.
         """
         return self._transport.request(
             method="POST",

@@ -49,16 +49,14 @@ class License:
     def update(self, *, license: str) -> Response:
         """Replace the license. ``PATCH /api/v1/admin/license``
 
-        A license must exist already: use ``create`` to apply the first one. The Tines
-        documentation shows this operation as ``PUT``. The OpenAPI document lists the same
-        operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
+        A license must exist already: use ``create`` to apply the first one.
 
         Args:
             license: The signed license string, such as ``TINES-company_name-ENV::LICENSE_DATA``.
 
         Returns:
-            A ``Response`` whose ``data`` is the applied license. The reply is a 404 when the
-            tenant has no license, and a 422 when the string is not a valid signed license.
+            A ``Response`` whose ``data`` is the applied license. The reply is a 404 when the tenant
+            has no license, and a 422 when the string is not a valid signed license.
         """
         return self._transport.request(
             method="PATCH", path="/api/v1/admin/license", json={"license": license}

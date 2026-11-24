@@ -77,9 +77,6 @@ class Teams:
     def update(self, *, team_id: int, name: str) -> Response:
         """Rename a team. ``PATCH /api/v1/teams/{team_id}``
 
-        The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
-
         Args:
             team_id: The ID of the team to update.
             name: The new name of the team. Tines answers an update without it with a 500 and

@@ -34,23 +34,16 @@ class Users:
     ) -> Response:
         """List users. ``GET /api/v1/admin/users``
 
-        The endpoint is paginated and one call returns one page. Read ``data["meta"]`` to decide
-        whether to ask for the next page.
-
         Args:
             filter: ``TENANT_OWNER`` to list only the tenant owners. The value is case-sensitive.
             search: Only users whose name or email contains this text, in any case.
             include: ``team_memberships`` to add the teams of each user. Another value is ignored.
-            per_page: The number of results per page. Tines defaults to 20 and caps it at 500.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``admin/users``, the users of the
-            page, and ``meta``, the pagination details: ``current_page``, ``previous_page`` and
-            ``next_page`` (links), ``next_page_number``, ``per_page``, ``pages`` (the number of
-            pages) and ``count``. The reply is a 422 that lists the valid values for a ``filter``
-            that is not valid, and a 400 for a ``per_page`` or ``page`` that is not a positive
-            integer.
+            A ``Response`` whose ``data`` is an object with ``admin/users``, the users of the page,
+            and ``meta``, the pagination details.
         """
         return self._transport.request(
             method="GET",
@@ -95,28 +88,25 @@ class Users:
     ) -> Response:
         """Create a user. ``POST /api/v1/admin/users``
 
-        Creating a user with an email address that a user already has does not fail: Tines
-        answers 201 with the ID of that user and overwrites the fields that were sent, such as
-        the first name. The match ignores the case of the address. Do not call this with the
-        address of a user that must stay as it is.
+        Creating a user with an email address that a user already has does not fail: Tines answers
+        201 with the ID of that user and overwrites the fields that were sent, such as the first
+        name. The match ignores the case of the address. Do not call this with the address of a user
+        that must stay as it is.
 
         Every new user also gets a personal team, with a story called ``Your first story``.
-        ``delete`` does not remove them. Delete the story with ``tines.stories.delete`` first,
-        then the team with ``tines.teams.delete``, which Tines refuses until the story is gone.
+        ``delete`` does not remove them. Delete the story with ``tines.stories.delete`` first, then
+        the team with ``tines.teams.delete``, which Tines refuses until the story is gone.
 
         Args:
             email: The email address of the user.
             first_name: The first name.
             last_name: The last name.
-            admin: Whether the user is a tenant owner. Tines defaults to ``False``.
-            tenant_permissions: The tenant permissions to grant, such as ``AUDIT_LOG_READ``. The
-                Tines docs link a list of them.
-            is_active: Whether the user is active. Tines defaults to ``True``.
+            admin: Whether the user is a tenant owner.
+            tenant_permissions: The tenant permissions to grant, such as ``AUDIT_LOG_READ``.
+            is_active: Whether the user is active.
 
         Returns:
-            A ``Response`` whose ``data`` is the created user, with a 201 status. The reply is a
-            422 for an email address that is missing or not valid and for a permission that does
-            not exist (``Tenant permissions contains invalid permissions``). A call that is
+            A ``Response`` whose ``data`` is the created user, with a 201 status. A call that is
             refused for an invalid permission can still leave the user behind, so check the list
             after one.
         """
@@ -148,9 +138,6 @@ class Users:
     ) -> Response:
         """Change a user. ``PATCH /api/v1/admin/users/{user_id}``
 
-        The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
-
         Args:
             user_id: The ID of the user.
             email: A new email address.
@@ -161,9 +148,8 @@ class Users:
             is_active: Whether the user is active.
 
         Returns:
-            A ``Response`` whose ``data`` is the updated user. A call that sends nothing is a 200.
-            ``tenant_permissions`` is an empty list when none is granted. The reply is a 404 with
-            ``User not found`` for a user that does not exist.
+            A ``Response`` whose ``data`` is the updated user. ``tenant_permissions`` is an empty
+            list when none is granted.
         """
         return self._transport.request(
             method="PATCH",
@@ -204,23 +190,21 @@ class Users:
     ) -> Response:
         """List the sign-ins of a user. ``GET /api/v1/admin/users/{user_id}/signin_activities``
 
-        The endpoint is paginated and one call returns one page. It returns a subset of the data
-        of the audit logs.
+        It returns a subset of the data of the audit logs.
 
         Args:
             user_id: The ID of the user.
             before: Only sign-ins before this time, as a ``datetime`` or an ISO 8601 string. A
                 datetime without a timezone is treated as UTC.
             after: Only sign-ins after this time, in the same formats.
-            per_page: The number of results per page. Tines defaults to 20 and caps it at 500.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``admin/login_activities``, the
-            sign-ins of the page, and ``meta``, the pagination details. A sign-in has ``id``,
-            ``user_id``, ``ip``, ``user_agent`` and ``created_at``. The list is empty for a
-            ``user_id`` that no user has, not a 404. The reply is a 422 for a time that cannot be
-            read, and a 400 for a ``per_page`` or ``page`` that is not a positive integer.
+            A ``Response`` whose ``data`` is an object with ``admin/login_activities``, the sign-ins
+            of the page, and ``meta``, the pagination details. A sign-in has ``id``, ``user_id``,
+            ``ip``, ``user_agent`` and ``created_at``. The list is empty for a ``user_id`` that no
+            user has, not a 404.
         """
         return self._transport.request(
             method="GET",

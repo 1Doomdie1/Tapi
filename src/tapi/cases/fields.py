@@ -76,26 +76,19 @@ class Fields:
 
         Args:
             name: The name of the field. It is unique within the team.
-            input_type: The type of the values: ``string``, ``number``, ``boolean``,
-                ``timestamp``, ``email``, ``url`` or ``ip_address``. The Tines docs name the first
-                four. Tines checks a value against the type when it is set on a case.
+            input_type: The type of the values: ``string``, ``number``, ``boolean``, ``timestamp``,
+                ``email``, ``url`` or ``ip_address``.
             team_id: The ID of the team that gets the field.
             sensitive: Whether the sensitive field permission is needed to read or write it.
-            validation_type: ``options`` or ``regex``, for a ``string`` field. Tines defaults to
-                ``none``.
-            validation_options: What to check a value against. For ``options``, an object with
-                the allowed values: ``{"options": ["low", "high"]}``. For ``regex``, an object
-                with the pattern: ``{"regex": "^T-[0-9]+$"}``. The Tines docs say a list and a
-                string, which the server refused or answered with a 500. A different key in the
-                object for ``regex`` was accepted and not enforced.
+            validation_type: ``options`` or ``regex``, for a ``string`` field.
+            validation_options: What to check a value against. For ``options``, an object with the
+                allowed values: ``{"options": ["low", "high"]}``. For ``regex``, an object with the
+                pattern: ``{"regex": "^T-[0-9]+$"}``.
             group_name: The name of the group to put the field in.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``team_case_input``, the created
-            field, with a 201 status. The reply is a 422 for a ``name`` that is used, a value that
-            is not valid, and ``validation_options`` that are not in the shape above (``Validation
-            options must be an array of values``), and a 404 with ``Team not found`` for a team
-            that does not exist.
+            A ``Response`` whose ``data`` is an object with ``team_case_input``, the created field,
+            with a 201 status.
         """
         return self._transport.request(
             method="POST",
@@ -125,11 +118,6 @@ class Fields:
     ) -> Response:
         """Change a case field. ``PATCH /api/v2/case_inputs/{field_id}``
 
-        This route is under ``/api/v2``, while creating and reading a field are under
-        ``/api/v1``, and a ``PATCH`` on the ``/api/v1`` route is a 404. The Tines documentation
-        shows the operation as ``PUT``. The OpenAPI document lists the same operation under
-        ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
-
         Args:
             field_id: The ID of the field.
             name: A new name.
@@ -138,12 +126,10 @@ class Fields:
                 old ``validation_options`` in the field.
             validation_options: What to check a value against, in the shapes that ``create``
                 describes.
-            group_name: The name of the group to put the field in. The Tines docs take ``null`` to
-                take the field out of its group, which tapi cannot send.
+            group_name: The name of the group to put the field in.
 
         Returns:
-            A ``Response`` whose ``data`` is the updated field, as it is. A call that sends
-            nothing is a 200.
+            A ``Response`` whose ``data`` is the updated field, as it is.
         """
         return self._transport.request(
             method="PATCH",

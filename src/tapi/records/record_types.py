@@ -103,29 +103,27 @@ class RecordTypes:
             team_id: The ID of the team that owns it.
             fields: The custom fields, at most 50, each with a ``name`` and a ``result_type``
                 (``TEXT``, ``TEXT_ENUM``, ``TEXT_REGEX``, ``EMAIL``, ``URL``, ``IP_ADDRESS``,
-                ``NUMBER``, ``BOOLEAN``, ``TIMESTAMP``, ``JSON`` or ``ARTIFACT``), and optionally
-                a ``description`` and a ``config``. A ``TEXT_ENUM`` needs ``fixed_values``, at
-                most 100, and no other type takes them. A ``TEXT_REGEX`` needs ``config`` with a
+                ``NUMBER``, ``BOOLEAN``, ``TIMESTAMP``, ``JSON`` or ``ARTIFACT``), and optionally a
+                ``description`` and a ``config``. A ``TEXT_ENUM`` needs ``fixed_values``, at most
+                100, and no other type takes them. A ``TEXT_REGEX`` needs ``config`` with a
                 ``regex``, which cannot be changed later. A ``URL`` takes ``config`` with
                 ``disable_hyperlink`` to show its values as plain text. See
                 ``tapi.records.RecordTypeField``.
             description: A description.
-            editable: Whether the records of the type can be edited. Tines defaults to ``False``.
-            ttl_days: How long Tines keeps a record, in days: one of 0.25, 0.5, 1, 2, 3, 7, 14,
-                30, 60, 90, 180, 365, 548, 730, 1095, 1460, 1825, 2190, 2555, 2920, 3285 or 3650.
+            editable: Whether the records of the type can be edited.
+            ttl_days: How long Tines keeps a record, in days: one of 0.25, 0.5, 1, 2, 3, 7, 14, 30,
+                60, 90, 180, 365, 548, 730, 1095, 1460, 1825, 2190, 2555, 2920, 3285 or 3650.
                 Without it records are kept for ever.
-            retention_column_name: The timestamp that ``ttl_days`` counts from: ``CREATED_AT``,
-                the default, or ``UPDATED_AT``.
-            on_limit_reached: What Tines does when the limit of records is reached: ``REJECT``,
-                the default, or ``EVICT_OLDEST``.
-            custom_records_limit: The most records the type can hold, a positive integer that is
-                at most the limit of the tenant. Without it the limit of the tenant applies.
+            retention_column_name: The timestamp that ``ttl_days`` counts from: ``CREATED_AT``, the
+                default, or ``UPDATED_AT``.
+            on_limit_reached: What Tines does when the limit of records is reached: ``REJECT``, the
+                default, or ``EVICT_OLDEST``.
+            custom_records_limit: The most records the type can hold, a positive integer that is at
+                most the limit of the tenant. Without it the limit of the tenant applies.
 
         Returns:
-            A ``Response`` with a 201 status whose ``data`` is an object with ``data``, the
-            record type. The reply is a 400 for a request that is not valid, a 404 for a team that
-            does not exist, a 403 without permission to create record types in the team, and a
-            422 when the record type cannot be created.
+            A ``Response`` with a 201 status whose ``data`` is an object with ``data``, the record
+            type.
         """
         return self._transport.request(
             method="POST",
@@ -161,10 +159,6 @@ class RecordTypes:
     ) -> Response:
         """Update a record type. ``PATCH /api/v2/record_types/{record_type_id}``
 
-        What is left out stays as it is, and the request must change something, or it is a 400.
-        Tines clears the description, turns retention off and drops the custom limit for a
-        ``null``, which tapi cannot send.
-
         Args:
             record_type_id: The ID of the record type.
             name: The new name.
@@ -183,10 +177,7 @@ class RecordTypes:
                 deleted.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``data``, the record type. The reply
-            is a 404 for a record type that does not exist, a 400 for a request that changes
-            nothing or is not valid, a 403 without permission and a 422 when it cannot be
-            updated.
+            A ``Response`` whose ``data`` is an object with ``data``, the record type.
         """
         return self._transport.request(
             method="PATCH",

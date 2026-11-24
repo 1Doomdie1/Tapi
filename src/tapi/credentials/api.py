@@ -52,21 +52,19 @@ class Credentials:
     ) -> Response:
         """List credentials. ``GET /api/v1/user_credentials``
 
-        The endpoint is paginated and one call returns one page.
-
         Args:
             team_id: Only credentials of this team.
             folder_id: Only credentials in this folder.
             filter: Only credentials matching ``UNUSED_IN_ACTIONS``, ``UNRESTRICTED`` or
-                ``RESTRICTED``. Tines does not document what each value matches.
+                ``RESTRICTED``.
             include_references: When true, each credential has ``references``: the stories and
                 actions that use it, limited to 100 visible actions per credential.
-            per_page: The number of results per page. Tines defaults to 20.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``user_credentials``, the credentials
-            of the page, and ``meta``, the pagination details.
+            A ``Response`` whose ``data`` is an object with ``user_credentials``, the credentials of
+            the page, and ``meta``, the pagination details.
         """
         return self._transport.request(
             method="GET",
@@ -154,103 +152,69 @@ class Credentials:
     ) -> Response:
         """Create a credential. ``POST /api/v1/user_credentials``
 
-        ``name``, ``mode`` and ``team_id`` are always needed. ``mode`` decides which of the
-        mode-specific parameters below apply, and Tines documents each of them under its mode.
-        Secrets such as ``value``, ``aws_secret_key`` and ``jwt_private_key`` are only ever sent
-        to Tines and are not part of the reply.
+        ``name``, ``mode`` and ``team_id`` are always needed, and ``mode`` decides which of the
+        mode-specific parameters apply. Secrets are sent to Tines and never returned.
 
         Args:
             name: The name of the credential.
-            mode: The type of credential: ``TEXT``, ``JWT``, ``OAUTH``, ``AWS``, ``MTLS``,
-                ``HTTP_REQUEST_AGENT`` or ``MULTI_REQUEST``.
+            mode: ``TEXT``, ``JWT``, ``OAUTH``, ``AWS``, ``MTLS``, ``HTTP_REQUEST_AGENT`` or
+                ``MULTI_REQUEST``.
             team_id: The ID of the team the credential belongs to.
             value: The value of a ``TEXT`` credential.
-            folder_id: The ID of the folder to put the credential in.
-            read_access: Where the credential can be used: ``TEAM`` (the default), ``GLOBAL`` or
-                ``SPECIFIC_TEAMS``, which is a premium feature. OAuth credentials accept only
-                ``TEAM`` and ``GLOBAL``.
-            shared_team_slugs: The slugs of the teams that can use the credential. Needed to set
-                ``read_access`` to ``SPECIFIC_TEAMS``.
-            description: A description of the credential. Tines defaults to an empty string.
-            metadata: Key/value metadata that can be referenced through the ``INFO`` path.
-            allowed_hosts: Domains where the credential can be used. The credential can only be
-                used in HTTP requests, and domain matching supports wildcards.
-            live_credential_id: For a test credential used in the TEST mode of change control, the
-                ID of the live credential that it corresponds to.
-            expires_at: When the credential expires, as a ``datetime`` or an ISO 8601 string. A
-                datetime without a timezone is treated as UTC.
-            expiry_notifications_enabled: Whether to send expiry notifications. Tines defaults to
-                false.
-            credential_notification_recipient_user_ids: The IDs of the users who receive
-                credential notifications, such as expiry notifications.
-            include_references: When true, the credential has ``references``: the stories and
-                actions that use it, limited to 500 visible actions.
-            aws_authentication_type: AWS credentials only: ``KEY``, ``ROLE`` or
-                ``INSTANCE_PROFILE``.
-            aws_access_key: AWS credentials only: the access key from your AWS security
-                credentials.
-            aws_secret_key: AWS credentials only: the secret from your AWS security credentials.
-            aws_assumed_role_arn: AWS credentials only: the ARN of the role to assume, such as
-                ``arn:aws:iam::123456789012:role/write-access-role``. Required for role-based
-                access.
-            aws_assumed_role_source_identity: AWS credentials only: a source identity of 2 to 64
-                characters, made of letters, numbers, underscores and ``+=,.@-``. The IAM policies
-                it needs are described in the Tines documentation.
-            use_static_external_id: AWS credentials only: whether to use the team-scoped static
-                external ID.
-            http_request_options: HTTP request credentials only: the options of the HTTP Request
-                action that fetches the credential, as a JSON object. Tines' create page says a
-                JSON object and its update page says a JSON string, and tapi sends what it is
-                given.
-            http_request_location_of_token: HTTP request and multi request credentials only: where
-                the token is in the response.
-            http_request_secret: HTTP request credentials only: a secret to save for the request.
-                The request options can reference it as ``secret``.
-            http_request_ttl: HTTP request and multi request credentials only: how long, in
-                seconds, the fetched value is kept.
-            credential_requests: Multi request credentials only: the HTTP requests that fetch the
-                credential value. Two objects, each with an ``options`` key (the options of an HTTP
-                Request action) and an ``http_request_secret`` key. They run in the given order.
-            jwt_algorithm: JWT credentials only: the algorithm that signs the JWT, such as
-                ``RS256``.
-            jwt_payload: JWT credentials only: the payload of the JWT, as an object.
-            jwt_auto_generate_time_claims: JWT credentials only: whether Tines generates the
-                ``iat`` and ``exp`` claims.
-            jwt_private_key: JWT credentials only: the private key that signs the JWT.
-            mtls_client_certificate: MTLS credentials only: the certificate that the CA issued for
-                this client.
-            mtls_client_private_key: MTLS credentials only: the private key of the client
-                certificate.
-            mtls_root_certificate: MTLS credentials only: the root certificate of the CA that is
-                responsible for the signatures.
-            oauth_url: OAuth credentials only: your app's OAuth authorization URL. Required when
-                ``oauth_grant_type`` is ``authorization_code``, unless you send
+            folder_id: The ID of the folder to put it in.
+            read_access: ``TEAM``, ``GLOBAL`` or ``SPECIFIC_TEAMS`` (premium). OAuth takes ``TEAM``
+                and ``GLOBAL`` only.
+            shared_team_slugs: The slugs of the teams that can use it. Needed for
+                ``SPECIFIC_TEAMS``.
+            description: A description of the credential.
+            metadata: Key-value metadata, referenced through the ``INFO`` path.
+            allowed_hosts: Domains where it can be used, with wildcards. It then works in HTTP
+                requests only.
+            live_credential_id: For a test credential, the ID of the live credential.
+            expires_at: When it expires: a ``datetime`` or an ISO 8601 string.
+            expiry_notifications_enabled: Whether to send expiry notifications.
+            credential_notification_recipient_user_ids: The IDs of the users who get notifications.
+            include_references: ``True`` adds ``references``, the stories and actions that use it.
+            aws_authentication_type: AWS: ``KEY``, ``ROLE`` or ``INSTANCE_PROFILE``.
+            aws_access_key: AWS: the access key.
+            aws_secret_key: AWS: the secret key.
+            aws_assumed_role_arn: AWS: the ARN of the role to assume. Needed for role-based access.
+            aws_assumed_role_source_identity: AWS: a source identity of 2 to 64 characters.
+            use_static_external_id: AWS: whether to use the team-scoped static external ID.
+            http_request_options: HTTP request: the options of the HTTP Request action that fetches
+                the value, as a JSON object.
+            http_request_location_of_token: HTTP request and multi request: where the token is in
+                the response.
+            http_request_secret: HTTP request: a secret for the request, referenced as ``secret``.
+            http_request_ttl: HTTP request and multi request: how long, in seconds, the value is
+                kept.
+            credential_requests: Multi request: two objects, each with ``options`` and
+                ``http_request_secret``, that run in order.
+            jwt_algorithm: JWT: the signing algorithm, such as ``RS256``.
+            jwt_payload: JWT: the payload, as an object.
+            jwt_auto_generate_time_claims: JWT: whether Tines generates ``iat`` and ``exp``.
+            jwt_private_key: JWT: the private key.
+            mtls_client_certificate: MTLS: the client certificate.
+            mtls_client_private_key: MTLS: the private key of the client certificate.
+            mtls_root_certificate: MTLS: the root certificate of the CA.
+            oauth_url: OAuth: the authorization URL. Needed for ``authorization_code`` unless
+                ``oauth_authorization_code`` is sent.
+            oauth_token_url: OAuth: the token URL.
+            oauth_client_id: OAuth: the client ID.
+            oauth_client_secret: OAuth: the client secret.
+            oauth_scope: OAuth: the scopes.
+            oauth_grant_type: OAuth: ``client_credentials`` or ``authorization_code``.
+            oauthPkceCodeChallengeMethod: OAuth: ``S256`` or ``plain``, not with
+                ``oauth_authorization_code``. Written in camel case, as Tines does.
+            oauth_authorization_code: OAuth: a code from your own app. Needs ``oauth_redirect_uri``
+                and the grant type ``authorization_code``.
+            oauth_redirect_uri: OAuth: needed with, and only with, ``oauth_authorization_code``.
+            oauth_code_verifier: OAuth: 43 to 128 characters. Only with
                 ``oauth_authorization_code``.
-            oauth_token_url: OAuth credentials only: your app's OAuth token URL.
-            oauth_client_id: OAuth credentials only: your app's client ID.
-            oauth_client_secret: OAuth credentials only: your app's client secret.
-            oauth_scope: OAuth credentials only: one or more scope values for the parts of the
-                user's account you want to access.
-            oauth_grant_type: OAuth credentials only: ``client_credentials`` or
-                ``authorization_code``.
-            oauthPkceCodeChallengeMethod: OAuth credentials only: ``S256`` or ``plain``. It cannot
-                be used with ``oauth_authorization_code``; send ``oauth_code_verifier`` instead.
-                The Tines documentation spells this name in camel case, and tapi sends it as
-                written.
-            oauth_authorization_code: OAuth credentials only: an authorization code that your own
-                OAuth app got from the provider. Tines exchanges it for tokens instead of
-                returning a ``redirect_url``. It needs ``oauth_redirect_uri``, and
-                ``oauth_grant_type`` must be ``authorization_code``.
-            oauth_redirect_uri: OAuth credentials only: required with, and only accepted with,
-                ``oauth_authorization_code``.
-            oauth_code_verifier: OAuth credentials only: 43 to 128 characters from letters,
-                numbers and ``-._~``. Only accepted with ``oauth_authorization_code``.
 
         Returns:
-            A ``Response`` whose ``data`` is the credential, with a 201 status. For an OAuth
-            credential that still has to be authorized, ``data`` also has a ``redirect_url``. If
-            the exchange of ``oauth_authorization_code`` fails, Tines does not create the
-            credential and answers with a 422.
+            A ``Response`` with a 201 status whose ``data`` is the credential, with a
+            ``redirect_url`` for an OAuth credential that still has to be authorized.
         """
         return self._transport.request(
             method="POST",
@@ -356,94 +320,68 @@ class Credentials:
     ) -> Response:
         """Update a credential. ``PATCH /api/v1/user_credentials/{credential_id}``
 
-        ``credential_id`` and ``mode`` are always needed. Only the other parameters you give are
-        sent. A parameter left as ``None`` is not sent, so tapi cannot set a field to ``null``,
-        and cannot move a credential to the root folder, which Tines does with an empty value.
-
-        The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
+        ``credential_id`` and ``mode`` are always needed. A parameter left as ``None`` is not sent,
+        so a field cannot be set to ``null``.
 
         Args:
             credential_id: The ID of the credential to update.
-            mode: The type of credential: ``TEXT``, ``JWT``, ``OAUTH``, ``AWS``, ``MTLS``,
-                ``HTTP_REQUEST_AGENT`` or ``MULTI_REQUEST``. The OpenAPI document requires it.
-            name: The new name of the credential.
+            mode: ``TEXT``, ``JWT``, ``OAUTH``, ``AWS``, ``MTLS``, ``HTTP_REQUEST_AGENT`` or
+                ``MULTI_REQUEST``.
+            name: The new name.
             value: The new value of a ``TEXT`` credential.
-            folder_id: The ID of the folder to move the credential to.
-            read_access: Where the credential can be used: ``TEAM``, ``GLOBAL`` or
-                ``SPECIFIC_TEAMS``, which is a premium feature.
-            shared_team_slugs: The slugs of the teams that can use the credential. Needed to set
-                ``read_access`` to ``SPECIFIC_TEAMS``.
-            description: The new description of the credential.
-            metadata: Key/value metadata for use in HTTP requests alongside the credential value.
-            allowed_hosts: Domains where the credential can be used. The credential can only be
-                used in HTTP requests, and domain matching supports wildcards.
-            test_credential_enabled: Whether the credential is enabled for using a test
-                credential.
-            is_test: Whether the test credential is the one to update. It requires
-                ``test_credential_enabled`` to be true and a test credential to exist.
-            expires_at: When the credential expires, as a ``datetime`` or an ISO 8601 string. A
-                datetime without a timezone is treated as UTC.
+            folder_id: The ID of the folder to move it to.
+            read_access: ``TEAM``, ``GLOBAL`` or ``SPECIFIC_TEAMS`` (premium).
+            shared_team_slugs: The slugs of the teams that can use it. Needed for
+                ``SPECIFIC_TEAMS``.
+            description: The new description.
+            metadata: Key-value metadata for HTTP requests.
+            allowed_hosts: Domains where it can be used, with wildcards. It then works in HTTP
+                requests only.
+            test_credential_enabled: Whether the credential has a test credential.
+            is_test: Whether to update the test credential. Needs ``test_credential_enabled``.
+            expires_at: When it expires: a ``datetime`` or an ISO 8601 string.
             expiry_notifications_enabled: Whether to send expiry notifications.
-            credential_notification_recipient_user_ids: The IDs of the users who receive
-                credential notifications, such as expiry notifications.
-            include_references: When true, the credential has ``references``: the stories and
-                actions that use it, limited to 500 visible actions.
-            aws_authentication_type: AWS credentials only: ``KEY``, ``ROLE`` or
-                ``INSTANCE_PROFILE``.
-            aws_access_key: AWS credentials only: the access key from your AWS security
-                credentials.
-            aws_secret_key: AWS credentials only: the secret from your AWS security credentials.
-            aws_assumed_role_arn: AWS credentials only: the ARN of the role to assume. Required
-                for role-based access.
-            aws_assumed_role_source_identity: AWS credentials only: a source identity of 2 to 64
-                characters. Leaving it out keeps the current value, and an empty string clears it.
-            use_static_external_id: AWS credentials only: whether to use the team-scoped static
-                external ID.
-            http_request_options: HTTP request credentials only: the options of the HTTP Request
-                action that fetches the credential. Tines' update page says a JSON string and its
-                create page says a JSON object, and tapi sends what it is given.
-            http_request_location_of_token: HTTP request and multi request credentials only: where
-                the token is in the response.
-            http_request_secret: HTTP request credentials only: a secret to save for the request.
-            http_request_ttl: HTTP request and multi request credentials only: how long, in
-                seconds, the fetched value is kept. Tines documents that not sending it during an
-                update sets it to ``null``.
-            credential_requests: Multi request credentials only: the HTTP requests that fetch the
-                credential value, as described for ``create``.
-            jwt_algorithm: JWT credentials only: the algorithm that signs the JWT.
-            jwt_payload: JWT credentials only: the payload of the JWT, as an object.
-            jwt_auto_generate_time_claims: JWT credentials only: whether Tines generates the
-                ``iat`` and ``exp`` claims.
-            jwt_private_key: JWT credentials only: the private key that signs the JWT.
-            mtls_client_certificate: MTLS credentials only: the certificate that the CA issued for
-                this client.
-            mtls_client_private_key: MTLS credentials only: the private key of the client
-                certificate.
-            mtls_root_certificate: MTLS credentials only: the root certificate of the CA that is
-                responsible for the signatures.
-            oauth_url: OAuth credentials only: your app's OAuth authorization URL.
-            oauth_token_url: OAuth credentials only: your app's OAuth token URL.
-            oauth_client_id: OAuth credentials only: your app's client ID.
-            oauth_client_secret: OAuth credentials only: your app's client secret.
-            oauth_scope: OAuth credentials only: one or more scope values for the parts of the
-                user's account you want to access.
-            oauth_grant_type: OAuth credentials only: ``client_credentials`` or
-                ``authorization_code``.
-            oauthPkceCodeChallengeMethod: OAuth credentials only: ``S256`` or ``plain``. It cannot
-                be used with ``oauth_authorization_code``. The Tines documentation spells this
-                name in camel case, and tapi sends it as written.
-            oauth_authorization_code: OAuth credentials only: an authorization code from your own
-                OAuth app, used to authorize the credential again. It needs
-                ``oauth_redirect_uri``, and ``oauth_grant_type`` must be ``authorization_code``.
-            oauth_redirect_uri: OAuth credentials only: required with, and only accepted with,
+            credential_notification_recipient_user_ids: The IDs of the users who get notifications.
+            include_references: ``True`` adds ``references``, the stories and actions that use it.
+            aws_authentication_type: AWS: ``KEY``, ``ROLE`` or ``INSTANCE_PROFILE``.
+            aws_access_key: AWS: the access key.
+            aws_secret_key: AWS: the secret key.
+            aws_assumed_role_arn: AWS: the ARN of the role to assume. Needed for role-based access.
+            aws_assumed_role_source_identity: AWS: a source identity of 2 to 64 characters. An empty
+                string clears it.
+            use_static_external_id: AWS: whether to use the team-scoped static external ID.
+            http_request_options: HTTP request: the options of the HTTP Request action that fetches
+                the value.
+            http_request_location_of_token: HTTP request and multi request: where the token is in
+                the response.
+            http_request_secret: HTTP request: a secret for the request.
+            http_request_ttl: HTTP request and multi request: how long, in seconds, the value is
+                kept.
+            credential_requests: Multi request: the requests, as for ``create``.
+            jwt_algorithm: JWT: the signing algorithm.
+            jwt_payload: JWT: the payload, as an object.
+            jwt_auto_generate_time_claims: JWT: whether Tines generates ``iat`` and ``exp``.
+            jwt_private_key: JWT: the private key.
+            mtls_client_certificate: MTLS: the client certificate.
+            mtls_client_private_key: MTLS: the private key of the client certificate.
+            mtls_root_certificate: MTLS: the root certificate of the CA.
+            oauth_url: OAuth: the authorization URL.
+            oauth_token_url: OAuth: the token URL.
+            oauth_client_id: OAuth: the client ID.
+            oauth_client_secret: OAuth: the client secret.
+            oauth_scope: OAuth: the scopes.
+            oauth_grant_type: OAuth: ``client_credentials`` or ``authorization_code``.
+            oauthPkceCodeChallengeMethod: OAuth: ``S256`` or ``plain``, not with
+                ``oauth_authorization_code``. Written in camel case, as Tines does.
+            oauth_authorization_code: OAuth: a code from your own app, to authorize the credential
+                again. Needs ``oauth_redirect_uri`` and the grant type ``authorization_code``.
+            oauth_redirect_uri: OAuth: needed with, and only with, ``oauth_authorization_code``.
+            oauth_code_verifier: OAuth: 43 to 128 characters. Only with
                 ``oauth_authorization_code``.
-            oauth_code_verifier: OAuth credentials only: 43 to 128 characters from letters,
-                numbers and ``-._~``. Only accepted with ``oauth_authorization_code``.
 
         Returns:
-            A ``Response`` whose ``data`` is the updated credential. When a change to an OAuth
-            credential requires authorizing it again, ``data`` also has a ``redirect_url``.
+            A ``Response`` whose ``data`` is the updated credential, with a ``redirect_url`` when an
+            OAuth credential has to be authorized again.
         """
         return self._transport.request(
             method="PATCH",

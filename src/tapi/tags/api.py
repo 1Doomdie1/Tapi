@@ -85,8 +85,7 @@ class Tags:
         """Update a tag. ``PATCH /api/v1/tags/{tag_id}``
 
         The team of a tag cannot be changed. Without ``name`` and ``color`` nothing changes and the
-        reply is the tag. The Tines documentation shows this operation as ``PUT``. The OpenAPI
-        document lists the same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
+        reply is the tag.
 
         Args:
             tag_id: The ID of the tag to update.

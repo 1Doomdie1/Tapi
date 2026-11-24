@@ -35,24 +35,20 @@ class Runs:
     ) -> Response:
         """List the runs of a story. ``GET /api/v1/stories/{story_id}/runs``
 
-        The endpoint is paginated and one call returns one page.
-
         Args:
             story_id: The ID of the story.
             story_mode: The mode of the story: ``TEST`` or ``LIVE``.
             draft_id: Only runs of this draft.
-            since: Only runs that started after this time. A ``datetime``, or an ISO 8601 string.
-                A ``datetime`` without a timezone is treated as UTC.
-            until: Only runs that started until this time. A ``datetime``, or an ISO 8601 string.
-                A ``datetime`` without a timezone is treated as UTC.
-            per_page: The number of results per page. Tines defaults to 20 and caps it at 500.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            since: Only runs that started after this time. A ``datetime``, or an ISO 8601 string. A
+                ``datetime`` without a timezone is treated as UTC.
+            until: Only runs that started until this time. A ``datetime``, or an ISO 8601 string. A
+                ``datetime`` without a timezone is treated as UTC.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
 
         Returns:
             A ``Response`` whose ``data`` is an object with ``story_runs``, the runs of the page,
-            and ``meta``, the pagination details. The reply is a 400 when ``story_mode`` is
-            ``TEST`` or a ``draft_id`` is given for a story without change control, and a 422 when
-            ``since`` or ``until`` is not a time.
+            and ``meta``, the pagination details.
         """
         return self._transport.request(
             method="GET",
@@ -81,15 +77,13 @@ class Runs:
     ) -> Response:
         """List the events of a run. ``GET /api/v1/stories/{story_id}/runs/{story_run_guid}``
 
-        The endpoint is paginated and one call returns one page.
-
         Args:
             story_id: The ID of the story.
             story_run_guid: The guid of the story run.
             story_mode: The mode of the story: ``TEST`` or ``LIVE``.
             draft_id: Only events of this draft.
-            per_page: The number of results per page. Tines defaults to 20 and caps it at 500.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
 
         Returns:
             A ``Response`` whose ``data`` is an object with ``story_run_events``, a list of objects

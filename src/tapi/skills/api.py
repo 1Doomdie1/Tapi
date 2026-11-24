@@ -36,21 +36,15 @@ class Skills:
 
         Lists the skills that the API key has access to.
 
-        The endpoint is paginated and one call returns one page. Read ``data["meta"]`` to decide
-        whether to ask for the next page.
-
         Args:
             team_id: Only skills owned by this team.
             search: Only skills whose name contains this text, in any case.
-            per_page: The number of results per page. Tines defaults to 20.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``skills``, the skills of the page,
-            and ``meta``, the pagination details: ``current_page``, ``previous_page`` and
-            ``next_page`` (links), ``next_page_number``, ``per_page``, ``pages`` (the number of
-            pages) and ``count``. The reply is a 404 with ``Team not found`` for a ``team_id``
-            that does not exist.
+            A ``Response`` whose ``data`` is an object with ``skills``, the skills of the page, and
+            ``meta``, the pagination details.
         """
         return self._transport.request(
             method="GET",
@@ -99,10 +93,10 @@ class Skills:
         Args:
             team_id: The ID of the team that gets the skill.
             name: The name of the skill: lowercase letters and digits with hyphens, such as
-                ``triage-alerts``, at most 64 characters, with no double hyphen and no hyphen at
-                the end. It is unique within the team.
-            description: What the skill does and when to use it. AI agents match a task against
-                it to decide whether to load the skill. It cannot be empty.
+                ``triage-alerts``, at most 64 characters, with no double hyphen and no hyphen at the
+                end. It is unique within the team.
+            description: What the skill does and when to use it. AI agents match a task against it
+                to decide whether to load the skill. It cannot be empty.
             body: The full instructions of the skill, as Markdown. Agents load it only after the
                 description matches the task. It cannot be empty.
             license: The license that the skill is distributed under, such as ``Apache-2.0``.
@@ -110,12 +104,8 @@ class Skills:
             metadata: A flat object of string keys and string values.
 
         Returns:
-            A ``Response`` whose ``data`` is the created skill, with a 201 status. A skill that
-            was created without a ``license`` or ``compatibility`` has ``null`` for them. The
-            reply is a 422 for a ``name`` that is not valid or that the team already has
-            (``Validation failed: Name has already been taken``), a ``description`` or ``body``
-            that is empty, and a ``metadata`` that is not a flat object of strings. It is a 404
-            with ``Team not found`` for a ``team_id`` that does not exist.
+            A ``Response`` whose ``data`` is the created skill, with a 201 status. A skill that was
+            created without a ``license`` or ``compatibility`` has ``null`` for them.
         """
         return self._transport.request(
             method="POST",
@@ -147,10 +137,8 @@ class Skills:
     ) -> Response:
         """Change a skill. ``PATCH /api/v1/skills/{skill_name}``
 
-        Only what is sent changes, and what is left out keeps its value. The skill has to exist:
-        use ``create`` to add one. The Tines documentation shows this operation as ``PUT``. The
-        OpenAPI document lists the same operation under ``PUT`` and ``PATCH``, and tapi uses
-        ``PATCH``.
+        Only what is sent changes, and what is left out keeps its value. The skill has to exist: use
+        ``create`` to add one.
 
         Args:
             skill_name: The current name of the skill.
@@ -167,10 +155,7 @@ class Skills:
 
         Returns:
             A ``Response`` whose ``data`` is the updated skill, with ``updated_at`` moved and
-            ``created_at`` kept. A call that sends only ``team_id`` is a 200 and changes nothing.
-            The reply is a 404 with ``Skill not found`` for a name that no skill has in the team,
-            a 422 for a new ``name`` that is not valid or that the team already has, and a 400
-            when ``team_id`` is missing.
+            ``created_at`` kept.
         """
         return self._transport.request(
             method="PATCH",

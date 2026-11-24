@@ -41,21 +41,17 @@ class Blocks:
     ) -> Response:
         """List the blocks of a case. ``GET /api/v2/cases/{case_id}/blocks``
 
-        The endpoint is paginated and one call returns one page.
-
         Args:
             case_id: The ID of the case.
             block_type: Only blocks of this type: ``note``, ``file``, ``linked_cases``,
-                ``metadata``, ``closure_conditions``, ``case_action``, ``block_group`` or
-                ``html``. The OpenAPI document names only four of them.
+                ``metadata``, ``closure_conditions``, ``case_action``, ``block_group`` or ``html``.
             block_group_id: Only blocks inside this block group, by ID or slug.
-            per_page: The number of results per page. Tines defaults to 20.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``blocks``, the blocks of the page,
-            and ``meta``. The reply is a 422 that lists the valid values for a ``block_type``
-            that does not exist.
+            A ``Response`` whose ``data`` is an object with ``blocks``, the blocks of the page, and
+            ``meta``.
         """
         return self._transport.request(
             method="GET",
@@ -102,28 +98,24 @@ class Blocks:
 
         Args:
             case_id: The ID of the case.
-            title: The title of the block. The server refuses a block without one, as the Tines
-                docs say and the OpenAPI document does not.
+            title: The title of the block.
             block_type: The type: ``note``, ``file``, ``linked_cases``, ``metadata``,
                 ``closure_conditions``, ``case_action``, ``block_group`` or ``html``. A case has a
                 metadata block already, and a second is a 422.
-            color: The color: ``primary``, ``white``, ``gold``, ``magenta``, ``green``,
-                ``blue``, ``red``, ``mint`` or ``indigo``. Only note, file, block group and HTML
-                blocks have a color. ``primary`` is the same as ``white``, which is what a block
-                shows. A new block is white.
-            elements: The elements to put in the block, each a note element with a ``content``
-                and a ``note_type``, or a file element with a ``filename`` and its
-                ``file_contents``. See ``tapi.cases.NoteElement`` and ``tapi.cases.FileElement``.
-                A note block needs a note element and an HTML block an HTML element, and a block
-                without one is a 422.
-            position: The zero-based position of the block in the case, a non-negative integer.
-                A number past the end puts the block last.
+            color: The color: ``primary``, ``white``, ``gold``, ``magenta``, ``green``, ``blue``,
+                ``red``, ``mint`` or ``indigo``. Only note, file, block group and HTML blocks have a
+                color. ``primary`` is the same as ``white``, which is what a block shows. A new
+                block is white.
+            elements: The elements to put in the block, each a note element with a ``content`` and a
+                ``note_type``, or a file element with a ``filename`` and its ``file_contents``. See
+                ``tapi.cases.NoteElement`` and ``tapi.cases.FileElement``. A note block needs a note
+                element and an HTML block an HTML element, and a block without one is a 422.
+            position: The zero-based position of the block in the case, a non-negative integer. A
+                number past the end puts the block last.
             hidden: Whether the block is hidden.
-            default_collapsed: Whether the block is collapsed by default. Tines defaults to
-                false.
+            default_collapsed: Whether the block is collapsed by default.
             block_group_id: The ID or the slug of the block group that holds the block.
-            author_email: The email address of the author of the block. An address that is not a
-                user was accepted.
+            author_email: The email address of the author of the block.
 
         Returns:
             A ``Response`` whose ``data`` is an object with ``block``, with a 201 status.
@@ -160,21 +152,16 @@ class Blocks:
     ) -> Response:
         """Change a block. ``PATCH /api/v2/cases/{case_id}/blocks/{block_id}``
 
-        The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
-
         Args:
             case_id: The ID of the case.
             block_id: The ID or the slug of the block.
             title: A new title.
-            color: A new color: ``primary``, ``white``, ``gold``, ``magenta``, ``green``,
-                ``blue``, ``red``, ``mint`` or ``indigo``.
+            color: A new color: ``primary``, ``white``, ``gold``, ``magenta``, ``green``, ``blue``,
+                ``red``, ``mint`` or ``indigo``.
             position: A new zero-based position in the case.
             hidden: Whether the block is hidden.
             default_collapsed: Whether the block is collapsed by default.
-            block_group_id: The ID or the slug of the block group to move the block into. The
-                Tines docs take ``null`` to remove the block from its group, which tapi cannot
-                send.
+            block_group_id: The ID or the slug of the block group to move the block into.
 
         Returns:
             A ``Response`` whose ``data`` is an object with ``block``.
@@ -249,21 +236,16 @@ class Blocks:
     ) -> Response:
         """Edit element. ``PATCH /api/v2/cases/{case_id}/blocks/{block_id}/elements/{element_id}``
 
-        The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
-
         Args:
             case_id: The ID of the case.
-            block_id: The ID of the block. A slug was a 404.
+            block_id: The ID of the block.
             element_id: The ``element_id`` of the element, not its ``id``.
             content: New content for a note element, as Markdown.
-            author_email: The email address of the author of a note element. Only the Tines docs
-                list it.
-            annotation: A new annotation for a file element. Only the Tines docs list it.
+            author_email: The email address of the author of a note element.
+            annotation: A new annotation for a file element.
 
         Returns:
-            A ``Response`` whose ``data`` is the updated element. A call that sends nothing is a
-            200.
+            A ``Response`` whose ``data`` is the updated element.
         """
         return self._transport.request(
             method="PATCH",

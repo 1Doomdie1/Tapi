@@ -32,23 +32,19 @@ class Notes:
     ) -> Response:
         """List notes. ``GET /api/v1/notes``
 
-        The endpoint is paginated and one call returns one page.
-
         Args:
             story_id: Only notes of this story.
             mode: Only notes of the story in this mode: ``LIVE`` or ``TEST``. Use it with
-                ``story_id``. A value that is neither was ignored.
+                ``story_id``.
             team_id: Only notes of this team.
             group_id: Only notes of this group.
-            draft_id: Only notes of this draft. Use it with ``story_id``: alone it was ignored.
-            per_page: The number of results per page. Tines defaults to 20 and caps it at 500.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            draft_id: Only notes of this draft.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``annotations``, the notes of the
-            page, and ``meta``, the pagination details. The reply is a 404 with ``Story not
-            found``, ``Team not found`` or ``Group not found`` for an ID that does not exist, and
-            a 400 when a draft is asked for on a story without change control.
+            A ``Response`` whose ``data`` is an object with ``annotations``, the notes of the page,
+            and ``meta``, the pagination details.
         """
         return self._transport.request(
             method="GET",
@@ -96,21 +92,16 @@ class Notes:
         Args:
             story_id: The ID of the story the note is added to.
             group_id: The ID of the group the note is added to.
-            content: The content of the note, as Markdown, up to 8000 characters. It can be an
-                empty string. Tines refuses a note without content.
-            position: The coordinates of the note on the story diagram, ``{"x": 0, "y": 0}``.
-                ``x`` and ``y`` must both be given and must be integers. Without a position the
-                note is placed at ``{"x": 0, "y": 0}``.
+            content: The content of the note, as Markdown, up to 8000 characters. It can be an empty
+                string. Tines refuses a note without content.
+            position: The coordinates of the note on the story diagram, ``{"x": 0, "y": 0}``. ``x``
+                and ``y`` must both be given and must be integers. Without a position the note is
+                placed at ``{"x": 0, "y": 0}``.
             draft_id: The ID of the draft the note is added to. It is refused for a story without
                 change control.
 
         Returns:
-            A ``Response`` whose ``data`` is the created note, with a 201 status. The reply is a
-            404 with ``Story or Group ID must be provided`` when neither is given, and with
-            ``Story not found`` or ``Group not found`` for an ID that does not exist. It is a 400
-            when ``draft_id`` is given for a story without change control, and a 422 naming the
-            field when the content is missing, is not text or is too long, or when the position is
-            not made of two integers.
+            A ``Response`` whose ``data`` is the created note, with a 201 status.
         """
         return self._transport.request(
             method="POST",
@@ -135,9 +126,6 @@ class Notes:
     ) -> Response:
         """Update a note. ``PATCH /api/v1/notes/{note_id}``
 
-        The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
-
         Args:
             note_id: The ID of the note to update.
             content: The new content of the note, as Markdown, up to 8000 characters. An empty
@@ -147,9 +135,7 @@ class Notes:
                 position in the reply was not always the one sent, so read it from ``data``.
 
         Returns:
-            A ``Response`` whose ``data`` is the updated note. The note keeps what is not sent,
-            and a call that sends nothing is a 200. The reply is a 404 with ``DiagramNote not
-            found`` when no note with that ID is visible to your key.
+            A ``Response`` whose ``data`` is the updated note.
         """
         return self._transport.request(
             method="PATCH",

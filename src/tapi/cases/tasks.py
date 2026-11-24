@@ -121,21 +121,16 @@ class Tasks:
     ) -> Response:
         """Change a task. ``PATCH /api/v2/cases/{case_id}/tasks/{task_id}``
 
-        The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
-
         Args:
             case_id: The ID of the case.
             task_id: The ID of the task.
             description: A new description.
             completed: Whether the task is completed.
-            assignee_emails: The email addresses of the users to assign. They replace the
-                assignees of the task.
+            assignee_emails: The email addresses of the users to assign. They replace the assignees
+                of the task.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``task``. A call that sends nothing
-            is a 200. The reply is a 400 for an assignee that is not a user, and a 404 with
-            ``Task not found`` for a task that does not exist.
+            A ``Response`` whose ``data`` is an object with ``task``.
         """
         return self._transport.request(
             method="PATCH",

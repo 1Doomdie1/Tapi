@@ -32,19 +32,14 @@ class Roles:
 
         Lists the default and the custom roles.
 
-        The endpoint is paginated and one call returns one page. Read ``data["meta"]`` to decide
-        whether to ask for the next page.
-
         Args:
-            per_page: The number of results per page. Tines defaults to 20. It does not refuse a
-                value that is not valid: ``0`` gives the default and a large value is not capped.
-            page: The page to return, starting at 1. Tines defaults to 1, and ``0`` is accepted.
+            per_page: The number of results per page. It does not refuse a value that is not valid:
+                ``0`` gives the default and a large value is not capped.
+            page: The page to return, starting at 1.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``admin/roles``, the roles of the
-            page, and ``meta``, the pagination details: ``current_page``, ``previous_page`` and
-            ``next_page`` (links), ``next_page_number``, ``per_page``, ``pages`` (the number of
-            pages) and ``count``.
+            A ``Response`` whose ``data`` is an object with ``admin/roles``, the roles of the page,
+            and ``meta``, the pagination details.
         """
         return self._transport.request(
             method="GET",
@@ -107,19 +102,16 @@ class Roles:
     ) -> Response:
         """Change a custom role. ``PATCH /api/v1/admin/roles/{role_id}``
 
-        The OpenAPI document lists the same operation under ``PUT`` and ``PATCH``, and tapi uses
-        ``PATCH``. The name of a role cannot be changed, and a ``name`` in the body is ignored.
+        The name of a role cannot be changed, and a ``name`` in the body is ignored.
 
         Args:
             role_id: The ID or the name of the role.
             description: A new description.
-            permissions: The names of the permissions, which replace the old ones. The list
-                cannot be empty.
+            permissions: The names of the permissions, which replace the old ones. The list cannot
+                be empty.
 
         Returns:
-            A ``Response`` whose ``data`` is the updated role. A call that sends nothing is a 200
-            and changes nothing. The reply is a 422 for an empty list of permissions, and a 404
-            with ``Role not found`` for a role that does not exist.
+            A ``Response`` whose ``data`` is the updated role.
         """
         return self._transport.request(
             method="PATCH",

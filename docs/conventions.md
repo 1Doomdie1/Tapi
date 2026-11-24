@@ -60,6 +60,16 @@ Docstrings use the Google style:
 - `Raises` appears only where something is raised. In tapi that means configuration errors and
   `TinesConnectionError`.
 
+A method docstring is short, for the developer who calls it: the summary line, at most a short
+paragraph for what must not be missed, one short entry in `Args` for each parameter, and `Returns`
+with the keys of `data` and the status when it is not 200. The error replies, the defaults of Tines
+and what the server did when it was tried are on the page of the module.
+
+A class docstring is short: a description, then `Args`, then, for a class that has attributes, such
+as the sub-areas of a module, a sentence and a bullet list of the attributes, each with a one-line
+description. It has no `Attributes:` section, because the hover of VS Code merges that section with
+`Args`.
+
 The docstring is the reference for a method's parameters. The pages in
 [`endpoints/`](endpoints/) map each method to its route and add whatever a reader needs beyond the
 docstring.

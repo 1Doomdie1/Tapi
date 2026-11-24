@@ -27,20 +27,15 @@ class IpAccessControlRules:
     ) -> Response:
         """List IP access control rules. ``GET /api/v1/admin/ip_access_control_rules``
 
-        The endpoint is paginated and one call returns one page. Read ``data["meta"]`` to decide
-        whether to ask for the next page.
-
         Args:
             matching_ip: An address or a CIDR range: only the rules that match it are returned.
                 Tines answers 500 for a value that is not an address.
-            per_page: The number of results per page. Tines defaults to 20 and caps it at 500.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``admin/ip_access_control_rules``,
-            the rules of the page, and ``meta``, the pagination details: ``current_page``,
-            ``previous_page`` and ``next_page`` (links), ``next_page_number``, ``per_page``,
-            ``pages`` (the number of pages) and ``count``.
+            A ``Response`` whose ``data`` is an object with ``admin/ip_access_control_rules``, the
+            rules of the page, and ``meta``, the pagination details.
         """
         return self._transport.request(
             method="GET",
@@ -88,9 +83,6 @@ class IpAccessControlRules:
         description: str | None = None,
     ) -> Response:
         """Change a rule. ``PATCH /api/v1/admin/ip_access_control_rules/{rule_id}``
-
-        The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
 
         Args:
             rule_id: The ID of the rule.

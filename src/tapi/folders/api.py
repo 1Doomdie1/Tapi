@@ -114,14 +114,11 @@ class Folders:
 
         Tines moves a folder to the root level when ``parent_folder_id`` is sent as ``null`` or as
         an empty string. A parameter left as ``None`` is not sent, so tapi cannot do that yet. The
-        content type and the team of a folder cannot be changed. The Tines documentation shows
-        this operation as ``PUT``. The OpenAPI document lists the same operation under ``PUT`` and
-        ``PATCH``, and tapi uses ``PATCH``.
+        content type and the team of a folder cannot be changed.
 
         Args:
             folder_id: The ID of the folder to update.
-            name: The name of the folder. The OpenAPI document requires it, so it is needed even to
-                move a folder.
+            name: The name of the folder.
             parent_folder_id: The ID of the folder to move it into.
 
         Returns:

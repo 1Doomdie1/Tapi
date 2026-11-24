@@ -33,26 +33,17 @@ class Dashboards:
 
         Lists the dashboards that the API key has access to.
 
-        The endpoint is paginated and one call returns one page. Read ``data["meta"]`` to decide
-        whether to ask for the next page.
-
         Args:
             team_id: Only dashboards of this team.
-            order: How to order the results: ``NAME`` (the default), ``RECENTLY_EDITED`` (the
-                latest edit first), ``LEAST_RECENTLY_EDITED``, ``CREATED_DESC`` (the newest
-                first) or ``CREATED_ASC``. The Tines docs give ``RECENTLY_CREATED`` and
-                ``RECENTLY_UPDATED`` instead, which Tines does not know: like any value that is not
-                valid, they are not refused and the results are ordered by ``NAME``.
-            per_page: The number of results per page. Tines defaults to 20 and caps it at 500.
-            page: The page to return, starting at 1. Tines defaults to 1.
+            order: How to order the results: ``NAME`` (the default), ``RECENTLY_EDITED`` (the latest
+                edit first), ``LEAST_RECENTLY_EDITED``, ``CREATED_DESC`` (the newest first) or
+                ``CREATED_ASC``.
+            per_page: The number of results per page.
+            page: The page to return, starting at 1.
 
         Returns:
             A ``Response`` whose ``data`` is an object with ``dashboards``, the dashboards of the
-            page, and ``meta``, the pagination details: ``current_page``, ``previous_page`` and
-            ``next_page`` (links), ``next_page_number``, ``per_page``, ``pages`` (the number of
-            pages) and ``count``. The reply is a 404 with ``Team not found`` for a ``team_id``
-            that does not exist, and a 400 for a ``per_page`` or ``page`` that is not a positive
-            integer.
+            page, and ``meta``, the pagination details.
         """
         return self._transport.request(
             method="GET",
@@ -109,27 +100,20 @@ class Dashboards:
     ) -> Response:
         """Import a dashboard. ``POST /api/v1/dashboards/import``
 
-        Creates a dashboard from what ``export`` returned, or replaces an existing one. The names
-        of the dashboards of a team are unique.
+        Creates a dashboard from what ``export`` returned, or replaces an existing one. The names of
+        the dashboards of a team are unique.
 
         Args:
             team_id: The ID of the team that gets the dashboard.
             data: The dashboard in exported form: what ``export`` returned. Tines needs a
                 ``schema_version`` of 1 and a ``dashboard`` object with a ``name``.
-            mode: ``new`` to create a dashboard or ``replace`` to replace an existing one by name.
-                Tines defaults to ``new``. A replaced dashboard keeps its ID and its creation
-                time.
-            new_name: The name of the dashboard. Tines defaults to the name in ``data``. In
-                ``replace`` mode, it selects which existing dashboard to replace.
+            mode: ``new`` to create a dashboard or ``replace`` to replace an existing one by name. A
+                replaced dashboard keeps its ID and its creation time.
+            new_name: The name of the dashboard. In ``replace`` mode, it selects which existing
+                dashboard to replace.
 
         Returns:
-            A ``Response`` whose ``data`` is the dashboard, with a 201 status. The reply is a 400
-            when ``data`` is not a JSON object (``data must be a JSON object``), has no
-            ``schema_version`` or an unsupported one, or has no ``dashboard.name``, when ``new``
-            finds a dashboard of that name in the team (``dashboard with name ... already exists
-            for team``), and when ``replace`` finds none (``dashboard with name ... not found``).
-            It is a 422 for a ``mode`` that is not valid, and a 404 with ``Team not found`` for a
-            ``team_id`` that does not exist.
+            A ``Response`` whose ``data`` is the dashboard, with a 201 status.
         """
         return self._transport.request(
             method="POST",

@@ -125,16 +125,13 @@ class Apps:
 
         Args:
             app_id: The ID of the app whose draft files are replaced.
-            files: The complete set of draft files. Each is a dict with ``path`` (the file path)
-                and optionally ``contents`` (the file contents, an empty string by default). One
-                file must have the path ``App.tsx``. Existing files that are left out are
-                deleted.
+            files: The complete set of draft files. Each is a dict with ``path`` (the file path) and
+                optionally ``contents`` (the file contents, an empty string by default). One file
+                must have the path ``App.tsx``. Existing files that are left out are deleted.
 
         Returns:
             A ``Response`` whose ``data`` is an object with ``files``, the complete set of draft
-            files of the app, each with a ``path`` and ``contents``. The reply is a 422 with the
-            message ``Missing required entry file App.tsx`` when no file has that path, and
-            nothing is replaced.
+            files of the app, each with a ``path`` and ``contents``.
         """
         return self._transport.request(
             method="PUT",
@@ -161,9 +158,7 @@ class Apps:
 
         Returns:
             A ``Response`` whose ``data`` is the published app, with ``published_version`` set. It
-            does not echo ``name`` or ``description``. Tines documents a 422 with the build error
-            when the build fails, but a syntax error in ``App.tsx`` was answered with a 500 and
-            nothing was published.
+            does not echo ``name`` or ``description``.
         """
         return self._transport.request(
             method="POST",

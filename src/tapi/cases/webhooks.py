@@ -106,9 +106,6 @@ class Webhooks:
     ) -> Response:
         """Change a case webhook. ``PATCH /api/v1/case_webhooks/{webhook_id}``
 
-        The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
-
         Args:
             webhook_id: The ID of the webhook.
             url: A new address.
@@ -116,9 +113,7 @@ class Webhooks:
             notifications: The events that trigger the webhook, which replace the old ones.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``webhook``. The reply is a 422 when
-            nothing is sent: ``At least one of url, name, version_number, or notifications must be
-            provided``.
+            A ``Response`` whose ``data`` is an object with ``webhook``.
         """
         return self._transport.request(
             method="PATCH",

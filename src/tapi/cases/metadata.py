@@ -52,9 +52,7 @@ class Metadata:
     def create(self, *, case_id: int, metadata: Mapping[str, MetadataValue]) -> Response:
         """Add pairs of metadata. ``POST /api/v2/cases/{case_id}/metadata``
 
-        This creates keys only. If one of the keys already has a value, the reply is a 409 with
-        ``Metadata key <key> already exists`` and none of the pairs are set. To change a value,
-        use ``update``.
+        This creates keys only. To change a value, use ``update``.
 
         Args:
             case_id: The ID of the case.
@@ -62,9 +60,8 @@ class Metadata:
                 ``None``.
 
         Returns:
-            A ``Response`` whose ``data`` is an object with ``case_id`` and ``metadata``, with a
-            201 status. The reply is a 400 with ``Invalid metadata`` when ``metadata`` is empty,
-            and a 422 when a value is an object or a list.
+            A ``Response`` whose ``data`` is an object with ``case_id`` and ``metadata``, with a 201
+            status.
         """
         return self._transport.request(
             method="POST",

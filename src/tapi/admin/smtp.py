@@ -53,9 +53,7 @@ class Smtp:
         """Replace the SMTP configuration. ``PATCH /api/v1/admin/smtp``
 
         Creates the configuration, or replaces all of it: a field that is left out is cleared,
-        except the two timeouts, which Tines sets to 30 seconds. The Tines documentation shows this
-        operation as ``PUT``. The OpenAPI document lists the same operation under ``PUT`` and
-        ``PATCH``, and tapi uses ``PATCH``.
+        except the two timeouts, which Tines sets to 30 seconds.
 
         Args:
             address: The address of the SMTP server, at most 255 characters.
@@ -72,17 +70,13 @@ class Smtp:
                 authenticate to the server.
             ca_path: The path of a directory of CA certificates, or of a PEM file, on the
                 installation, at most 4096 characters. ``ca_file`` takes precedence over it.
-            ca_file: The path of a CA certificate file on the installation, at most 4096
-                characters.
-            open_timeout: The seconds to wait for the connection to open, from 1 to 120. Tines
-                defaults to 30.
-            read_timeout: The seconds to wait for a read, from 1 to 120. Tines defaults to 30.
+            ca_file: The path of a CA certificate file on the installation, at most 4096 characters.
+            open_timeout: The seconds to wait for the connection to open, from 1 to 120.
+            read_timeout: The seconds to wait for a read, from 1 to 120.
 
         Returns:
             A ``Response`` with a 200 status. ``data`` is ``None``, or an object with ``warnings``
-            when the saved configuration has warnings. The Tines docs say that the reply is a 422
-            with ``errors`` for a configuration that is not valid, and a 403 for a Tines cloud
-            tenant.
+            when the saved configuration has warnings.
         """
         return self._transport.request(
             method="PATCH",

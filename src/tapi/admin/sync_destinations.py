@@ -83,22 +83,21 @@ class SyncDestinations:
         Creates a destination and subscribes it to the stories.
 
         Args:
-            destination_tenant_url: The base URL of the destination tenant. For a sync to a team
-                of this tenant, use the URL of this tenant.
-            destination_team_id: The ID of the team on the destination tenant that owns the
-                synced stories.
+            destination_tenant_url: The base URL of the destination tenant. For a sync to a team of
+                this tenant, use the URL of this tenant.
+            destination_team_id: The ID of the team on the destination tenant that owns the synced
+                stories.
             team_id: The ID of the team on this tenant that creates the sync.
-            story_ids: The IDs of the stories of this tenant to sync. They must use change
-                control.
-            destination_tenant_api_key: A Tines API key used to publish to the destination
-                tenant, needed only for another tenant. It needs the ``STORY_CREATE`` and
-                ``STORY_UPDATE`` permissions on the destination team.
+            story_ids: The IDs of the stories of this tenant to sync. They must use change control.
+            destination_tenant_api_key: A Tines API key used to publish to the destination tenant,
+                needed only for another tenant. It needs the ``STORY_CREATE`` and ``STORY_UPDATE``
+                permissions on the destination team.
             manual_sync_only: Whether the stories are synced only when ``manual_sync`` or
                 ``sync_story`` is called.
             sync_mode: ``live_readonly`` to replace the live story on the destination with each
-                delivery, which is the default, or ``draft_editable`` to create an editable
-                draft with each delivery. It cannot be changed afterwards: delete the destination
-                and create it again.
+                delivery, which is the default, or ``draft_editable`` to create an editable draft
+                with each delivery. It cannot be changed afterwards: delete the destination and
+                create it again.
 
         Returns:
             A ``Response`` whose ``data`` is the created destination, with a 201 status.
@@ -129,19 +128,16 @@ class SyncDestinations:
     ) -> Response:
         """Change a destination. ``PATCH /api/v1/admin/sync_destinations/{sync_destination_id}``
 
-        The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``. The teams, the URL
-        of the destination tenant and the sync mode cannot be changed: delete the destination
-        and create it again.
+        The teams, the URL of the destination tenant and the sync mode cannot be changed: delete the
+        destination and create it again.
 
         Args:
             sync_destination_id: The ID of the sync destination.
-            destination_tenant_api_key: A new API key, to rotate the old one. It is kept when
-                left out.
-            story_ids: The IDs of the stories to sync. An empty list removes all the
-                subscriptions, and they are kept when left out.
-            manual_sync_only: Whether the stories are synced only by hand. It is kept when left
+            destination_tenant_api_key: A new API key, to rotate the old one. It is kept when left
                 out.
+            story_ids: The IDs of the stories to sync. An empty list removes all the subscriptions,
+                and they are kept when left out.
+            manual_sync_only: Whether the stories are synced only by hand. It is kept when left out.
 
         Returns:
             A ``Response`` whose ``data`` is the updated destination.
