@@ -1,94 +1,124 @@
 # Folders
 
-Folders organize stories, credentials and resources. The module is available as `tines.folders`,
-and the class is `tapi.folders.Folders`. Every method returns a [`Response`](../responses.md).
+- **Access:** `tines.folders`
+- **Import:** `from tapi.folders import Folders`
 
-| Method                                            | HTTP route                           |
-| ------------------------------------------------- | ------------------------------------ |
-| `list(...)`                                       | `GET /api/v1/folders`                |
-| `get(folder_id=...)`                              | `GET /api/v1/folders/{folder_id}`    |
-| `create(name=..., content_type=..., team_id=...)` | `POST /api/v1/folders`               |
-| `update(folder_id=..., name=..., ...)`            | `PATCH /api/v1/folders/{folder_id}`  |
-| `delete(folder_id=...)`                           | `DELETE /api/v1/folders/{folder_id}` |
+Folders that organize stories, credentials and resources.
 
-All parameters are keyword-only. Parameters left as `None` are not sent. The Tines docs do not
-state which key types or permissions these endpoints need. A key without access to a resource
-receives a 404.
+Every method returns a [`Response`](../responses.md).
 
-## The folder
+## Methods
 
-`data` of `get`, `create` and `update` is a folder, and `list` returns a list of them under
-`folders`. A folder has:
+| Method | Description | Route |
+| --- | --- | --- |
+| [`list`](#list) | List the folders, optionally of one team or one type of content. | `GET /api/v1/folders` |
+| [`get`](#get) | Get a folder. | `GET /api/v1/folders/{folder_id}` |
+| [`create`](#create) | Create a folder. | `POST /api/v1/folders` |
+| [`update`](#update) | Rename a folder or move it. | `PATCH /api/v1/folders/{folder_id}` |
+| [`delete`](#delete) | Delete a folder. | `DELETE /api/v1/folders/{folder_id}` |
 
-| Field              | Meaning                                                                      |
-| ------------------ | ---------------------------------------------------------------------------- |
-| `id`               | The ID of the folder.                                                        |
-| `name`             | The name of the folder.                                                      |
-| `team_id`          | The ID of the team the folder belongs to.                                    |
-| `content_type`     | The type of content the folder holds. See [Content types](#content-types).   |
-| `size`             | The number of items in the folder. Subfolders are not counted.               |
-| `parent_folder_id` | The ID of the parent folder, or `null` for a folder at the root level.       |
+## Methods breakdown
 
-## `list()`
+### `list`
 
-Paginated: one call returns one page; see [Pagination](../pagination.md). `data` holds `folders`
-and `meta`.
+`GET /api/v1/folders`
 
-| Parameter      | Type  | Meaning                                                                          |
-| -------------- | ----- | -------------------------------------------------------------------------------- |
-| `team_id`      | `int` | Only folders of this team.                                                       |
-| `content_type` | `str` | Only folders that hold this type of content. See [Content types](#content-types). |
-| `per_page`     | `int` | Results per page. Tines defaults to 20.                                          |
-| `page`         | `int` | The page, starting at 1. Tines defaults to 1.                                    |
+List the folders, optionally of one team or one type of content.
 
-## `get()`
+**Arguments**
 
-`folder_id` is required.
+| Name | Type | Required | Values | Description |
+| --- | --- | --- | --- | --- |
+| `team_id` | `int` | no | — | Only folders of this team. |
+| `content_type` | `FolderFilterContentType` | no | `CREDENTIAL`, `RESOURCE`, `STORY` | Only folders that hold this type of content. |
+| `per_page` | `int` | no | Positive integer | The number of results per page. Tines defaults to 20. |
+| `page` | `int` | no | Positive integer | The page to return, starting at 1. Tines defaults to 1. |
 
-## `create()`
+**Response codes**
 
-The reply has a 201 status and `data` is the created folder.
+| Code | Meaning |
+| --- | --- |
+| 200 | `data` is an object with `folders`, the folders of the page, and `meta`, the pagination details. |
+| 400 | `per_page` or `page` is not a positive integer. |
+| 422 | `content_type` is not a valid value. |
 
-| Parameter          | Type  | Meaning                                                               |
-| ------------------ | ----- | --------------------------------------------------------------------- |
-| `name`             | `str` | The name of the folder. Required.                                     |
-| `content_type`     | `str` | The type of content the folder holds. Required. See below.            |
-| `team_id`          | `int` | The team the folder is created in. Required.                          |
-| `parent_folder_id` | `int` | The folder to create it in. Tines defaults to `null`, the root level. |
+### `get`
 
-Folders were tested nested one level deep. Tines does not state a depth limit, and deeper nesting
-was not tested.
+`GET /api/v1/folders/{folder_id}`
 
-## `update()`
+Get a folder.
 
-Renames or moves a folder. `folder_id` and `name` are required, because the OpenAPI document
-requires `name`, so a folder cannot be moved without also giving its name. `parent_folder_id` moves
-the folder into another folder.
+**Arguments**
 
-- The content type and the team of a folder cannot be changed. `update` does not accept them, and
-  a `content_type` sent to the server in an update is ignored: the reply is `200` and the folder
-  keeps its type.
-- Tines moves a folder to the root level when `parent_folder_id` is `null`, as its docs say, and
-  also when it is an empty string, as the OpenAPI document says. Because `None` means "not sent",
-  tapi cannot send either yet.
-- The Tines docs show this operation as `PUT`. The OpenAPI document lists the same operation under
-  `PUT` and `PATCH`, and tapi uses `PATCH`.
+| Name | Type | Required | Values | Description |
+| --- | --- | --- | --- | --- |
+| `folder_id` | `int` | yes | — | The ID of the folder to retrieve. |
 
-## `delete()`
+**Response codes**
 
-`folder_id` is required. The reply has a 204 status and `data` is `None`.
+| Code | Meaning |
+| --- | --- |
+| 200 | `data` is the folder. |
+| 404 | The folder does not exist or the key has no access to it. |
 
-A folder with contents cannot be deleted. Tines answers with a `422` whose `data` is
-`['Cannot delete this folder, please remove all contents first.']`, and nothing is deleted. Remove
-the contents first, subfolders included.
+### `create`
 
-## Content types
+`POST /api/v1/folders`
 
-`content_type` is `CREDENTIAL`, `RESOURCE` or `STORY`, in `create()` and in the filter of `list()`.
+Create a folder.
 
-## Errors
+**Arguments**
 
-| Status | When                                                                                        |
-| ------ | ------------------------------------------------------------------------------------------- |
-| `404`  | The folder does not exist, or the key has no access to it. `data` is a list of messages.    |
-| `422`  | A value is invalid, such as an unknown `content_type` filter, or a folder with contents is deleted. `data` is a list of messages or of objects naming the field. |
+| Name | Type | Required | Values | Description |
+| --- | --- | --- | --- | --- |
+| `name` | `str` | yes | — | The name of the folder. |
+| `content_type` | `FolderContentType` | yes | `CREDENTIAL`, `RESOURCE`, `STORY` | The type of content the folder holds. |
+| `team_id` | `int` | yes | — | The ID of the team the folder is created in. |
+| `parent_folder_id` | `int` | no | — | The ID of the folder to create it in. Tines defaults to `null`, the root level. |
+
+**Response codes**
+
+| Code | Meaning |
+| --- | --- |
+| 201 | `data` is the created folder. |
+
+### `update`
+
+`PATCH /api/v1/folders/{folder_id}`
+
+Rename a folder or move it.
+
+**Arguments**
+
+| Name | Type | Required | Values | Description |
+| --- | --- | --- | --- | --- |
+| `folder_id` | `int` | yes | — | The ID of the folder to update. |
+| `name` | `str` | yes | — | The name of the folder. |
+| `parent_folder_id` | `int` | no | — | The ID of the folder to move it into. |
+
+**Response codes**
+
+| Code | Meaning |
+| --- | --- |
+| 200 | `data` is the updated folder. |
+| 404 | The folder does not exist or the key has no access to it. |
+
+### `delete`
+
+`DELETE /api/v1/folders/{folder_id}`
+
+Delete a folder.
+
+**Arguments**
+
+| Name | Type | Required | Values | Description |
+| --- | --- | --- | --- | --- |
+| `folder_id` | `int` | yes | — | The ID of the folder to delete. |
+
+**Response codes**
+
+| Code | Meaning |
+| --- | --- |
+| 204 | No data. |
+| 404 | The folder does not exist or the key has no access to it. |
+| 422 | The folder has contents. |

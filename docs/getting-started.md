@@ -44,15 +44,14 @@ with Tines() as tines:
 ## What is available
 
 Every endpoint module is an attribute of `Tines`. There are eighteen: [Info](endpoints/info.md),
-[Admin](endpoints/admin.md), [AI](endpoints/ai.md), [Apps](endpoints/apps.md), [Audit logs](endpoints/audit_logs.md), [Cases](endpoints/cases.md),
+[Admin](endpoints/admin/admin.md), [AI](endpoints/ai/ai.md), [Apps](endpoints/apps.md),
+[Audit logs](endpoints/audit_logs.md), [Cases](endpoints/cases/cases.md),
 [Change requests](endpoints/change_requests.md), [Credentials](endpoints/credentials.md),
 [Dashboards](endpoints/dashboards.md), [Folders](endpoints/folders.md),
-[Records](endpoints/records.md) (with its [record types](endpoints/records_record_types.md) and
-[record views](endpoints/records_record_views.md)), [Reporting](endpoints/reporting.md),
-[Resources](endpoints/resources.md),
-[Skills](endpoints/skills.md), [Stories](endpoints/stories.md) (with its
-[actions](endpoints/stories_actions.md)), [Tags](endpoints/tags.md), [Teams](endpoints/teams.md) and
-[Workbench](endpoints/workbench.md).
+[Records](endpoints/records/records.md), [Reporting](endpoints/reporting.md),
+[Resources](endpoints/resources.md), [Skills](endpoints/skills.md),
+[Stories](endpoints/stories/stories.md), [Tags](endpoints/tags.md),
+[Teams](endpoints/teams/teams.md) and [Workbench](endpoints/workbench.md).
 
 ```python
 response = tines.info.get()

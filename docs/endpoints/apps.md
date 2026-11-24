@@ -1,149 +1,177 @@
 # Apps
 
-Apps are small web applications built inside Tines. The module is available as `tines.apps`, and
-the class is `tapi.apps.Apps`. Every method returns a [`Response`](../responses.md).
+- **Access:** `tines.apps`
+- **Import:** `from tapi.apps import Apps`
 
-| Method                                       | HTTP route                           |
-| -------------------------------------------- | ------------------------------------ |
-| `list(...)`                                  | `GET /api/v1/apps`                   |
-| `get(app_id=...)`                            | `GET /api/v1/apps/{app_id}`          |
-| `create(team_id=..., ...)`                   | `POST /api/v1/apps`                  |
-| `delete(app_id=...)`                         | `DELETE /api/v1/apps/{app_id}`       |
-| `export(app_id=..., ...)`                    | `GET /api/v1/apps/{app_id}/export`   |
-| `replace_files(app_id=..., files=...)`       | `PUT /api/v1/apps/{app_id}/files`    |
-| `publish(app_id=..., ...)`                   | `POST /api/v1/apps/{app_id}/publish` |
+Apps built inside Tines. Create an app, replace its draft files, publish it, export it and delete it.
 
-All parameters are keyword-only. Parameters left as `None` are not sent, but `""` is sent.
+Every method returns a [`Response`](../responses.md).
 
-The Tines docs do not state which key types or permissions these endpoints need. Apps are not
-available on every Tines plan. Where they are unavailable or switched off, the endpoints answer with
-a `404` and `['Not found']`.
+## Methods
 
-## The app
+| Method | Description | Route |
+| --- | --- | --- |
+| [`list`](#list) | List the apps visible to you. | `GET /api/v1/apps` |
+| [`get`](#get) | Get an app. | `GET /api/v1/apps/{app_id}` |
+| [`create`](#create) | Create an app. | `POST /api/v1/apps` |
+| [`delete`](#delete) | Delete an app and all of its versions. | `DELETE /api/v1/apps/{app_id}` |
+| [`export`](#export) | Export an app as its name, description and files. | `GET /api/v1/apps/{app_id}/export` |
+| [`replace_files`](#replace_files) | Replace all the draft files of an app. | `PUT /api/v1/apps/{app_id}/files` |
+| [`publish`](#publish) | Publish the draft of an app. | `POST /api/v1/apps/{app_id}/publish` |
 
-`data` of `get`, `create` and `publish` is an app, and `list` returns a list of them under `apps`.
-An app has:
+## Methods breakdown
 
-| Field               | Meaning                                                                          |
-| ------------------- | -------------------------------------------------------------------------------- |
-| `id`                | The ID of the app.                                                               |
-| `guid`              | The unique identifier of the app. It can be `null`.                              |
-| `name`              | The name of the app.                                                             |
-| `description`       | A user-defined description. It can be `null`.                                    |
-| `emoji`             | The emoji associated with the app.                                               |
-| `created_at`        | When the app was created, as an ISO 8601 timestamp.                              |
-| `updated_at`        | When the app was last updated, as an ISO 8601 timestamp.                         |
-| `team`              | The team the app belongs to, as an object with `id` and `name`.                  |
-| `published_version` | An object with the `id` of the published version, or `null` if it is unpublished. |
+### `list`
 
-The files of an app are not part of the app. Read them with `export`.
+`GET /api/v1/apps`
 
-## `list()`
+List the apps visible to you.
 
-Paginated: one call returns one page; see [Pagination](../pagination.md). `data` holds `apps` and
-`meta`.
+**Arguments**
 
-| Parameter  | Type  | Meaning                                        |
-| ---------- | ----- | ---------------------------------------------- |
-| `per_page` | `int` | Results per page. Tines defaults to 20.        |
-| `page`     | `int` | The page, starting at 1. Tines defaults to 1.  |
+| Name | Type | Required | Values | Description |
+| --- | --- | --- | --- | --- |
+| `per_page` | `int` | no | Positive integer | Results per page. Tines defaults to 20. |
+| `page` | `int` | no | Positive integer | The page to return, starting at 1. Tines defaults to 1. |
 
-## `get()`
+**Response codes**
 
-`app_id` is required. When no app with that ID is visible to the key, the reply is a `404` with
-`['App not found']`.
+| Code | Meaning |
+| --- | --- |
+| 200 | `data` is an object with `apps`, the apps of the page, and `meta`, the pagination details. |
+| 400 | `per_page` or `page` is not a positive integer. |
 
-## `create()`
+### `get`
 
-`team_id` is required, and the reply has a 201 status.
+`GET /api/v1/apps/{app_id}`
 
-| Parameter     | Type  | Meaning                                       |
-| ------------- | ----- | --------------------------------------------- |
-| `team_id`     | `int` | The team the app belongs to. Required. It must not be a personal team. |
-| `name`        | `str` | The name of the app.                          |
-| `description` | `str` | A description of the app.                     |
+Get an app.
 
-An app cannot be created in a personal team. The reply is a `422` with
-`['Validation failed: Cannot create app in a personal team']`. On the tenant used for the live
-check, `GET /api/v1/teams` returned only the standard team, and the personal teams appeared only
-with `scope` set to `personal_only` or `all`. See [Teams](teams.md).
+**Arguments**
 
-There is no endpoint to rename an app or change its description afterwards. A new app starts with a
-single file, `package.json`, and gets its other files through `replace_files`.
+| Name | Type | Required | Values | Description |
+| --- | --- | --- | --- | --- |
+| `app_id` | `int` | yes | — | The ID of the app to retrieve. |
 
-## `delete()`
+**Response codes**
 
-`app_id` is required. It deletes the app and all of its versions. The reply has a 204 status and
-`data` is `None`.
+| Code | Meaning |
+| --- | --- |
+| 200 | `data` is the app. |
+| 404 | The app does not exist or is not visible to the key. |
 
-## `export()`
+### `create`
 
-Returns the name, the description and the files of an app.
+`POST /api/v1/apps`
 
-| Parameter    | Type  | Meaning                                                                  |
-| ------------ | ----- | ------------------------------------------------------------------------ |
-| `app_id`     | `int` | The app to export. Required.                                             |
-| `version_id` | `int` | The version to export. Tines defaults to the current draft.              |
+Create an app. It cannot be in a personal team.
 
-`data` is an object with `name`, `description` (`null` if there is none) and `files`, a list of
-objects with a `path` and `contents`. It uses the same format as `replace_files`, so an export can
-be sent back as it is. The reply is a `404` when no app is visible or the version does not belong to
-the app, and a `413` when the files are too large to export.
+**Arguments**
 
-## `replace_files()`
+| Name | Type | Required | Values | Description |
+| --- | --- | --- | --- | --- |
+| `team_id` | `int` | yes | — | The ID of the team the app belongs to. It must not be a personal team. |
+| `name` | `str` | no | — | The name of the app. |
+| `description` | `str` | no | — | A description of the app. |
 
-Replaces all the draft files of an app. `app_id` and `files` are required.
+**Response codes**
 
-`files` is a sequence of files, and each file is a `dict`, typed as `tapi.apps.AppFile`:
+| Code | Meaning |
+| --- | --- |
+| 201 | `data` is the created app. |
+| 422 | `team_id` is a personal team. |
 
-| Key        | Type  | Meaning                                                              |
-| ---------- | ----- | -------------------------------------------------------------------- |
-| `path`     | `str` | The path of the file. Required.                                      |
-| `contents` | `str` | The contents of the file. Optional, and an empty string by default.  |
+### `delete`
 
-```python
-tines.apps.replace_files(
-    app_id=42,
-    files=[
-        {"path": "App.tsx", "contents": "export default function App() { return <h1>Hi</h1>; }"},
-        {"path": "styles.css", "contents": "h1 { color: red; }"},
-    ],
-)
-```
+`DELETE /api/v1/apps/{app_id}`
 
-- `files` is the complete set. An existing file that is left out is deleted.
-- One file must have the path `App.tsx`. Without it, and for an empty list, the reply is a `422`
-  with `['Missing required entry file App.tsx']` and nothing is replaced.
-- A file without `contents` is stored with an empty string.
-- This does not build the app. To build it, open it in the Tines UI or use `publish`.
-- A single file instead of a sequence of files is rejected with a `TypeError` before any request is
-  sent.
-- `data` is an object with `files`, the complete set of draft files of the app.
+Delete an app and all of its versions.
 
-## `publish()`
+**Arguments**
 
-Builds the current draft and publishes it as a new version. If the draft has not changed since the
-latest version, that version is published instead.
+| Name | Type | Required | Values | Description |
+| --- | --- | --- | --- | --- |
+| `app_id` | `int` | yes | — | The ID of the app to delete. |
 
-| Parameter     | Type  | Meaning                                |
-| ------------- | ----- | -------------------------------------- |
-| `app_id`      | `int` | The app to publish. Required.          |
-| `name`        | `str` | A name for the published version.      |
-| `description` | `str` | A description of the published version. |
+**Response codes**
 
-`data` is the published app, with `published_version` set. The reply does not echo the name or the
-description of the version.
+| Code | Meaning |
+| --- | --- |
+| 204 | No data. |
+| 404 | The app does not exist or is not visible to the key. |
 
-Tines documents a `422` with the build error when the build fails, and does not describe the shape
-of that body. A syntax error in `App.tsx` was answered with a `500` instead, and nothing was
-published.
+### `export`
 
-## Errors
+`GET /api/v1/apps/{app_id}/export`
 
-| Status | When                                                                                       |
-| ------ | ------------------------------------------------------------------------------------------ |
-| `400`  | A request is malformed or a parameter is invalid. `data` is a list of messages.            |
-| `404`  | Apps are unavailable on the plan or switched off (`['Not found']`), or the app (`['App not found']`) or the version (`['AppVersion not found']`) is not visible. |
-| `413`  | `export` of an app whose files are too large.                                              |
-| `422`  | `create` in a personal team, and `replace_files` without an `App.tsx`. Tines documents it for a failed `publish` build as well. |
-| `500`  | `publish` when the build fails on a syntax error in `App.tsx`.                             |
+Export an app as its name, description and files.
+
+**Arguments**
+
+| Name | Type | Required | Values | Description |
+| --- | --- | --- | --- | --- |
+| `app_id` | `int` | yes | — | The ID of the app to export. |
+| `version_id` | `int` | no | — | The ID of the app version to export. Tines defaults to the current draft. |
+
+**Response codes**
+
+| Code | Meaning |
+| --- | --- |
+| 200 | `data` is an object with the `name` of the app, its `description` (`null` if there is none) and its `files`: a list of objects with a `path` and `contents`, in the format that `replace_files` takes. |
+| 404 | The app does not exist or is not visible to the key. |
+| 413 | The files of the app are too large to export. |
+
+### `replace_files`
+
+`PUT /api/v1/apps/{app_id}/files`
+
+Replace all the draft files of an app. Files that are left out are deleted.
+
+**Arguments**
+
+| Name | Type | Required | Values | Description |
+| --- | --- | --- | --- | --- |
+| `app_id` | `int` | yes | — | The ID of the app whose draft files are replaced. |
+| `files` | [`Sequence[AppFile]`](#appfile) | yes | — | The complete set of draft files. Files that are left out are deleted. |
+
+**Response codes**
+
+| Code | Meaning |
+| --- | --- |
+| 200 | `data` is an object with `files`, the complete set of draft files of the app, each with a `path` and `contents`. |
+| 404 | The app does not exist or is not visible to the key. |
+| 422 | No file has the path `App.tsx`. |
+
+### `publish`
+
+`POST /api/v1/apps/{app_id}/publish`
+
+Publish the draft of an app.
+
+**Arguments**
+
+| Name | Type | Required | Values | Description |
+| --- | --- | --- | --- | --- |
+| `app_id` | `int` | yes | — | The ID of the app to publish. |
+| `name` | `str` | no | — | A name for the published version. |
+| `description` | `str` | no | — | A description of the published version. |
+
+**Response codes**
+
+| Code | Meaning |
+| --- | --- |
+| 200 | `data` is the published app, with `published_version` set. |
+| 404 | The app does not exist or is not visible to the key. |
+| 422 | The build failed. |
+| 500 | The build failed on a syntax error in `App.tsx`. |
+
+## Types
+
+### `AppFile`
+
+A file of an app: its `path` and, optionally, its `contents`.
+
+| Field | Type | Required | Values | Description |
+| --- | --- | --- | --- | --- |
+| `path` | `str` | yes | — | The path of the file. One file must have the path `App.tsx`. |
+| `contents` | `str` | no | — | The contents of the file. An empty string by default. |

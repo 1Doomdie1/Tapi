@@ -1,50 +1,66 @@
 # Info
 
-Information about your tenant: its stack, its web server and its workers. The methods are
-available as `tines.info`, and the class is `tapi.info.Info`. None of them takes an argument, and
-each returns a [`Response`](../responses.md).
+- **Access:** `tines.info`
+- **Import:** `from tapi.info import Info`
 
-| Method           | HTTP route                      | Availability according to the Tines docs                          |
-| ---------------- | ------------------------------- | ----------------------------------------------------------------- |
-| `get()`          | `GET /api/v1/info`              | No restriction stated                                             |
-| `web_stats()`    | `GET /api/v1/info/web_stats`    | Self-hosted customers only                                        |
-| `worker_stats()` | `GET /api/v1/info/worker_stats` | Self-hosted customers and customers on dedicated cloud stacks     |
+Information about the tenant: its stack, its web server and its workers.
 
-## `get()`
+Every method returns a [`Response`](../responses.md).
 
-Basic information about your tenant's stack. `data` is an object with one key, `stack`:
+## Methods
 
-| Field        | Meaning                                                              |
-| ------------ | -------------------------------------------------------------------- |
-| `name`       | The name assigned to the stack.                                      |
-| `type`       | Whether the stack is dedicated or shared.                            |
-| `region`     | The AWS region the stack is hosted in.                               |
-| `egress_ips` | The origin IPs used for any request that originates from your tenant. |
+| Method | Description | Route |
+| --- | --- | --- |
+| [`get`](#get) | Get basic information about the stack of the tenant. | `GET /api/v1/info` |
+| [`web_stats`](#web_stats) | Get operational information about the web server. | `GET /api/v1/info/web_stats` |
+| [`worker_stats`](#worker_stats) | Get statistics about the workers. | `GET /api/v1/info/worker_stats` |
 
-```python
-response = tines.info.get()
-response.data["stack"]["region"]
-```
+## Methods breakdown
 
-## `web_stats()`
+### `get`
 
-Operational information about your web server. `data` is the status of the Puma web server. The
-documented sample contains `started_at`, `backlog`, `running`, `pool_capacity`, `busy_threads`,
-`max_threads`, `requests_count` and `versions`; see the
-[Puma documentation](https://puma.io/puma/file.stats.html) for what they mean.
+`GET /api/v1/info`
 
-If you run several `tines-web` containers, the statistics only reflect the container that handled
-the request. Behind a load balancer that is an arbitrary container.
+Get basic information about the stack of the tenant.
 
-## `worker_stats()`
+**Arguments**
 
-Essential information about worker statistics. `data` holds:
+None.
 
-| Field             | Meaning                                |
-| ----------------- | -------------------------------------- |
-| `current_workers` | The number of active workers.          |
-| `max_workers`     | The maximum number of workers allowed. |
-| `queue_count`     | The number of items in the queue.      |
-| `queue_latency`   | The latency of the default queue.      |
+**Response codes**
 
-The Tines docs do not state the unit of `queue_latency`.
+| Code | Meaning |
+| --- | --- |
+| 200 | `data` is an object with one key, `stack`. |
+
+### `web_stats`
+
+`GET /api/v1/info/web_stats`
+
+Get operational information about the web server.
+
+**Arguments**
+
+None.
+
+**Response codes**
+
+| Code | Meaning |
+| --- | --- |
+| 200 | `data` is the status of the Puma web server, for example `started_at`, `backlog`, `running`, `pool_capacity`, `busy_threads`, `max_threads`, `requests_count` and `versions`. |
+
+### `worker_stats`
+
+`GET /api/v1/info/worker_stats`
+
+Get statistics about the workers.
+
+**Arguments**
+
+None.
+
+**Response codes**
+
+| Code | Meaning |
+| --- | --- |
+| 200 | `data` holds `current_workers` (the number of active workers), `max_workers` (the maximum number of workers allowed), `queue_count` (the number of items in the queue) and `queue_latency` (the latency of the default queue). |

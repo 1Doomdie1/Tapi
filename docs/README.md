@@ -14,7 +14,7 @@ Start here if you want to call the Tines API.
 | [Getting started](getting-started.md) | Installing tapi, creating a client and closing it.                       |
 | [Responses](responses.md)             | The `Response` class, how a body is decoded, and what a non-2xx reply is. |
 | [Pagination](pagination.md)           | The paging parameters, the `meta` object and walking the pages yourself. |
-| [Endpoints](endpoints/README.md)      | One page per module, mapping each method to its HTTP route.              |
+| [Endpoints](endpoints/README.md)      | Each module and sub-endpoint: its methods, arguments and response codes. |
 
 ## How tapi is built
 

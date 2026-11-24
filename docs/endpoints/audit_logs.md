@@ -1,94 +1,44 @@
-# Audit logs
+# AuditLogs
 
-Tines records an audit log whenever a user changes data in your tenant. The module is available as
-`tines.audit_logs`, and the class is `tapi.audit_logs.AuditLogs`. Its method returns a
-[`Response`](../responses.md).
+- **Access:** `tines.audit_logs`
+- **Import:** `from tapi.audit_logs import AuditLogs`
 
-| Method     | HTTP route               |
-| ---------- | ------------------------ |
-| `list(...)` | `GET /api/v1/audit_logs` |
+The audit log of the changes made in the tenant.
 
-## Access
+Every method returns a [`Response`](../responses.md).
 
-- Tines documents audit logs as available to tenant admins. `AUDIT_LOG_READ` is a tenant permission
-  that a tenant owner can grant to a service API key, and tenant owner keys have full access to the
-  tenant.
-- A key without access to the endpoint receives a 404.
-- Tines limits the endpoint to 1000 requests per minute, per IP address and tenant.
+## Methods
 
-## `list()`
+| Method | Description | Route |
+| --- | --- | --- |
+| [`list`](#list) | List the audit logs, optionally filtered by time, user, team or operation. | `GET /api/v1/audit_logs` |
 
-Lists audit logs. The order of the entries is not documented, and tapi does not change it. The
-endpoint is paginated, and one call returns one page; see [Pagination](../pagination.md).
+## Methods breakdown
 
-All parameters are optional and keyword-only. Parameters left as `None` are not sent.
+### `list`
 
-| Parameter         | Type                | Sent as            | Meaning                                                                          |
-| ----------------- | ------------------- | ------------------ | -------------------------------------------------------------------------------- |
-| `before`          | `datetime` or `str` | `before`           | Only logs created before this time.                                              |
-| `after`           | `datetime` or `str` | `after`            | Only logs created after this time.                                               |
-| `user_ids`        | sequence of `int`   | `user_id[]`        | Only logs from these users.                                                      |
-| `operation_names` | sequence of `str`   | `operation_name[]` | Only logs for these operations, such as `StoryItemsCreation` or `StoryItemsMovement`. |
-| `team_ids`        | sequence of `int`   | `team_id[]`        | Only logs from these teams.                                                      |
-| `per_page`        | `int`               | `per_page`         | The number of results per page. Tines defaults to 20 and allows at most 500.     |
-| `page`            | `int`               | `page`             | The page to return, starting at 1. Tines defaults to 1.                          |
+`GET /api/v1/audit_logs`
 
-`before` and `after` take a `datetime` or an ISO 8601 string. A datetime without a timezone is
-treated as UTC.
+List the audit logs, optionally filtered by time, user, team or operation.
 
-A sequence is sent once per value, as in `user_id[]=1&user_id[]=2`. An empty sequence sends
-nothing. A single string raises `TypeError`, because it would be split into characters.
+**Arguments**
 
-```python
-from datetime import UTC, datetime, timedelta
+| Name | Type | Required | Values | Description |
+| --- | --- | --- | --- | --- |
+| `before` | `datetime \| str` | no | ISO 8601 string, or `datetime` | Only logs created before this time: a `datetime` or an ISO 8601 string. |
+| `after` | `datetime \| str` | no | ISO 8601 string, or `datetime` | Only logs created after this time. |
+| `user_ids` | `Sequence[int]` | no | — | Only logs from these users. |
+| `operation_names` | `Sequence[str]` | no | — | Only logs of these operations, such as `StoryItemsCreation`. |
+| `team_ids` | `Sequence[int]` | no | — | Only logs from these teams. |
+| `per_page` | `int` | no | 1 to 500 | The number of results per page, at most 500. |
+| `page` | `int` | no | Positive integer | The page to return, from 1. |
 
-response = tines.audit_logs.list(
-    after=datetime.now(UTC) - timedelta(days=1),
-    operation_names=["StoryItemsCreation"],
-    per_page=100,
-)
-```
+**Response codes**
 
-## The reply
-
-`data` is an object with `audit_logs`, the entries of the page, and `meta`, the pagination details.
-Each entry has:
-
-| Field                | Meaning                                                                                     |
-| -------------------- | ------------------------------------------------------------------------------------------- |
-| `id`                 | The ID of the operation.                                                                    |
-| `operation_name`     | The name of the operation, such as `StoryItemsMovement`.                                    |
-| `created_at`         | When the operation was logged, as an ISO 8601 timestamp.                                    |
-| `updated_at`         | When the log was last updated, as an ISO 8601 timestamp.                                    |
-| `inputs`             | The JSON inputs passed to the operation, or `null`.                                         |
-| `outputs`            | The JSON outputs generated by the operation, or `null`.                                     |
-| `request_ip`         | The IP address the operation was triggered from.                                            |
-| `request_user_agent` | The user agent the operation was triggered with.                                            |
-| `tenant_id`          | The ID of the tenant the operation was triggered on.                                        |
-| `user_id`            | The ID of the user who triggered the operation.                                             |
-| `user_email`         | The email of the user who triggered the operation.                                          |
-| `user_name`          | The name of the user who triggered the operation.                                           |
-| `impersonated_by`    | Not described in the Tines docs; `null` when it does not apply.                             |
-| `source`             | The surface the operation was triggered from. See below.                                    |
-| `story_id`           | The ID of the story the operation was run on, or `null` if there is no story.               |
-| `team_id`            | Not described in the Tines docs; `null` when it does not apply.                             |
-| `team_name`          | Not described in the Tines docs; `null` when it does not apply.                             |
-
-`source` is one of `UI`, `API`, `Workbench`, `AI Agent action`, `Story Copilot`, `App Editor`,
-`Case Working` or `Story Migration`, according to the OpenAPI document. The Tines docs page only
-gives `UI`, `API` and `Workbench` as examples.
-
-Tines states that extremely sensitive information, such as credential values, is never included in
-an audit log. `inputs` and `outputs` still hold the data of each operation, so handle entries with
-care.
-
-`meta` holds `current_page`, `previous_page` and `next_page` (links), `next_page_number`,
-`per_page`, `pages` and `count`. See [Pagination](../pagination.md).
-
-## Errors
-
-| Status | When                                                                                          |
-| ------ | --------------------------------------------------------------------------------------------- |
-| `404`  | The key has no access to audit logs.                                                          |
-| `422`  | `before` or `after` could not be parsed. `data` is a list holding an object that names the value. |
-| `429`  | The rate limit was reached. `Retry-After` is in `headers`.                                    |
+| Code | Meaning |
+| --- | --- |
+| 200 | `data` has `audit_logs` and `meta`, the pagination details. |
+| 400 | `per_page` or `page` is not a positive integer. |
+| 404 | The key has no access to audit logs. |
+| 422 | `before` or `after` cannot be read. |
+| 429 | The rate limit was reached. `Retry-After` is in `headers`. |
