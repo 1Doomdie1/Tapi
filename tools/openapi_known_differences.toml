@@ -1,0 +1,103 @@
+[[not_offered]]
+prefix = "/api/v1/agents"
+reason = "A copy of the /api/v1/actions routes under their old name. tapi offers the actions routes."
+
+[[not_offered]]
+prefix = "/api/v1/annotations"
+reason = "A copy of the /api/v1/notes routes under their old name. tapi offers the notes routes."
+
+[[not_offered]]
+route = "POST /api/v1/actions/{id}/run"
+reason = "Only in the OpenAPI document. The Tines documentation pages for actions list no such operation, and tapi does not offer it."
+
+[[not_offered]]
+route = "GET /api/v1/records"
+reason = "The Tines docs mark it as superseded by the v2 search (POST /api/v2/records/search). tapi offers no deprecated routes."
+
+[[not_offered]]
+route = "POST /api/v1/records/query"
+reason = "The Tines docs mark it as superseded by the v2 aggregate (POST /api/v2/records/aggregate). tapi offers no deprecated routes."
+
+[[not_offered]]
+route = "POST /api/v1/records"
+reason = "Only in the OpenAPI document: the Tines docs list the v2 route. tapi offers only what the Tines docs offer."
+
+[[not_offered]]
+route = "GET /api/v1/records/{id}"
+reason = "Only in the OpenAPI document: the Tines docs list the v2 route. tapi offers only what the Tines docs offer."
+
+[[not_offered]]
+route = "PATCH /api/v1/records/{id}"
+reason = "Only in the OpenAPI document: the Tines docs list the v2 route. tapi offers only what the Tines docs offer."
+
+[[not_offered]]
+route = "DELETE /api/v1/records/{id}"
+reason = "Only in the OpenAPI document: the Tines docs list the v2 route. tapi offers only what the Tines docs offer."
+
+[[not_offered]]
+prefix = "/api/v1/record_types"
+reason = "Only in the OpenAPI document: the Tines docs list the v2 routes. tapi offers only what the Tines docs offer."
+
+[[not_offered]]
+prefix = "/api/v1/run_script_environments"
+reason = "Only in the OpenAPI document: the Tines docs have no page for them. tapi offers only what the Tines docs offer."
+
+[[not_offered]]
+prefix = "/api/v1/admin/user_provisioning"
+reason = "Only in the OpenAPI document: the Tines docs have no page for it. tapi offers only what the Tines docs offer."
+
+[[not_offered]]
+prefix = "/api/v1/admin/scim_user_group_mapping"
+reason = "Deprecated in the OpenAPI document in favor of /api/v1/admin/user_provisioning/mapping, which the Tines docs do not list. tapi offers no deprecated routes."
+
+[[not_offered]]
+prefix = "/api/v1/cases"
+reason = "The v1 Cases routes are deprecated, and Tines removes them on December 1, 2026. tapi offers the v2 routes."
+
+[[not_offered]]
+prefix = "/api/v1/case_files"
+reason = "A v1 route with no page in the Tines docs, which list the v2 file routes."
+
+[[not_in_spec]]
+route = "POST /api/v3/cases/search"
+reason = "Documented by Tines as the way to search cases, but not in the OpenAPI document."
+
+[[not_in_spec]]
+route = "GET /api/v1/admin/dead_jobs"
+reason = "Documented by Tines for dedicated tenants, but not in the OpenAPI document."
+
+[[not_in_spec]]
+route = "GET /api/v1/admin/in_progress_jobs"
+reason = "Documented by Tines for dedicated tenants, but not in the OpenAPI document."
+
+[[not_in_spec]]
+route = "GET /api/v1/admin/queued_jobs"
+reason = "Documented by Tines for dedicated tenants, but not in the OpenAPI document."
+
+[[not_in_spec]]
+route = "GET /api/v1/admin/retry_jobs"
+reason = "Documented by Tines for dedicated tenants, but not in the OpenAPI document."
+
+[[not_in_spec]]
+route = "DELETE /api/v1/admin/delete_all_dead_jobs"
+reason = "Documented by Tines for dedicated tenants, but not in the OpenAPI document."
+
+[[not_in_spec]]
+route = "DELETE /api/v1/admin/delete_all_queued_jobs"
+reason = "Documented by Tines for dedicated tenants, but not in the OpenAPI document."
+
+[[not_in_spec]]
+route = "DELETE /api/v1/admin/delete_all_retry_jobs"
+reason = "Documented by Tines for dedicated tenants, but not in the OpenAPI document."
+
+[[not_in_spec]]
+route = "DELETE /api/v1/admin/actions/{action_id}/delete_all_dead_jobs"
+reason = "Documented by Tines for dedicated tenants, but not in the OpenAPI document."
+
+[[not_in_spec]]
+route = "DELETE /api/v1/admin/actions/{action_id}/delete_all_queued_jobs"
+reason = "Documented by Tines for dedicated tenants, but not in the OpenAPI document."
+
+[[not_in_spec]]
+route = "DELETE /api/v1/admin/actions/{action_id}/delete_all_retry_jobs"
+reason = "Documented by Tines for dedicated tenants, but not in the OpenAPI document."
