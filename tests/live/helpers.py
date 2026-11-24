@@ -27,6 +27,9 @@ COLLECTIONS = (
     ("cases.webhooks.list", "webhooks", {}),
     ("dashboards.list", "dashboards", {}),
     ("skills.list", "skills", {}),
+    ("admin.roles.list", "admin/roles", {}),
+    ("admin.templates.list", "admin/templates", {}),
+    ("admin.users.list", "admin/users", {}),
 )
 
 

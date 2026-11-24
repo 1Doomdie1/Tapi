@@ -12,6 +12,7 @@ parameter.
 
 | Module         | Attribute            | Page                                  | Covers                                                  |
 | -------------- | -------------------- | ------------------------------------- | ------------------------------------------------------- |
+| `admin`        | `tines.admin`        | [Admin](admin.md)                     | Administration of the tenant, in part: users, roles, templates and tunnels. |
 | `ai`           | `tines.ai`           | [AI](ai.md)                           | AI providers and AI usage.                              |
 | `apps`         | `tines.apps`         | [Apps](apps.md)                       | Apps built inside Tines.                                |
 | `audit_logs`   | `tines.audit_logs`   | [Audit logs](audit_logs.md)           | The audit log of the changes made in the tenant.        |
@@ -37,6 +38,7 @@ the page of its module, except for the actions of a story.
 
 | Module    | Sub-areas                                                                                          |
 | --------- | -------------------------------------------------------------------------------------------------- |
+| `admin`   | `users`, `roles`, `templates` and `tunnels`, each on its own page: [users](admin_users.md), [roles](admin_roles.md), [templates](admin_templates.md) and [tunnels](admin_tunnels.md). |
 | `ai`      | `providers` and `usage`.                                                                           |
 | `cases`   | `activities`, `assignees`, `comments`, `notes`, `tasks`, `field_values`, `metadata`, `files`, `blocks`, `linked_cases`, `records`, `subscribers`, `actions`, `fields`, `statuses`, `templates` and `webhooks`. |
 | `stories` | `actions`, `events`, `links`, `notes`, `drafts`, `owners`, `recipients`, `runs`, `groups`, `versions` and `change_control`. |
@@ -44,5 +46,6 @@ the page of its module, except for the actions of a story.
 
 ## Not covered yet
 
-These Tines API areas have no methods and no page yet: `admin`, `records` and
-`scim`. A page is added when its module is built.
+These Tines API areas have no methods and no page yet: `records` and `scim`. A page is added when
+its module is built. `admin` is built in part, and [its page](admin.md) lists the sub-areas that are
+not.

@@ -41,6 +41,11 @@ LISTS = [
     pytest.param("workbench.list", {"per_page": 1}, "conversations", True, id="workbench.list"),
     pytest.param("dashboards.list", {"per_page": 1}, "dashboards", True, id="dashboards.list"),
     pytest.param("skills.list", {"per_page": 1}, "skills", True, id="skills.list"),
+    pytest.param("admin.roles.list", {"per_page": 1}, "admin/roles", True, id="admin.roles.list"),
+    pytest.param(
+        "admin.templates.list", {"per_page": 1}, "admin/templates", True, id="admin.templates.list"
+    ),
+    pytest.param("admin.users.list", {"per_page": 1}, "admin/users", True, id="admin.users.list"),
     pytest.param("cases.fields.list", {"per_page": 1}, "case_inputs", True, id="fields.list"),
     pytest.param("cases.webhooks.list", {"per_page": 1}, "webhooks", True, id="webhooks.list"),
     pytest.param("stories.list", {"per_page": 1}, "stories", True, id="stories.list"),
@@ -85,6 +90,20 @@ FIRST_ITEMS = [
     ),
     pytest.param(
         "cases.fields.list", "case_inputs", "cases.fields.get", "field_id", True, id="fields"
+    ),
+    pytest.param(
+        "admin.roles.list", "admin/roles", "admin.roles.get", "role_id", True, id="admin.roles"
+    ),
+    pytest.param(
+        "admin.templates.list",
+        "admin/templates",
+        "admin.templates.get",
+        "template_id",
+        True,
+        id="admin.templates",
+    ),
+    pytest.param(
+        "admin.users.list", "admin/users", "admin.users.get", "user_id", True, id="admin.users"
     ),
     pytest.param(
         "cases.webhooks.list", "webhooks", "cases.webhooks.get", "webhook_id", False, id="webhooks"
@@ -306,6 +325,54 @@ def test_skills_report_what_is_not_found(live, team_id):
 
     assert (unknown_team.status_code, unknown_team.data) == (404, ["Team not found"])
     assert (unknown_skill.status_code, unknown_skill.data) == (404, ["Skill not found"])
+
+
+def test_a_user_is_found_by_its_email_and_has_sign_in_activities(live):
+    listed = check(reply=live.admin.users.list(per_page=1), status=200)["admin/users"]
+    if not listed:
+        pytest.skip("the test tenant has no users")
+    user = listed[0]
+
+    by_email = check(reply=live.admin.users.get(user_id=user["email"]), status=200)
+    with_teams = check(
+        reply=live.admin.users.get(user_id=user["id"], include="team_memberships"), status=200
+    )
+    sign_ins = check(
+        reply=live.admin.users.list_signin_activities(user_id=user["id"], per_page=1), status=200
+    )
+
+    assert by_email["id"] == user["id"]
+    assert isinstance(with_teams["team_memberships"], list)
+    assert "next_page_number" in sign_ins["meta"]
+    assert all(
+        {"id", "user_id", "ip", "user_agent", "created_at"} <= set(item)
+        for item in sign_ins["admin/login_activities"]
+    )
+
+
+def test_the_roles_include_the_default_ones_and_are_found_by_name(live):
+    roles = check(reply=live.admin.roles.list(per_page=100), status=200)["admin/roles"]
+
+    defaults = [role for role in roles if role["type"] == "default"]
+    by_name = check(reply=live.admin.roles.get(role_id=defaults[0]["name"]), status=200)
+
+    assert defaults
+    assert by_name["id"] == defaults[0]["id"]
+
+
+def test_admin_reports_what_is_not_found_or_not_valid(live):
+    role = live.admin.roles.get(role_id="no-such-role")
+    template = live.admin.templates.get(template_id=999999999)
+    user = live.admin.users.get(user_id=999999999)
+    tunnel = live.admin.tunnels.health(tunnel_name="no-such-tunnel")
+    bad_filter = live.admin.users.list(filter="BOGUS")
+
+    assert (role.status_code, role.data) == (404, ["Role not found"])
+    assert (template.status_code, template.data) == (404, ["Template not found"])
+    assert (user.status_code, user.data) == (404, ["User not found"])
+    assert tunnel.status_code == 404
+    assert bad_filter.status_code == 422
+    assert "ADMIN" in str(bad_filter.data)
 
 
 def test_flow_usage_answers_with_its_documented_shape(live):

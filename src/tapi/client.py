@@ -1,6 +1,7 @@
 from types import TracebackType
 from typing import Self
 
+from tapi.admin import Admin
 from tapi.ai import AI
 from tapi.apps import Apps
 from tapi.audit_logs import AuditLogs
@@ -37,6 +38,7 @@ class Tines:
             takes longer raises ``TinesConnectionError``.
 
     Attributes:
+        admin: Administration of the tenant. See ``tapi.admin.Admin``.
         ai: AI providers and AI usage. See ``tapi.ai.AI``.
         apps: Apps. See ``tapi.apps.Apps``.
         audit_logs: Audit logs. See ``tapi.audit_logs.AuditLogs``.
@@ -71,6 +73,7 @@ class Tines:
             api_key=resolve_api_key(api_key=api_key),
             timeout=timeout,
         )
+        self.admin = Admin(transport=self._transport)
         self.ai = AI(transport=self._transport)
         self.apps = Apps(transport=self._transport)
         self.audit_logs = AuditLogs(transport=self._transport)

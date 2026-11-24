@@ -45,6 +45,9 @@ aims to follow [Semantic Versioning](https://semver.org/).
 - `dashboards` module (`tines.dashboards`): `list`, `delete`, `export` and `import_`.
 - `skills` module (`tines.skills`): `list`, `get`, `create`, `update` and `delete`. A skill is found
   by its name and the ID of its team.
+- `admin` module (`tines.admin`), in part: the sub-areas `users` (`list`, `get`, `create`, `update`,
+  `delete`, `list_signin_activities`, `resend_invitation` and `expire_session`), `roles`,
+  `templates` (with `move`) and `tunnels` (`health`).
 - `tags` module (`tines.tags`): `list`, `get`, `create`, `update` and `delete`.
 - `teams` module (`tines.teams`): `list`, `get`, `create`, `update`, `delete` and
   `destroy_static_external_id`, and `members` (`tines.teams.members`): `list`, `invite`,

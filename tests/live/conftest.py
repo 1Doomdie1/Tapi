@@ -66,7 +66,8 @@ def no_leftovers(live: Tines, team_id: int) -> None:
         method = resolve(tines=live, target=target)
         filled = {name: team_id if value == TEAM else value for name, value in arguments.items()}
         for item in all_items(method=method, key=key, arguments=filled):
-            if str(item.get("name", "")).startswith(PREFIX):
+            label = str(item.get("name") or item.get("email") or "")
+            if label.startswith(PREFIX):
                 found.append(f"{target.split('.')[0]} {item.get('id', item.get('case_id'))}")
     if found:
         pytest.exit(
