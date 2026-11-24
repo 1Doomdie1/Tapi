@@ -13,9 +13,9 @@ available as an attribute and described on its own page. Every method returns a
 | Roles                   | `tines.admin.roles`                    | [Admin: roles](admin_roles.md)            | Built             |
 | Templates               | `tines.admin.templates`                | [Admin: templates](admin_templates.md)    | Built             |
 | Tunnels                 | `tines.admin.tunnels`                  | [Admin: tunnels](admin_tunnels.md)        | Built             |
-| IP access control rules | `tines.admin.ip_access_control_rules`  |                                           | Not built yet     |
-| Action egress control rules | `tines.admin.action_egress_control_rules` |                                    | Not built yet     |
-| Story sync destinations | `tines.admin.sync_destinations`        |                                           | Not built yet     |
+| IP access control rules | `tines.admin.ip_access_control_rules`  | [Admin: IP access control rules](admin_ip_access_control_rules.md) | Built, writes not tried |
+| Action egress control rules | `tines.admin.action_egress_control_rules` | [Admin: action egress control rules](admin_action_egress_control_rules.md) | Built, writes not tried |
+| Story sync destinations | `tines.admin.sync_destinations`        | [Admin: sync destinations](admin_sync_destinations.md) | Built, writes not tried |
 | Jobs                    | `tines.admin.jobs`                     |                                           | Not built yet     |
 | License                 | `tines.admin.license`                  |                                           | Not built yet     |
 | SMTP configuration      | `tines.admin.smtp`                     |                                           | Not built yet     |

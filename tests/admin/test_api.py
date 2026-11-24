@@ -334,7 +334,224 @@ USER_CASES = [
     ),
 ]
 
-CASES = [*ROLE_CASES, *TEMPLATE_CASES, *TUNNEL_CASES, *USER_CASES]
+IP_CASES = [
+    Case(
+        target="admin.ip_access_control_rules.list",
+        arguments={},
+        route="GET /api/v1/admin/ip_access_control_rules",
+    ),
+    Case(
+        target="admin.ip_access_control_rules.list",
+        arguments={"matching_ip": "192.168.1.1", "per_page": 50, "page": 2},
+        route="GET /api/v1/admin/ip_access_control_rules",
+        params={"matching_ip": "192.168.1.1", "per_page": 50, "page": 2},
+    ),
+    Case(
+        target="admin.ip_access_control_rules.get",
+        arguments={"rule_id": 1},
+        route="GET /api/v1/admin/ip_access_control_rules/1",
+    ),
+    Case(
+        target="admin.ip_access_control_rules.create",
+        arguments={"ip": "192.168.1.1"},
+        route="POST /api/v1/admin/ip_access_control_rules",
+        body={"ip": "192.168.1.1"},
+    ),
+    Case(
+        target="admin.ip_access_control_rules.create",
+        arguments={"ip": "10.0.0.0/8", "description": "Office"},
+        route="POST /api/v1/admin/ip_access_control_rules",
+        body={"ip": "10.0.0.0/8", "description": "Office"},
+    ),
+    Case(
+        target="admin.ip_access_control_rules.update",
+        arguments={"rule_id": 1},
+        route="PATCH /api/v1/admin/ip_access_control_rules/1",
+        body={},
+    ),
+    Case(
+        target="admin.ip_access_control_rules.update",
+        arguments={"rule_id": 1, "ip": "10.0.0.0/16", "description": "Changed"},
+        route="PATCH /api/v1/admin/ip_access_control_rules/1",
+        body={"ip": "10.0.0.0/16", "description": "Changed"},
+    ),
+    Case(
+        target="admin.ip_access_control_rules.delete",
+        arguments={"rule_id": 1},
+        route="DELETE /api/v1/admin/ip_access_control_rules/1",
+    ),
+]
+
+EGRESS_CASES = [
+    Case(
+        target="admin.action_egress_control_rules.list",
+        arguments={},
+        route="GET /api/v1/admin/action_egress_control_rules",
+    ),
+    Case(
+        target="admin.action_egress_control_rules.list",
+        arguments={"per_page": 50, "page": 2},
+        route="GET /api/v1/admin/action_egress_control_rules",
+        params={"per_page": 50, "page": 2},
+    ),
+    Case(
+        target="admin.action_egress_control_rules.get",
+        arguments={"rule_id": 1},
+        route="GET /api/v1/admin/action_egress_control_rules/1",
+    ),
+    Case(
+        target="admin.action_egress_control_rules.create",
+        arguments={"description": "Example", "allowed_action_types": ["http-request"]},
+        route="POST /api/v1/admin/action_egress_control_rules",
+        body={"description": "Example", "allowed_action_types": ["http-request"]},
+    ),
+    Case(
+        target="admin.action_egress_control_rules.create",
+        name="a tuple of types is sent as a list, with an ip and an fqdn",
+        arguments={
+            "description": "Example",
+            "allowed_action_types": ("http-request", "send-email"),
+            "ip": "192.168.1.1",
+            "fqdn": "sub.example.com",
+        },
+        route="POST /api/v1/admin/action_egress_control_rules",
+        body={
+            "description": "Example",
+            "allowed_action_types": ["http-request", "send-email"],
+            "ip": "192.168.1.1",
+            "fqdn": "sub.example.com",
+        },
+    ),
+    Case(
+        target="admin.action_egress_control_rules.update",
+        arguments={"rule_id": 1, "description": "Example", "allowed_action_types": ["send-email"]},
+        route="PATCH /api/v1/admin/action_egress_control_rules/1",
+        body={"description": "Example", "allowed_action_types": ["send-email"]},
+    ),
+    Case(
+        target="admin.action_egress_control_rules.update",
+        arguments={
+            "rule_id": 1,
+            "description": "Changed",
+            "allowed_action_types": ["http-request"],
+            "ip": "10.0.0.1",
+            "fqdn": "example.com",
+        },
+        route="PATCH /api/v1/admin/action_egress_control_rules/1",
+        body={
+            "description": "Changed",
+            "allowed_action_types": ["http-request"],
+            "ip": "10.0.0.1",
+            "fqdn": "example.com",
+        },
+    ),
+    Case(
+        target="admin.action_egress_control_rules.delete",
+        arguments={"rule_id": 1},
+        route="DELETE /api/v1/admin/action_egress_control_rules/1",
+    ),
+]
+
+SYNC_REQUIRED = {
+    "destination_tenant_url": "https://destination.example.com",
+    "destination_team_id": 42,
+    "team_id": 7,
+    "story_ids": [9981, 9982],
+}
+
+SYNC_CASES = [
+    Case(
+        target="admin.sync_destinations.list",
+        arguments={},
+        route="GET /api/v1/admin/sync_destinations",
+    ),
+    Case(
+        target="admin.sync_destinations.list",
+        arguments={"per_page": 50, "page": 2},
+        route="GET /api/v1/admin/sync_destinations",
+        params={"per_page": 50, "page": 2},
+    ),
+    Case(
+        target="admin.sync_destinations.get",
+        arguments={"sync_destination_id": 24},
+        route="GET /api/v1/admin/sync_destinations/24",
+    ),
+    Case(
+        target="admin.sync_destinations.create",
+        arguments=SYNC_REQUIRED,
+        route="POST /api/v1/admin/sync_destinations",
+        body=SYNC_REQUIRED,
+    ),
+    Case(
+        target="admin.sync_destinations.create",
+        name="false is sent, and a tuple of stories is sent as a list",
+        arguments={
+            **SYNC_REQUIRED,
+            "story_ids": (9981, 9982),
+            "destination_tenant_api_key": "key",
+            "manual_sync_only": False,
+            "sync_mode": "draft_editable",
+        },
+        route="POST /api/v1/admin/sync_destinations",
+        body={
+            **SYNC_REQUIRED,
+            "destination_tenant_api_key": "key",
+            "manual_sync_only": False,
+            "sync_mode": "draft_editable",
+        },
+    ),
+    Case(
+        target="admin.sync_destinations.update",
+        arguments={"sync_destination_id": 24},
+        route="PATCH /api/v1/admin/sync_destinations/24",
+        body={},
+    ),
+    Case(
+        target="admin.sync_destinations.update",
+        name="an empty list of stories is sent, to remove the subscriptions",
+        arguments={
+            "sync_destination_id": 24,
+            "destination_tenant_api_key": "new-key",
+            "story_ids": [],
+            "manual_sync_only": True,
+        },
+        route="PATCH /api/v1/admin/sync_destinations/24",
+        body={"destination_tenant_api_key": "new-key", "story_ids": [], "manual_sync_only": True},
+    ),
+    Case(
+        target="admin.sync_destinations.delete",
+        name="no body is sent when keep_stories is left out",
+        arguments={"sync_destination_id": 24},
+        route="DELETE /api/v1/admin/sync_destinations/24",
+    ),
+    Case(
+        target="admin.sync_destinations.delete",
+        name="false is sent in the body, not left out",
+        arguments={"sync_destination_id": 24, "keep_stories": False},
+        route="DELETE /api/v1/admin/sync_destinations/24",
+        body={"keep_stories": False},
+    ),
+    Case(
+        target="admin.sync_destinations.manual_sync",
+        arguments={"sync_destination_id": 24},
+        route="POST /api/v1/admin/sync_destinations/24/manual_sync",
+    ),
+    Case(
+        target="admin.sync_destinations.sync_story",
+        arguments={"sync_destination_id": 24, "story_id": 12},
+        route="POST /api/v1/admin/sync_destinations/24/story/12/sync",
+    ),
+]
+
+CASES = [
+    *ROLE_CASES,
+    *TEMPLATE_CASES,
+    *TUNNEL_CASES,
+    *USER_CASES,
+    *IP_CASES,
+    *EGRESS_CASES,
+    *SYNC_CASES,
+]
 
 
 @pytest.mark.parametrize("case", CASES, ids=case_id)

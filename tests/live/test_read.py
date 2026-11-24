@@ -46,6 +46,27 @@ LISTS = [
         "admin.templates.list", {"per_page": 1}, "admin/templates", True, id="admin.templates.list"
     ),
     pytest.param("admin.users.list", {"per_page": 1}, "admin/users", True, id="admin.users.list"),
+    pytest.param(
+        "admin.ip_access_control_rules.list",
+        {"per_page": 1},
+        "admin/ip_access_control_rules",
+        True,
+        id="admin.ip_access_control_rules.list",
+    ),
+    pytest.param(
+        "admin.action_egress_control_rules.list",
+        {"per_page": 1},
+        "admin/action_egress_control_rules",
+        True,
+        id="admin.action_egress_control_rules.list",
+    ),
+    pytest.param(
+        "admin.sync_destinations.list",
+        {"per_page": 1},
+        "sync_destinations",
+        True,
+        id="admin.sync_destinations.list",
+    ),
     pytest.param("cases.fields.list", {"per_page": 1}, "case_inputs", True, id="fields.list"),
     pytest.param("cases.webhooks.list", {"per_page": 1}, "webhooks", True, id="webhooks.list"),
     pytest.param("stories.list", {"per_page": 1}, "stories", True, id="stories.list"),
@@ -104,6 +125,22 @@ FIRST_ITEMS = [
     ),
     pytest.param(
         "admin.users.list", "admin/users", "admin.users.get", "user_id", True, id="admin.users"
+    ),
+    pytest.param(
+        "admin.ip_access_control_rules.list",
+        "admin/ip_access_control_rules",
+        "admin.ip_access_control_rules.get",
+        "rule_id",
+        True,
+        id="admin.ip_access_control_rules",
+    ),
+    pytest.param(
+        "admin.action_egress_control_rules.list",
+        "admin/action_egress_control_rules",
+        "admin.action_egress_control_rules.get",
+        "rule_id",
+        True,
+        id="admin.action_egress_control_rules",
     ),
     pytest.param(
         "cases.webhooks.list", "webhooks", "cases.webhooks.get", "webhook_id", False, id="webhooks"
@@ -367,6 +404,13 @@ def test_admin_reports_what_is_not_found_or_not_valid(live):
     tunnel = live.admin.tunnels.health(tunnel_name="no-such-tunnel")
     bad_filter = live.admin.users.list(filter="BOGUS")
 
+    ip_rule = live.admin.ip_access_control_rules.get(rule_id=999999999)
+    egress_rule = live.admin.action_egress_control_rules.get(rule_id=999999999)
+    destination = live.admin.sync_destinations.get(sync_destination_id=999999999)
+
+    assert (ip_rule.status_code, ip_rule.data) == (404, ["Rule not found"])
+    assert (egress_rule.status_code, egress_rule.data) == (404, ["Rule not found"])
+    assert (destination.status_code, destination.data) == (404, ["Sync destination not found"])
     assert (role.status_code, role.data) == (404, ["Role not found"])
     assert (template.status_code, template.data) == (404, ["Template not found"])
     assert (user.status_code, user.data) == (404, ["User not found"])

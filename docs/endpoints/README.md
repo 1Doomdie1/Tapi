@@ -12,7 +12,7 @@ parameter.
 
 | Module         | Attribute            | Page                                  | Covers                                                  |
 | -------------- | -------------------- | ------------------------------------- | ------------------------------------------------------- |
-| `admin`        | `tines.admin`        | [Admin](admin.md)                     | Administration of the tenant, in part: users, roles, templates and tunnels. |
+| `admin`        | `tines.admin`        | [Admin](admin.md)                     | Administration of the tenant, in part: users, roles, templates, tunnels, IP access control rules, action egress control rules and sync destinations. |
 | `ai`           | `tines.ai`           | [AI](ai.md)                           | AI providers and AI usage.                              |
 | `apps`         | `tines.apps`         | [Apps](apps.md)                       | Apps built inside Tines.                                |
 | `audit_logs`   | `tines.audit_logs`   | [Audit logs](audit_logs.md)           | The audit log of the changes made in the tenant.        |
@@ -38,7 +38,7 @@ the page of its module, except for the actions of a story.
 
 | Module    | Sub-areas                                                                                          |
 | --------- | -------------------------------------------------------------------------------------------------- |
-| `admin`   | `users`, `roles`, `templates` and `tunnels`, each on its own page: [users](admin_users.md), [roles](admin_roles.md), [templates](admin_templates.md) and [tunnels](admin_tunnels.md). |
+| `admin`   | `users`, `roles`, `templates`, `tunnels`, `ip_access_control_rules`, `action_egress_control_rules` and `sync_destinations`, each on its own page, listed on [the admin page](admin.md). |
 | `ai`      | `providers` and `usage`.                                                                           |
 | `cases`   | `activities`, `assignees`, `comments`, `notes`, `tasks`, `field_values`, `metadata`, `files`, `blocks`, `linked_cases`, `records`, `subscribers`, `actions`, `fields`, `statuses`, `templates` and `webhooks`. |
 | `stories` | `actions`, `events`, `links`, `notes`, `drafts`, `owners`, `recipients`, `runs`, `groups`, `versions` and `change_control`. |

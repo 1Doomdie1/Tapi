@@ -47,7 +47,8 @@ aims to follow [Semantic Versioning](https://semver.org/).
   by its name and the ID of its team.
 - `admin` module (`tines.admin`), in part: the sub-areas `users` (`list`, `get`, `create`, `update`,
   `delete`, `list_signin_activities`, `resend_invitation` and `expire_session`), `roles`,
-  `templates` (with `move`) and `tunnels` (`health`).
+  `templates` (with `move`) and `tunnels` (`health`), and the sub-areas `ip_access_control_rules`,
+  `action_egress_control_rules` and `sync_destinations` (with `manual_sync` and `sync_story`).
 - `tags` module (`tines.tags`): `list`, `get`, `create`, `update` and `delete`.
 - `teams` module (`tines.teams`): `list`, `get`, `create`, `update`, `delete` and
   `destroy_static_external_id`, and `members` (`tines.teams.members`): `list`, `invite`,

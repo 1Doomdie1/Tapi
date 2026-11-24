@@ -36,6 +36,10 @@ AgentType = Literal[
 
 ReadAccess = Literal["TEAM", "GLOBAL", "SPECIFIC_TEAMS"]
 
+EgressActionType = Literal["http-request", "send-email"]
+
+SyncMode = Literal["live_readonly", "draft_editable"]
+
 ActionInputType = Literal[
     "TEXT", "NUMBER", "BOOLEAN", "DATE", "OBJECT", "OPTION", "CODE", "CREDENTIAL"
 ]
