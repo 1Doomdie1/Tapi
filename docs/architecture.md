@@ -14,7 +14,7 @@ module, which then becomes an attribute such as `tines.info`.
 
 Implemented so far: `info`, `admin`, `ai`, `apps`, `audit_logs`, `cases`, `change_requests`, `credentials`,
 `dashboards`, `folders`, `reporting`, `resources`, `skills`, `stories`, `tags`, `teams` and
-`workbench`. The other module folders exist but are still empty.
+`workbench`. The `records` module folder exists but is still empty.
 
 ## The core layer
 

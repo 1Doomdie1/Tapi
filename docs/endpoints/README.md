@@ -46,6 +46,10 @@ the page of its module, except for the actions of a story.
 
 ## Not covered yet
 
-These Tines API areas have no methods and no page yet: `records` and `scim`. A page is added when
-its module is built. The run script environments, which the OpenAPI document tags on their own, are
-not built either.
+These Tines API areas have no methods and no page yet: `records` and the run script environments,
+which the OpenAPI document tags on their own. A page is added when its module is built.
+
+## Not supported
+
+The SCIM API, under `/api/scim/v2`, is not offered. tapi does not offer deprecated routes either, such
+as `/api/v1/admin/scim_user_group_mapping`.
