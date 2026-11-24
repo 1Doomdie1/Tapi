@@ -1,8 +1,8 @@
 # Responses
 
 Every call returns a `Response` with exactly three fields. The examples on this page use
-`tines.info.get()`, which is implemented, and `tines.stories.get`, which is not implemented yet
-but returns a `Response` like every other module method.
+`tines.info.get()` and `tines.stories.get`, which return a `Response` like every other module
+method.
 
 | Field         | Type             | Meaning                                                       |
 | ------------- | ---------------- | ------------------------------------------------------------- |

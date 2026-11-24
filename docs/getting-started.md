@@ -5,10 +5,8 @@ creating a client. It requires Python 3.11 or newer.
 
 ## Installation
 
-tapi is not published on PyPI yet. Install it from a checkout of the repository:
-
 ```powershell
-python -m pip install -e .
+pip install tapi
 ```
 
 ## Creating a client
@@ -45,10 +43,8 @@ with Tines() as tines:
 
 ## What is available
 
-The client and its core layer are in place. Endpoint modules are attached to `Tines` as attributes
-as they are implemented. So far there are eighteen: [Info](endpoints/info.md), [Admin](endpoints/admin.md),
-[AI](endpoints/ai.md),
-[Apps](endpoints/apps.md), [Audit logs](endpoints/audit_logs.md), [Cases](endpoints/cases.md),
+Every endpoint module is an attribute of `Tines`. There are eighteen: [Info](endpoints/info.md),
+[Admin](endpoints/admin.md), [AI](endpoints/ai.md), [Apps](endpoints/apps.md), [Audit logs](endpoints/audit_logs.md), [Cases](endpoints/cases.md),
 [Change requests](endpoints/change_requests.md), [Credentials](endpoints/credentials.md),
 [Dashboards](endpoints/dashboards.md), [Folders](endpoints/folders.md),
 [Records](endpoints/records.md) (with its [record types](endpoints/records_record_types.md) and
