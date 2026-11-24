@@ -62,3 +62,31 @@ aims to follow [Semantic Versioning](https://semver.org/).
 - Request parameter helpers in `core/params.py`: `omit_none`, `to_iso` and `to_list`.
 - `Transport.request` takes extra request `headers`.
 - `print(response)` shows a `Response` as indented JSON. Binary data is shown as its size.
+- `tools/check_openapi_drift.py`, which compares the routes of tapi with the Tines OpenAPI documents
+  and fails when tapi offers a route that they mark as deprecated. The differences that are accepted
+  are listed in `tools/openapi_known_differences.toml`.
+- Opt-in live tests in `tests/live`, for a dedicated test tenant. The default `pytest` run leaves
+  them out.
+- Documentation in `docs/`: the guides, an overview page and one page per module in
+  `docs/endpoints/`. The README has an installation, a quick start and how to contribute.
+- `requirements.txt` with the runtime dependencies, `httpx` and `pydantic`.
+
+### Changed
+
+- tapi 3.0.0 is a rewrite and is not compatible with 0.2.x. The classes of each endpoint, such as
+  `TenantAPI(DOMAIN, API_KEY)` and `StoriesAPI(DOMAIN, API_KEY)`, are replaced by the `Tines` client
+  and its modules, such as `tines.stories`.
+- Every call returns a `Response` with `status_code`, `data` and `headers`. A reply with a status
+  other than 2xx is returned, not raised. Only `TinesConnectionError` and `TinesConfigurationError`
+  are raised.
+- Every function takes keyword-only arguments, and the parameters are named as the Tines API names
+  them.
+- tapi requires Python 3.11 or newer, and depends on `httpx` and `pydantic`.
+- The package has a `src/` layout and is built with `hatchling`. The version is 3.0.0, the license is
+  GPL-3.0 and the development status is production stable.
+- The routes, parameters and values of tapi are the ones that the Tines docs list, and none that
+  Tines deprecates.
+
+### Removed
+
+- The 0.2.x implementation, with `setup.py` and `MANIFEST.in`.
