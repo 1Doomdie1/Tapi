@@ -26,41 +26,37 @@ from tapi.workbench import Workbench
 class Tines:
     """Entry point to the Tines API for one tenant.
 
-    The client holds the connection and the credentials. Use it as a context manager, or call
-    ``close`` when you are done, to release the connections.
+    Use it as a context manager, or call ``close`` when you are done.
 
     Args:
-        tenant_domain: The domain of your Tines tenant, such as ``acme.tines.com``. Self-hosted
-            tenants and tenants with a custom domain use their own domain. A scheme is accepted
-            and any path is ignored. Defaults to the ``TINES_TENANT_DOMAIN`` environment variable.
-        api_key: A Tines API key: personal, service, team or tenant owner. Defaults to the
-            ``TINES_API_KEY`` environment variable.
-        timeout: Seconds to wait for the connection and for each part of a reply. A request that
-            takes longer raises ``TinesConnectionError``.
-
-    Attributes:
-        admin: Administration of the tenant. See ``tapi.admin.Admin``.
-        ai: AI providers and AI usage. See ``tapi.ai.AI``.
-        apps: Apps. See ``tapi.apps.Apps``.
-        audit_logs: Audit logs. See ``tapi.audit_logs.AuditLogs``.
-        cases: Cases, with their activities and assignees. See ``tapi.cases.Cases``.
-        change_requests: Change requests of stories. See ``tapi.change_requests.ChangeRequests``.
-        credentials: Credentials. See ``tapi.credentials.Credentials``.
-        dashboards: Dashboards. See ``tapi.dashboards.Dashboards``.
-        folders: Folders. See ``tapi.folders.Folders``.
-        info: Information about your tenant. See ``tapi.info.Info``.
-        records: Records, their types and their views. See ``tapi.records.Records``.
-        reporting: Reports about your tenant. See ``tapi.reporting.Reporting``.
-        resources: Resources. See ``tapi.resources.Resources``.
-        skills: Skills of AI agents. See ``tapi.skills.Skills``.
-        stories: Stories, their actions, drafts, runs, versions and change requests. See
-            ``tapi.stories.Stories``.
-        tags: Tags. See ``tapi.tags.Tags``.
-        teams: Teams and their members. See ``tapi.teams.Teams``.
-        workbench: Workbench conversations. See ``tapi.workbench.Workbench``.
+        tenant_domain: The domain of your tenant, such as ``acme.tines.com``. Defaults to the
+            ``TINES_TENANT_DOMAIN`` environment variable.
+        api_key: A Tines API key. Defaults to the ``TINES_API_KEY`` environment variable.
+        timeout: Seconds to wait for the connection and for each part of a reply.
 
     Raises:
         TinesConfigurationError: If the tenant domain or the API key is missing or invalid.
+
+    The modules are attributes of the client:
+
+    - ``admin``: Administration of the tenant.
+    - ``ai``: AI providers and AI usage.
+    - ``apps``: Apps.
+    - ``audit_logs``: Audit logs.
+    - ``cases``: Cases.
+    - ``change_requests``: Change requests of stories.
+    - ``credentials``: Credentials.
+    - ``dashboards``: Dashboards.
+    - ``folders``: Folders.
+    - ``info``: Information about your tenant.
+    - ``records``: Records, their types and their views.
+    - ``reporting``: Reports about your tenant.
+    - ``resources``: Resources.
+    - ``skills``: Skills of AI agents.
+    - ``stories``: Stories and their sub-areas.
+    - ``tags``: Tags.
+    - ``teams``: Teams and their members.
+    - ``workbench``: Workbench conversations.
     """
 
     def __init__(

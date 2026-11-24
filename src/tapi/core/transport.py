@@ -18,8 +18,9 @@ class Transport:
         api_key: The Tines API key.
         timeout: Seconds to wait for the connection and for each part of the reply.
 
-    Attributes:
-        base_url: The tenant root URL the transport sends requests to.
+    The attribute of the transport is:
+
+    - ``base_url``: The tenant root URL it sends requests to.
     """
 
     def __init__(self, *, base_url: str, api_key: str, timeout: float = 30.0) -> None:

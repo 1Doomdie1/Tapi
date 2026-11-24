@@ -9,9 +9,10 @@ class AI:
     Args:
         transport: The transport used to send requests.
 
-    Attributes:
-        providers: AI providers and their models. See ``tapi.ai.Providers``.
-        usage: Aggregated AI usage. See ``tapi.ai.Usage``.
+    The areas are attributes of the module:
+
+    - ``providers``: AI providers and their models.
+    - ``usage``: Aggregated AI usage.
     """
 
     def __init__(self, *, transport: Transport) -> None:

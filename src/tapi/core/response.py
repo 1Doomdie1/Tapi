@@ -12,16 +12,15 @@ TEXT_MEDIA_SUFFIXES = ("+xml", "+yaml")
 class Response(BaseModel):
     """The result of one API call.
 
-    Every HTTP status is returned as a ``Response``, including 4xx and 5xx. Inspect
-    ``status_code`` to decide what to do with it.
+    Every HTTP status is returned as a ``Response``, including 4xx and 5xx. Printing one shows it
+    as indented JSON.
 
-    Printing a ``Response`` shows it as indented JSON.
+    The fields are:
 
-    Attributes:
-        status_code: The HTTP status code.
-        data: The decoded body: parsed JSON for JSON content types, ``str`` for text content
-            types, ``bytes`` for anything else and ``None`` when the body is empty.
-        headers: The response headers, with lower-cased names.
+    - ``status_code``: The HTTP status code.
+    - ``data``: The decoded body: parsed JSON, ``str`` for text, ``bytes`` for anything else and
+      ``None`` when the body is empty.
+    - ``headers``: The response headers, with lower-cased names.
     """
 
     model_config = ConfigDict(frozen=True)

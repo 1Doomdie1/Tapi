@@ -10,15 +10,14 @@ TeamScope = Literal["all", "standard", "personal_only"]
 class Teams:
     """Teams, available as ``tines.teams``.
 
-    A team, as returned by ``get``, ``create`` and ``update`` and listed by ``list``, has ``id``,
-    ``name`` and ``groups``: a list of objects with the ``id`` and ``name`` of each group of the
-    team, empty if it has none.
+    A team has an ``id``, a ``name`` and its ``groups``.
 
     Args:
         transport: The transport used to send requests.
 
-    Attributes:
-        members: The members of a team. See ``tapi.teams.Members``.
+    The sub-area is an attribute of the module:
+
+    - ``members``: The members of a team.
     """
 
     def __init__(self, *, transport: Transport) -> None:

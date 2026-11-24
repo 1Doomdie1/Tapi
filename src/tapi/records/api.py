@@ -43,30 +43,18 @@ def _time_range_body(*, windows: Sequence[RecordTimeRange] | None) -> list[dict[
 class Records:
     """Records, available as ``tines.records``.
 
-    A record is one row of a record type, with a value for each field of the type. A record, as
-    returned in the ``data`` of ``create``, ``get`` and ``update``, and in the lists of ``search``
-    and the child records, has ``id``, ``fields`` (an object keyed by the slug of each field, or
-    ``field_<id>`` when two fields share a slug), ``relationships`` (``record_type`` with its
-    ``id``, and ``parent_record`` with its ``id`` or ``null``) and ``created_at`` and
-    ``updated_at`` (ISO 8601, in UTC unless a ``timezone`` was sent). JSON and artifact fields are
-    not inlined: each is a handle, ``{"expandable": true, "href": "/api/v2/records/<id>/fields/
-    <field_id>"}``, that ``tines.records.fields.get`` follows. Next to ``data`` the reply has
-    ``field_ids``, an object that maps each slug to the immutable ID of its field.
-
-    The v2 routes answer errors as ``{"error": {"type": ..., "message": ...}}``, with ``field``
-    and ``hint`` when they apply. A 403 means that the tenant has no access to records, or the key
-    may not do the operation, and a 404 can also mean that the key cannot see the resource. The
-    lists that this module returns page with a cursor: ``limit`` and ``after``, where ``after``
-    is the ``page.next_page_token`` of the previous reply.
+    A record is one row of a record type. The lists page with a cursor: ``limit`` and ``after``,
+    the ``page.next_page_token`` of the previous reply.
 
     Args:
         transport: The transport used to send requests.
 
-    Attributes:
-        artifacts: The artifacts of a record. See ``tapi.records.Artifacts``.
-        fields: The large fields of a record. See ``tapi.records.Fields``.
-        record_types: The record types. See ``tapi.records.RecordTypes``.
-        record_views: The record views. See ``tapi.records.RecordViews``.
+    The sub-areas are attributes of the module:
+
+    - ``artifacts``: The artifacts of a record.
+    - ``fields``: The large fields of a record.
+    - ``record_types``: The record types.
+    - ``record_views``: The record views.
     """
 
     def __init__(self, *, transport: Transport) -> None:

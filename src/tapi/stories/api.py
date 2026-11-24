@@ -30,38 +30,24 @@ from tapi.stories.versions import Versions
 class Stories:
     """Stories, available as ``tines.stories``.
 
-    A story, as returned by ``get``, ``create``, ``update`` and ``import_`` and listed by ``list``,
-    has ``id``, ``guid``, ``slug``, ``name``, ``description`` (``null`` if there is none),
-    ``user_id`` (the creator), ``team_id``, ``folder_id`` (``null`` at the root level), ``tags``
-    (a list of tag names), ``owners`` (a list of user IDs), ``recipients`` (a list of objects with
-    an ``address``), ``keep_events_for`` (seconds), ``disabled``, ``priority``, ``published``,
-    ``locked``, ``change_control_enabled``, ``monitor_failures``, ``actions_with_monitoring`` (a
-    list of action IDs), ``entry_agent_id`` and ``exit_agents`` (the entry and exit actions),
-    ``mode`` (``LIVE`` or ``TEST``), ``created_at``, ``updated_at``, ``edited_at`` (ISO 8601
-    timestamps; ``edited_at`` tracks changes to the story itself), the Send to Story fields
-    ``send_to_story_enabled``, ``send_to_story_access_source``, ``send_to_story_access``,
-    ``shared_team_slugs``, ``send_to_story_timeout_enabled``,
-    ``send_to_story_timeout_duration_seconds`` and
-    ``send_to_story_skill_use_requires_confirmation``, and the API fields ``api_enabled``,
-    ``api_entry_actions``, ``api_exit_actions`` and ``api_name``. A tenant can add more fields,
-    such as ``change_control_require_owner_approval``.
+    A story is an automation made of actions that are linked together.
 
     Args:
         transport: The transport used to send requests.
 
-    Attributes:
-        actions: The actions of stories, with their events, logs and memory. See
-            ``tapi.stories.Actions``.
-        events: The events of the tenant. See ``tapi.stories.Events``.
-        links: The links between actions. See ``tapi.stories.Links``.
-        notes: The notes on the storyboard. See ``tapi.stories.Notes``.
-        drafts: The drafts of a story. See ``tapi.stories.Drafts``.
-        owners: The owners of a story. See ``tapi.stories.Owners``.
-        recipients: The monitoring recipients of a story. See ``tapi.stories.Recipients``.
-        runs: Story runs. See ``tapi.stories.Runs``.
-        groups: Group runs. See ``tapi.stories.Groups``.
-        versions: Story versions. See ``tapi.stories.Versions``.
-        change_control: Change requests of a story. See ``tapi.stories.ChangeControl``.
+    The sub-areas are attributes of the module:
+
+    - ``actions``: The actions of stories, with their events, logs and memory.
+    - ``events``: The events of the tenant.
+    - ``links``: The links between actions.
+    - ``notes``: The notes on the storyboard.
+    - ``drafts``: The drafts of a story.
+    - ``owners``: The owners of a story.
+    - ``recipients``: The monitoring recipients of a story.
+    - ``runs``: Story runs.
+    - ``groups``: Group runs.
+    - ``versions``: Story versions.
+    - ``change_control``: Change requests of a story.
     """
 
     def __init__(self, *, transport: Transport) -> None:

@@ -64,43 +64,31 @@ def _filters_body(*, filters: Mapping[str, Any]) -> dict[str, Any]:
 class Cases:
     """Cases, available as ``tines.cases``.
 
-    A case, as returned by ``get``, ``create``, ``update`` and ``append_description``, has
-    ``case_id``, ``name``, ``description`` (``null`` if there is none), ``status`` (``OPEN`` or
-    ``CLOSED``), ``sub_status`` (an object, or ``null``), ``priority``, ``url``, ``metadata`` (an
-    object), ``author``, ``opened_by`` and ``resolved_by`` (users, or ``null``), ``assignees`` (a
-    list of users), ``tags``, ``sla`` and ``slas``, ``fields``, ``team``, ``linked_cases``,
-    ``closure_conditions``, ``records``, ``actions``, ``blocks``, ``tasks``, ``activities`` and
-    the pagination details of those lists, ``activities_meta``, ``records_meta``,
-    ``blocks_meta`` and ``linked_cases_meta``, and the timestamps ``opened_at``,
-    ``resolved_at``, ``created_at`` and ``updated_at``. ``list`` returns the same fields for
-    each case. ``search`` returns a shorter form: ``case_id``, ``name``, ``description``,
-    ``status``, ``sub_status``, ``priority``, ``url``, ``author``, ``opened_by``,
-    ``resolved_by``, ``assignees``, ``tags``, ``team`` and the four timestamps.
-
     A case that does not exist, or that your key cannot see, is a 404 with ``TeamCase not
     found``.
 
     Args:
         transport: The transport used to send requests.
 
-    Attributes:
-        actions: The actions of a case. See ``tapi.cases.Actions``.
-        activities: The activity log of a case. See ``tapi.cases.Activities``.
-        assignees: The assignees of a case. See ``tapi.cases.Assignees``.
-        blocks: The blocks of a case and their elements. See ``tapi.cases.Blocks``.
-        comments: The comments on a case and their reactions. See ``tapi.cases.Comments``.
-        field_values: The values of the fields of a case. See ``tapi.cases.FieldValues``.
-        fields: The case fields that a team defines. See ``tapi.cases.Fields``.
-        files: The files attached to a case. See ``tapi.cases.Files``.
-        linked_cases: The cases linked to a case. See ``tapi.cases.LinkedCases``.
-        metadata: The key-value metadata of a case. See ``tapi.cases.Metadata``.
-        notes: The notes of a case. See ``tapi.cases.Notes``.
-        records: The records attached to a case. See ``tapi.cases.Records``.
-        statuses: The case statuses of a team. See ``tapi.cases.Statuses``.
-        subscribers: The users subscribed to a case. See ``tapi.cases.Subscribers``.
-        tasks: The tasks of a case. See ``tapi.cases.Tasks``.
-        templates: The case templates of a team. See ``tapi.cases.Templates``.
-        webhooks: The case webhooks of a team. See ``tapi.cases.Webhooks``.
+    The sub-areas are attributes of the module:
+
+    - ``actions``: The actions of a case.
+    - ``activities``: The activity log of a case.
+    - ``assignees``: The assignees of a case.
+    - ``blocks``: The blocks of a case and their elements.
+    - ``comments``: The comments on a case and their reactions.
+    - ``field_values``: The values of the fields of a case.
+    - ``fields``: The case fields that a team defines.
+    - ``files``: The files attached to a case.
+    - ``linked_cases``: The cases linked to a case.
+    - ``metadata``: The key-value metadata of a case.
+    - ``notes``: The notes of a case.
+    - ``records``: The records attached to a case.
+    - ``statuses``: The case statuses of a team.
+    - ``subscribers``: The users subscribed to a case.
+    - ``tasks``: The tasks of a case.
+    - ``templates``: The case templates of a team.
+    - ``webhooks``: The case webhooks of a team.
     """
 
     def __init__(self, *, transport: Transport) -> None:
