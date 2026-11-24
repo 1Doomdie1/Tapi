@@ -45,10 +45,13 @@ aims to follow [Semantic Versioning](https://semver.org/).
 - `dashboards` module (`tines.dashboards`): `list`, `delete`, `export` and `import_`.
 - `skills` module (`tines.skills`): `list`, `get`, `create`, `update` and `delete`. A skill is found
   by its name and the ID of its team.
-- `admin` module (`tines.admin`), in part: the sub-areas `users` (`list`, `get`, `create`, `update`,
+- `admin` module (`tines.admin`): the sub-areas `users` (`list`, `get`, `create`, `update`,
   `delete`, `list_signin_activities`, `resend_invitation` and `expire_session`), `roles`,
-  `templates` (with `move`) and `tunnels` (`health`), and the sub-areas `ip_access_control_rules`,
-  `action_egress_control_rules` and `sync_destinations` (with `manual_sync` and `sync_story`).
+  `templates` (with `move`) and `tunnels` (`health`), the sub-areas `ip_access_control_rules`,
+  `action_egress_control_rules` and `sync_destinations` (with `manual_sync` and `sync_story`), and
+  the sub-areas `license`, `smtp` and `custom_certificate_authority` (`set`) for self-hosted
+  tenants, `jobs` for dedicated tenants (four lists and six deletes) and `user_provisioning`
+  (`update_mapping`). The deprecated `scim_user_group_mapping` routes are not offered.
 - `tags` module (`tines.tags`): `list`, `get`, `create`, `update` and `delete`.
 - `teams` module (`tines.teams`): `list`, `get`, `create`, `update`, `delete` and
   `destroy_static_external_id`, and `members` (`tines.teams.members`): `list`, `invite`,

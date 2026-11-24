@@ -11,26 +11,6 @@ route = "POST /api/v1/actions/{id}/run"
 reason = "Only in the OpenAPI document. The Tines documentation pages for actions list no such operation, and tapi does not offer it."
 
 [[not_built]]
-prefix = "/api/v1/admin/custom_certificate_authority"
-reason = "This sub-area of admin is not built yet."
-
-[[not_built]]
-prefix = "/api/v1/admin/license"
-reason = "This sub-area of admin is not built yet."
-
-[[not_built]]
-prefix = "/api/v1/admin/scim_user_group_mapping"
-reason = "This sub-area of admin is not built yet."
-
-[[not_built]]
-prefix = "/api/v1/admin/user_provisioning"
-reason = "This sub-area of admin is not built yet."
-
-[[not_built]]
-prefix = "/api/v1/admin/smtp"
-reason = "This sub-area of admin is not built yet."
-
-[[not_built]]
 prefix = "/api/v1/records"
 reason = "The records module is not built yet."
 
@@ -55,6 +35,10 @@ prefix = "/api/v1/run_script_environments"
 reason = "Not built yet. It probably belongs under the admin module."
 
 [[not_offered]]
+prefix = "/api/v1/admin/scim_user_group_mapping"
+reason = "Deprecated in the OpenAPI document in favor of /api/v1/admin/user_provisioning/mapping. tapi offers no deprecated routes."
+
+[[not_offered]]
 prefix = "/api/v1/cases"
 reason = "The v1 Cases routes are deprecated, and Tines removes them on December 1, 2026. tapi offers the v2 routes."
 
@@ -65,3 +49,43 @@ reason = "A v1 route with no page in the Tines docs, which list the v2 file rout
 [[not_in_spec]]
 route = "POST /api/v3/cases/search"
 reason = "Documented by Tines as the way to search cases, but not in the OpenAPI document."
+
+[[not_in_spec]]
+route = "GET /api/v1/admin/dead_jobs"
+reason = "Documented by Tines for dedicated tenants, but not in the OpenAPI document."
+
+[[not_in_spec]]
+route = "GET /api/v1/admin/in_progress_jobs"
+reason = "Documented by Tines for dedicated tenants, but not in the OpenAPI document."
+
+[[not_in_spec]]
+route = "GET /api/v1/admin/queued_jobs"
+reason = "Documented by Tines for dedicated tenants, but not in the OpenAPI document."
+
+[[not_in_spec]]
+route = "GET /api/v1/admin/retry_jobs"
+reason = "Documented by Tines for dedicated tenants, but not in the OpenAPI document."
+
+[[not_in_spec]]
+route = "DELETE /api/v1/admin/delete_all_dead_jobs"
+reason = "Documented by Tines for dedicated tenants, but not in the OpenAPI document."
+
+[[not_in_spec]]
+route = "DELETE /api/v1/admin/delete_all_queued_jobs"
+reason = "Documented by Tines for dedicated tenants, but not in the OpenAPI document."
+
+[[not_in_spec]]
+route = "DELETE /api/v1/admin/delete_all_retry_jobs"
+reason = "Documented by Tines for dedicated tenants, but not in the OpenAPI document."
+
+[[not_in_spec]]
+route = "DELETE /api/v1/admin/actions/{action_id}/delete_all_dead_jobs"
+reason = "Documented by Tines for dedicated tenants, but not in the OpenAPI document."
+
+[[not_in_spec]]
+route = "DELETE /api/v1/admin/actions/{action_id}/delete_all_queued_jobs"
+reason = "Documented by Tines for dedicated tenants, but not in the OpenAPI document."
+
+[[not_in_spec]]
+route = "DELETE /api/v1/admin/actions/{action_id}/delete_all_retry_jobs"
+reason = "Documented by Tines for dedicated tenants, but not in the OpenAPI document."

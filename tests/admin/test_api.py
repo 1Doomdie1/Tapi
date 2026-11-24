@@ -543,6 +543,147 @@ SYNC_CASES = [
     ),
 ]
 
+LICENSE_CASES = [
+    Case(target="admin.license.get", arguments={}, route="GET /api/v1/admin/license"),
+    Case(
+        target="admin.license.create",
+        arguments={"license": "TINES-company-ENV::DATA"},
+        route="POST /api/v1/admin/license",
+        body={"license": "TINES-company-ENV::DATA"},
+    ),
+    Case(
+        target="admin.license.update",
+        arguments={"license": "TINES-company-ENV::DATA"},
+        route="PATCH /api/v1/admin/license",
+        body={"license": "TINES-company-ENV::DATA"},
+    ),
+]
+
+SMTP_REQUIRED = {
+    "address": "smtp.example.com",
+    "port": 587,
+    "encryption_mode": "starttls_auto",
+    "verify_ssl_certificate": True,
+}
+
+SMTP_CASES = [
+    Case(target="admin.smtp.get", arguments={}, route="GET /api/v1/admin/smtp"),
+    Case(
+        target="admin.smtp.update",
+        arguments=SMTP_REQUIRED,
+        route="PATCH /api/v1/admin/smtp",
+        body=SMTP_REQUIRED,
+    ),
+    Case(
+        target="admin.smtp.update",
+        name="false is sent, and every field is sent when it is given",
+        arguments={
+            **SMTP_REQUIRED,
+            "verify_ssl_certificate": False,
+            "domain": "example.com",
+            "user_name": "smtp-user",
+            "password": "smtp-password",
+            "auth_type": "cram_md5",
+            "ca_path": "/etc/ssl/certs",
+            "ca_file": "/etc/ssl/ca.pem",
+            "open_timeout": 10,
+            "read_timeout": 20,
+        },
+        route="PATCH /api/v1/admin/smtp",
+        body={
+            **SMTP_REQUIRED,
+            "verify_ssl_certificate": False,
+            "domain": "example.com",
+            "user_name": "smtp-user",
+            "password": "smtp-password",
+            "auth_type": "cram_md5",
+            "ca_path": "/etc/ssl/certs",
+            "ca_file": "/etc/ssl/ca.pem",
+            "open_timeout": 10,
+            "read_timeout": 20,
+        },
+    ),
+    Case(target="admin.smtp.delete", arguments={}, route="DELETE /api/v1/admin/smtp"),
+]
+
+CERTIFICATE_CASES = [
+    Case(
+        target="admin.custom_certificate_authority.set",
+        arguments={"certificate": "-----BEGIN CERTIFICATE-----"},
+        route="PATCH /api/v1/admin/custom_certificate_authority",
+        body={"certificate": "-----BEGIN CERTIFICATE-----"},
+    ),
+    Case(
+        target="admin.custom_certificate_authority.set",
+        arguments={"certificate": "-----BEGIN CERTIFICATE-----", "name": "internal"},
+        route="PATCH /api/v1/admin/custom_certificate_authority",
+        body={"certificate": "-----BEGIN CERTIFICATE-----", "name": "internal"},
+    ),
+]
+
+USER_GROUP_MAPPING = {
+    "mappings": [
+        {"group_name": "Managers", "team_name": "Analytics", "role_name": "TEAM_ADMIN"},
+        {"group_name": "Analysts", "team_name": "Analytics", "role_name": "EDITOR"},
+    ],
+    "tenant_permissions": [{"group_name": "Managers", "permission": "TENANT_ADMIN"}],
+    "tenant_owners_groups": ["Managers"],
+}
+
+PROVISIONING_CASES = [
+    Case(
+        target="admin.user_provisioning.update_mapping",
+        arguments={"user_group_mapping": USER_GROUP_MAPPING},
+        route="POST /api/v1/admin/user_provisioning/mapping",
+        body={"user_group_mapping": USER_GROUP_MAPPING},
+    ),
+]
+
+JOB_LISTS = {
+    "list_dead": "dead_jobs",
+    "list_in_progress": "in_progress_jobs",
+    "list_queued": "queued_jobs",
+    "list_retry": "retry_jobs",
+}
+
+JOB_DELETES = {
+    "delete_all_dead": "dead",
+    "delete_all_queued": "queued",
+    "delete_all_retry": "retry",
+}
+
+JOB_CASES = [
+    *(
+        Case(target=f"admin.jobs.{method}", arguments={}, route=f"GET /api/v1/admin/{path}")
+        for method, path in JOB_LISTS.items()
+    ),
+    *(
+        Case(
+            target=f"admin.jobs.{method}",
+            arguments={"per_page": 50, "page": 2},
+            route=f"GET /api/v1/admin/{path}",
+            params={"per_page": 50, "page": 2},
+        )
+        for method, path in JOB_LISTS.items()
+    ),
+    *(
+        Case(
+            target=f"admin.jobs.{method}",
+            arguments={},
+            route=f"DELETE /api/v1/admin/delete_all_{kind}_jobs",
+        )
+        for method, kind in JOB_DELETES.items()
+    ),
+    *(
+        Case(
+            target=f"admin.jobs.delete_{kind}_by_action",
+            arguments={"action_id": 24},
+            route=f"DELETE /api/v1/admin/actions/24/delete_all_{kind}_jobs",
+        )
+        for kind in JOB_DELETES.values()
+    ),
+]
+
 CASES = [
     *ROLE_CASES,
     *TEMPLATE_CASES,
@@ -551,6 +692,11 @@ CASES = [
     *IP_CASES,
     *EGRESS_CASES,
     *SYNC_CASES,
+    *LICENSE_CASES,
+    *SMTP_CASES,
+    *CERTIFICATE_CASES,
+    *PROVISIONING_CASES,
+    *JOB_CASES,
 ]
 
 

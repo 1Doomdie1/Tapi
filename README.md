@@ -3,7 +3,7 @@
 Unofficial Python wrapper for the [Tines REST API](https://www.tines.com/stories/docs/api/welcome/).
 
 > **Status: early development.** The `Tines` client and its core layer (responses, transport,
-> configuration) are in place. Endpoint modules implemented so far: `info`, `admin` (in part), `ai`,
+> configuration) are in place. Endpoint modules implemented so far: `info`, `admin`, `ai`,
 > `apps`, `audit_logs`, `cases`, `change_requests`, `credentials`, `dashboards`, `folders`, `reporting`,
 > `resources`, `skills`, `stories`, `tags`, `teams` and `workbench`.
 

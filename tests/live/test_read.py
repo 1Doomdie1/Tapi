@@ -14,6 +14,12 @@ PLAN_DEPENDENT = {
     "audit_logs.list",
     "apps.list",
     "apps.get",
+    "admin.license.get",
+    "admin.smtp.get",
+    "admin.jobs.list_dead",
+    "admin.jobs.list_in_progress",
+    "admin.jobs.list_queued",
+    "admin.jobs.list_retry",
 }
 UNAVAILABLE = (402, 403, 404, 422)
 
@@ -66,6 +72,28 @@ LISTS = [
         "sync_destinations",
         True,
         id="admin.sync_destinations.list",
+    ),
+    pytest.param("admin.license.get", {}, "customer_name", False, id="admin.license.get"),
+    pytest.param("admin.smtp.get", {}, "address", False, id="admin.smtp.get"),
+    pytest.param(
+        "admin.jobs.list_dead", {"per_page": 1}, "admin/dead_jobs", False, id="admin.jobs.dead"
+    ),
+    pytest.param(
+        "admin.jobs.list_in_progress",
+        {"per_page": 1},
+        "admin/in_progress_jobs",
+        False,
+        id="admin.jobs.in_progress",
+    ),
+    pytest.param(
+        "admin.jobs.list_queued",
+        {"per_page": 1},
+        "admin/queued_jobs",
+        False,
+        id="admin.jobs.queued",
+    ),
+    pytest.param(
+        "admin.jobs.list_retry", {"per_page": 1}, "admin/retry_jobs", False, id="admin.jobs.retry"
     ),
     pytest.param("cases.fields.list", {"per_page": 1}, "case_inputs", True, id="fields.list"),
     pytest.param("cases.webhooks.list", {"per_page": 1}, "webhooks", True, id="webhooks.list"),

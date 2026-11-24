@@ -12,7 +12,7 @@ parameter.
 
 | Module         | Attribute            | Page                                  | Covers                                                  |
 | -------------- | -------------------- | ------------------------------------- | ------------------------------------------------------- |
-| `admin`        | `tines.admin`        | [Admin](admin.md)                     | Administration of the tenant, in part: users, roles, templates, tunnels, IP access control rules, action egress control rules and sync destinations. |
+| `admin`        | `tines.admin`        | [Admin](admin.md)                     | Administration of the tenant: users, roles, templates, tunnels, IP access control rules, action egress control rules, sync destinations, jobs, the license, SMTP, the custom certificate authority and the user provisioning mapping. |
 | `ai`           | `tines.ai`           | [AI](ai.md)                           | AI providers and AI usage.                              |
 | `apps`         | `tines.apps`         | [Apps](apps.md)                       | Apps built inside Tines.                                |
 | `audit_logs`   | `tines.audit_logs`   | [Audit logs](audit_logs.md)           | The audit log of the changes made in the tenant.        |
@@ -38,7 +38,7 @@ the page of its module, except for the actions of a story.
 
 | Module    | Sub-areas                                                                                          |
 | --------- | -------------------------------------------------------------------------------------------------- |
-| `admin`   | `users`, `roles`, `templates`, `tunnels`, `ip_access_control_rules`, `action_egress_control_rules` and `sync_destinations`, each on its own page, listed on [the admin page](admin.md). |
+| `admin`   | `users`, `roles`, `templates`, `tunnels`, `ip_access_control_rules`, `action_egress_control_rules`, `sync_destinations`, `jobs`, `license`, `smtp`, `custom_certificate_authority` and `user_provisioning`, each on its own page, listed on [the admin page](admin.md). |
 | `ai`      | `providers` and `usage`.                                                                           |
 | `cases`   | `activities`, `assignees`, `comments`, `notes`, `tasks`, `field_values`, `metadata`, `files`, `blocks`, `linked_cases`, `records`, `subscribers`, `actions`, `fields`, `statuses`, `templates` and `webhooks`. |
 | `stories` | `actions`, `events`, `links`, `notes`, `drafts`, `owners`, `recipients`, `runs`, `groups`, `versions` and `change_control`. |
@@ -47,5 +47,5 @@ the page of its module, except for the actions of a story.
 ## Not covered yet
 
 These Tines API areas have no methods and no page yet: `records` and `scim`. A page is added when
-its module is built. `admin` is built in part, and [its page](admin.md) lists the sub-areas that are
-not.
+its module is built. The run script environments, which the OpenAPI document tags on their own, are
+not built either.
