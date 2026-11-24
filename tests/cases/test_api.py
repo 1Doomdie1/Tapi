@@ -660,20 +660,18 @@ BLOCK_CASES = [
     ),
     Case(
         target="cases.blocks.update_element",
-        name="false is sent, not left out",
+        name="every argument is sent",
         arguments={
             "case_id": 5,
             "block_id": 12,
             "element_id": 9,
             "content": "New",
-            "sensitive": False,
             "author_email": "a@example.com",
             "annotation": "Note",
         },
         route=f"PATCH {ELEMENT}",
         body={
             "content": "New",
-            "sensitive": False,
             "author_email": "a@example.com",
             "annotation": "Note",
         },

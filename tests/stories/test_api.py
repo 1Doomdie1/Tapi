@@ -165,12 +165,6 @@ DRAFT_CASES = [
         target="stories.drafts.list", arguments={"story_id": 99}, route=f"GET {STORIES}/99/drafts"
     ),
     Case(
-        target="stories.drafts.list",
-        arguments={"story_id": 99, **PAGING},
-        route=f"GET {STORIES}/99/drafts",
-        params=PAGING,
-    ),
-    Case(
         target="stories.drafts.create",
         arguments={"story_id": 99, "name": "My draft"},
         route=f"POST {STORIES}/99/drafts",
@@ -562,7 +556,6 @@ EVENTS = "/api/v1/events"
 EVENT_LIST = {
     "team_id": 3,
     "story_id": 807,
-    "agent_id": 73563,
     "story_mode": "test",
     "include_groups": False,
     "since_id": 10,

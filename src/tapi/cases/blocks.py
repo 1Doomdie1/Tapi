@@ -117,8 +117,7 @@ class Blocks:
                 A note block needs a note element and an HTML block an HTML element, and a block
                 without one is a 422.
             position: The zero-based position of the block in the case, a non-negative integer.
-                A number past the end puts the block last. The OpenAPI document also names
-                ``top`` and ``bottom``, which were a 400.
+                A number past the end puts the block last.
             hidden: Whether the block is hidden.
             default_collapsed: Whether the block is collapsed by default. Tines defaults to
                 false.
@@ -245,24 +244,19 @@ class Blocks:
         block_id: int,
         element_id: int,
         content: str | None = None,
-        sensitive: bool | None = None,
         author_email: str | None = None,
         annotation: str | None = None,
     ) -> Response:
         """Edit element. ``PATCH /api/v2/cases/{case_id}/blocks/{block_id}/elements/{element_id}``
 
         The Tines documentation shows this operation as ``PUT``. The OpenAPI document lists the
-        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``. The deprecated
-        ``color`` of an element is not offered: change the color of the block with
-        ``update``.
+        same operation under ``PUT`` and ``PATCH``, and tapi uses ``PATCH``.
 
         Args:
             case_id: The ID of the case.
             block_id: The ID of the block. A slug was a 404.
             element_id: The ``element_id`` of the element, not its ``id``.
             content: New content for a note element, as Markdown.
-            sensitive: Whether the element is sensitive. Only the OpenAPI document lists it, and
-                the server answered 200 and left the element as it was.
             author_email: The email address of the author of a note element. Only the Tines docs
                 list it.
             annotation: A new annotation for a file element. Only the Tines docs list it.
@@ -277,7 +271,6 @@ class Blocks:
             json=omit_none(
                 values={
                     "content": content,
-                    "sensitive": sensitive,
                     "author_email": author_email,
                     "annotation": annotation,
                 }

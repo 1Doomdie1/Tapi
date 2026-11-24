@@ -102,10 +102,7 @@ class Stories:
             search: Only stories whose name matches this text.
             filter: Only stories that match one condition: ``SEND_TO_STORY_ENABLED``,
                 ``HIGH_PRIORITY``, ``API_ENABLED``, ``FAVORITE``, ``CHANGE_CONTROL_ENABLED``,
-                ``CHANGE_CONTROL_DISABLED``, ``ENABLED``, ``DISABLED`` or ``LOCKED``. The server
-                also accepts ``ALL_STORIES``, ``WORKBENCH_ENABLED`` and ``TUNNELS_ENABLED``, which
-                neither the Tines docs nor its OpenAPI document list. The deprecated ``PUBLISHED``
-                is not offered.
+                ``CHANGE_CONTROL_DISABLED``, ``ENABLED``, ``DISABLED`` or ``LOCKED``.
             order: How to sort the stories: ``NAME``, ``NAME_DESC``, ``RECENTLY_EDITED``,
                 ``LEAST_RECENTLY_EDITED``, ``ACTION_COUNT_ASC``, ``ACTION_COUNT_DESC``,
                 ``CONCURRENT_RUNS_COUNT_DESC``, ``PENDING_ACTION_RUNS_COUNT_DESC`` or

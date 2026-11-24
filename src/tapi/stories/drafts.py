@@ -1,5 +1,4 @@
 from tapi.core import Response, Transport
-from tapi.core.params import omit_none
 
 
 class Drafts:
@@ -17,33 +16,20 @@ class Drafts:
     def __init__(self, *, transport: Transport) -> None:
         self._transport = transport
 
-    def list(
-        self,
-        *,
-        story_id: int,
-        per_page: int | None = None,
-        page: int | None = None,
-    ) -> Response:
+    def list(self, *, story_id: int) -> Response:
         """List the drafts of a story. ``GET /api/v1/stories/{story_id}/drafts``
 
-        The endpoint is paginated and one call returns one page. The Tines docs show neither
-        ``per_page`` nor ``page`` on this endpoint, and the OpenAPI document lists both.
+        The endpoint is paginated and one call returns one page.
 
         Args:
             story_id: The ID of the story.
-            per_page: The number of results per page. Tines defaults to 20 and caps it at 500.
-            page: The page to return, starting at 1. Tines defaults to 1.
 
         Returns:
             A ``Response`` whose ``data`` is an object with ``drafts``, the drafts of the page,
             and ``meta``, the pagination details. The reply is a 422 with the message
             ``Change control is not enabled`` when the story has no change control.
         """
-        return self._transport.request(
-            method="GET",
-            path=f"/api/v1/stories/{story_id}/drafts",
-            params=omit_none(values={"per_page": per_page, "page": page}),
-        )
+        return self._transport.request(method="GET", path=f"/api/v1/stories/{story_id}/drafts")
 
     def create(self, *, story_id: int, name: str) -> Response:
         """Create a draft of a story. ``POST /api/v1/stories/{story_id}/drafts``

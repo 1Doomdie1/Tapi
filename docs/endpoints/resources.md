@@ -66,7 +66,7 @@ Paginated: one call returns one page; see [Pagination](../pagination.md). `data`
 | -------------------------------- | ------ | ---------------------------------------------------------------------------- |
 | `team_id`                        | `int`  | Only resources of this team.                                                 |
 | `folder_id`                      | `int`  | Only resources in this folder.                                               |
-| `filter`                         | `str`  | `UNUSED_IN_ACTIONS` keeps the resources that no action uses. `ALL` is also accepted. |
+| `filter`                         | `str`  | `UNUSED_IN_ACTIONS` keeps the resources that no action uses. |
 | `include_referencing_action_ids` | `bool` | Whether each resource has `referencing_action_ids`. Tines defaults to true.  |
 | `include_value`                  | `bool` | Whether each resource has `value` and `test_resource.value`. Tines defaults to true. |
 | `typed_value`                    | `bool` | Return typed values. Tines defaults to false.                                |

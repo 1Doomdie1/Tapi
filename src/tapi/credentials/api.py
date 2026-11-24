@@ -15,7 +15,7 @@ CredentialMode = Literal[
     "MULTI_REQUEST",
 ]
 ReadAccess = Literal["TEAM", "GLOBAL", "SPECIFIC_TEAMS"]
-CredentialFilter = Literal["ALL", "UNUSED_IN_ACTIONS", "UNRESTRICTED", "RESTRICTED"]
+CredentialFilter = Literal["UNUSED_IN_ACTIONS", "UNRESTRICTED", "RESTRICTED"]
 AwsAuthenticationType = Literal["KEY", "ROLE", "INSTANCE_PROFILE"]
 OAuthGrantType = Literal["client_credentials", "authorization_code"]
 PkceCodeChallengeMethod = Literal["S256", "plain"]
@@ -58,8 +58,7 @@ class Credentials:
             team_id: Only credentials of this team.
             folder_id: Only credentials in this folder.
             filter: Only credentials matching ``UNUSED_IN_ACTIONS``, ``UNRESTRICTED`` or
-                ``RESTRICTED``. Tines does not document what each value matches. The server also
-                accepts ``ALL``, which neither the Tines docs nor its OpenAPI document list.
+                ``RESTRICTED``. Tines does not document what each value matches.
             include_references: When true, each credential has ``references``: the stories and
                 actions that use it, limited to 100 visible actions per credential.
             per_page: The number of results per page. Tines defaults to 20.

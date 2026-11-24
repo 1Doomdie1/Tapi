@@ -28,7 +28,6 @@ class Events:
         *,
         team_id: int | None = None,
         story_id: int | None = None,
-        agent_id: int | None = None,
         story_mode: Literal["test"] | None = None,
         include_groups: bool | None = None,
         since_id: int | None = None,
@@ -43,18 +42,14 @@ class Events:
         """List events. ``GET /api/v1/events``
 
         The endpoint is paginated and one call returns one page, the newest events first. A tenant
-        can hold a very large number of events, so narrow the list: with ``since`` and ``until``,
-        with ``agent_id`` or with a small ``per_page``. ``include_groups`` with ``story_id`` timed
-        out on the tested tenant. To list the events of one action, ``agent_id`` is the same as
-        ``tines.stories.actions.list_events``.
+        can hold a very large number of events, so narrow the list: with ``since`` and ``until``
+        or with a small ``per_page``. ``include_groups`` with ``story_id`` timed out on the tested
+        tenant. To list the events of one action, use ``tines.stories.actions.list_events``.
 
         Args:
             team_id: Only events of this team. When it is given with ``story_id``, Tines ignores
                 ``story_id``.
             story_id: Only events of this story.
-            agent_id: Only events of this action. Neither the Tines docs nor the OpenAPI document
-                list it, but the server accepts it, and its message for a list that timed out
-                suggests it.
             story_mode: ``test`` to list the events of the default test story. Only with
                 ``story_id``.
             include_groups: Whether to include the events of groups in the story. Only with
@@ -79,7 +74,7 @@ class Events:
             is not a time, a 422 when the payloads of the page add up to more than 200 MB, in
             which case a lower ``per_page`` helps, and a 504 with the message ``Listing events
             timed out; narrow since/until, reduce per_page, or filter by agent_id.`` when the
-            list takes too long. A ``team_id`` or an ``agent_id`` that does not exist is a 404.
+            list takes too long. A ``team_id`` that does not exist is a 404.
         """
         return self._transport.request(
             method="GET",
@@ -88,7 +83,6 @@ class Events:
                 values={
                     "team_id": team_id,
                     "story_id": story_id,
-                    "agent_id": agent_id,
                     "story_mode": story_mode,
                     "include_groups": include_groups,
                     "since_id": since_id,

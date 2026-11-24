@@ -34,9 +34,7 @@ class Teams:
     ) -> Response:
         """List teams. ``GET /api/v1/teams``
 
-        The endpoint is paginated and one call returns one page. Tines also accepts the deprecated
-        ``include_personal_teams`` and ``include_drafts`` parameters, which ``scope`` replaces and
-        tapi does not offer.
+        The endpoint is paginated and one call returns one page.
 
         Args:
             scope: Which teams to list: ``standard`` for shared teams, ``personal_only`` for

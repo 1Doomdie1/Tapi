@@ -37,8 +37,7 @@ class Notes:
         Args:
             story_id: Only notes of this story.
             mode: Only notes of the story in this mode: ``LIVE`` or ``TEST``. Use it with
-                ``story_id``. A value that is neither was ignored. The server also reads
-                ``story_mode``, which tapi does not offer.
+                ``story_id``. A value that is neither was ignored.
             team_id: Only notes of this team.
             group_id: Only notes of this group.
             draft_id: Only notes of this draft. Use it with ``story_id``: alone it was ignored.

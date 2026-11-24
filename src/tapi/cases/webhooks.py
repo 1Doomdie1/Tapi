@@ -118,7 +118,7 @@ class Webhooks:
         Returns:
             A ``Response`` whose ``data`` is an object with ``webhook``. The reply is a 422 when
             nothing is sent: ``At least one of url, name, version_number, or notifications must be
-            provided``. ``version_number`` is not in the Tines docs and tapi does not send it.
+            provided``.
         """
         return self._transport.request(
             method="PATCH",

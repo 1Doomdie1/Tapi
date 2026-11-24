@@ -4,8 +4,7 @@ Workbench conversations are chats with Tines AI. The module reads them across ev
 has them: Workbench itself, AI agents and story authoring. It is available as `tines.workbench`, and
 the class is `tapi.workbench.Workbench`. Every method returns a [`Response`](../responses.md).
 
-The Tines docs describe no endpoint that starts a conversation or sends a message, so tapi offers
-none. The module only reads.
+The module only reads conversations.
 
 | Method                            | HTTP route                                 |
 | --------------------------------- | ------------------------------------------ |

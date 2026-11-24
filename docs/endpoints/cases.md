@@ -4,15 +4,12 @@ Cases track work that needs people, such as an incident or an investigation. The
 as `tines.cases`, and the class is `tapi.cases.Cases`. Every method returns a
 [`Response`](../responses.md).
 
-Only the current (v2) Cases API is offered. Every v1 Cases endpoint is deprecated, and the Tines
-docs say that Tines removes them on December 1, 2026. The areas of the Cases API that are built so
-far are the cases themselves and the sub-areas [`activities`](#activities),
+The module covers the cases themselves and the sub-areas [`activities`](#activities),
 [`assignees`](#assignees), [`comments`](#comments), [`notes`](#notes), [`tasks`](#tasks),
 [`field_values`](#field_values), [`metadata`](#metadata), [`files`](#files), [`blocks`](#blocks),
 [`linked_cases`](#linked_cases), [`records`](#records), [`subscribers`](#subscribers),
 [`actions`](#actions), [`fields`](#fields), [`statuses`](#statuses), [`templates`](#templates) and
-[`webhooks`](#webhooks). That is the whole current Cases API. Fields, statuses, templates and
-webhooks have only v1 routes, which the Tines docs do not mark as deprecated, so tapi offers them.
+[`webhooks`](#webhooks). Fields, statuses, templates and webhooks are under `/api/v1`.
 
 | Method                                           | HTTP route                           |
 | ------------------------------------------------ | ------------------------------------ |
@@ -93,8 +90,7 @@ unknown key is a `400` with `Unsupported filter parameters: <key>`.
 | `time_range`                                                         | A time of day range such as `09:00-17:00`.         |
 
 The server accepted a single value in place of a list of one, and the values of `status`,
-`priority` and the SLA filters in any case. It accepted the deprecated filters `assignee_emails`,
-`unassigned`, `author_emails`, `sla` and `severity` too, and tapi does not offer them.
+`priority` and the SLA filters in any case.
 
 ## `get()`
 
@@ -359,9 +355,8 @@ Metadata is a set of key-value pairs that a case holds.
 | `metadata.delete(case_id=..., metadata=...)`        | `DELETE /api/v2/cases/{case_id}/metadata`        |
 
 `list` and `get` return an object with `case_id` and `metadata`, which for `get` holds only the pair
-asked for, and an empty object for a case without metadata. The OpenAPI document shows a paginated
-list, and the server returns every pair and ignores `per_page` and `page`, so `list` does not offer
-them. A value is a string, a number, a boolean or `null`: an object or a list is a `422`.
+asked for, and an empty object for a case without metadata. The server returns every pair, and `list`
+takes no `per_page` or `page`. A value is a string, a number, a boolean or `null`: an object or a list is a `422`.
 
 `create` adds keys and has a 201 status. When a key already has a value the reply is a `409` with
 `Metadata key <key> already exists`, and none of the pairs are set. `update` sets keys and creates
@@ -450,11 +445,9 @@ with `include_children` set to true it deletes them too. A block that does not e
 
 The methods for elements take the `element_id` of the element, which is a different number from its
 `id`: the `id` was a `404` with `['TeamCaseBlockElement not found']`. A slug in place of the block ID
-was a `404` as well. `update_element` takes `content`, `sensitive` (only the OpenAPI document lists
-it, and the server answered 200 and left the element as it was), and `author_email` and `annotation`
-(only the Tines docs list them, and `annotation` works for a file element). It does not offer the
-deprecated `color` of an element: change the color of the block with `update`.
-`append_element_content` adds text to a note element, and a file element is a `422` with
+was a `404` as well. `update_element` takes `content`, `author_email` and `annotation` (only the
+Tines docs list the last two, and `annotation` works for a file element). `append_element_content`
+adds text to a note element, and a file element is a `422` with
 `['Element type does not support append']`.
 
 ## `linked_cases`
@@ -549,8 +542,7 @@ exist is a `404` with `['Action not found']`, and `delete` has a 204 status.
 
 `batch_update` replaces the actions of the case with the ones that it is given, and `PUT` is its only
 verb. An action without a label is a `422` with `["Validation failed: Label can't be blank"]`, and an
-empty list removes every action of the case. The OpenAPI document also lists the deprecated
-`query_param_key` and `query_param_value`, which tapi does not offer.
+empty list removes every action of the case.
 
 ## `fields`
 
@@ -703,9 +695,8 @@ accepted.
 
 A `url` that is not valid is a `422` with `Url is not a valid URL`, and a notification that is not
 valid is a `422` whose message lists the valid ones. An `update` that sends nothing is a `422` with
-`At least one of url, name, version_number, or notifications must be provided`. `version_number` is
-not in the Tines docs and tapi does not send it. A webhook that does not exist is a `404` with
-`TeamCaseWebhook not found`. `PUT` works as well as `PATCH`.
+`At least one of url, name, version_number, or notifications must be provided`. A webhook that does
+not exist is a `404` with `TeamCaseWebhook not found`. `PUT` works as well as `PATCH`.
 
 ## Errors
 

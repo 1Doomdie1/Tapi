@@ -12,9 +12,6 @@ StoryFilter = Literal[
     "ENABLED",
     "DISABLED",
     "LOCKED",
-    "ALL_STORIES",
-    "WORKBENCH_ENABLED",
-    "TUNNELS_ENABLED",
 ]
 
 StoryOrder = Literal[

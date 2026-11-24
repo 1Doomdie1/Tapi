@@ -84,15 +84,7 @@ the contents first, subfolders included.
 
 ## Content types
 
-| Where                    | Accepted values                                                                    |
-| ------------------------ | ---------------------------------------------------------------------------------- |
-| Documented by Tines      | `CREDENTIAL`, `RESOURCE` and `STORY`.                                              |
-| `create()`               | Those three, plus `REPORT` and `TEMPLATE`, which Tines does not document.          |
-| The `list()` filter      | Six values: `CREDENTIAL`, `RESOURCE`, `STORY`, `REPORT`, `CASE` and `TEMPLATE`.    |
-
-Creating a `CASE` folder fails with a `500`. The message mentions a database not-null violation on
-`content_type`, so the folder is not created. `CASE` is accepted as a filter, but tapi's `create`
-does not offer it.
+`content_type` is `CREDENTIAL`, `RESOURCE` or `STORY`, in `create()` and in the filter of `list()`.
 
 ## Errors
 
@@ -100,4 +92,3 @@ does not offer it.
 | ------ | ------------------------------------------------------------------------------------------- |
 | `404`  | The folder does not exist, or the key has no access to it. `data` is a list of messages.    |
 | `422`  | A value is invalid, such as an unknown `content_type` filter, or a folder with contents is deleted. `data` is a list of messages or of objects naming the field. |
-| `500`  | Creating a `CASE` folder.                                                                   |

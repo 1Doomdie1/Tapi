@@ -6,7 +6,7 @@ from tapi.core.params import omit_none, to_list
 
 ResourceValue = str | int | float | bool | dict[str, Any] | list[Any]
 ReadAccess = Literal["TEAM", "GLOBAL", "SPECIFIC_TEAMS"]
-ResourceFilter = Literal["ALL", "UNUSED_IN_ACTIONS"]
+ResourceFilter = Literal["UNUSED_IN_ACTIONS"]
 
 
 class Resources:
@@ -48,9 +48,7 @@ class Resources:
         Args:
             team_id: Only resources of this team.
             folder_id: Only resources in this folder.
-            filter: ``UNUSED_IN_ACTIONS`` keeps only the resources that no action uses. The
-                server also accepts ``ALL``, which neither the Tines docs nor its OpenAPI document
-                list.
+            filter: ``UNUSED_IN_ACTIONS`` keeps only the resources that no action uses.
             include_referencing_action_ids: Whether each resource has ``referencing_action_ids``.
                 Tines defaults to true.
             include_value: Whether each resource has ``value`` and ``test_resource.value``. Tines

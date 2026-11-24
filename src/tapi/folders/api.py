@@ -3,8 +3,8 @@ from typing import Literal
 from tapi.core import Response, Transport
 from tapi.core.params import omit_none
 
-FolderContentType = Literal["CREDENTIAL", "RESOURCE", "STORY", "REPORT", "TEMPLATE"]
-FolderFilterContentType = Literal["CREDENTIAL", "RESOURCE", "STORY", "REPORT", "CASE", "TEMPLATE"]
+FolderContentType = Literal["CREDENTIAL", "RESOURCE", "STORY"]
+FolderFilterContentType = FolderContentType
 
 
 class Folders:
@@ -37,8 +37,7 @@ class Folders:
         Args:
             team_id: Only folders of this team.
             content_type: Only folders that hold this type of content: ``CREDENTIAL``,
-                ``RESOURCE`` or ``STORY``. The server also accepts ``REPORT``, ``CASE`` and
-                ``TEMPLATE``, which neither the Tines docs nor its OpenAPI document list.
+                ``RESOURCE`` or ``STORY``.
             per_page: The number of results per page. Tines defaults to 20.
             page: The page to return, starting at 1. Tines defaults to 1.
 
@@ -83,9 +82,7 @@ class Folders:
         Args:
             name: The name of the folder.
             content_type: The type of content the folder holds: ``CREDENTIAL``, ``RESOURCE`` or
-                ``STORY``. The server also accepts ``REPORT`` and ``TEMPLATE``, which neither the
-                Tines docs nor its OpenAPI document list. Creating a ``CASE`` folder fails with a
-                500.
+                ``STORY``.
             team_id: The ID of the team the folder is created in.
             parent_folder_id: The ID of the folder to create it in. Tines defaults to ``null``,
                 the root level.

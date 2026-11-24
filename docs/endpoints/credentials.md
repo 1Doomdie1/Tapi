@@ -60,7 +60,7 @@ Paginated: one call returns one page; see [Pagination](../pagination.md). `data`
 | -------------------- | ------ | ------------------------------------------------------------------------------ |
 | `team_id`            | `int`  | Only credentials of this team.                                                 |
 | `folder_id`          | `int`  | Only credentials in this folder.                                               |
-| `filter`             | `str`  | `UNUSED_IN_ACTIONS`, `UNRESTRICTED`, `RESTRICTED` or `ALL`. Tines does not document what they match. |
+| `filter`             | `str`  | `UNUSED_IN_ACTIONS`, `UNRESTRICTED` or `RESTRICTED`. Tines does not document what they match. |
 | `include_references` | `bool` | Add `references` to each credential.                                           |
 | `per_page`           | `int`  | Results per page. Tines defaults to 20.                                        |
 | `page`               | `int`  | The page, starting at 1. Tines defaults to 1.                                  |

@@ -19,7 +19,7 @@ others are below. Every method returns a [`Response`](../responses.md).
 | `diagram(story_id=..., ...)`                              | `GET /api/v1/stories/{story_id}/diagram`                              |
 | `disable(story_id=..., disabled=...)`                     | `POST /api/v1/stories/{story_id}/disable`                             |
 | `list_pending_actions(story_id=..., ...)`                 | `GET /api/v1/stories/{story_id}/pending_actions`                      |
-| `drafts.list(story_id=..., ...)`                          | `GET /api/v1/stories/{story_id}/drafts`                               |
+| `drafts.list(story_id=...)`                               | `GET /api/v1/stories/{story_id}/drafts`                               |
 | `drafts.create(story_id=..., name=...)`                   | `POST /api/v1/stories/{story_id}/drafts`                              |
 | `drafts.delete(story_id=..., draft_id=...)`               | `DELETE /api/v1/stories/{story_id}/drafts/{draft_id}`                 |
 | `owners.add(story_id=..., user_id=...)`                   | `POST /api/v1/stories/{story_id}/owners`                              |
@@ -65,12 +65,11 @@ ten methods, and [its own page](stories_actions.md) describes them: `list`, `get
 `update`, `delete`, `list_events`, `list_logs`, `delete_events`, `delete_logs` and
 `clear_memory`.
 
-## What is not here
+## Change requests
 
 The change request endpoints at `/api/v1/change_requests` belong to
-[`change_requests`](change_requests.md). `change_control` holds only the operations that Tines routes under a story. The OpenAPI document
-also lists `/api/v1/annotations` routes, which are copies of the `/api/v1/notes` routes, and tapi
-offers the notes routes only.
+[`change_requests`](change_requests.md). `change_control` holds only the operations that Tines routes
+under a story.
 
 ## The story
 
@@ -285,8 +284,7 @@ Lists the actions of a story that have pending action runs, the highest count fi
 A draft belongs to a story with change control: `list` is refused for a story without it. All
 three methods need `story_id`. When change control is enabled, Tines creates a draft called `test`.
 
-- `list(story_id=..., per_page=..., page=...)` returns `drafts` and `meta`. The Tines docs show no
-  pagination parameters on this endpoint, and the OpenAPI document lists `per_page` and `page`.
+- `list(story_id=...)` returns `drafts` and `meta`.
 - `create(story_id=..., name=...)` creates a draft. The status is `200`, and the Tines docs and
   the OpenAPI document do not state one. `data` is the draft: the fields of a story plus `story_id`
   and `story_name`. A name that a draft of the story already has is a `422`, with
@@ -429,13 +427,12 @@ The Tines docs samples also show a `user_id`, which the replies did not have.
 
 **`events.list()`** is paginated: one call returns one page, the newest events first, and `data`
 holds `events` and `meta`. A tenant can hold a very large number of events: the one tested had about
-800,000. Narrow the list with `since` and `until`, with `agent_id`, or with a small `per_page`.
+800,000. Narrow the list with `since` and `until`, or with a small `per_page`.
 
 | Parameter                         | Type              | Meaning                                                              |
 | --------------------------------- | ----------------- | -------------------------------------------------------------------- |
 | `team_id`                         | `int`             | Only events of this team. With `story_id`, Tines ignores `story_id`. |
 | `story_id`                        | `int`             | Only events of this story.                                           |
-| `agent_id`                        | `int`             | Only events of this action. Neither source lists it. See below.      |
 | `story_mode`                      | `str`             | `test`, for the default test story. Only with `story_id`.            |
 | `include_groups`                  | `bool`            | Include the events of groups in the story. Only with `story_id`. Tines defaults to `False`. |
 | `since_id`, `until_id`            | `int`             | Only events after this event ID, or until and including it.          |
@@ -445,10 +442,8 @@ holds `events` and `meta`. A tenant can hold a very large number of events: the 
 | `per_page`                        | `int`             | Results per page. Tines defaults to 20 and caps it at 500.           |
 | `page`                            | `int`             | The page, starting at 1. Tines defaults to 1.                        |
 
-`agent_id` is not in the Tines docs or the OpenAPI document, but the server accepts it, it returns
-the events of that action, as the per-action route does, and a list that timed out says to "filter
-by agent_id". `include_groups` with `story_id` and no `agent_id` took about 25 seconds and then
-failed with a `504`.
+To list the events of one action, use `actions.list_events`. `include_groups` with `story_id` took
+about 25 seconds and then failed with a `504`.
 
 **`events.get()`** takes `event_id`, and optionally `exclude_previous_event_payloads`, which keeps
 the output of the action in the payload and drops the payloads of the upstream events. `data` is the
@@ -468,10 +463,8 @@ be made.
 - `story_mode` was accepted with `test`, `TEST`, `live`, `LIVE` and `bogus`, and changed nothing for
   a story without change control. Without `story_id` it was ignored.
 - `include_groups` with `story_id` was a `504` after about 25 seconds, with
-  `['Listing events timed out; narrow since/until, reduce per_page, or filter by agent_id.']`. With
-  `agent_id` as well it was a `200` at once, and without `story_id` it was accepted.
-- `agent_id` returned the same events as `actions.list_events`, and an `agent_id` that does not
-  exist was a `404` with `['Agent not found']`. A parameter named `action_id` was ignored.
+  `['Listing events timed out; narrow since/until, reduce per_page, or filter by agent_id.']`.
+  Without `story_id` it was accepted.
 - `since_id` and `until_id` filtered by ID. `since` and `until` took a full timestamp or a date
   only, and filtered. A `since` or an `until` that is not a time was a `400` with
   `['Invalid time argument passed for since/until']`.
@@ -591,9 +584,7 @@ Read-only findings:
   that does not exist was a `404`, with `['Story not found']`, `['Team not found']` and
   `['Group not found']`.
 - `mode="LIVE"` worked with and without a `story_id`. `mode="TEST"` for a story without change
-  control was a `404` with `['Story not found']`, and a `mode` that is neither was ignored. The
-  server also read a parameter named `story_mode`: `story_mode="TEST"` was a `400` with
-  `["Change control isn't enabled for this story"]`. tapi offers `mode`, which the docs list.
+  control was a `404` with `['Story not found']`, and a `mode` that is neither was ignored.
 - `draft_id` with a `story_id` of a story without change control was a `400`, with
   `["Change control isn't enabled for this story; omit draft_id"]`. Alone, `draft_id` was ignored.
 - `per_page=0` was a `400`, with `['Invalid per_page: 0. per_page must be a positive integer.']`,
@@ -647,10 +638,7 @@ story that has change control, and the interaction of `story_id` and a `group_id
 ## Filters and orders
 
 `filter` takes one of: `SEND_TO_STORY_ENABLED`, `HIGH_PRIORITY`, `API_ENABLED`, `FAVORITE`,
-`CHANGE_CONTROL_ENABLED`, `CHANGE_CONTROL_DISABLED`, `ENABLED`, `DISABLED` and `LOCKED`. The server
-also accepts `ALL_STORIES`, `WORKBENCH_ENABLED` and `TUNNELS_ENABLED`, which neither the Tines docs
-nor the OpenAPI document list, and tapi offers them. `PUBLISHED`, which Tines marks as deprecated, is
-not offered.
+`CHANGE_CONTROL_ENABLED`, `CHANGE_CONTROL_DISABLED`, `ENABLED`, `DISABLED` and `LOCKED`.
 
 `order` takes one of: `NAME`, `NAME_DESC`, `RECENTLY_EDITED`, `LEAST_RECENTLY_EDITED`,
 `ACTION_COUNT_ASC`, `ACTION_COUNT_DESC`, `CONCURRENT_RUNS_COUNT_DESC`,

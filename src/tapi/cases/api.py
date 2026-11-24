@@ -64,9 +64,6 @@ def _filters_body(*, filters: Mapping[str, Any]) -> dict[str, Any]:
 class Cases:
     """Cases, available as ``tines.cases``.
 
-    Only the current (v2) Cases API is offered. The v1 endpoints are deprecated and Tines removes
-    them on December 1, 2026.
-
     A case, as returned by ``get``, ``create``, ``update`` and ``append_description``, has
     ``case_id``, ``name``, ``description`` (``null`` if there is none), ``status`` (``OPEN`` or
     ``CLOSED``), ``sub_status`` (an object, or ``null``), ``priority``, ``url``, ``metadata`` (an
@@ -147,8 +144,7 @@ class Cases:
                 and the server reads them in the query too. A single value is accepted in place
                 of a list of one. Dates take a ``datetime`` or an ISO 8601 string. An unknown key
                 is a 400 with ``Unsupported filter parameters``, and ``status`` takes one value,
-                ``OPEN`` or ``CLOSED``, not a list. The deprecated filters ``assignee_emails``,
-                ``unassigned``, ``author_emails``, ``sla`` and ``severity`` are not offered.
+                ``OPEN`` or ``CLOSED``, not a list.
             order: The order of the results: ``RECENTLY_EDITED``, ``LEAST_RECENTLY_EDITED``,
                 ``PRIORITY_ASC``, ``PRIORITY_DESC``, ``OPENED_ASC``, ``OPENED_DESC``,
                 ``CREATED_ASC`` or ``CREATED_DESC``. A value that is none of them was ignored.

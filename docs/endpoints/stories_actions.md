@@ -25,20 +25,11 @@ The Tines docs do not state which key types or permissions these endpoints need.
 document says that personal, service, team and tenant owner keys are all accepted, and that a key
 without access to a resource receives a 404.
 
-## What is not here
+## Events
 
-- The events of the whole tenant, at `/api/v1/events`, are not part of this page: they are the
-  sub-area `tines.stories.events`, described on the [stories page](stories.md#events).
-  `list_events` lists the events of one action.
-- The OpenAPI document also lists `/api/v1/agents` routes. Agent is the old name of an action, and
-  every one of those routes is a copy of its `/api/v1/actions` counterpart, with only the
-  `operationId` different. None is marked deprecated, and tapi offers the `/api/v1/actions` routes
-  only.
-- The OpenAPI document lists `POST /api/v1/actions/{id}/run`, "Manually run a specific action". The
-  Tines docs have no page for it, and the live tenant answered every call with a `404` and
-  `["The page you're looking for doesn't exist"]`: for an Event Transformation action, for an action
-  that does not exist and on the `/api/v1/agents/{id}/run` copy of the route. tapi does not offer
-  it.
+The events of the whole tenant, at `/api/v1/events`, are not part of this page: they are the
+sub-area `tines.stories.events`, described on the [stories page](stories.md#events). `list_events`
+lists the events of one action.
 
 ## The action
 
@@ -184,10 +175,6 @@ Lists the events that an action emitted. Paginated.
 `created_at`, `updated_at` (always equal to `created_at`), `story_run_guid`, `previous_events_ids`
 and `re_emitted`. A `since` or `until` that is not a time is a `400`. A page whose payloads add up
 to more than 200 MB is a `422`, and a lower `per_page` helps.
-
-The OpenAPI document lists `team_id`, `story_id`, `story_mode` and `include_groups` on this route as
-well, copied from the list of all events. They had no effect on the events of one action, so tapi
-does not offer them.
 
 ## `list_logs()`
 

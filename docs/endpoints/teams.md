@@ -71,9 +71,6 @@ Paginated: one call returns one page; see [Pagination](../pagination.md). `data`
 By default only standard teams, the shared ones, are listed. Personal teams are listed with
 `scope="personal_only"` or `scope="all"`. The server accepts the values in either case.
 
-Tines also accepts the deprecated parameters `include_personal_teams` and `include_drafts`, which
-`scope` replaces. tapi does not offer them.
-
 ## `get()`
 
 `team_id` is required. When no team with that ID is visible to the key, the reply is a `404` with
